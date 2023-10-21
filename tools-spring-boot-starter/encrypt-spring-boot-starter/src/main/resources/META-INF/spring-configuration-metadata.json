@@ -1,0 +1,37 @@
+{
+  "groups": [
+    {
+      "name": "tools.encrypt.symmetrical.des",
+      "type": "org.tools.encrypt.symmetrical.des.DesProperties",
+      "sourceType": "org.tools.encrypt.symmetrical.des.DesProperties",
+      "description": "des对称加密."
+    },
+    {
+      "name": "tools.encrypt.asymmetric.rsa",
+      "type": "org.tools.encrypt.asymmetric.rsa.RsaProperties",
+      "sourceType": "org.tools.encrypt.asymmetric.rsa.RsaProperties",
+      "description": "rsa非对称加密."
+    }
+  ],
+  "properties": [
+    {
+      "name": "tools.encrypt.symmetrical.des.secret-key",
+      "type": "java.lang.String",
+      "description": "des对称密钥.",
+      "sourceType": "org.tools.encrypt.symmetrical.des.DesProperties"
+    },
+    {
+      "name": "tools.encrypt.asymmetric.rsa.public-key",
+      "type": "java.lang.String",
+      "description": "rsa公钥.",
+      "sourceType": "org.tools.encrypt.asymmetric.rsa.RsaProperties"
+    },
+    {
+      "name": "tools.encrypt.asymmetric.rsa.private-key",
+      "type": "java.lang.String",
+      "description": "rsa私钥.",
+      "sourceType": "org.tools.encrypt.asymmetric.rsa.RsaProperties"
+    }
+  ],
+  "hints": []
+}
