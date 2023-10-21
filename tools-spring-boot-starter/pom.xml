@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.tools</groupId>
+        <artifactId>tools</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <groupId>org.tools.spring.boot</groupId>
+    <artifactId>tools-spring-boot-starter</artifactId>
+    <name>tools-spring-boot-starter</name>
+    <packaging>pom</packaging>
+    <description>tools-spring-boot-starter</description>
+
+    <properties>
+        <spring.application.name>tools-spring-boot-starter</spring.application.name>
+    </properties>
+
+    <modules>
+        <module>encrypt-spring-boot-starter</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>bedrock</artifactId>
+                <version>${parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>encrypt</artifactId>
+                <version>${parent.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
