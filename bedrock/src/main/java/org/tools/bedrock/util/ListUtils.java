@@ -19,7 +19,7 @@ public class ListUtils {
     }
 
     /**
-     * ArrayList 数组反转
+     * ArrayList 集合反转
      * <p>
      * Collections.reverse(list);
      * </p>
@@ -27,7 +27,7 @@ public class ListUtils {
      * @param list List<T>
      * @return List<T>
      */
-    public static <T> List<T> arrayListReversal(List<T> list) {
+    public static <T> List<T> reversal(List<T> list) {
         List<T> reversal = new ArrayList<>();
         for (int i = list.size() - 1; i > -1; i--) {
             reversal.add(list.get(i));
@@ -36,13 +36,13 @@ public class ListUtils {
     }
 
     /**
-     * ArrayList 数组反转
+     * ArrayList 集合反转
      * jdk1.8新特性 stream流
      *
      * @param list List<T>
      * @return List<T>
      */
-    public static <T> List<T> arrayListReversalStream(List<T> list) {
+    public static <T> List<T> reversalStream(List<T> list) {
         return list.stream()
                 .sorted(Collections.reverseOrder())
                 .collect(Collectors.toList());
