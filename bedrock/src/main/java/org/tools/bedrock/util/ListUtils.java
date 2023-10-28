@@ -1,6 +1,8 @@
 package org.tools.bedrock.util;
 
 
+import org.tools.bedrock.constant.Constants;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,6 +85,40 @@ public class ListUtils {
                         .filter(o -> clz.getTypeName().equals(o.getClass().getTypeName()))
                         .collect(Collectors.toList())
                 : new ArrayList<>();
+    }
+
+    /**
+     * 集合分页
+     *
+     * @param list 集合
+     * @param rows 行数
+     * @param <T>  泛型
+     * @return List<List < T>>
+     */
+    public static <T> List<List<T>> pagination(List<T> list, int rows) {
+        List<List<T>> gather = new ArrayList<>();
+        if (BaseUtils.isEmpty(list)) {
+            return gather;
+        }
+        if (rows <= Constants.ZERO_I || list.size() <= rows) {
+            gather.add(list);
+            return gather;
+        }
+        // 集合大小/行数 页数
+        int page = list.size() / rows;
+        int start;
+        int end = 0;
+        for (int i = 0; i <= page; i++) {
+            start = i * rows;
+            // 行数1 出现一个空集填充
+            if (start == list.size()) {
+                break;
+            }
+            end = (end += rows) > list.size() ? list.size() : end;
+            gather.add(list.subList(start, end));
+
+        }
+        return gather;
     }
 
 }
