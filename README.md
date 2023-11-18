@@ -3,8 +3,11 @@
 #### 介绍
 
 便携工具箱，让编码更易！
+项目的大部分工具方法在网上均可以搜到，本项目的理念就是为了解决baidu、gpt、csdn、chrome等搜索查找费时费力还不是很好用
 
-[bedrock](bedrock) 提供常用方法、基础对象、常量、特殊符号、JWT、HTTP响应枚举、分页、分布式ID、远程图片转换
+（更多的体现在一个人发的文章是错的，其它人直接原样copy导致一堆垃圾代码文章，寻找自己想要的代码费劲的很）
+
+[bedrock](bedrock) 提供常用方法、基础对象、常量、特殊符号、JWT、HTTP响应枚举、分页、分布式ID、远程图片转换、集合分页、ddns、Excel导出
 
 [encrypt](encrypt) 不可逆加密、对称加密、数字签名、非对称加密
 
@@ -29,7 +32,7 @@
         <dependency>
             <groupId>org.tools</groupId>
             <artifactId>tools</artifactId>
-            <version>latest-version</version>
+            <version>${latest-version}</version>
         </dependency>
     </dependencies>
 </dependencyManagement>
@@ -68,13 +71,16 @@
 2. 此项目没有任何行为限制
 3. 使用者的行为与本项目无关
 4. 作者对使用者造成的一切后果不承担法律责任
+5. 本项目目前由sander个人进行维护迭代更新，如果感兴趣或者有建议和优化点可以直接联系或新建 Issue
 
 #### 参与贡献
 
 1. Fork 本仓库
-2. 新建 Feat_xxx 分支
+2. 新建 feat/${user_name}/${demand} 分支
 3. 提交代码
-4. 新建 Pull Request
+4. 新建 Pull Request 申请合并 develop${year}${month}${day}
+5. develop${year}${month}${day} 测试通过后新建 Pull Request 申请合并 release
+6. 每月20日进行合并 release 验证功能评估风险 21日进行正式发版
 
 #### 特技
 
