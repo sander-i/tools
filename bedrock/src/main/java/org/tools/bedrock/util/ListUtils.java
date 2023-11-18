@@ -29,7 +29,7 @@ public class ListUtils {
      * @param list List<T>
      * @return List<T>
      */
-    public static <T> List<T> arrayListReversal(List<T> list) {
+    public static <T> List<T> reversal(List<T> list) {
         List<T> reversal = new ArrayList<>();
         for (int i = list.size() - 1; i > -1; i--) {
             reversal.add(list.get(i));
@@ -44,7 +44,7 @@ public class ListUtils {
      * @param list List<T>
      * @return List<T>
      */
-    public static <T> List<T> arrayListReversalStream(List<T> list) {
+    public static <T> List<T> reversalStream(List<T> list) {
         return list.stream()
                 .sorted(Collections.reverseOrder())
                 .collect(Collectors.toList());
