@@ -5,7 +5,7 @@
 
     <groupId>org.tools</groupId>
     <artifactId>tools</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>tools</name>
     <packaging>pom</packaging>
     <description>tools</description>
