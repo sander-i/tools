@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -154,6 +155,15 @@ public class DateUtils {
      */
     public static Date subBirthday(String idNo) {
         return DateUtils.strDateFormat(idNo.substring(6, 14), DateUtils.YMD_PATTERN);
+    }
+
+    /**
+     * 获取当前的UTC时间
+     *
+     * @return Date
+     */
+    public static Date getUtc() {
+        return Date.from(Instant.now());
     }
 
 }
