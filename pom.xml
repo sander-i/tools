@@ -5,7 +5,7 @@
 
     <groupId>org.tools</groupId>
     <artifactId>tools</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>tools</name>
     <packaging>pom</packaging>
     <description>tools</description>
@@ -66,6 +66,7 @@
         <aspectjrt.version>1.9.4</aspectjrt.version>
         <aspectjweaver.version>1.9.7</aspectjweaver.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
+        <poi.version>5.2.2</poi.version>
     </properties>
 
     <dependencyManagement>
@@ -170,6 +171,20 @@
                 <groupId>net.coobird</groupId>
                 <artifactId>thumbnailator</artifactId>
                 <version>${thumbnailator.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
                 <optional>true</optional>
             </dependency>
         </dependencies>
