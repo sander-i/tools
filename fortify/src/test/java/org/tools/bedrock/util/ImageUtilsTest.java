@@ -3,7 +3,7 @@ package org.tools.bedrock.util;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.tools.bedrock.util.spread.ImageUtils;
+import org.tools.fortify.util.ImageUtils;
 
 import java.util.Arrays;
 import java.util.Objects;
