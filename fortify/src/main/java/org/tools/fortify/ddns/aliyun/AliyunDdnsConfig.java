@@ -1,4 +1,4 @@
-package org.tools.bedrock.ddns.aliyun;
+package org.tools.fortify.ddns.aliyun;
 
 import lombok.Data;
 
