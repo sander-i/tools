@@ -1,6 +1,6 @@
 package org.tools.encrypt.symmetrical.des;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.exception.symmetrical.des.DesException;
@@ -22,7 +22,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description des密钥生成工具
  * @scope des
  */
-@Log4j2
+@Slf4j
 public class DesKeyGenerator {
 
     private DesKeyGenerator() {

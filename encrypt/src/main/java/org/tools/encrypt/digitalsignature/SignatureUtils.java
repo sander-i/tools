@@ -1,6 +1,6 @@
 package org.tools.encrypt.digitalsignature;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.tools.encrypt.exception.digitalsignature.DigitalsignatureException;
 
@@ -13,7 +13,7 @@ import java.security.Signature;
  * @description 数字签名
  * @scope digitalsignature
  */
-@Log4j2
+@Slf4j
 public class SignatureUtils {
 
     private SignatureUtils() {

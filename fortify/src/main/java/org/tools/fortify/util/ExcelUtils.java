@@ -1,6 +1,6 @@
 package org.tools.fortify.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
  * @description excel工具
  * @scope all
  */
-@Log4j2
+@Slf4j
 public class ExcelUtils {
 
     private ExcelUtils() {
