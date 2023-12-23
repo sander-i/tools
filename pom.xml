@@ -31,6 +31,7 @@
         <module>bedrock</module>
         <module>encrypt</module>
         <module>tools-spring-boot-starter</module>
+        <module>fortify</module>
     </modules>
 
     <properties>

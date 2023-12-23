@@ -1,4 +1,4 @@
-package org.tools.bedrock.http.req;
+package org.tools.fortify.http.req;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
