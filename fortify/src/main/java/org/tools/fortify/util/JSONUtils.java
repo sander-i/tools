@@ -1,4 +1,4 @@
-package org.tools.bedrock.util.spread;
+package org.tools.fortify.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

@@ -1,4 +1,4 @@
-package org.tools.bedrock.util.spread;
+package org.tools.fortify.util;
 
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;
