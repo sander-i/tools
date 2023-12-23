@@ -5,7 +5,7 @@
 
     <groupId>org.tools</groupId>
     <artifactId>tools</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>tools</name>
     <packaging>pom</packaging>
     <description>tools</description>
@@ -31,6 +31,7 @@
         <module>bedrock</module>
         <module>encrypt</module>
         <module>tools-spring-boot-starter</module>
+        <module>fortify</module>
     </modules>
 
     <properties>

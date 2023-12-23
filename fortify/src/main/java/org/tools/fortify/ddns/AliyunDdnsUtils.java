@@ -1,4 +1,4 @@
-package org.tools.bedrock.ddns;
+package org.tools.fortify.ddns;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -9,8 +9,8 @@ import com.aliyun.tea.TeaException;
 import com.aliyun.teaopenapi.models.Config;
 import com.aliyun.teautil.models.RuntimeOptions;
 import lombok.extern.log4j.Log4j2;
-import org.tools.bedrock.ddns.aliyun.AliyunDdnsConfig;
-import org.tools.bedrock.ddns.aliyun.Record;
+import org.tools.fortify.ddns.aliyun.AliyunDdnsConfig;
+import org.tools.fortify.ddns.aliyun.Record;
 import org.tools.bedrock.util.BaseUtils;
 
 import java.util.ArrayList;
