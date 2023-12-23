@@ -1,6 +1,6 @@
 package org.tools.spring.boot.encrypt.autoconfiguration;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,7 +30,7 @@ import javax.annotation.Resource;
                 //存在配置前缀
                 value = "tools.encrypt.asymmetric.rsa"
         )
-@Log4j2
+@Slf4j
 public class RsaAutoConfiguration {
 
     @Resource

@@ -1,6 +1,6 @@
 package org.tools.bedrock.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -20,7 +20,7 @@ import java.util.*;
  * @description 类工具
  * @scope all
  */
-@Log4j2
+@Slf4j
 public class ClassUtils {
 
     private ClassUtils() {
@@ -628,7 +628,7 @@ public class ClassUtils {
             Method inputReadMethod = inputDescriptor.getReadMethod();
             return inputReadMethod.invoke(obj);
         } catch (IntrospectionException | IllegalAccessException | InvocationTargetException e) {
-            log.error(e);
+            log.error(e.getLocalizedMessage(), e);
         }
         return "";
     }
@@ -656,7 +656,7 @@ public class ClassUtils {
                 new PropertyDescriptor(field.getName(), clz);
                 fieldMap.put(field.getName(), field);
             } catch (IntrospectionException e) {
-                log.error(e);
+                log.error(e.getLocalizedMessage(), e);
             }
         }
     }

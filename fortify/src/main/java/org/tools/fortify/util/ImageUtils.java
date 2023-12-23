@@ -1,6 +1,6 @@
 package org.tools.fortify.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.tools.bedrock.constant.Constants;
 import org.tools.bedrock.constant.SpecialSymbolConsts;
@@ -23,7 +23,7 @@ import java.net.URL;
  * @description 图片工具
  * @scope all
  */
-@Log4j2
+@Slf4j
 public class ImageUtils {
     /**
      * request 请求方式

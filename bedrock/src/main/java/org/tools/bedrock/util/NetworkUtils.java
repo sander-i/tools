@@ -1,6 +1,6 @@
 package org.tools.bedrock.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,8 +15,10 @@ import java.util.Map;
  * @date 2023/10/23 21:02
  * @description 网络工具
  * @scope all
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use util.network.NetworkUtils.
  */
-@Log4j2
+@Slf4j
+@Deprecated
 public class NetworkUtils {
 
     /**
@@ -99,15 +101,14 @@ public class NetworkUtils {
                 result.append(line);
             }
         } catch (Exception e) {
-            log.error("获取ipv4公网地址异常");
-            e.printStackTrace();
+            log.error("获取ipv4公网地址异常", e);
         } finally {
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (Exception e2) {
-                e2.printStackTrace();
+                log.error("获取ipv4公网地址异常", e2);
             }
         }
         String str = result.toString().replace("ipCallback({ip:", "");

@@ -1,6 +1,6 @@
 package org.tools.fortify.http.req;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -15,7 +15,7 @@ import java.io.*;
  * @description requestBody复用实现
  * @scope http
  */
-@Log4j2
+@Slf4j
 public class BodyReaderRequestWrapper extends HttpServletRequestWrapper {
 
     private final String body;

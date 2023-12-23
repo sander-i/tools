@@ -1,6 +1,6 @@
 package org.tools.bedrock.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.tools.bedrock.constant.SpecialSymbolConsts;
 import org.tools.bedrock.http.HttpConsts;
 
@@ -18,8 +18,10 @@ import java.util.Map;
  * @date 2023/03/28 20:28
  * @description 原生java http工具
  * @scope all
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use util.network.HttpUtils.
  */
-@Log4j2
+@Slf4j
+@Deprecated
 public class HttpUtils {
 
     private HttpUtils() {

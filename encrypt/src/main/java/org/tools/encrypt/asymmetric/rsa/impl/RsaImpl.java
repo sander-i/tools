@@ -1,6 +1,6 @@
 package org.tools.encrypt.asymmetric.rsa.impl;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.tools.encrypt.asymmetric.rsa.RsaKeyGenerator;
 import org.tools.encrypt.asymmetric.rsa.abst.RsaAbst;
 import org.tools.encrypt.digitalsignature.SignatureUtils;
@@ -21,7 +21,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description rsa非对称加密实现
  * @scope rsa
  */
-@Log4j2
+@Slf4j
 public class RsaImpl extends RsaAbst {
 
     @Override
