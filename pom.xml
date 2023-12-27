@@ -322,4 +322,29 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>nexus-aliyun</id> <!--仓库地址，即nexus仓库组的地址 -->
+            <name>nexus public repository</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url> <!--是否下载releases构件 -->
+            <releases>
+                <enabled>true</enabled>
+            </releases> <!--是否下载snapshots构件 -->
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <snapshotRepository>
+            <id>nexus public</id> <!--仓库地址，即nexus仓库组的地址 -->
+            <name>nexus public repository</name>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url> <!--是否下载releases构件 -->
+            <releases>
+                <enabled>true</enabled>
+            </releases> <!--是否下载snapshots构件 -->
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>

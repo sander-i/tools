@@ -20,8 +20,10 @@ import java.util.stream.Stream;
  * @date 2023/10/22 15:33
  * @description excel工具
  * @scope all
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use util.file.ExcelUtils.
  */
 @Slf4j
+@Deprecated
 public class ExcelUtils {
 
     private ExcelUtils() {
