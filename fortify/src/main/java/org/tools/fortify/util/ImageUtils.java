@@ -22,8 +22,10 @@ import java.net.URL;
  * @date 2023/03/23 23:21
  * @description 图片工具
  * @scope all
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use util.file.ImageUtils.
  */
 @Slf4j
+@Deprecated
 public class ImageUtils {
     /**
      * request 请求方式
