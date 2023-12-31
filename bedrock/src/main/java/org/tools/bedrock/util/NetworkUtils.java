@@ -16,6 +16,7 @@ import java.util.Map;
  * @description 网络工具
  * @scope all
  * @deprecated This class is deprecated and should not be used anymore. Recommended use util.network.NetworkUtils.
+ * TODO 1.0.4版本删除 NetworkUtils
  */
 @Slf4j
 @Deprecated

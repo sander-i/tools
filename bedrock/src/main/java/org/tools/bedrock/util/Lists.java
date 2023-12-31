@@ -21,6 +21,26 @@ public class Lists {
     }
 
     /**
+     * List为 空
+     *
+     * @param list List<?>
+     * @return boolean
+     */
+    public static boolean isEmpty(List<?> list) {
+        return list == null || list.isEmpty();
+    }
+
+    /**
+     * List非 空
+     *
+     * @param list List<?>
+     * @return boolean
+     */
+    public static boolean isNotEmpty(List<?> list) {
+        return !isEmpty(list);
+    }
+
+    /**
      * List 多条记录
      *
      * @param list List<?>
