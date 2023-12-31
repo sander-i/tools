@@ -19,6 +19,7 @@ import java.util.Map;
  * @description 原生java http工具
  * @scope all
  * @deprecated This class is deprecated and should not be used anymore. Recommended use util.network.HttpUtils.
+ * TODO 1.0.4版本删除 HttpUtils
  */
 @Slf4j
 @Deprecated

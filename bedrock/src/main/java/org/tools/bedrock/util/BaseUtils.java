@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author sander
@@ -159,7 +158,7 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isNotEmpty(Object obj) {
-        return Objects.nonNull(obj) && !obj.toString().trim().isEmpty();
+        return obj != null && !obj.toString().trim().isEmpty();
     }
 
     /**
