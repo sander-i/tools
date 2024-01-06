@@ -345,6 +345,22 @@ public class ClassUtils {
     /**
      * 实例化对象
      *
+     * @param cls class
+     * @return Object
+     */
+    public static Object newInstance(Class<?> cls) {
+        try {
+            // 对象实列化
+            return cls.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            log.error(e.getLocalizedMessage(), e);
+        }
+        return null;
+    }
+
+    /**
+     * 实例化对象
+     *
      * @param clsTypeName 属性类型名称
      * @return Object
      * @throws ClassNotFoundException 找不到类
