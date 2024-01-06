@@ -1,6 +1,6 @@
 package org.tools.encrypt.digitalsignature.dsa.impl;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.tools.encrypt.digitalsignature.SignatureUtils;
 import org.tools.encrypt.digitalsignature.dsa.DsaKeyGenerator;
 import org.tools.encrypt.digitalsignature.dsa.abst.DsaAbst;
@@ -17,7 +17,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description dsa签名实现
  * @scope dsa
  */
-@Log4j2
+@Slf4j
 public class DsaImpl extends DsaAbst {
 
     @Override

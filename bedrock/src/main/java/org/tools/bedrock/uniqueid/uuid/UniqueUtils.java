@@ -28,7 +28,7 @@ public class UniqueUtils {
      * @param size 数量
      * @return List<StringBuilder>
      */
-    public List<StringBuilder> getUnique(Integer size) {
+    public List<StringBuilder> getUnique(int size) {
         List<StringBuilder> uuidList = new ArrayList<>();
         while (0 <= size--) {
             uuidList.add(uuidFormat(getUnique()));
@@ -51,7 +51,7 @@ public class UniqueUtils {
      * @param size 数量
      * @return List<StringBuilder>
      */
-    public List<StringBuilder> getUniqueFormatPrint(Integer size) {
+    public List<StringBuilder> getUniqueFormatPrint(int size) {
         List<StringBuilder> uuidList = new ArrayList<>();
         while (0 <= size--) {
             uuidList.add(getUnique());
@@ -74,7 +74,7 @@ public class UniqueUtils {
      * @param size 数量
      * @return List<String>
      */
-    public List<String> getUniqueStr(Integer size) {
+    public List<String> getUniqueStr(int size) {
         List<String> uuidList = new ArrayList<>();
         while (0 <= size--) {
             uuidList.add(getUnique().toString());
@@ -97,7 +97,7 @@ public class UniqueUtils {
      * @param size 数量
      * @return List<String>
      */
-    public List<String> getUniqueFormatPrintStr(Integer size) {
+    public List<String> getUniqueFormatPrintStr(int size) {
         List<String> uuidList = new ArrayList<>();
         while (0 <= size--) {
             uuidList.add(uuidFormat(getUnique()).toString());

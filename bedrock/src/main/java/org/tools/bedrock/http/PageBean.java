@@ -21,7 +21,9 @@ import java.util.List;
  * @date 2023/02/19 12:02
  * @description 分页工具
  * @scope http
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use Paging.
  */
+@Deprecated
 public class PageBean<T> implements Serializable {
     private static final long serialVersionUID = 5760097915453738435L;
     /**
