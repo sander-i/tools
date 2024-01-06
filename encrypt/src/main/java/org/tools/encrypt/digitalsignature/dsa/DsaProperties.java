@@ -1,6 +1,6 @@
 package org.tools.encrypt.digitalsignature.dsa;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -14,7 +14,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description dsa签名配置文件
  * @scope dsa
  */
-@Log4j2
+@Slf4j
 public class DsaProperties {
 
     /***

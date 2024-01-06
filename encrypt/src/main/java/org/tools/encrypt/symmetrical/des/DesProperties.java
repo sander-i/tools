@@ -1,6 +1,6 @@
 package org.tools.encrypt.symmetrical.des;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description des加密配置文件
  * @scope des
  */
-@Log4j2
+@Slf4j
 @Component
 @ConfigurationProperties(prefix = "tools.encrypt.symmetrical.des")
 public class DesProperties {

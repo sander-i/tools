@@ -1,6 +1,6 @@
 package org.tools.bedrock.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,8 +13,11 @@ import java.util.Date;
  * @date 2023/02/19 0:37
  * @description 日期类型工具
  * @scope all
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use util.date.DateUtils.
+ * TODO 1.0.4版本删除 DateUtils
  */
-@Log4j2
+@Slf4j
+@Deprecated
 public class DateUtils {
 
     private DateUtils() {

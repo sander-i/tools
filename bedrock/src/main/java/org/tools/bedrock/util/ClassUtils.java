@@ -1,6 +1,7 @@
 package org.tools.bedrock.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.tools.bedrock.constant.Constants;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -19,8 +20,9 @@ import java.util.*;
  * @date 2023/02/19 13:28
  * @description 类工具
  * @scope all
+ * TODO 1.0.4版本删除 @Deprecated方法
  */
-@Log4j2
+@Slf4j
 public class ClassUtils {
 
     private ClassUtils() {
@@ -30,6 +32,7 @@ public class ClassUtils {
      * java基础数据类型
      */
     protected static final String[] BASE_TYPE = {"byte", "short", "int", "long", "float", "double", "boolean", "char"};
+    protected static final String[] PACK_TYPE = {"Byte", "BitSieve", "Short", "Integer", "BigInteger", "Long", "Float", "Double", "BigDecimal", "Boolean", "Char"};
     /**
      * list类型
      */
@@ -52,7 +55,9 @@ public class ClassUtils {
      *
      * @param type 类型
      * @return boolean
+     * @deprecated This method is deprecated and should not be used anymore.
      */
+    @Deprecated
     public static boolean containBaseType(String type) {
         for (String baseType : BASE_TYPE) {
             if (baseType.equals(type)) {
@@ -60,6 +65,32 @@ public class ClassUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 是java基础类
+     *
+     * @param fieldType 类型
+     * @return boolean
+     */
+    public static boolean isBaseClass(String fieldType) {
+        for (String baseType : BASE_TYPE) {
+            if (baseType.equals(fieldType)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isEnumClass(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Class)) {
+            return false;
+        }
+        Class<?> clazz = (Class<?>) obj;
+        return clazz.isEnum();
     }
 
     /**
@@ -80,7 +111,9 @@ public class ClassUtils {
      *
      * @param obj 对象
      * @return Class<?>
+     * @deprecated This method is deprecated and should not be used anymore.
      */
+    @Deprecated
     public static Class<?> newClass(Object obj) {
         // 获取当前属性的class对象
         return obj.getClass();
@@ -125,7 +158,7 @@ public class ClassUtils {
      */
     public static Class<?>[] newSupersClass(Class<?> cls) {
         boolean existSuper = true;
-        int classIndex = 0;
+        Integer classIndex = 0;
         Class<?> aClass = newSuperClass(cls);
         if (aClass == null) {
             classIndex--;
@@ -140,16 +173,16 @@ public class ClassUtils {
                 existSuper = false;
             }
         }
-        Class<?>[] supersClass = new Class<?>[classIndex];
-        if (classIndex > 0) {
-            supersClass[0] = aClass;
-            for (int i = 1; i < classIndex; i++) {
-                aClass = newSuperClass(aClass);
-                supersClass[i] = aClass;
-            }
-        } else {
+        if (classIndex.compareTo(Constants.ZERO_I) < Constants.ONE_I) {
             return new Class[0];
         }
+        Class<?>[] supersClass = new Class<?>[classIndex];
+        supersClass[0] = aClass;
+        for (int i = 1; i < classIndex; i++) {
+            aClass = newSuperClass(aClass);
+            supersClass[i] = aClass;
+        }
+
         // 获取当前属性父类的class对象
         return supersClass;
     }
@@ -309,21 +342,6 @@ public class ClassUtils {
         return fieldList.toArray(new Field[0]);
     }
 
-
-    /**
-     * 实例化对象
-     *
-     * @param cls class
-     * @return Object
-     * @throws InstantiationException 实例化
-     * @throws IllegalAccessException 非法访问
-     */
-    public static Object newInstance(Class<?> cls) throws InstantiationException, IllegalAccessException {
-        // 对象实列化
-        return cls.newInstance();
-    }
-
-
     /**
      * 实例化对象
      *
@@ -337,7 +355,7 @@ public class ClassUtils {
         // 获取当前属性的class对象
         Class<?> fieldClass = newClass(clsTypeName);
         // 对象实列化
-        return newInstance(fieldClass);
+        return fieldClass.newInstance();
     }
 
     /**
@@ -353,7 +371,7 @@ public class ClassUtils {
         // 获取当前属性的class对象
         Class<?> fieldClass = newClass(clsTypeName, lob);
         // 对象实列化
-        return newInstance(fieldClass);
+        return fieldClass.newInstance();
     }
 
     /**
@@ -386,6 +404,29 @@ public class ClassUtils {
         return pd.getWriteMethod();
     }
 
+    public static <T> Object getProperty(T t, String fieldName) {
+        Class<?> aClass = t.getClass();
+        try {
+            Method writeMethod = getReadMethod(fieldName, aClass);
+            return writeMethod.invoke(t);
+        } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
+            log.info("读取属性失败：", e);
+        }
+        return null;
+    }
+
+    public static <T> Boolean setProperty(T t, String fieldName, Object fieldValue) {
+        Class<?> aClass = t.getClass();
+        try {
+            Method writeMethod = getWriteMethod(fieldName, aClass);
+            writeMethod.invoke(t, fieldValue);
+            return true;
+        } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
+            log.info("写入属性失败：", e);
+        }
+        return false;
+    }
+
     /**
      * 获取属性方法
      *
@@ -410,39 +451,32 @@ public class ClassUtils {
      *
      * @param obj
      * @return
-     * @throws IntrospectionException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     * @throws ClassNotFoundException
-     * @throws InstantiationException
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use Maps.objToMap.
      */
-    public static Map<String, Object> objToMap(Object obj) throws IntrospectionException, InvocationTargetException, IllegalAccessException, ClassNotFoundException, InstantiationException {
-        Class<?> clz = newClass(obj);
+    @Deprecated
+    public static Map<String, Object> objToMap(Object obj) {
+        if (BaseUtils.isEmpty(obj)) {
+            return Collections.emptyMap();
+        }
+        Class<?> clz = obj.getClass();
         // 获取所有属性
         Field[] declaredFields = getAllDeclaredFields(clz);
         // 去除方法未找到的属性
         declaredFields = roverMethodNotFoundDeclaredFields(declaredFields, clz);
 
-        Method readMethod;
-
         Map<String, Object> map = new HashMap<>();
 
         for (Field oldField : declaredFields) {
-            String fieldName = oldField.getName();
+            String fieldName = handleBooleanType(oldField);
             String fieldType = oldField.getType().getName();
 
-            /* java类 */
-            if (fieldType.contains("java") || ClassUtils.containBaseType(fieldType)) {
-                readMethod = getReadMethod(fieldName, clz);
-                Object fieldValue = readMethod.invoke(obj);
-                map.put(fieldName, fieldValue);
-
-                /* 非java类 */
-            } else {
-                readMethod = getReadMethod(fieldName, clz);
-                Object fieldValue = readMethod.invoke(obj);
-                map.put(fieldName, objToMap(fieldValue));
+            /* java基础类 */
+            Object value = getProperty(obj, fieldName);
+            /* 非java基础类 */
+            if (BaseUtils.isNotEmpty(value) && !(fieldType.contains("java") || ClassUtils.isBaseClass(fieldType) || value instanceof Comparable)) {
+                value = objToMap(value);
             }
+            map.put(fieldName, value);
         }
         return map;
     }
@@ -454,31 +488,20 @@ public class ClassUtils {
      * @param relationship
      * @param obj
      * @return
-     * @throws IntrospectionException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use Maps.mapToObj.
      */
-    public static Object mapToObj(Map<String, Object> entityMap, Map<String, String> relationship, Object obj) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
-        Class<?> clz = newClass(obj);
+    @Deprecated
+    public static Object mapToObj(Map<String, Object> entityMap, Map<String, String> relationship, Object obj) {
+        Class<?> clz = obj.getClass();
         // 获取所有属性
         Field[] declaredFields = getAllDeclaredFields(clz);
         // 去除方法未找到的属性
         declaredFields = roverMethodNotFoundDeclaredFields(declaredFields, clz);
 
-        Method writeMethod;
-
-        Iterator<Map.Entry<String, Object>> entityMapIter = entityMap.entrySet().iterator();
-
-        while (entityMapIter.hasNext()) {
-            Map.Entry<String, Object> entity = entityMapIter.next();
-
+        for (Map.Entry<String, Object> entity : entityMap.entrySet()) {
             String entityMapKey = entity.getKey();
 
-            Iterator<Map.Entry<String, String>> relationshipIter = relationship.entrySet().iterator();
-
-            while (relationshipIter.hasNext()) {
-
-                Map.Entry<String, String> relationEntity = relationshipIter.next();
+            for (Map.Entry<String, String> relationEntity : relationship.entrySet()) {
 
                 String originalName = relationEntity.getKey();
                 String corresponName = relationEntity.getValue();
@@ -493,9 +516,7 @@ public class ClassUtils {
 
                             Object entityMapValue = entity.getValue();
 
-                            writeMethod = getWriteMethod(fieldName, clz);
-
-                            writeMethod.invoke(obj, entityMapValue);
+                            setProperty(obj, fieldName, entityMapValue);
                         }
                     }
                 }
@@ -514,16 +535,18 @@ public class ClassUtils {
      * @param path  替换前路径 org.skynet.tools.sysClass
      * @param subst 替换后路径 org.skynet.tools.bean
      * @return Object
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
      */
-    public static Object copyObj(Object obj, String path, String subst) throws IntrospectionException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, InstantiationException {
-        Class<?> oldClass = newClass(obj);
+    @Deprecated
+    public static Object copyObj(Object obj, String path, String subst) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        Class<?> oldClass = obj.getClass();
         String oldPath = oldClass.getTypeName();
         // 替换路径
         String newPath = oldPath.replace(path, subst);
         // 创建新对象class
         Class<?> newClass = newClass(newPath);
         // 实例化新对象
-        Object newObj = newInstance(newClass);
+        Object newObj = newClass.newInstance();
 
         // 获取所有属性
         Field[] oldDeclaredFields = getAllDeclaredFields(oldClass);
@@ -531,15 +554,10 @@ public class ClassUtils {
         // 去除方法未找到的属性
         oldDeclaredFields = roverMethodNotFoundDeclaredFields(oldDeclaredFields, oldClass);
 
-        Method readMethod;
-        Method writeMethod;
-
         for (Field oldField : oldDeclaredFields) {
-            String fieldName = oldField.getName();
-            readMethod = getReadMethod(fieldName, oldClass);
-            Object oldFieldVal = readMethod.invoke(obj);
-            writeMethod = getWriteMethod(fieldName, newClass);
-            writeMethod.invoke(newObj, oldFieldVal);
+            String fieldName = handleBooleanType(oldField);
+            Object oldFieldVal = getProperty(obj, fieldName);
+            setProperty(newObj, fieldName, oldFieldVal);
         }
         return newObj;
     }
@@ -555,8 +573,10 @@ public class ClassUtils {
      * @param obj    对象
      * @param newObj 转换后对象
      * @return Object
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
      */
-    public static <T, Y> Y transfer(T obj, Y newObj) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+    @Deprecated
+    public static <T, Y> Y transfer(T obj, Y newObj) {
         Class<?> oldClass = newClass(obj);
         // 转换后对象class
         Class<?> newClass = newClass(newObj);
@@ -570,15 +590,10 @@ public class ClassUtils {
         // 去除方法未找到的属性
         oldDeclaredFields = roverMethodNotFoundDeclaredFields(oldDeclaredFields, newClass);
 
-        Method readMethod;
-        Method writeMethod;
-
         for (Field oldField : oldDeclaredFields) {
-            String fieldName = oldField.getName();
-            readMethod = getReadMethod(fieldName, oldClass);
-            Object oldFieldVal = readMethod.invoke(obj);
-            writeMethod = getWriteMethod(fieldName, newClass);
-            writeMethod.invoke(newObj, oldFieldVal);
+            String fieldName = handleBooleanType(oldField);
+            Object oldFieldVal = getProperty(newObj, fieldName);
+            setProperty(newObj, fieldName, oldFieldVal);
         }
         return newObj;
     }
@@ -614,23 +629,12 @@ public class ClassUtils {
      * @return 首字母大写
      */
     public static String strFirstCapitalize(String fieldName) {
-        if (BaseUtils.isNotEmpty(fieldName) && fieldName.length() > 0) {
+        if (BaseUtils.isNotEmpty(fieldName)) {
             byte[] items = fieldName.getBytes();
             items[0] = (byte) ((char) items[0] - 'a' + 'A');
             return new String(items);
         }
         return fieldName;
-    }
-
-    public static Object getterMethodVal(String attributeName, Object obj) {
-        try {
-            PropertyDescriptor inputDescriptor = new PropertyDescriptor(attributeName, obj.getClass());
-            Method inputReadMethod = inputDescriptor.getReadMethod();
-            return inputReadMethod.invoke(obj);
-        } catch (IntrospectionException | IllegalAccessException | InvocationTargetException e) {
-            log.error(e);
-        }
-        return "";
     }
 
     public static <O> Field[] fetchFields(Class<O> clz) {
@@ -640,10 +644,17 @@ public class ClassUtils {
         return fieldMap.values().toArray(newFields);
     }
 
+    /**
+     * 父类数量
+     *
+     * @param clz 类信息
+     * @return 父类数量
+     */
     public static int superSize(Class<?> clz) {
         int superSize = 0;
         Class<?> superclass = clz.getSuperclass();
-        if (superclass != null && !"Object".equals(superclass.getSimpleName())) {
+        // Use an "instanceof" comparison instead. 请忽略该预警，因为所有的对象都会继承自Object类。
+        if (BaseUtils.isNotNull(superclass) && !"Object".equals(superclass.getSimpleName())) {
             superSize = superSize + 1;
             superSize = superSize + superSize(superclass);
         }
@@ -653,12 +664,34 @@ public class ClassUtils {
     public static void fetchAllFields(Field[] fields, Class<?> clz, Map<String, Field> fieldMap) {
         for (Field field : fields) {
             try {
-                new PropertyDescriptor(field.getName(), clz);
-                fieldMap.put(field.getName(), field);
+                fetchField(field, clz, fieldMap);
             } catch (IntrospectionException e) {
-                log.error(e);
+                log.error(e.getLocalizedMessage(), e);
             }
         }
+    }
+
+    public static void fetchField(Field field, Class<?> clz, Map<String, Field> fieldMap) throws IntrospectionException {
+        String fieldName = handleBooleanType(field);
+        new PropertyDescriptor(fieldName, clz);
+        fieldMap.put(fieldName, field);
+    }
+
+    /**
+     * 处理布尔类型
+     *
+     * @param field 属性
+     * @return 属性名
+     */
+    public static String handleBooleanType(Field field) {
+        String fieldName = field.getName();
+        // 处理布尔类型
+        List<String> bool = Arrays.asList("boolean", "Boolean");
+        if (bool.contains(field.getType().getSimpleName())) {
+            //  处理is前缀
+            fieldName = fieldName.startsWith("is") ? fieldName.substring(2) : fieldName;
+        }
+        return fieldName;
     }
 
     public static <O> Field[] fetchAllFields(Class<O> clz) {
@@ -678,14 +711,40 @@ public class ClassUtils {
         return fieldMap.values().toArray(newFields);
     }
 
+    /**
+     * 获取两个类中的共有字段
+     *
+     * @param clz1     类信息
+     * @param clz2     类信息
+     * @param typeSame 类型相同 default false
+     * @return 共有字段数组
+     */
     public static Field[] commonFields(Class<?> clz1, Class<?> clz2, boolean typeSame) {
+        // 获取两个类中的字段
         return sieveRepeatsFields(fetchFields(clz1), fetchFields(clz2), typeSame);
     }
 
+    /**
+     * 获取两个类中的共有字段
+     *
+     * @param clz1     类信息
+     * @param clz2     类信息
+     * @param typeSame 类型相同 default false
+     * @return 共有字段数组
+     */
     public static Field[] allCommonFields(Class<?> clz1, Class<?> clz2, boolean typeSame) {
+        // 获取两个类中的字段
         return sieveRepeatsFields(fetchAllFields(clz1), fetchAllFields(clz2), typeSame);
     }
 
+    /**
+     * 筛重复字段
+     *
+     * @param fields1  字段数组
+     * @param fields2  字段数组
+     * @param typeSame 类型相同
+     * @return 重复字段数组
+     */
     public static Field[] sieveRepeatsFields(Field[] fields1, Field[] fields2, boolean typeSame) {
         List<Field> fields = new ArrayList<>();
         String fieldName1;
@@ -698,15 +757,15 @@ public class ClassUtils {
             for (Field field2 : fields2) {
                 fieldName2 = field2.getName();
                 fieldType2 = field2.getType().getTypeName();
-                if (fieldName1.equals(fieldName2)) {
-                    if (typeSame) {
-                        if (fieldType1.equals(fieldType2)) {
-                            fields.add(field2);
-                        }
-                        break;
+                if (!fieldName1.equals(fieldName2)) {
+                    continue;
+                }
+                if (typeSame) {
+                    if (fieldType1.equals(fieldType2)) {
+                        fields.add(field2);
                     }
+                } else {
                     fields.add(field2);
-                    break;
                 }
             }
         }
@@ -714,18 +773,35 @@ public class ClassUtils {
         return fields.toArray(newFields);
     }
 
+    /**
+     * @param inObj
+     * @param clz
+     * @param <I>
+     * @param <O>
+     * @return
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
+     */
+    @Deprecated
     public static <I, O> O copySingleObj(I inObj, Class<O> clz) {
         O o;
         try {
             o = clz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            log.debug(e.getLocalizedMessage(), e);
             return null;
         }
         copySingleObj(inObj, o);
         return o;
     }
 
+    /**
+     * @param inObj
+     * @param outObj
+     * @param <I>
+     * @param <O>
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
+     */
+    @Deprecated
     public static <I, O> void copySingleObj(I inObj, O outObj) {
         if (inObj == null || outObj == null) {
             return;
@@ -766,29 +842,46 @@ public class ClassUtils {
                                 outWriteMethod = descriptor.getWriteMethod();
                                 outWriteMethod.invoke(outObj, out);
                             } catch (InstantiationException e) {
-                                log.error(e.getLocalizedMessage());
+                                log.debug(e.getLocalizedMessage());
                             }
                         }
                     }
                 }
             } catch (IntrospectionException | IllegalAccessException | InvocationTargetException e) {
-                log.error(e.getLocalizedMessage());
+                log.debug(e.getLocalizedMessage());
             }
         }
     }
 
+    /**
+     * @param inObj
+     * @param clz
+     * @param <I>
+     * @param <O>
+     * @return
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
+     */
+    @Deprecated
     public static <I, O> O copyObj(I inObj, Class<O> clz) {
         O o;
         try {
             o = clz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            log.debug(e.getLocalizedMessage(), e);
             return null;
         }
         copyObj(inObj, o);
         return o;
     }
 
+    /**
+     * @param inObj
+     * @param outObj
+     * @param <I>
+     * @param <O>
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
+     */
+    @Deprecated
     public static <I, O> void copyObj(I inObj, O outObj) {
         // 获取class对象
         Class<?> inputClz = newClass(inObj);
@@ -826,13 +919,13 @@ public class ClassUtils {
                                 outWriteMethod = descriptor.getWriteMethod();
                                 outWriteMethod.invoke(outObj, out);
                             } catch (InstantiationException e) {
-                                log.error(e.getLocalizedMessage());
+                                log.debug(e.getLocalizedMessage());
                             }
                         }
                     }
                 }
             } catch (IntrospectionException | IllegalAccessException | InvocationTargetException e) {
-                log.error(e.getLocalizedMessage());
+                log.debug(e.getLocalizedMessage(), e);
             }
         }
     }
