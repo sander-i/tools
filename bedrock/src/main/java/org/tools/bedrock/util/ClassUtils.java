@@ -93,6 +93,13 @@ public class ClassUtils {
         return clazz.isEnum();
     }
 
+    public static boolean nativeClass(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        return obj instanceof Comparable;
+    }
+
     /**
      * 获取当前对象属性class
      *
