@@ -136,13 +136,13 @@ public class Maps {
     /**
      * Map转对象
      *
-     * @param sourceMap    源
-     * @param relationship 关系
-     * @param target       目标
-     * @param <T>          目标对象泛型
+     * @param sourceMap 源
+     * @param relations 关系
+     * @param target    目标
+     * @param <T>       目标对象泛型
      * @return 目标
      */
-    public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relationship, T target) {
+    public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relations, T target) {
         Class<?> clz = target.getClass();
         // 获取所有属性
         Field[] declaredFields = ClassUtils.getAllDeclaredFields(clz);
@@ -152,7 +152,7 @@ public class Maps {
         for (Map.Entry<String, Object> source : sourceMap.entrySet()) {
             String sourceKey = source.getKey();
 
-            for (Map.Entry<String, String> relation : relationship.entrySet()) {
+            for (Map.Entry<String, String> relation : relations.entrySet()) {
 
                 String sourceName = relation.getKey();
                 String targetName = relation.getValue();
@@ -179,15 +179,66 @@ public class Maps {
     /**
      * Map转对象
      *
-     * @param sourceMap    源
-     * @param relationship 关系
-     * @param target       目标
-     * @param <T>          目标对象泛型
+     * @param sourceMap          源
+     * @param relations          关系
+     * @param target             目标
+     * @param precedenceRelation 优先关系
+     * @param <T>                目标对象泛型
      * @return 目标
      */
-    public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relationship, Class<T> target) {
+    public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relations, T target, boolean precedenceRelation) {
+        Class<?> clz = target.getClass();
+        // 获取所有属性
+        Field[] declaredFields = ClassUtils.getAllDeclaredFields(clz);
+        // 去除方法未找到的属性
+        declaredFields = ClassUtils.roverMethodNotFoundDeclaredFields(declaredFields, clz);
+
+        for (Map.Entry<String, Object> source : sourceMap.entrySet()) {
+            String sourceKey = source.getKey();
+
+            for (Map.Entry<String, String> relation : relations.entrySet()) {
+
+                String sourceName = relation.getKey();
+                String targetName = relation.getValue();
+
+                if (sourceKey.equals(sourceName)) {
+
+                    for (Field oldField : declaredFields) {
+
+                        String fieldName = oldField.getName();
+
+                        if (targetName.equals(fieldName)) {
+
+                            Object entityMapValue = source.getValue();
+
+                            ClassUtils.setProperty(target, fieldName, entityMapValue);
+                        }
+                    }
+                }
+            }
+        }
+
+        // todo 过滤 relationship 中不存在的属性 list1
+        if (precedenceRelation) {
+            // todo 过滤 list1 中 target 目标对象有值的属性（已经通过上面的relationship关系映射赋值了，不能再次覆盖）
+            return target;
+        }
+        // todo 覆盖 list1 中 target 目标对象有值的属性
+        return target;
+    }
+
+    /**
+     * Map转对象
+     *
+     * @param sourceMap 源
+     * @param relations 关系
+     * @param target    目标
+     * @param <T>       目标对象泛型
+     * @return 目标
+     */
+    public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relations, Class<T> target) {
         try {
-            return mapToObj(sourceMap, relationship, target.newInstance());
+            return mapToObj(sourceMap, relations, target.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
             log.error(e.getLocalizedMessage(), e);
         }
