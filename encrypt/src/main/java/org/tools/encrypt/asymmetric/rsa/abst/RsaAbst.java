@@ -1,6 +1,6 @@
 package org.tools.encrypt.asymmetric.rsa.abst;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.asymmetric.rsa.Rsa;
@@ -22,7 +22,7 @@ import java.security.*;
  * @description rsa加密抽象类
  * @scope rsa
  */
-@Log4j2
+@Slf4j
 public abstract class RsaAbst implements Rsa {
 
     private RsaProperties rsaProperties;

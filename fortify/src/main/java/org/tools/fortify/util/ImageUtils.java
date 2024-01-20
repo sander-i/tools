@@ -1,6 +1,6 @@
 package org.tools.fortify.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.tools.bedrock.constant.Constants;
 import org.tools.bedrock.constant.SpecialSymbolConsts;
@@ -22,8 +22,10 @@ import java.net.URL;
  * @date 2023/03/23 23:21
  * @description 图片工具
  * @scope all
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use util.file.ImageUtils.
  */
-@Log4j2
+@Slf4j
+@Deprecated
 public class ImageUtils {
     /**
      * request 请求方式

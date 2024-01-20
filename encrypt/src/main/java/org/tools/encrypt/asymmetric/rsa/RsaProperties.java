@@ -1,6 +1,6 @@
 package org.tools.encrypt.asymmetric.rsa;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description rsa加密配置文件
  * @scope rsa
  */
-@Log4j2
+@Slf4j
 @Component
 @ConfigurationProperties(prefix = "tools.encrypt.asymmetric.rsa")
 public class RsaProperties {

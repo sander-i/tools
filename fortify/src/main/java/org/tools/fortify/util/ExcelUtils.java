@@ -1,6 +1,6 @@
 package org.tools.fortify.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -20,8 +20,10 @@ import java.util.stream.Stream;
  * @date 2023/10/22 15:33
  * @description excel工具
  * @scope all
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use util.file.ExcelUtils.
  */
-@Log4j2
+@Slf4j
+@Deprecated
 public class ExcelUtils {
 
     private ExcelUtils() {
