@@ -76,7 +76,7 @@
         </dependency>
     </dependencies>
 
-    <!-- 仓库地址 ->
+    <!-- 仓库地址 -->
     <repositories>
         <repository>
             <id>ailuoli</id>
