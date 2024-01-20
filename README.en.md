@@ -75,7 +75,7 @@ Integration spring-boot-starter，At springboot profiles properties|yml Configur
         </dependency>
     </dependencies>
 
-    <!-- 仓库地址 ->
+    <!-- 仓库地址 -->
     <repositories>
         <repository>
             <id>ailuoli</id>
