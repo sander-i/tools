@@ -27,6 +27,7 @@
 
 #### 安装教程
 
+pom.xml
 ```
     <properties>
         <tools.version>1.0.3</tools.version>
@@ -101,6 +102,20 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+```
+
+
+maven settings.xml
+```
+    <mirrors>
+        <!-- http支持 -->
+        <mirror>
+            <id>insecure-repo</id>
+            <mirrorOf>external:http:*</mirrorOf>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <blocked>false</blocked>
+        </mirror>
+    </mirrors>
 ```
 
 #### 使用说明
