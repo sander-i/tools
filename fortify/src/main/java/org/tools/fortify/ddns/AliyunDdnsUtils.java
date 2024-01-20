@@ -8,7 +8,7 @@ import com.aliyun.alidns20150109.models.UpdateDomainRecordRequest;
 import com.aliyun.tea.TeaException;
 import com.aliyun.teaopenapi.models.Config;
 import com.aliyun.teautil.models.RuntimeOptions;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.tools.fortify.ddns.aliyun.AliyunDdnsConfig;
 import org.tools.fortify.ddns.aliyun.Record;
 import org.tools.bedrock.util.BaseUtils;
@@ -24,7 +24,7 @@ import java.util.Map;
  * @description 阿里云ddns工具
  * @scope all
  */
-@Log4j2
+@Slf4j
 public class AliyunDdnsUtils {
 
     private AliyunDdnsUtils() {

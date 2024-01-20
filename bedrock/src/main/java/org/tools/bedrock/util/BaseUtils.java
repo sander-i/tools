@@ -1,8 +1,8 @@
 package org.tools.bedrock.util;
 
-import lombok.extern.log4j.Log4j2;
-import org.tools.bedrock.constant.Constants;
+import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @description 基础方法
  * @scope all
  */
-@Log4j2
+@Slf4j
 public class BaseUtils {
 
     private BaseUtils() {
@@ -52,7 +52,7 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isNotNull(Object obj) {
-        return !isNull(obj);
+        return obj != null;
     }
 
     /**
@@ -62,7 +62,12 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isNotNull(Object... objs) {
-        return !isNull(objs);
+        for (Object obj : objs) {
+            if (isNull(obj)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -72,7 +77,7 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isEmpty(List<?> list) {
-        return isNull(list) || list.isEmpty();
+        return list == null || list.isEmpty();
     }
 
     /**
@@ -82,7 +87,7 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isEmpty(Map<?, ?> map) {
-        return isNull(map) || map.isEmpty();
+        return map == null || map.isEmpty();
     }
 
     /**
@@ -92,7 +97,7 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isEmpty(Object obj) {
-        return isNull(obj) || obj.toString().trim().length() == 0;
+        return obj == null || obj.toString().trim().isEmpty();
     }
 
     /**
@@ -102,23 +107,28 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isEmpty(Object... objs) {
-        if (isNull(objs)) return true;
+        if (isNull(objs)) {
+            return true;
+        }
 
         for (Object obj : objs) {
-            if (obj instanceof List<?> && (!isEmpty((List<?>) obj))) {
+            if (obj instanceof List<?> && !((List<?>) obj).isEmpty()) {
                 return false;
             }
-            if (obj instanceof Map<?, ?> && (!isEmpty((Map<?, ?>) obj))) {
+            if (obj instanceof Map<?, ?> && !((Map<?, ?>) obj).isEmpty()) {
                 return false;
             }
-            if (obj instanceof Object[] && (!isEmpty((Object[]) obj))) {
-                return false;
+            if (obj instanceof Object[]) {
+                if (isNotEmpty((Object[]) obj)) {
+                    return false;
+                }
+                continue;
             }
-            if (!isEmpty(obj)) {
+            if (isNotEmpty(obj)) {
                 return false;
             }
         }
-        return objs.length == 0;
+        return true;
     }
 
     /**
@@ -148,7 +158,7 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isNotEmpty(Object obj) {
-        return !isEmpty(obj);
+        return obj != null && !obj.toString().trim().isEmpty();
     }
 
     /**
@@ -158,23 +168,28 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isNotEmpty(Object... objs) {
-        if (isNull(objs)) return false;
+        if (isNull(objs)) {
+            return false;
+        }
 
         for (Object obj : objs) {
-            if (obj instanceof List<?> && (isEmpty((List<?>) obj))) {
+            if (obj instanceof List<?> && ((List<?>) obj).isEmpty()) {
                 return false;
             }
-            if (obj instanceof Map<?, ?> && (isEmpty((Map<?, ?>) obj))) {
+            if (obj instanceof Map<?, ?> && ((Map<?, ?>) obj).isEmpty()) {
                 return false;
             }
-            if (obj instanceof Object[] && (isEmpty((Object[]) obj))) {
-                return false;
+            if (obj instanceof Object[]) {
+                if (isEmpty((Object[]) obj)) {
+                    return false;
+                }
+                continue;
             }
             if (isEmpty(obj)) {
                 return false;
             }
         }
-        return objs.length != 0;
+        return true;
     }
 
     /**
@@ -188,59 +203,29 @@ public class BaseUtils {
      * @return boolean
      */
     public static <O> boolean isEmptyObj(O o) {
-        if (isNull(o)) return true;
+        if (isNull(o)) {
+            return true;
+        }
 
+        // 获取对象类型名称
         String typeName = o.getClass().getTypeName();
-        Class<?> aClass;
-        Method[] declaredMethods;
         try {
-            aClass = Class.forName(typeName);
-            declaredMethods = aClass.getDeclaredMethods();
-            Object invoke;
+            // 根据类型名称获取类
+            Class<?> aClass = Class.forName(typeName);
+            // 获取类中所有方法
+            Method[] declaredMethods = aClass.getDeclaredMethods();
+            // 遍历方法
             for (Method declaredMethod : declaredMethods) {
-                if (declaredMethod.getName().indexOf("get") == 0) {
-                    invoke = declaredMethod.invoke(o);
-                    if (!isEmpty(invoke)) {
-                        return false;
-                    }
+                // 获取方法名，如果以get开头，并且返回值不为空，则返回false
+                if (declaredMethod.getName().startsWith("get") && !isEmpty(declaredMethod.invoke(o))) {
+                    return false;
                 }
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException e) {
             log.info("对象判空异常", e);
             return false;
         }
         return true;
-    }
-
-    /**
-     * List 多条记录
-     *
-     * @param list List<?>
-     * @return boolean
-     */
-    public static boolean multiRecord(List<?> list) {
-        return list.size() > Constants.ONE_I;
-    }
-
-    /**
-     * List 记录是否满足传入条数
-     *
-     * @param list List<?>
-     * @param size 大小
-     * @return boolean
-     */
-    public static boolean otherRecord(List<?> list, int size) {
-        return list.size() == size;
-    }
-
-    /**
-     * List 一条记录
-     *
-     * @param list List<?>
-     * @return boolean
-     */
-    public static boolean oneRecord(List<?> list) {
-        return otherRecord(list, Constants.ONE_I);
     }
 
 }

@@ -1,6 +1,6 @@
 package org.tools.bedrock.util;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.tools.bedrock.constant.Constants;
 
 import java.io.UnsupportedEncodingException;
@@ -13,7 +13,7 @@ import java.nio.charset.Charset;
  * @description 转换工具
  * @scope all
  */
-@Log4j2
+@Slf4j
 public class TransformUtils {
 
     private TransformUtils() {

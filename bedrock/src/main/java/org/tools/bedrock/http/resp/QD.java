@@ -2,7 +2,7 @@ package org.tools.bedrock.http.resp;
 
 import lombok.Data;
 import lombok.ToString;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -14,7 +14,7 @@ import java.math.RoundingMode;
  * @description query data
  * @scope response
  */
-@Log4j2
+@Slf4j
 @Data
 @ToString
 public class QD<T> {
