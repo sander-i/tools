@@ -14,7 +14,10 @@ import java.util.stream.Collectors;
  * @date 2023/02/19 0:10
  * @description List<T> 工具类
  * @scope all
+ * @deprecated This class is deprecated and should not be used anymore. Recommended use Lists.
+ * TODO 1.0.4版本删除 ListUtils
  */
+@Deprecated
 public class ListUtils {
 
     private ListUtils() {
@@ -28,7 +31,9 @@ public class ListUtils {
      *
      * @param list List<T>
      * @return List<T>
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use Lists.reversalStream(list).
      */
+    @Deprecated
     public static <T> List<T> reversal(List<T> list) {
         List<T> reversal = new ArrayList<>();
         for (int i = list.size() - 1; i > -1; i--) {
@@ -57,7 +62,9 @@ public class ListUtils {
      * @param clz  提取泛型class
      * @param <T>  泛型
      * @return List<T>
+     * @deprecated This method is deprecated and should not be used anymore. Recommended use Lists.extractGenericListStream(list, clz).
      */
+    @Deprecated
     public static <T> List<T> extractGenericList(List<T> list, Class<T> clz) {
         List<T> extract = new ArrayList<>();
         if (BaseUtils.isNotEmpty(list, clz)) {

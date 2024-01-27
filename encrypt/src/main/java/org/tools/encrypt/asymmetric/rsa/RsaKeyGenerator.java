@@ -1,6 +1,6 @@
 package org.tools.encrypt.asymmetric.rsa;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
@@ -18,7 +18,7 @@ import java.security.spec.X509EncodedKeySpec;
  * @description rsa密钥生成器
  * @scope rsa
  */
-@Log4j2
+@Slf4j
 public class RsaKeyGenerator {
 
     private RsaKeyGenerator() {

@@ -5,7 +5,7 @@
 
     <groupId>org.tools</groupId>
     <artifactId>tools</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <name>tools</name>
     <packaging>pom</packaging>
     <description>tools</description>
@@ -35,10 +35,12 @@
     </modules>
 
     <properties>
+        <major.version>1.0.3</major.version>
         <copyright>2023</copyright>
         <spring.application.name>tools</spring.application.name>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <!--    maven-compiler-plugin    -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -52,14 +54,17 @@
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
 
+        <!-- framework.dependencies -->
         <!-- spring.dependencies -->
         <spring-boot-starter.version>2.7.1</spring-boot-starter.version>
         <spring-cloud.varsion>2021.0.6</spring-cloud.varsion>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <!-- log4j.dependencies -->
+        <lombk.version>1.18.24</lombk.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <logback.version>1.1.7</logback.version>
 
         <!--    module.dependency    -->
-        <lombk.version>1.18.24</lombk.version>
-        <log4j-core.version>2.17.1</log4j-core.version>
         <fastjson.version>1.2.83</fastjson.version>
         <commons-codec.version>1.15</commons-codec.version>
         <java-jwt.version>4.3.0</java-jwt.version>
@@ -72,19 +77,23 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/${project.groupId}/bedrock -->
+            <!-- https://mvnrepository.com/artifact/org.tools/bedrock -->
             <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>org.tools</groupId>
                 <artifactId>bedrock</artifactId>
-                <version>${project.version}</version>
-                <optional>true</optional>
+                <version>1.0.3</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/${project.groupId}/encrypt -->
+            <!-- https://mvnrepository.com/artifact/org.tools/encrypt -->
             <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>org.tools</groupId>
                 <artifactId>encrypt</artifactId>
-                <version>${project.version}</version>
-                <optional>true</optional>
+                <version>1.0.3</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.tools/fortify -->
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>fortify</artifactId>
+                <version>1.0.3</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
@@ -119,13 +128,26 @@
                 <version>${lombk.version}</version>
                 <optional>true</optional>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
             <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>${log4j-core.version}</version>
-                <optional>true</optional>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>compile</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
             <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -197,8 +219,16 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -296,5 +326,112 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ailuoli</id>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyun-plugin</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>ailuoli-plugin</id>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <repository-id>ailuoli-dev-releases</repository-id>
+                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-releases/</repository-url>
+                <snapshot-id>ailuoli-dev-snapshots</snapshot-id>
+                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-snapshots/</snapshot-url>
+            </properties>
+        </profile>
+        <profile>
+            <id>sit</id>
+            <properties>
+                <repository-id>ailuoli-sit-releases</repository-id>
+                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-releases/</repository-url>
+                <snapshot-id>ailuoli-sit-snapshots</snapshot-id>
+                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-snapshots/</snapshot-url>
+            </properties>
+        </profile>
+        <profile>
+            <id>uat</id>
+            <properties>
+                <repository-id>ailuoli-uat-releases</repository-id>
+                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-releases/</repository-url>
+                <snapshot-id>ailuoli-uat-snapshots</snapshot-id>
+                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-snapshots/</snapshot-url>
+            </properties>
+        </profile>
+        <profile>
+            <id>pre</id>
+            <properties>
+                <repository-id>ailuoli-pre-releases</repository-id>
+                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-releases/</repository-url>
+                <snapshot-id>ailuoli-pre-snapshots</snapshot-id>
+                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-snapshots/</snapshot-url>
+            </properties>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <repository-id>ailuoli-releases</repository-id>
+                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-releases/</repository-url>
+                <snapshot-id>ailuoli-snapshots</snapshot-id>
+                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-snapshots/</snapshot-url>
+            </properties>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <repository>
+            <id>${repository-id}</id>
+            <url>${repository-url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>${snapshot-id}</id>
+            <url>${snapshot-url}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>

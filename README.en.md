@@ -1,40 +1,123 @@
 # tools
 
 #### Description
-Diversified tools, including common - reuse methods in daily coding, such as UUID, snowflake ID, common objects, encryption, data format, and Redis-Json adjustment.
+Portable toolbox to make coding easier!
+Most of the tools and methods of the project are searchable on the Internet, and the concept of this project is to solve the problem that searching on the Internet is time-consuming and laborious, and it is not very easy to use
+
+(More reflected in the fact that the article posted by one person is wrong, and other people directly copy the original resulting in a bunch of garbage code articles, and it is very difficult to find the code you want)
+
+[bedrock](bedrock) It provides common methods, basic objects, constants, special symbols, JWT, HTTP response enumeration, pagination, distributed ID, remote image conversion, collection pagination, ddns, and Excel export
+
+[encrypt](encrypt) Irreversible encryption, symmetric encryption, digital signature, asymmetric encryption
+
+[tools-spring-boot-starter](tools-spring-boot-starter) Management Compilation spring-boot-starter Project
+
+[encrypt-spring-boot-starter](tools-spring-boot-starter%2Fencrypt-spring-boot-starter) Implement [encrypt](encrypt) Module
+Integration spring-boot-starter，At springboot profiles properties|yml Configure attributes such as keys for automatic injection
 
 #### Software Architecture
+
 - tools
-    - bedrock
-    - encrypt
+  - [bedrock](bedrock)
+  - [encrypt](encrypt)
+  - [fortify](fortify)
+  - [tools-spring-boot-starter](tools-spring-boot-starter)
+    - [encrypt-spring-boot-starter](tools-spring-boot-starter%2Fencrypt-spring-boot-starter)
 
 #### Installation
 
-1.  ```
+```
+    <properties>
+        <tools.version>1.0.3</tools.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>bedrock</artifactId>
+                <version>${tools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>encrypt</artifactId>
+                <version>${tools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>fortify</artifactId>
+                <version>${tools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tools.spring.boot</groupId>
+                <artifactId>encrypt-spring-boot-starter</artifactId>
+                <version>${tools.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.tools</groupId>
-            <artifactId>tools</artifactId>
-            <version>latest-version</version>
+            <artifactId>bedrock</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.tools</groupId>
+            <artifactId>encrypt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.tools</groupId>
+            <artifactId>fortify</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.tools.spring.boot</groupId>
+            <artifactId>encrypt-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
-    ```
-2.  xxxx
-3.  xxxx
+
+    <!-- 仓库地址 -->
+    <repositories>
+        <repository>
+            <id>ailuoli</id>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ailuoli-plugin</id>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+```
 
 #### Instructions
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. This project can be used for any purpose
+2. There are no restrictions on the behavior of this project
+3. The user's actions are not related to this project
+4. The author shall not be liable for any consequences caused by the user
+5. This project is currently maintained and updated by sander personally, if you are interested or have suggestions and optimization points, you can directly contact or create a new issue
 
 #### Contribution
 
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
+1. Fork this repository
+2. Create feat/${user_name}/${demand} branch
+3. Commit your code
+4. Create Pull Request Apply for merger develop${year}${month}${day}
+5. develop${year}${month}${day} Create a new file after the test is passed Pull Request Apply for merger release
+6. Merge and release on the 20th of each month, verify the function and assess the risk, and officially release the version on the 21st
 
 #### Gitee Feature
 

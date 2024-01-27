@@ -1,6 +1,7 @@
 package org.tools.bedrock.util;
 
 import org.junit.Test;
+import org.tools.bedrock.util.network.HttpUtils;
 
 public class HttpUtilsTest {
 
