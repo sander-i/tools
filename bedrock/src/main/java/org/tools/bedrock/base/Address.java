@@ -51,7 +51,7 @@ public class Address {
     @AllArgsConstructor
     @Data
     @Accessors(chain = true)
-    private static class Area {
+    public static class Area {
 
         /**
          * 区名
@@ -73,7 +73,7 @@ public class Address {
     @AllArgsConstructor
     @Data
     @Accessors(chain = true)
-    private static class County {
+    public static class County {
 
         /**
          * 县名

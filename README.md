@@ -3,7 +3,7 @@
 #### 介绍
 
 便携工具箱，让编码更易！
-项目的大部分工具方法在网上均可以搜到，本项目的理念就是为了解决baidu、gpt、csdn、chrome等搜索查找费时费力还不是很好用
+项目的大部分工具方法在网上均可以搜到，本项目的理念就是为了解决网上搜索查找费时费力还不是很好用
 
 （更多的体现在一个人发的文章是错的，其它人直接原样copy导致一堆垃圾代码文章，寻找自己想要的代码费劲的很）
 
@@ -19,50 +19,103 @@
 #### 软件架构
 
 - tools
-    - bedrock
-    - encrypt
-    - tools-spring-boot-starter
-        - encrypt-spring-boot-starter
+    - [bedrock](bedrock)
+    - [encrypt](encrypt)
+    - [fortify](fortify)
+    - [tools-spring-boot-starter](tools-spring-boot-starter)
+        - [encrypt-spring-boot-starter](tools-spring-boot-starter%2Fencrypt-spring-boot-starter)
 
 #### 安装教程
 
+pom.xml
 ```
-<dependencyManagement>
+    <properties>
+        <tools.version>1.0.3</tools.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>bedrock</artifactId>
+                <version>${tools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>encrypt</artifactId>
+                <version>${tools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tools</groupId>
+                <artifactId>fortify</artifactId>
+                <version>${tools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tools.spring.boot</groupId>
+                <artifactId>encrypt-spring-boot-starter</artifactId>
+                <version>${tools.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.tools</groupId>
-            <artifactId>tools</artifactId>
-            <version>${latest-version}</version>
+            <artifactId>bedrock</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.tools</groupId>
+            <artifactId>encrypt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.tools</groupId>
+            <artifactId>fortify</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.tools.spring.boot</groupId>
+            <artifactId>encrypt-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
-</dependencyManagement>
 
-<dependencies>
-    <dependency>
-        <groupId>org.tools</groupId>
-        <artifactId>tools</artifactId>
-    </dependency>
+    <!-- 仓库地址 -->
+    <repositories>
+        <repository>
+            <id>ailuoli</id>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ailuoli-plugin</id>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+```
 
-    <dependency>
-        <groupId>org.tools</groupId>
-        <artifactId>bedrock</artifactId>
-    </dependency>
 
-    <dependency>
-        <groupId>org.tools</groupId>
-        <artifactId>encrypt</artifactId>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.tools.spring.boot</groupId>
-        <artifactId>tools-spring-boot-starter</artifactId>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.tools.spring.boot</groupId>
-        <artifactId>encrypt-spring-boot-starter</artifactId>
-    </dependency>
-</dependencies>
+maven settings.xml
+```
+    <mirrors>
+        <!-- http支持 -->
+        <mirror>
+            <id>insecure-repo</id>
+            <mirrorOf>external:http:*</mirrorOf>
+            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <blocked>false</blocked>
+        </mirror>
+    </mirrors>
 ```
 
 #### 使用说明
