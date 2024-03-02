@@ -35,23 +35,10 @@ Integration spring-boot-starter，At springboot profiles properties|yml Configur
         <dependencies>
             <dependency>
                 <groupId>org.tools</groupId>
-                <artifactId>bedrock</artifactId>
+                <artifactId>tools</artifactId>
                 <version>${tools.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.tools</groupId>
-                <artifactId>encrypt</artifactId>
-                <version>${tools.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.tools</groupId>
-                <artifactId>fortify</artifactId>
-                <version>${tools.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.tools.spring.boot</groupId>
-                <artifactId>encrypt-spring-boot-starter</artifactId>
-                <version>${tools.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
