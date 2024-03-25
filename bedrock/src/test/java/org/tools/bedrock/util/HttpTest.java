@@ -3,14 +3,10 @@ package org.tools.bedrock.util;
 import org.junit.Test;
 import org.tools.bedrock.http.HttpEnum;
 import org.tools.bedrock.http.HttpResult;
-import org.tools.bedrock.http.PageBean;
 import org.tools.bedrock.http.resp.R;
-import org.tools.bedrock.http.resp.RQ;
 import org.tools.bedrock.http.resp.RR;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @description 描述
