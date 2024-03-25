@@ -20,8 +20,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Inherit
-// 链式调用
-@Accessors(chain = true)
 public class BaseBean implements Serializable {
 
     /**
