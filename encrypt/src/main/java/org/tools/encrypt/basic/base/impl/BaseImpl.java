@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
  * @description base64加密实现
  * @scope base
  */
+@Deprecated
 public class BaseImpl extends BaseAbst {
 
     @Override

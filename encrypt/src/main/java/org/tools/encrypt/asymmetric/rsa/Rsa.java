@@ -9,6 +9,7 @@ import org.tools.encrypt.asymmetric.AsymmetricEncrypt;
  * @description rsa非对称加密接口
  * @scope rsa
  */
+@Deprecated
 public interface Rsa extends AsymmetricEncrypt {
 
     /**

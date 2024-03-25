@@ -18,6 +18,7 @@ import java.security.spec.X509EncodedKeySpec;
  * @description dsa密钥生成器
  * @scope dsa
  */
+@Deprecated
 @Slf4j
 public class DsaKeyGenerator {
 

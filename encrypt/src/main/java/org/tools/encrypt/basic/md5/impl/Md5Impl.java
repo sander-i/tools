@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
  * @description md5工具
  * @scope md5
  */
+@Deprecated
 public class Md5Impl extends Md5Abst {
 
     @Override

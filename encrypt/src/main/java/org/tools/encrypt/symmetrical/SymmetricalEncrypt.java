@@ -12,6 +12,7 @@ import javax.crypto.SecretKey;
  * @description 对称加密接口
  * @scope symmetrical
  */
+@Deprecated
 public interface SymmetricalEncrypt extends Encrypt {
 
     /**

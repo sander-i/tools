@@ -14,6 +14,7 @@ import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
  * @description rsa加密工厂
  * @scope rsa
  */
+@Deprecated
 public class RsaFactory {
 
     /**
