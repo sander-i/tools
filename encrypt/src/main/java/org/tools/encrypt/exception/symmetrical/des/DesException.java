@@ -10,6 +10,7 @@ import org.tools.encrypt.exception.symmetrical.SymmetricalException;
  * @description des加密异常
  * @scope encrypt
  */
+@Deprecated
 public class DesException extends SymmetricalException {
 
     public DesException() {

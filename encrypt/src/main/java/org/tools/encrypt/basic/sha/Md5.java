@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
  * @description md5加密
  * @scope md5
  */
+@Deprecated
 public class Md5 {
 
     public static final String ALGORITHM = "MD5";

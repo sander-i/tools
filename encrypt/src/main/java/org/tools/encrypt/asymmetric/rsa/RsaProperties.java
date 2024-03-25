@@ -16,6 +16,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description rsa加密配置文件
  * @scope rsa
  */
+@Deprecated
 @Slf4j
 @Component
 @ConfigurationProperties(prefix = "tools.encrypt.asymmetric.rsa")

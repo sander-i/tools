@@ -9,6 +9,7 @@ import org.tools.encrypt.exception.EncryptException;
  * @description 加密接口
  * @scope all
  */
+@Deprecated
 public interface Encrypt {
 
     /**

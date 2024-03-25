@@ -13,6 +13,7 @@ import java.security.Signature;
  * @description 数字签名
  * @scope digitalsignature
  */
+@Deprecated
 @Slf4j
 public class SignatureUtils {
 

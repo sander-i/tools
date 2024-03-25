@@ -10,6 +10,7 @@ import org.tools.encrypt.basic.md5.impl.Md5Impl;
  * @description md5 帮助类
  * @scope md5
  */
+@Deprecated
 public class Md5Helper {
 
     protected static Md5Properties md5Properties;
