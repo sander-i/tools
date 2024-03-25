@@ -10,6 +10,7 @@ import org.tools.encrypt.exception.basic.BasicException;
  * @description md5 加密
  * @scope md5
  */
+@Deprecated
 public interface Md5 extends Encrypt {
 
     Md5Properties getMd5Properties();

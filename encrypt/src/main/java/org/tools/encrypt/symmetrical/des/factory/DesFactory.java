@@ -14,6 +14,7 @@ import org.tools.encrypt.symmetrical.des.impl.DesImpl;
  * @description des加密工厂
  * @scope des
  */
+@Deprecated
 public class DesFactory {
 
     /**

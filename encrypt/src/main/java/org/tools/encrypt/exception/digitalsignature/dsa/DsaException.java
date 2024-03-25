@@ -10,6 +10,7 @@ import org.tools.encrypt.exception.digitalsignature.DigitalsignatureException;
  * @description dsa签名算法异常
  * @scope encrypt
  */
+@Deprecated
 public class DsaException extends DigitalsignatureException {
 
     public DsaException() {

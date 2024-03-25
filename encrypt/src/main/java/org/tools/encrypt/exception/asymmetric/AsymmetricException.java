@@ -11,6 +11,7 @@ import org.tools.encrypt.exception.digitalsignature.DigitalsignatureException;
  * @description 非对称加密异常
  * @scope encrypt
  */
+@Deprecated
 public class AsymmetricException extends EncryptException {
 
     public AsymmetricException() {

@@ -14,6 +14,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description dsa签名配置文件
  * @scope dsa
  */
+@Deprecated
 @Slf4j
 public class DsaProperties {
 

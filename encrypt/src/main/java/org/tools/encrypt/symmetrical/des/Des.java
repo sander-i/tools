@@ -9,6 +9,7 @@ import org.tools.encrypt.symmetrical.SymmetricalEncrypt;
  * @description des加密接口
  * @scope des
  */
+@Deprecated
 public interface Des extends SymmetricalEncrypt {
 
     /**

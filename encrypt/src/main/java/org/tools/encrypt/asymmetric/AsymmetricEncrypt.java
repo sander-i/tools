@@ -13,6 +13,7 @@ import java.security.PublicKey;
  * @description 非对称加密接口
  * @scope asymmetric
  */
+@Deprecated
 public interface AsymmetricEncrypt extends Encrypt {
 
     /**

@@ -16,6 +16,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description des加密实现
  * @scope all
  */
+@Deprecated
 public class DesImpl extends DesAbst {
 
     @Override

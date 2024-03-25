@@ -10,6 +10,7 @@ import org.tools.encrypt.exception.EncryptException;
  * @description 基础加密异常
  * @scope encrypt
  */
+@Deprecated
 public class BasicException extends EncryptException {
 
     public BasicException() {

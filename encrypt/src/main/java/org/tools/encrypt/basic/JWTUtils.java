@@ -16,6 +16,7 @@ import java.util.Map;
  * @description jwt
  * @scope basic
  */
+@Deprecated
 public class JWTUtils {
 
     private JWTUtils() {
