@@ -16,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
  * @description md5 加密抽象类
  * @scope md5
  */
+@Deprecated
 public abstract class Md5Abst implements Md5 {
 
     private Md5Properties properties;

@@ -11,6 +11,7 @@ import java.util.Base64;
  * @description base64加密抽象
  * @scope base
  */
+@Deprecated
 public abstract class BaseAbst implements Base {
 
     protected final Base64.Decoder decoder = Base64.getDecoder();

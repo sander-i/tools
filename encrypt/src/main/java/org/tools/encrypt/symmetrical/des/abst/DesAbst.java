@@ -17,6 +17,7 @@ import java.util.Base64;
  * @description des加密抽象类
  * @scope des
  */
+@Deprecated
 public abstract class DesAbst implements Des {
 
     /**
