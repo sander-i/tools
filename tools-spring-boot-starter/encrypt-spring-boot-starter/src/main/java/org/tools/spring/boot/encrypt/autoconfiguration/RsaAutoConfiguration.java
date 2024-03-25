@@ -21,6 +21,7 @@ import javax.annotation.Resource;
  * @description rsa 自动配置类
  * @scope spring boot
  */
+@Deprecated
 @Configuration
 @ConditionalOnClass({DesProperties.class})
 @EnableConfigurationProperties({DesProperties.class})
