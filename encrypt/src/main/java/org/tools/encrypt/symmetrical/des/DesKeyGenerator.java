@@ -22,6 +22,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description des密钥生成工具
  * @scope des
  */
+@Deprecated
 @Slf4j
 public class DesKeyGenerator {
 

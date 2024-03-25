@@ -9,6 +9,7 @@ import org.tools.encrypt.digitalsignature.DigitalsignatureEncrypt;
  * @description dsa签名接口
  * @scope dsa
  */
+@Deprecated
 public interface Dsa extends DigitalsignatureEncrypt {
 
     /**

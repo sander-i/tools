@@ -13,6 +13,7 @@ import java.security.PublicKey;
  * @description 签名算法接口
  * @scope digitalsignature
  */
+@Deprecated
 public interface DigitalsignatureEncrypt extends Encrypt {
 
     /**

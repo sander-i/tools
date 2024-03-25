@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
  * @description sha加密
  * @scope sha
  */
+@Deprecated
 public class Sha {
 
     private Sha() {

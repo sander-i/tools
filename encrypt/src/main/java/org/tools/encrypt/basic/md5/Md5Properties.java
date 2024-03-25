@@ -7,6 +7,7 @@ package org.tools.encrypt.basic.md5;
  * @description Md5加密属性
  * @scope md5
  */
+@Deprecated
 public class Md5Properties {
 
     public static final String ALGORITHM = "MD5";

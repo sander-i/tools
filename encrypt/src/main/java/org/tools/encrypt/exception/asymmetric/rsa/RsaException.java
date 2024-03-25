@@ -10,6 +10,7 @@ import org.tools.encrypt.exception.asymmetric.AsymmetricException;
  * @description rsa加密异常
  * @scope encrypt
  */
+@Deprecated
 public class RsaException extends AsymmetricException {
 
     public RsaException() {

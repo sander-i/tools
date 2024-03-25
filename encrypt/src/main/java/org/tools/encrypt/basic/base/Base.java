@@ -10,6 +10,7 @@ import org.tools.encrypt.exception.basic.BasicException;
  * @description 8Bit字节码的编码方式
  * @scope base
  */
+@Deprecated
 public interface Base extends Encrypt {
 
     /**
