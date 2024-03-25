@@ -20,7 +20,6 @@ import java.util.*;
  * @date 2023/02/19 13:28
  * @description 类工具
  * @scope all
- * TODO 1.0.4版本删除 @Deprecated方法
  */
 @Slf4j
 public class ClassUtils {
@@ -49,23 +48,6 @@ public class ClassUtils {
      * set方法
      */
     public static final String SET_METHOD_TYPE = "set";
-
-    /**
-     * 包含java基础数据类型
-     *
-     * @param type 类型
-     * @return boolean
-     * @deprecated This method is deprecated and should not be used anymore.
-     */
-    @Deprecated
-    public static boolean containBaseType(String type) {
-        for (String baseType : BASE_TYPE) {
-            if (baseType.equals(type)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * 是java基础类
@@ -111,21 +93,6 @@ public class ClassUtils {
         // 获取当前属性的class对象
         return Class.forName(clsTypeName);
     }
-
-
-    /**
-     * 获取当前对象属性class
-     *
-     * @param obj 对象
-     * @return Class<?>
-     * @deprecated This method is deprecated and should not be used anymore.
-     */
-    @Deprecated
-    public static Class<?> newClass(Object obj) {
-        // 获取当前属性的class对象
-        return obj.getClass();
-    }
-
 
     /**
      * 集合属性class
@@ -202,7 +169,7 @@ public class ClassUtils {
      */
     public static Class<?> newSuperClass(Object obj) {
         // 获取当前属性父类的class对象
-        return newClass(obj).getSuperclass();
+        return obj.getClass().getSuperclass();
     }
 
     /**
@@ -470,158 +437,6 @@ public class ClassUtils {
     }
 
     /**
-     * 对象转Map集合
-     *
-     * @param obj
-     * @return
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use Maps.objToMap.
-     */
-    @Deprecated
-    public static Map<String, Object> objToMap(Object obj) {
-        if (BaseUtils.isEmpty(obj)) {
-            return Collections.emptyMap();
-        }
-        Class<?> clz = obj.getClass();
-        // 获取所有属性
-        Field[] declaredFields = getAllDeclaredFields(clz);
-        // 去除方法未找到的属性
-        declaredFields = roverMethodNotFoundDeclaredFields(declaredFields, clz);
-
-        Map<String, Object> map = new HashMap<>();
-
-        for (Field oldField : declaredFields) {
-            String fieldName = handleBooleanType(oldField);
-            String fieldType = oldField.getType().getName();
-
-            /* java基础类 */
-            Object value = getProperty(obj, fieldName);
-            /* 非java基础类 */
-            if (BaseUtils.isNotEmpty(value) && !(fieldType.contains("java") || ClassUtils.isBaseClass(fieldType) || value instanceof Comparable)) {
-                value = objToMap(value);
-            }
-            map.put(fieldName, value);
-        }
-        return map;
-    }
-
-    /**
-     * Map转对象
-     *
-     * @param entityMap
-     * @param relationship
-     * @param obj
-     * @return
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use Maps.mapToObj.
-     */
-    @Deprecated
-    public static Object mapToObj(Map<String, Object> entityMap, Map<String, String> relationship, Object obj) {
-        Class<?> clz = obj.getClass();
-        // 获取所有属性
-        Field[] declaredFields = getAllDeclaredFields(clz);
-        // 去除方法未找到的属性
-        declaredFields = roverMethodNotFoundDeclaredFields(declaredFields, clz);
-
-        for (Map.Entry<String, Object> entity : entityMap.entrySet()) {
-            String entityMapKey = entity.getKey();
-
-            for (Map.Entry<String, String> relationEntity : relationship.entrySet()) {
-
-                String originalName = relationEntity.getKey();
-                String corresponName = relationEntity.getValue();
-
-                if (entityMapKey.equals(corresponName)) {
-
-                    for (Field oldField : declaredFields) {
-
-                        String fieldName = oldField.getName();
-
-                        if (originalName.equals(fieldName)) {
-
-                            Object entityMapValue = entity.getValue();
-
-                            setProperty(obj, fieldName, entityMapValue);
-                        }
-                    }
-                }
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * 将对象中的所有参数copy至结构相同路径不同的对象中
-     * User
-     * 替换前路径：org.skynet.tools.sysClass.User
-     * 替换后路径：org.skynet.tools.bean.User
-     *
-     * @param obj   copy对象
-     * @param path  替换前路径 org.skynet.tools.sysClass
-     * @param subst 替换后路径 org.skynet.tools.bean
-     * @return Object
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
-     */
-    @Deprecated
-    public static Object copyObj(Object obj, String path, String subst) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        Class<?> oldClass = obj.getClass();
-        String oldPath = oldClass.getTypeName();
-        // 替换路径
-        String newPath = oldPath.replace(path, subst);
-        // 创建新对象class
-        Class<?> newClass = newClass(newPath);
-        // 实例化新对象
-        Object newObj = newClass.newInstance();
-
-        // 获取所有属性
-        Field[] oldDeclaredFields = getAllDeclaredFields(oldClass);
-
-        // 去除方法未找到的属性
-        oldDeclaredFields = roverMethodNotFoundDeclaredFields(oldDeclaredFields, oldClass);
-
-        for (Field oldField : oldDeclaredFields) {
-            String fieldName = handleBooleanType(oldField);
-            Object oldFieldVal = getProperty(obj, fieldName);
-            setProperty(newObj, fieldName, oldFieldVal);
-        }
-        return newObj;
-    }
-
-    /**
-     * 跨对象传递参数
-     * User
-     * 替换前路径：org.skynet.tools.sysClass.SysBaseBean
-     * 替换后路径：org.skynet.tools.bean.User
-     * <p>
-     * 受链式调用@Accessors(chain = true)影响，加了链式调用后无法获取get|set方法
-     *
-     * @param obj    对象
-     * @param newObj 转换后对象
-     * @return Object
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
-     */
-    @Deprecated
-    public static <T, Y> Y transfer(T obj, Y newObj) {
-        Class<?> oldClass = newClass(obj);
-        // 转换后对象class
-        Class<?> newClass = newClass(newObj);
-
-        // 获取所有属性
-        Field[] oldDeclaredFields = getAllDeclaredFields(oldClass);
-
-        // 去除方法未找到的属性
-        oldDeclaredFields = roverMethodNotFoundDeclaredFields(oldDeclaredFields, oldClass);
-
-        // 去除方法未找到的属性
-        oldDeclaredFields = roverMethodNotFoundDeclaredFields(oldDeclaredFields, newClass);
-
-        for (Field oldField : oldDeclaredFields) {
-            String fieldName = handleBooleanType(oldField);
-            Object oldFieldVal = getProperty(newObj, fieldName);
-            setProperty(newObj, fieldName, oldFieldVal);
-        }
-        return newObj;
-    }
-
-    /**
      * 字符串分隔符首字母大写
      * str_separator_first_capitalize --> strSeparatorFirstCapitalize
      *
@@ -794,163 +609,6 @@ public class ClassUtils {
         }
         Field[] newFields = new Field[0];
         return fields.toArray(newFields);
-    }
-
-    /**
-     * @param inObj
-     * @param clz
-     * @param <I>
-     * @param <O>
-     * @return
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
-     */
-    @Deprecated
-    public static <I, O> O copySingleObj(I inObj, Class<O> clz) {
-        O o;
-        try {
-            o = clz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            log.debug(e.getLocalizedMessage(), e);
-            return null;
-        }
-        copySingleObj(inObj, o);
-        return o;
-    }
-
-    /**
-     * @param inObj
-     * @param outObj
-     * @param <I>
-     * @param <O>
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
-     */
-    @Deprecated
-    public static <I, O> void copySingleObj(I inObj, O outObj) {
-        if (inObj == null || outObj == null) {
-            return;
-        }
-        // 获取class对象
-        Class<?> inputClz = newClass(inObj);
-        // 方法对象
-        Method inputReadMethod;
-        // 获取class对象
-        Class<?> outClz = newClass(outObj);
-        // 方法对象
-        Method outWriteMethod;
-        // 对象属性去重
-        Field[] commonFields = commonFields(inputClz, outClz, false);
-        PropertyDescriptor descriptor;
-        for (Field field : commonFields) {
-            try {
-                descriptor = new PropertyDescriptor(field.getName(), inputClz);
-                inputReadMethod = descriptor.getReadMethod();
-                Object inValue = inputReadMethod.invoke(inObj);
-                if (inValue != null) {
-                    descriptor = new PropertyDescriptor(field.getName(), outClz);
-                    if (inValue instanceof Comparable) {
-                        outWriteMethod = descriptor.getWriteMethod();
-                        outWriteMethod.invoke(outObj, inValue);
-                    } else {
-                        // 非java原生对象
-                        inputReadMethod = descriptor.getReadMethod();
-                        Object outValue = inputReadMethod.invoke(outObj);
-                        if (outValue != null) {
-                            copySingleObj(inValue, outValue);
-                        } else {
-                            Class<?> clz = field.getType();
-                            Object out;
-                            try {
-                                out = clz.newInstance();
-                                copySingleObj(inValue, out);
-                                outWriteMethod = descriptor.getWriteMethod();
-                                outWriteMethod.invoke(outObj, out);
-                            } catch (InstantiationException e) {
-                                log.debug(e.getLocalizedMessage());
-                            }
-                        }
-                    }
-                }
-            } catch (IntrospectionException | IllegalAccessException | InvocationTargetException e) {
-                log.debug(e.getLocalizedMessage());
-            }
-        }
-    }
-
-    /**
-     * @param inObj
-     * @param clz
-     * @param <I>
-     * @param <O>
-     * @return
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
-     */
-    @Deprecated
-    public static <I, O> O copyObj(I inObj, Class<O> clz) {
-        O o;
-        try {
-            o = clz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            log.debug(e.getLocalizedMessage(), e);
-            return null;
-        }
-        copyObj(inObj, o);
-        return o;
-    }
-
-    /**
-     * @param inObj
-     * @param outObj
-     * @param <I>
-     * @param <O>
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use CopyUtil.copyObj.
-     */
-    @Deprecated
-    public static <I, O> void copyObj(I inObj, O outObj) {
-        // 获取class对象
-        Class<?> inputClz = newClass(inObj);
-        // 方法对象
-        Method inputReadMethod;
-        // 获取class对象
-        Class<?> outClz = newClass(outObj);
-        // 方法对象
-        Method outWriteMethod;
-        // 对象属性去重
-        Field[] commonFields = allCommonFields(inputClz, outClz, false);
-        PropertyDescriptor descriptor;
-        for (Field field : commonFields) {
-            try {
-                descriptor = new PropertyDescriptor(field.getName(), inputClz);
-                inputReadMethod = descriptor.getReadMethod();
-                Object inValue = inputReadMethod.invoke(inObj);
-                if (inValue != null) {
-                    descriptor = new PropertyDescriptor(field.getName(), outClz);
-                    if (inValue instanceof Comparable) {
-                        outWriteMethod = descriptor.getWriteMethod();
-                        outWriteMethod.invoke(outObj, inValue);
-                    } else {
-                        // 非java原生对象
-                        inputReadMethod = descriptor.getReadMethod();
-                        Object outValue = inputReadMethod.invoke(outObj);
-                        if (outValue != null) {
-                            copyObj(inValue, outValue);
-                        } else {
-                            Class<?> clz = field.getType();
-                            Object out;
-                            try {
-                                out = clz.newInstance();
-                                copyObj(inValue, out);
-                                outWriteMethod = descriptor.getWriteMethod();
-                                outWriteMethod.invoke(outObj, out);
-                            } catch (InstantiationException e) {
-                                log.debug(e.getLocalizedMessage());
-                            }
-                        }
-                    }
-                }
-            } catch (IntrospectionException | IllegalAccessException | InvocationTargetException e) {
-                log.debug(e.getLocalizedMessage(), e);
-            }
-        }
     }
 
 }
