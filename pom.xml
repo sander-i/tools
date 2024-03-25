@@ -9,12 +9,12 @@
     <name>tools</name>
     <packaging>pom</packaging>
     <description>tools</description>
-    <url>https://gitee.com/sander-xie/tools</url>
+    <url>https://gitee.com/sander-o/tools</url>
 
     <developers>
         <developer>
             <id>sander</id>
-            <name>sander.xie</name>
+            <name>sander</name>
             <email>ailuoli.tao@gmail.com</email>
             <roles>
                 <role>Committer</role>
@@ -23,8 +23,8 @@
     </developers>
 
     <organization>
-        <name>sander.xie</name>
-        <url>https://gitee.com/sander-xie</url>
+        <name>sander</name>
+        <url>https://gitee.com/sander-o</url>
     </organization>
 
     <modules>
