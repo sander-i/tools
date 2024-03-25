@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
+//@Accessors(chain = true)
 public class Identity extends BaseBean {
 
     /**

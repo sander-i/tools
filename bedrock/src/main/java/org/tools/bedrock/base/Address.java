@@ -17,7 +17,6 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
 public class Address {
 
     /**
