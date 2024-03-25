@@ -14,6 +14,7 @@ import java.security.SecureRandom;
  * @description 密钥生成器
  * @scope encrypt
  */
+@Deprecated
 public class EncryptKeyGenerator {
 
     private EncryptKeyGenerator() {

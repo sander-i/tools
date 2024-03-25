@@ -14,6 +14,7 @@ import java.security.Signature;
  * @description dsa签名抽象类
  * @scope dsa
  */
+@Deprecated
 public abstract class DsaAbst implements Dsa {
 
     private DsaProperties dsaProperties;

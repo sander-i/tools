@@ -18,6 +18,7 @@ import java.security.spec.X509EncodedKeySpec;
  * @description rsa密钥生成器
  * @scope rsa
  */
+@Deprecated
 @Slf4j
 public class RsaKeyGenerator {
 

@@ -17,6 +17,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description dsa签名实现
  * @scope dsa
  */
+@Deprecated
 @Slf4j
 public class DsaImpl extends DsaAbst {
 

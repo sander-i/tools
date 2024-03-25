@@ -14,6 +14,7 @@ import org.tools.encrypt.exception.digitalsignature.dsa.DsaException;
  * @description dsa签名工厂
  * @scope dsa
  */
+@Deprecated
 public class DsaFactory {
 
     /**

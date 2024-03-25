@@ -21,6 +21,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description rsa非对称加密实现
  * @scope rsa
  */
+@Deprecated
 @Slf4j
 public class RsaImpl extends RsaAbst {
 

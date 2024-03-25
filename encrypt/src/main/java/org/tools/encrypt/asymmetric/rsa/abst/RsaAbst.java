@@ -22,6 +22,7 @@ import java.security.*;
  * @description rsa加密抽象类
  * @scope rsa
  */
+@Deprecated
 @Slf4j
 public abstract class RsaAbst implements Rsa {
 

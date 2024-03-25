@@ -18,6 +18,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description des加密配置文件
  * @scope des
  */
+@Deprecated
 @Slf4j
 @Component
 @ConfigurationProperties(prefix = "tools.encrypt.symmetrical.des")

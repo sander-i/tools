@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author xietao
+ * @author sander
  * @version 1.0
  * @date 2023/10/23 21:04
  * @description 阿里云ddns工具
