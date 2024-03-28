@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.tools.bedrock.util.BaseUtils;
+import org.tools.encrypt.basic.BasicTool;
 import org.tools.encrypt.exception.EncryptException;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -32,17 +31,6 @@ public class MD5Tool {
     private static MD5Properties properties = MD5Properties.newInstance();
 
     /**
-     * 字节类型数组MD5加密
-     *
-     * @param raw 待加密
-     * @return byte[]
-     */
-    private static byte[] byteMD5(byte[] raw) throws NoSuchAlgorithmException {
-        MessageDigest md5 = MessageDigest.getInstance(properties.getAlgorithm());
-        return md5.digest(raw);
-    }
-
-    /**
      * 将字节数组换成16进制的字符串
      *
      * @param byteArray byte数组
@@ -51,17 +39,6 @@ public class MD5Tool {
     private static String byteToHex(byte[] byteArray) {
         //16是表示转换为16进制数
         return new BigInteger(properties.getSignum(), byteArray).toString(properties.getRadix());
-    }
-
-    /**
-     * md5小写加密
-     *
-     * @param raw 待加密
-     * @return String
-     */
-    private static String stringMD5(String raw) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        byte[] digest = byteMD5(raw.getBytes(properties.getCharsetName()));
-        return byteToHex(digest);
     }
 
     /**
@@ -91,18 +68,7 @@ public class MD5Tool {
      * @throws EncryptException 加密异常
      */
     public static String encode(String raw) throws EncryptException {
-        if (BaseUtils.isEmpty(raw)) {
-            return "";
-        }
-        byte[] resultByteArray;
-        // 转字节数组 加密
-        try {
-            resultByteArray = byteMD5(raw.getBytes());
-        } catch (NoSuchAlgorithmException e) {
-            throw new EncryptException(e);
-        }
-        // 转字符串
-        return byteArrayToHex(resultByteArray);
+        return encode(raw.getBytes(), false);
     }
 
     /**
@@ -115,11 +81,7 @@ public class MD5Tool {
         if (BaseUtils.isEmpty(raw)) {
             return "";
         }
-        try {
-            return isLower ? stringMD5(raw) : encode(raw);
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            throw new EncryptException(e);
-        }
+        return encode(raw.getBytes(), isLower);
     }
 
     /**
@@ -128,16 +90,7 @@ public class MD5Tool {
      * @throws EncryptException 加密异常
      */
     public static String encode(byte[] raw) throws EncryptException {
-        if (BaseUtils.isEmpty(raw)) {
-            return "";
-        }
-        byte[] bytes;
-        try {
-            bytes = byteMD5(raw);
-        } catch (NoSuchAlgorithmException e) {
-            throw new EncryptException(e);
-        }
-        return byteArrayToHex(bytes);
+        return encode(raw, false);
     }
 
     /**
@@ -147,11 +100,16 @@ public class MD5Tool {
      * @throws EncryptException 加密异常
      */
     public static String encode(byte[] raw, boolean isLower) throws EncryptException {
+        if (BaseUtils.isEmpty(raw)) {
+            return "";
+        }
+        byte[] bytes;
         try {
-            return isLower ? byteToHex(byteMD5(raw)) : encode(raw);
+            bytes = BasicTool.digest(properties.getAlgorithm(), raw);
         } catch (NoSuchAlgorithmException e) {
             throw new EncryptException(e);
         }
+        return isLower ? byteToHex(bytes) : byteArrayToHex(bytes);
     }
 
 }

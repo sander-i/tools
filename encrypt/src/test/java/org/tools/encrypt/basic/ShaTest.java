@@ -1,9 +1,8 @@
 package org.tools.encrypt.basic;
 
 import org.junit.Test;
-import org.tools.encrypt.basic.sha.Sha;
+import org.tools.encrypt.basic.sha.ShaTool;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -19,7 +18,7 @@ public class ShaTest {
     public void test() throws NoSuchAlgorithmException {
 
 
-        String encode = Sha.encode("SHA-512","666");
+        String encode = ShaTool.encode("SHA-512", "666");
         System.out.println(encode);
 
     }
