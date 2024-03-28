@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -14,23 +16,16 @@ import java.util.Map;
  * @version 1.0
  * @date 2023/03/18 0:28
  * @description jwt
- * @scope basic
+ * @scope all
  */
-@Deprecated
-public class JWTUtils {
+public class JWTTool {
 
-    private JWTUtils() {
+    private JWTTool() {
     }
 
+    @Getter
+    @Setter
     private static String sign = "TOOLS&DH$*001";
-
-    public static String getSign() {
-        return sign;
-    }
-
-    public static void setSign(String sign) {
-        JWTUtils.sign = sign;
-    }
 
     /**
      * 生成token

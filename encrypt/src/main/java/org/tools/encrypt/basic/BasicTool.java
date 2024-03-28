@@ -1,7 +1,7 @@
 package org.tools.encrypt.basic;
 
-import org.tools.encrypt.basic.md5.MD5Properties;
-import org.tools.encrypt.basic.md5.MD5Tool;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @author sander
@@ -11,5 +11,12 @@ import org.tools.encrypt.basic.md5.MD5Tool;
  * @scope all
  */
 public class BasicTool {
+
+    private BasicTool() {
+    }
+
+    public static byte[] digest(String algorithm, byte[] raw) throws NoSuchAlgorithmException {
+        return MessageDigest.getInstance(algorithm).digest(raw);
+    }
 
 }
