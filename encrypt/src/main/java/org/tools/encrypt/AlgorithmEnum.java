@@ -23,7 +23,15 @@ public enum AlgorithmEnum {
     SHA1("SHA-1"),
     SHA256("SHA-256"),
     SHA384("SHA-384"),
-    SHA512("SHA-512");
+    SHA512("SHA-512"),
+
+    /**
+     * DES
+     */
+    DES("DES"),
+    DES_ECB_NoPadding("DES/ECB/NoPadding"),
+    DESede_CBC_PKCS5Padding("DESede/CBC/PKCS5Padding"),
+    ;
 
     private final String algorithm;
 

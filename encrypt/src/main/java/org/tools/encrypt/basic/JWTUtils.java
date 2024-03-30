@@ -18,9 +18,9 @@ import java.util.Map;
  * @description jwt
  * @scope all
  */
-public class JWTTool {
+public class JWTUtils {
 
-    private JWTTool() {
+    private JWTUtils() {
     }
 
     @Getter

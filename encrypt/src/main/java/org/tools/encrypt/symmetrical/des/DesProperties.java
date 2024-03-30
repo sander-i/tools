@@ -1,8 +1,8 @@
 package org.tools.encrypt.symmetrical.des;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.tools.encrypt.AlgorithmEnum;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -18,10 +18,7 @@ import java.security.spec.InvalidKeySpecException;
  * @description des加密配置文件
  * @scope des
  */
-@Deprecated
-@Slf4j
-@Component
-@ConfigurationProperties(prefix = "tools.encrypt.symmetrical.des")
+@Data
 public class DesProperties {
 
     /**
@@ -30,11 +27,11 @@ public class DesProperties {
      * DES/ECB/NoPadding
      * DESede/CBC/PKCS5Padding
      */
-    private String algorithmMode = "DES";
+    private String algorithmMode = AlgorithmEnum.DES.getAlgorithm();
     /**
      * 算法
      */
-    public static final String ALGORITHM = "DES";
+    public static final String ALGORITHM = AlgorithmEnum.DES.getAlgorithm();
     /**
      * 密钥位数
      */
@@ -49,38 +46,6 @@ public class DesProperties {
      */
     private SecretKey desKey;
 
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-        this.setDesKey();
-    }
-
-    public SecretKey getDesKey() {
-        return desKey;
-    }
-
-    private void setDesKey() {
-        try {
-            this.desKey = DesKeyGenerator.getSecretKey(this.secretKey);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            log.error(e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * 密钥长度固定8bit
-     *
-     * @param secretKey DES密钥
-     */
-    public void setSecretKeyFixedLength(String secretKey) {
-        this.secretKey = secretKey;
-        this.setDesKeyFixedLength();
-    }
-
     /**
      * 密钥长度固定8bit
      */
@@ -89,23 +54,4 @@ public class DesProperties {
         this.desKey = new SecretKeySpec(secretKeyBytes, ALGORITHM);
     }
 
-    public String getAlgorithmMode() {
-        return algorithmMode;
-    }
-
-    public void setAlgorithmMode(String algorithmMode) {
-        this.algorithmMode = algorithmMode;
-    }
-
-    public void setDesKey(SecretKey desKey) {
-        this.desKey = desKey;
-    }
-
-    public int getKeyBits() {
-        return keyBits;
-    }
-
-    public void setKeyBits(int keyBits) {
-        this.keyBits = keyBits;
-    }
 }

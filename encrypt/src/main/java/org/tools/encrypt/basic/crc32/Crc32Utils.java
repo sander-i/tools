@@ -9,9 +9,9 @@ import java.util.zip.CRC32;
  * @description crc32 校验工具类
  * @scope all
  */
-public class Crc32Tool {
+public class Crc32Utils {
 
-    private Crc32Tool() {
+    private Crc32Utils() {
     }
 
     private final CRC32 crc32 = new CRC32();
