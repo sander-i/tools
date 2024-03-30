@@ -1,7 +1,5 @@
 package org.tools.encrypt;
 
-import org.tools.encrypt.basic.BasicTool;
-
 /**
  * @author sander
  * @version 1.0

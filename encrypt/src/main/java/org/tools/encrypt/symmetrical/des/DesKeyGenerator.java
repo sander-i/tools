@@ -3,8 +3,8 @@ package org.tools.encrypt.symmetrical.des;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
-import org.tools.encrypt.exception.symmetrical.des.DesException;
 import org.tools.encrypt.EncryptKeyGenerator;
+import org.tools.encrypt.exception.EncryptException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -22,7 +22,6 @@ import java.security.spec.InvalidKeySpecException;
  * @description des密钥生成工具
  * @scope des
  */
-@Deprecated
 @Slf4j
 public class DesKeyGenerator {
 
@@ -45,7 +44,7 @@ public class DesKeyGenerator {
     /**
      * 初始化密钥生成器对象
      */
-    private static void init() throws DesException {
+    private static void init() throws EncryptException {
         if (BaseUtils.isNull(keyGenerator)) {
             // 线程安全
             synchronized (LOCK) {
@@ -55,7 +54,7 @@ public class DesKeyGenerator {
                     }
                 } catch (NoSuchAlgorithmException e) {
                     log.error(e.getLocalizedMessage());
-                    throw new DesException(e);
+                    throw new EncryptException(e);
                 }
             }
         }
@@ -66,7 +65,7 @@ public class DesKeyGenerator {
      *
      * @return SecretKey
      */
-    public static SecretKey getSecretKey() throws DesException {
+    public static SecretKey getSecretKey() throws EncryptException {
         init();
         return keyGenerator.generateKey();
     }
@@ -111,7 +110,7 @@ public class DesKeyGenerator {
      *
      * @return DesProperties
      */
-    public static DesProperties getDesProperties() throws DesException {
+    public static DesProperties getDesProperties() throws EncryptException {
         newInstance();
         if (BaseUtils.isNull(desProperties.getSecretKey())) {
             SecretKey secretKey = getSecretKey();

@@ -1,7 +1,7 @@
 package org.tools.encrypt.basic.sha;
 
 import org.tools.encrypt.AlgorithmEnum;
-import org.tools.encrypt.basic.BasicTool;
+import org.tools.encrypt.basic.BasicUtils;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -12,9 +12,9 @@ import java.security.NoSuchAlgorithmException;
  * @description sha加密
  * @scope sha
  */
-public class ShaTool {
+public class ShaUtils {
 
-    private ShaTool() {
+    private ShaUtils() {
     }
 
     private static final int BINARY = 0xff;
@@ -39,7 +39,7 @@ public class ShaTool {
 
     public static String encode(String algorithm, String raw) throws NoSuchAlgorithmException {
         // 计算哈希值
-        byte[] digest = BasicTool.digest(algorithm, raw.getBytes());
+        byte[] digest = BasicUtils.digest(algorithm, raw.getBytes());
         return byteToHex(digest);
     }
 

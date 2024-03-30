@@ -10,9 +10,9 @@ import java.security.NoSuchAlgorithmException;
  * @description 基础工具
  * @scope all
  */
-public class BasicTool {
+public class BasicUtils {
 
-    private BasicTool() {
+    private BasicUtils() {
     }
 
     public static byte[] digest(String algorithm, byte[] raw) throws NoSuchAlgorithmException {

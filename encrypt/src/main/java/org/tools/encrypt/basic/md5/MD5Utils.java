@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.tools.bedrock.util.BaseUtils;
-import org.tools.encrypt.basic.BasicTool;
+import org.tools.encrypt.basic.BasicUtils;
 import org.tools.encrypt.exception.EncryptException;
 
 import java.math.BigInteger;
@@ -18,9 +18,9 @@ import java.security.NoSuchAlgorithmException;
  * @scope all
  */
 @Slf4j
-public class MD5Tool {
+public class MD5Utils {
 
-    private MD5Tool() {
+    private MD5Utils() {
     }
 
     /**
@@ -105,7 +105,7 @@ public class MD5Tool {
         }
         byte[] bytes;
         try {
-            bytes = BasicTool.digest(properties.getAlgorithm(), raw);
+            bytes = BasicUtils.digest(properties.getAlgorithm(), raw);
         } catch (NoSuchAlgorithmException e) {
             throw new EncryptException(e);
         }
