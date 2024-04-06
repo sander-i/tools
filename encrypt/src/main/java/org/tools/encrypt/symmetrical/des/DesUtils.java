@@ -1,15 +1,13 @@
 package org.tools.encrypt.symmetrical.des;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.tools.encrypt.AlgorithmEnum;
+import org.tools.encrypt.AlgorithmModeEnum;
+import org.tools.encrypt.CipherUtils;
 import org.tools.encrypt.exception.EncryptException;
 
 import javax.crypto.*;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
+import java.security.*;
 import java.util.Base64;
 
 /**
@@ -24,38 +22,41 @@ public class DesUtils {
     private DesUtils() {
     }
 
-    @Getter
-    @Setter
-    private DesProperties properties;
-
     /**
      * DES算法要求有一个可信任的随机数源
      *
      * @return SecureRandom
      */
-    protected SecureRandom getSecureRandom() {
+    protected static SecureRandom getSecureRandom() {
         return new SecureRandom();
     }
 
     /**
      * 执行加解密操作
      *
-     * @param todo 待处理
-     * @param mode 模式
+     * @param algorithm     加密算法枚举
+     * @param algorithmMode 加密算法模式枚举
+     * @param secretKey     密钥
+     * @param ivParameter   向量
+     * @param mode          加密对象模式
+     * @param stuff         待处理
      * @return byte[]
-     * @throws NoSuchPaddingException
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeyException
+     * @throws NoSuchPaddingException             指定填充方案不存在或不支持
+     * @throws NoSuchAlgorithmException           算法不存在或不支持
+     * @throws InvalidKeyException                密钥错误或密钥的格式不正确
+     * @throws InvalidAlgorithmParameterException 算法参数不适用于当前操作或算法参数值不适合算法
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
+     * @throws
      */
-    protected byte[] actuator(byte[] todo, SecretKey secretKey, int mode) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    protected static byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff)
+            throws InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         // Cipher对象实际完成解密操作
-        Cipher cipher = Cipher.getInstance(properties.getAlgorithmMode());
-        // 用密匙初始化Cipher对象
-        cipher.init(mode, secretKey, getSecureRandom());
+        AlgorithmEnum algorithmEnum = AlgorithmEnum.enumName(algorithm);
+        AlgorithmModeEnum algorithmModeEnum = AlgorithmModeEnum.enumName(algorithmMode);
+        Cipher cipher = CipherUtils.prepCipher(algorithmEnum, algorithmModeEnum, secretKey, ivParameter, mode);
         // 执行加解密操作
-        return cipher.doFinal(todo);
+        return cipher.doFinal(stuff);
     }
 
     /**
@@ -64,7 +65,7 @@ public class DesUtils {
      * @param todo 待处理
      * @return byte[]
      */
-    protected byte[] encryptBefore(String todo) {
+    protected static byte[] encryptBefore(String todo) {
         return todo.getBytes(StandardCharsets.UTF_8);
     }
 
@@ -74,7 +75,7 @@ public class DesUtils {
      * @param todo 待处理
      * @return String
      */
-    protected String encryptAfter(byte[] todo) {
+    protected static String encryptAfter(byte[] todo) {
         return Base64.getEncoder().encodeToString(todo);
     }
 
@@ -84,7 +85,7 @@ public class DesUtils {
      * @param todo 待处理
      * @return byte[]
      */
-    protected byte[] decryptBefore(String todo) {
+    protected static byte[] decryptBefore(String todo) {
         return Base64.getDecoder().decode(todo);
     }
 
@@ -94,66 +95,38 @@ public class DesUtils {
      * @param todo 待处理
      * @return String
      */
-    protected String decryptAfter(byte[] todo) {
+    protected static String decryptAfter(byte[] todo) {
         return new String(todo);
     }
 
-    public String encode(String raw) throws EncryptException {
-        return encode(properties.getDesKey(), raw);
-    }
-
-    public String decode(String wrought) throws EncryptException {
-        return decode(properties.getDesKey(), wrought);
-    }
-
-    public String encode(String secretKey, String raw) throws EncryptException {
-        SecretKey key;
-        try {
-            key = DesKeyGenerator.getSecretKey(secretKey);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new EncryptException(e);
-        }
-        return encode(key, raw);
-    }
-
-    public String encode(SecretKey secretKey, String raw) throws EncryptException {
+    public static String encode(String algorithm, String algorithmMode, SecretKey secretKey, String ivParameter, String raw) throws EncryptException {
         // 加密前处理
         byte[] before = encryptBefore(raw);
         // 执行加密
         byte[] execute;
         try {
-            execute = actuator(before, secretKey, Cipher.ENCRYPT_MODE);
+            execute = actuator(algorithm, algorithmMode, secretKey, ivParameter, Cipher.ENCRYPT_MODE, before);
+            // 加密后处理
+            return encryptAfter(execute);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
-                 BadPaddingException e) {
+                 BadPaddingException | InvalidAlgorithmParameterException e) {
             throw new EncryptException(e);
         }
-        // 加密后处理
-        return encryptAfter(execute);
     }
 
-    public String decode(String secretKey, String wrought) throws EncryptException {
-        SecretKey key;
-        try {
-            key = DesKeyGenerator.getSecretKey(secretKey);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new EncryptException(e);
-        }
-        return decode(key, wrought);
-    }
-
-    public String decode(SecretKey secretKey, String wrought) throws EncryptException {
+    public static String decode(String algorithm, String algorithmMode, SecretKey secretKey, String ivParameter, String wrought) throws EncryptException {
         // 解密前处理
         byte[] before = decryptBefore(wrought);
         // 执行解密
         byte[] execute;
         try {
-            execute = actuator(before, secretKey, Cipher.DECRYPT_MODE);
+            execute = actuator(algorithm, algorithmMode, secretKey, ivParameter, Cipher.DECRYPT_MODE, before);
+            // 解密后处理
+            return decryptAfter(execute);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
-                 BadPaddingException e) {
+                 BadPaddingException | InvalidAlgorithmParameterException e) {
             throw new EncryptException(e);
         }
-        // 解密后处理
-        return decryptAfter(execute);
     }
 
 }

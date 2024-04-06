@@ -1,15 +1,11 @@
 package org.tools.encrypt.symmetrical.des;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.tools.encrypt.AlgorithmEnum;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 /**
  * @author sander
@@ -28,14 +24,22 @@ public class DesProperties {
      * DESede/CBC/PKCS5Padding
      */
     private String algorithmMode = AlgorithmEnum.DES.getAlgorithm();
+
     /**
      * 算法
      */
-    public static final String ALGORITHM = AlgorithmEnum.DES.getAlgorithm();
+    private String algorithm = AlgorithmEnum.DES.getAlgorithm();
+
     /**
      * 密钥位数
      */
     private int keyBits = 56;
+
+    /**
+     * 向量
+     */
+    private String ivParameter;
+
     /**
      * DES密钥
      */
@@ -49,9 +53,9 @@ public class DesProperties {
     /**
      * 密钥长度固定8bit
      */
-    private void setDesKeyFixedLength() {
+    protected void setDesKeyFixedLength() {
         byte[] secretKeyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        this.desKey = new SecretKeySpec(secretKeyBytes, ALGORITHM);
+        this.desKey = new SecretKeySpec(secretKeyBytes, algorithm);
     }
 
 }

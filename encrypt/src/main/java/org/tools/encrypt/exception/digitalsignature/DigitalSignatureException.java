@@ -10,25 +10,24 @@ import org.tools.encrypt.exception.EncryptException;
  * @description 数字签名算法异常
  * @scope encrypt
  */
-@Deprecated
-public class DigitalsignatureException extends EncryptException {
+public class DigitalSignatureException extends EncryptException {
 
-    public DigitalsignatureException() {
+    public DigitalSignatureException() {
     }
 
-    public DigitalsignatureException(String error) {
+    public DigitalSignatureException(String error) {
         super(error);
     }
 
-    public DigitalsignatureException(Exception exception) {
+    public DigitalSignatureException(Exception exception) {
         super(exception);
     }
 
-    public DigitalsignatureException(String error, Exception exception) {
+    public DigitalSignatureException(String error, Exception exception) {
         super(error, exception);
     }
 
-    public DigitalsignatureException(ErrorEnum error, Exception exception) {
+    public DigitalSignatureException(ErrorEnum error, Exception exception) {
         super(error, exception);
     }
 

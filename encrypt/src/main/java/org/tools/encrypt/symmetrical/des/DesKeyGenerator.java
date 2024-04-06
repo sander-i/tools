@@ -3,13 +3,13 @@ package org.tools.encrypt.symmetrical.des;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
+import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.EncryptKeyGenerator;
 import org.tools.encrypt.exception.EncryptException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -29,6 +29,11 @@ public class DesKeyGenerator {
     }
 
     /**
+     * 密钥位数
+     */
+    private static final int KEY_BITS = 56;
+
+    /**
      * 锁对象
      */
     private static final Object LOCK = new Object();
@@ -36,21 +41,22 @@ public class DesKeyGenerator {
      * 密钥生成器
      */
     private static KeyGenerator keyGenerator;
+
     /**
      * Des 配置文件
      */
-    private static DesProperties desProperties;
+    private static DesProperties properties;
 
     /**
      * 初始化密钥生成器对象
      */
     private static void init() throws EncryptException {
         if (BaseUtils.isNull(keyGenerator)) {
-            // 线程安全
             synchronized (LOCK) {
                 try {
                     if (BaseUtils.isNull(keyGenerator)) {
-                        keyGenerator = EncryptKeyGenerator.getKeyGenerator(DesProperties.ALGORITHM, desProperties.getKeyBits());
+                        keyGenerator = EncryptKeyGenerator.getKeyGenerator(AlgorithmEnum.DES.getAlgorithm());
+                        keyGenerator.init(KEY_BITS);
                     }
                 } catch (NoSuchAlgorithmException e) {
                     log.error(e.getLocalizedMessage());
@@ -84,40 +90,24 @@ public class DesKeyGenerator {
      *
      * @return SecretKey
      */
-    public static SecretKey getSecretKey(String secretKey) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static SecretKey getSecretKey(String algorithm, String secretKey) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] secretKeyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        DESKeySpec desKey = new DESKeySpec(secretKeyBytes);
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DesProperties.ALGORITHM);
-        return keyFactory.generateSecret(desKey);
+        return new SecretKeySpec(secretKeyBytes, algorithm);
     }
 
-    /**
-     * 单例模式-线程安全
-     */
-    private static void newInstance() {
-        if (BaseUtils.isNull(desProperties)) {
-            // 线程安全
+    public static DesProperties getProperties() throws EncryptException {
+        if (BaseUtils.isNull(properties)) {
             synchronized (LOCK) {
-                if (BaseUtils.isNull(desProperties)) {
-                    desProperties = new DesProperties();
+                if (BaseUtils.isNull(properties)) {
+                    properties = new DesProperties();
                 }
             }
         }
-    }
-
-    /**
-     * 获取Des配置文件
-     *
-     * @return DesProperties
-     */
-    public static DesProperties getDesProperties() throws EncryptException {
-        newInstance();
-        if (BaseUtils.isNull(desProperties.getSecretKey())) {
-            SecretKey secretKey = getSecretKey();
-            String secretKeyStr = getSecretKeyStr(secretKey);
-            desProperties.setSecretKey(secretKeyStr);
+        if (BaseUtils.isEmpty(properties.getSecretKey(), properties.getDesKey())) {
+            properties.setDesKey(getSecretKey());
+            properties.setSecretKey(getSecretKeyStr(properties.getDesKey()));
         }
-        return desProperties;
+        return properties;
     }
 
 }

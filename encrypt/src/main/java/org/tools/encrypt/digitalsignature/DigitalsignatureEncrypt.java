@@ -1,7 +1,7 @@
 package org.tools.encrypt.digitalsignature;
 
 import org.tools.encrypt.Encrypt;
-import org.tools.encrypt.exception.digitalsignature.DigitalsignatureException;
+import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -22,9 +22,9 @@ public interface DigitalsignatureEncrypt extends Encrypt {
      * @param privateKey 私钥
      * @param wrought    加密数据
      * @return 数字签名
-     * @throws DigitalsignatureException 签名算法异常
+     * @throws DigitalSignatureException 签名算法异常
      */
-    String sign(String privateKey, String wrought) throws DigitalsignatureException;
+    String sign(String privateKey, String wrought) throws DigitalSignatureException;
 
     /**
      * 密钥签名
@@ -32,9 +32,9 @@ public interface DigitalsignatureEncrypt extends Encrypt {
      * @param privateKey 私钥
      * @param wrought    加密数据
      * @return 数字签名
-     * @throws DigitalsignatureException 签名算法异常
+     * @throws DigitalSignatureException 签名算法异常
      */
-    String sign(PrivateKey privateKey, String wrought) throws DigitalsignatureException;
+    String sign(PrivateKey privateKey, String wrought) throws DigitalSignatureException;
 
     /**
      * 密钥验签
@@ -43,9 +43,9 @@ public interface DigitalsignatureEncrypt extends Encrypt {
      * @param wrought   加密数据
      * @param sign      数字签名
      * @return 验签结果
-     * @throws DigitalsignatureException 签名算法异常
+     * @throws DigitalSignatureException 签名算法异常
      */
-    Boolean verify(String publicKey, String wrought, String sign) throws DigitalsignatureException;
+    Boolean verify(String publicKey, String wrought, String sign) throws DigitalSignatureException;
 
     /**
      * 密钥验签
@@ -54,8 +54,8 @@ public interface DigitalsignatureEncrypt extends Encrypt {
      * @param wrought   加密数据
      * @param sign      数字签名
      * @return 验签结果
-     * @throws DigitalsignatureException 签名算法异常
+     * @throws DigitalSignatureException 签名算法异常
      */
-    Boolean verify(PublicKey publicKey, String wrought, String sign) throws DigitalsignatureException;
+    Boolean verify(PublicKey publicKey, String wrought, String sign) throws DigitalSignatureException;
 
 }

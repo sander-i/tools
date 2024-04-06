@@ -1,7 +1,7 @@
 package org.tools.encrypt.exception.digitalsignature.dsa;
 
 import org.tools.bedrock.exception.ErrorEnum;
-import org.tools.encrypt.exception.digitalsignature.DigitalsignatureException;
+import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 
 /**
  * @author sander
@@ -11,7 +11,7 @@ import org.tools.encrypt.exception.digitalsignature.DigitalsignatureException;
  * @scope encrypt
  */
 @Deprecated
-public class DsaException extends DigitalsignatureException {
+public class DsaException extends DigitalSignatureException {
 
     public DsaException() {
     }

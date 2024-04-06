@@ -28,7 +28,20 @@ public class MD5Utils {
      */
     @Getter
     @Setter
-    private static MD5Properties properties = MD5Properties.newInstance();
+    private static MD5Properties properties;
+
+    private static void init() {
+        if (BaseUtils.isEmpty(properties)) {
+            properties = new MD5Properties();
+        }
+    }
+
+    public static void load(MD5Properties properties) throws EncryptException {
+        if (BaseUtils.isEmpty(properties)) {
+            throw new EncryptException("properties 不能为空！");
+        }
+        MD5Utils.properties = properties;
+    }
 
     /**
      * 将字节数组换成16进制的字符串
@@ -102,6 +115,9 @@ public class MD5Utils {
     public static String encode(byte[] raw, boolean isLower) throws EncryptException {
         if (BaseUtils.isEmpty(raw)) {
             return "";
+        }
+        if (BaseUtils.isEmpty(properties)) {
+            init();
         }
         byte[] bytes;
         try {

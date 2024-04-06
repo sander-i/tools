@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.tools.encrypt.digitalsignature.SignatureUtils;
 import org.tools.encrypt.digitalsignature.dsa.DsaKeyGenerator;
 import org.tools.encrypt.digitalsignature.dsa.abst.DsaAbst;
-import org.tools.encrypt.exception.digitalsignature.DigitalsignatureException;
+import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 import org.tools.encrypt.exception.digitalsignature.dsa.DsaException;
 
 import java.security.*;
@@ -61,7 +61,7 @@ public class DsaImpl extends DsaAbst {
             Signature signature = getSignature();
             signature.initSign(privateKey);
             return SignatureUtils.sign(signature, wrought);
-        } catch (DigitalsignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
+        } catch (DigitalSignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
             log.error(e.getLocalizedMessage());
             throw new DsaException(e);
         }
@@ -83,7 +83,7 @@ public class DsaImpl extends DsaAbst {
             Signature signature = getSignature();
             signature.initVerify(publicKey);
             return SignatureUtils.verify(signature, wrought, sign);
-        } catch (DigitalsignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
+        } catch (DigitalSignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
             log.error(e.getLocalizedMessage());
             throw new DsaException(e);
         }

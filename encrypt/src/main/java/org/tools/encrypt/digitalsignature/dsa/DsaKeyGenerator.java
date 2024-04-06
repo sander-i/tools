@@ -51,7 +51,8 @@ public class DsaKeyGenerator {
             synchronized (LOCK) {
                 try {
                     if (BaseUtils.isNull(keyPairGenerator, keyPair)) {
-                        keyPairGenerator = EncryptKeyGenerator.getKeyPairGenerator(DsaProperties.ALGORITHM, dsaProperties.getKeyBits());
+                        keyPairGenerator = EncryptKeyGenerator.getKeyPairGenerator(DsaProperties.ALGORITHM);
+                        keyPairGenerator.initialize(dsaProperties.getKeyBits());
                     }
                     keyPair = keyPairGenerator.generateKeyPair();
                 } catch (NoSuchAlgorithmException e) {
