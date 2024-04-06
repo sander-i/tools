@@ -10,9 +10,9 @@ import java.util.Base64;
  * @description 描述
  * @scope 作用域
  */
-public class BaseUtils {
+public class Base64Utils {
 
-    private BaseUtils() {
+    private Base64Utils() {
     }
 
     protected final Base64.Decoder decoder = Base64.getDecoder();

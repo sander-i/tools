@@ -11,7 +11,7 @@ public class MD5UtilsTest {
         System.out.println(encode);
         MD5Properties properties = MD5Utils.getProperties();
         System.out.println(properties);
-        properties.setAlgorithm("MD6");
+        properties.setAlgorithm("MD5");
         MD5Utils.setProperties(properties);
         encode = MD5Utils.encode("666");
         System.out.println(encode);

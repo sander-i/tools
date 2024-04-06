@@ -3,6 +3,8 @@ package org.tools.encrypt;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * @author sander
  * @version 1.0
@@ -29,14 +31,35 @@ public enum AlgorithmEnum {
      * DES
      */
     DES("DES"),
-    DES_ECB_NoPadding("DES/ECB/NoPadding"),
-    DESede_CBC_PKCS5Padding("DESede/CBC/PKCS5Padding"),
+    DES_EDE("DESede"),
+
+    /**
+     * RSA
+     */
+    RSA("RSA"),
+
+    /**
+     * AES
+     */
+    AES("AES"),
+
+    /**
+     * DIGITAL_SIGNATURE
+     */
+    MD5withRSA("MD5withRSA"),
     ;
 
     private final String algorithm;
 
     public boolean equals(String algorithm) {
         return this.algorithm.equals(algorithm);
+    }
+
+    public static AlgorithmEnum enumName(String algorithm) {
+        return Arrays.stream(AlgorithmEnum.values())
+                .filter(algorithmEnum -> algorithmEnum.equals(algorithm))
+                .findFirst()
+                .get();
     }
 
 }
