@@ -10,8 +10,9 @@ import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
  * @description dsa签名算法异常
  * @scope encrypt
  */
-@Deprecated
 public class DsaException extends DigitalSignatureException {
+
+    private static final long serialVersionUID = -1333337529605308307L;
 
     public DsaException() {
     }

@@ -6,7 +6,7 @@ import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.AlgorithmModeEnum;
 import org.tools.encrypt.CipherUtils;
 import org.tools.encrypt.digitalsignature.SignatureUtils;
-import org.tools.encrypt.exception.EncryptException;
+import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 
 import javax.crypto.BadPaddingException;
@@ -135,7 +135,7 @@ public class RsaUtils {
     }
 
     public static String encode(String algorithm, String algorithmMode, PublicKey publicKey, String ivParameter, String raw, int maxEncryptBlock)
-            throws EncryptException {
+            throws RsaException {
         // 加密前处理
         byte[] before = raw.getBytes();
         // 执行加密
@@ -148,14 +148,14 @@ public class RsaUtils {
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | IOException | InvalidAlgorithmParameterException e) {
             log.error(e.getLocalizedMessage());
-            throw new EncryptException(e);
+            throw new RsaException(e);
         }
         // 加密后处理
         return encodeBase64(execute);
     }
 
     public static String decode(String algorithm, String algorithmMode, PrivateKey privateKey, String ivParameter, String wrought, int maxDecryptBlock)
-            throws EncryptException {
+            throws RsaException {
         // 解密前处理
         byte[] before = decodeBase64(wrought);
         // 执行解密
@@ -168,13 +168,13 @@ public class RsaUtils {
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | InvalidAlgorithmParameterException | IOException e) {
             log.error(e.getLocalizedMessage());
-            throw new EncryptException(e);
+            throw new RsaException(e);
         }
         // 解密后处理
         return execute;
     }
 
-    public static String sign(String signAlgorithm, PrivateKey privateKey, String wrought) throws EncryptException {
+    public static String sign(String signAlgorithm, PrivateKey privateKey, String wrought) throws RsaException {
         try {
             if (Objects.isNull(signature)) {
                 signature = Signature.getInstance(signAlgorithm);
@@ -183,11 +183,11 @@ public class RsaUtils {
             return SignatureUtils.sign(signature, wrought);
         } catch (DigitalSignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
             log.error(e.getLocalizedMessage());
-            throw new EncryptException(e);
+            throw new RsaException(e);
         }
     }
 
-    public static Boolean verify(String signAlgorithm, PublicKey publicKey, String wrought, String sign) throws EncryptException {
+    public static Boolean verify(String signAlgorithm, PublicKey publicKey, String wrought, String sign) throws RsaException {
         try {
             if (Objects.isNull(signature)) {
                 signature = Signature.getInstance(signAlgorithm);
@@ -196,7 +196,7 @@ public class RsaUtils {
             return SignatureUtils.verify(signature, wrought, sign);
         } catch (DigitalSignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
             log.error(e.getLocalizedMessage());
-            throw new EncryptException(e);
+            throw new RsaException(e);
         }
     }
 

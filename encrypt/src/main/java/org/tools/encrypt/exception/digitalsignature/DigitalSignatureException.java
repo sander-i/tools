@@ -12,6 +12,8 @@ import org.tools.encrypt.exception.EncryptException;
  */
 public class DigitalSignatureException extends EncryptException {
 
+    private static final long serialVersionUID = -5287092327897656647L;
+
     public DigitalSignatureException() {
     }
 
