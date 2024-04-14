@@ -5,7 +5,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.EncryptKeyGenerator;
-import org.tools.encrypt.exception.EncryptException;
+import org.tools.encrypt.exception.symmetrical.des.DesException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -50,7 +50,7 @@ public class DesKeyGenerator {
     /**
      * 初始化密钥生成器对象
      */
-    private static void init() throws EncryptException {
+    private static void init() throws DesException {
         if (BaseUtils.isNull(keyGenerator)) {
             synchronized (LOCK) {
                 try {
@@ -60,7 +60,7 @@ public class DesKeyGenerator {
                     }
                 } catch (NoSuchAlgorithmException e) {
                     log.error(e.getLocalizedMessage());
-                    throw new EncryptException(e);
+                    throw new DesException(e);
                 }
             }
         }
@@ -71,7 +71,7 @@ public class DesKeyGenerator {
      *
      * @return SecretKey
      */
-    public static SecretKey getSecretKey() throws EncryptException {
+    public static SecretKey getSecretKey() throws DesException {
         init();
         return keyGenerator.generateKey();
     }
@@ -95,7 +95,7 @@ public class DesKeyGenerator {
         return new SecretKeySpec(secretKeyBytes, algorithm);
     }
 
-    public static DesProperties getProperties() throws EncryptException {
+    public static DesProperties getProperties() throws DesException {
         if (BaseUtils.isNull(properties)) {
             synchronized (LOCK) {
                 if (BaseUtils.isNull(properties)) {

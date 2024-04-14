@@ -12,6 +12,8 @@ import org.tools.bedrock.exception.ToolsException;
  */
 public class EncryptException extends ToolsException {
 
+    private static final long serialVersionUID = 5124407319923889191L;
+
     public EncryptException() {
     }
 

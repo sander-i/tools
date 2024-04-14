@@ -10,8 +10,9 @@ import org.tools.encrypt.exception.EncryptException;
  * @description 对称加密异常
  * @scope encrypt
  */
-@Deprecated
 public class SymmetricalException extends EncryptException {
+
+    private static final long serialVersionUID = 6591125072110387210L;
 
     public SymmetricalException() {
     }

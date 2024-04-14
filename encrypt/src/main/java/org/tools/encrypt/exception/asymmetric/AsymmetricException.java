@@ -10,8 +10,9 @@ import org.tools.encrypt.exception.EncryptException;
  * @description 非对称加密异常
  * @scope encrypt
  */
-@Deprecated
 public class AsymmetricException extends EncryptException {
+
+    private static final long serialVersionUID = -7692721999904166343L;
 
     public AsymmetricException() {
     }

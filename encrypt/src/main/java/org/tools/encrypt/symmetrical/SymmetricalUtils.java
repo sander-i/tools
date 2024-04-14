@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.AlgorithmModeEnum;
 import org.tools.encrypt.CipherUtils;
-import org.tools.encrypt.exception.EncryptException;
+import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 
 import javax.crypto.*;
 import java.nio.charset.StandardCharsets;
@@ -92,7 +92,7 @@ public class SymmetricalUtils {
         return new String(todo);
     }
 
-    public static String encode(String algorithm, String algorithmMode, SecretKey secretKey, String ivParameter, String raw) throws EncryptException {
+    public static String encode(String algorithm, String algorithmMode, SecretKey secretKey, String ivParameter, String raw) throws SymmetricalException {
         // 加密前处理
         byte[] before = encryptBefore(raw);
         // 执行加密
@@ -104,11 +104,11 @@ public class SymmetricalUtils {
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | InvalidAlgorithmParameterException e) {
             log.error("encode error! algorithm {}, algorithmMode {}, secretKey {}, ivParameter {}, mode Cipher.ENCRYPT_MODE , before {}", algorithm, algorithmMode, secretKey, ivParameter, before);
-            throw new EncryptException(e);
+            throw new SymmetricalException(e);
         }
     }
 
-    public static String decode(String algorithm, String algorithmMode, SecretKey secretKey, String ivParameter, String wrought) throws EncryptException {
+    public static String decode(String algorithm, String algorithmMode, SecretKey secretKey, String ivParameter, String wrought) throws SymmetricalException {
         // 解密前处理
         byte[] before = decryptBefore(wrought);
         // 执行解密
@@ -120,9 +120,8 @@ public class SymmetricalUtils {
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | InvalidAlgorithmParameterException e) {
             log.error("decode error! algorithm {}, algorithmMode {}, secretKey {}, ivParameter {}, mode Cipher.ENCRYPT_MODE , before {}", algorithm, algorithmMode, secretKey, ivParameter, before);
-            throw new EncryptException(e);
+            throw new SymmetricalException(e);
         }
     }
-
 
 }

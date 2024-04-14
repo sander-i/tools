@@ -6,6 +6,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.EncryptKeyGenerator;
 import org.tools.encrypt.exception.EncryptException;
+import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -49,7 +50,7 @@ public class RsaKeyGenerator {
     /**
      * 初始化密钥生成器对象
      */
-    private static void init() throws EncryptException {
+    private static void init() throws RsaException {
         if (BaseUtils.isNull(keyPairGenerator, keyPair)) {
             // 线程安全
             synchronized (LOCK) {
@@ -61,7 +62,7 @@ public class RsaKeyGenerator {
                     keyPair = keyPairGenerator.generateKeyPair();
                 } catch (NoSuchAlgorithmException e) {
                     log.error(e.getLocalizedMessage());
-                    throw new EncryptException(e);
+                    throw new RsaException(e);
                 }
             }
         }
@@ -72,7 +73,7 @@ public class RsaKeyGenerator {
      *
      * @return SecretKey
      */
-    public static KeyPair getKeyPair() throws EncryptException {
+    public static KeyPair getKeyPair() throws RsaException {
         init();
 
         return keyPair;
@@ -83,7 +84,7 @@ public class RsaKeyGenerator {
      *
      * @return PublicKey
      */
-    public static PublicKey getPublicKey() throws EncryptException {
+    public static PublicKey getPublicKey() throws RsaException {
         return getKeyPair().getPublic();
     }
 
@@ -92,7 +93,7 @@ public class RsaKeyGenerator {
      *
      * @return PublicKey
      */
-    public static PrivateKey getPrivateKey() throws EncryptException {
+    public static PrivateKey getPrivateKey() throws RsaException {
         return getKeyPair().getPrivate();
     }
 
@@ -181,7 +182,7 @@ public class RsaKeyGenerator {
      *
      * @return RsaProperties
      */
-    public static RsaProperties getRsaProperties() throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static RsaProperties getRsaProperties() throws EncryptException {
         initProperties();
 
         if (BaseUtils.isEmpty(properties.getPublicKey(), properties.getPrivateKey()) ||

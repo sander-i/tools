@@ -10,8 +10,9 @@ import org.tools.encrypt.exception.EncryptException;
  * @description 基础加密异常
  * @scope encrypt
  */
-@Deprecated
 public class BasicException extends EncryptException {
+
+    private static final long serialVersionUID = 2339059965938356778L;
 
     public BasicException() {
     }
