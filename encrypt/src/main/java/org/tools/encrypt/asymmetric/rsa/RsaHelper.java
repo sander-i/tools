@@ -74,21 +74,10 @@ public class RsaHelper {
 
     public static String encode(String raw) throws EncryptException {
         return RsaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getRsaPublicKey(), properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
-
     }
 
     public static String decode(String wrought) throws EncryptException {
         return RsaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getRsaPrivateKey(), properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
-
-    }
-
-    public static String sign(String wrought) throws EncryptException {
-        return RsaUtils.sign(properties.getSignAlgorithm(), properties.getRsaPrivateKey(), wrought);
-    }
-
-    public static Boolean verify(String wrought, String sign) throws EncryptException {
-        return RsaUtils.verify(properties.getSignAlgorithm(), properties.getRsaPublicKey(), wrought, sign);
-
     }
 
     public static String encode(String publicKey, String raw) throws EncryptException {
@@ -100,10 +89,6 @@ public class RsaHelper {
         }
     }
 
-    public static String encode(PublicKey publicKey, String raw) throws EncryptException {
-        return RsaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), publicKey, properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
-    }
-
     public static String decode(String privateKey, String wrought) throws EncryptException {
         try {
             return decode(RsaKeyGenerator.getPrivateKey(privateKey), wrought);
@@ -113,23 +98,29 @@ public class RsaHelper {
         }
     }
 
+    public static String encode(PublicKey publicKey, String raw) throws EncryptException {
+        return RsaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), publicKey, properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
+    }
+
     public static String decode(PrivateKey privateKey, String wrought) throws EncryptException {
         return RsaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), privateKey, properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
     }
 
+    public static String sign(String wrought) throws EncryptException {
+        return RsaUtils.sign(properties.getSignAlgorithm(), properties.getRsaPrivateKey(), wrought);
+    }
+
+    public static Boolean verify(String wrought, String sign) throws EncryptException {
+        return RsaUtils.verify(properties.getSignAlgorithm(), properties.getRsaPublicKey(), wrought, sign);
+    }
+
     public static String sign(String privateKey, String wrought) throws EncryptException {
-        String signText;
         try {
-            signText = sign(RsaKeyGenerator.getPrivateKey(privateKey), wrought);
+            return sign(RsaKeyGenerator.getPrivateKey(privateKey), wrought);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | EncryptException e) {
             log.error(e.getLocalizedMessage());
             throw new EncryptException(e);
         }
-        return signText;
-    }
-
-    public static String sign(PrivateKey privateKey, String wrought) throws EncryptException {
-        return RsaUtils.sign(properties.getSignAlgorithm(), privateKey, wrought);
     }
 
     public static Boolean verify(String publicKey, String wrought, String sign) throws EncryptException {
@@ -139,6 +130,10 @@ public class RsaHelper {
             log.error(e.getLocalizedMessage());
             throw new EncryptException(e);
         }
+    }
+
+    public static String sign(PrivateKey privateKey, String wrought) throws EncryptException {
+        return RsaUtils.sign(properties.getSignAlgorithm(), privateKey, wrought);
     }
 
     public static Boolean verify(PublicKey publicKey, String wrought, String sign) throws EncryptException {

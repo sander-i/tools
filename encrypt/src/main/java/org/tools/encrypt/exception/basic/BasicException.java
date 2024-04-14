@@ -6,7 +6,7 @@ import org.tools.encrypt.exception.EncryptException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/12 15:30
+ * @date 2023/03/12
  * @description 基础加密异常
  * @scope encrypt
  */

@@ -6,7 +6,7 @@ import org.tools.encrypt.AlgorithmEnum;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 15:09
+ * @date 2023/02/19
  * @description Md5加密属性
  * @scope md5
  */

@@ -1,17 +1,14 @@
 package org.tools.spring.boot.encrypt.autoconfiguration;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.tools.encrypt.symmetrical.des.Des;
-import org.tools.encrypt.symmetrical.des.DesProperties;
-import org.tools.encrypt.symmetrical.des.factory.DesFactory;
-
-import javax.annotation.Resource;
+import org.tools.encrypt.entity.Encrypt;
 
 /**
  * @author sander
@@ -20,32 +17,30 @@ import javax.annotation.Resource;
  * @description des 自动配置类
  * @scope spring boot
  */
-@Deprecated
 @Configuration
-@ConditionalOnClass({DesProperties.class})
-@EnableConfigurationProperties({DesProperties.class})
+@ConditionalOnClass({Encrypt.class})
+@EnableConfigurationProperties({Encrypt.class})
 // 存在对应配置信息时初始化该配置类
 @ConditionalOnProperty
         (
                 //存在配置前缀
-                value = "tools.encrypt.symmetrical.des.secret-key"
+                value = "tools.encrypt"
         )
 @Slf4j
-public class DesAutoConfiguration {
+public class EncryptAutoConfiguration {
 
-    @Resource
-    DesProperties desProperties;
+    @Autowired
+    Encrypt encrypt;
 
     @Bean
-    @ConditionalOnMissingBean(name = {"desTemplate"})
+    @ConditionalOnMissingBean(name = {"encryptTemplate"})
     /**
      * 始终只有一个实例化对象
      *
      * @return Des
      */
-    public Des automaticInjection() {
-        // des工厂获取实现类
-        return DesFactory.newInstance(desProperties);
+    public Encrypt automaticInjection() {
+        return encrypt;
     }
 
 }

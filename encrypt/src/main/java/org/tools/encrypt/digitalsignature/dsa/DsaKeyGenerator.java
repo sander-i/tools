@@ -1,10 +1,13 @@
 package org.tools.encrypt.digitalsignature.dsa;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.tools.bedrock.util.BaseUtils;
+import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.EncryptKeyGenerator;
-import org.tools.encrypt.exception.digitalsignature.dsa.DsaException;
+import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -14,11 +17,10 @@ import java.security.spec.X509EncodedKeySpec;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/09/13 17:23
+ * @date 2023/09/13
  * @description dsa密钥生成器
  * @scope dsa
  */
-@Deprecated
 @Slf4j
 public class DsaKeyGenerator {
 
@@ -29,14 +31,20 @@ public class DsaKeyGenerator {
      * 锁对象
      */
     private static final Object LOCK = new Object();
-    /**
-     * Dsa 配置文件
-     */
-    private static DsaProperties dsaProperties;
+
+    @Getter
+    @Setter
+    private static String algorithm = AlgorithmEnum.DSA.getAlgorithm();
+
+    @Getter
+    @Setter
+    private static int keyBits = 1024;
+
     /**
      * 密钥对生成器
      */
     private static KeyPairGenerator keyPairGenerator;
+
     /**
      * 密钥对
      */
@@ -45,19 +53,19 @@ public class DsaKeyGenerator {
     /**
      * 初始化密钥生成器对象
      */
-    private static void init() throws DsaException {
+    private static void init() throws DigitalSignatureException {
         if (BaseUtils.isNull(keyPairGenerator, keyPair)) {
             // 线程安全
             synchronized (LOCK) {
                 try {
                     if (BaseUtils.isNull(keyPairGenerator, keyPair)) {
-                        keyPairGenerator = EncryptKeyGenerator.getKeyPairGenerator(DsaProperties.ALGORITHM);
-                        keyPairGenerator.initialize(dsaProperties.getKeyBits());
+                        keyPairGenerator = EncryptKeyGenerator.getKeyPairGenerator(algorithm);
+                        keyPairGenerator.initialize(keyBits);
                     }
                     keyPair = keyPairGenerator.generateKeyPair();
                 } catch (NoSuchAlgorithmException e) {
                     log.error(e.getLocalizedMessage());
-                    throw new DsaException(e);
+                    throw new DigitalSignatureException(e);
                 }
             }
         }
@@ -68,7 +76,7 @@ public class DsaKeyGenerator {
      *
      * @return SecretKey
      */
-    public static KeyPair getKeyPair() throws DsaException {
+    public static KeyPair getKeyPair() throws DigitalSignatureException {
         init();
         return keyPair;
     }
@@ -78,7 +86,7 @@ public class DsaKeyGenerator {
      *
      * @return PublicKey
      */
-    public static PublicKey getPublicKey() throws DsaException {
+    public static PublicKey getPublicKey() throws DigitalSignatureException {
         return getKeyPair().getPublic();
     }
 
@@ -87,7 +95,7 @@ public class DsaKeyGenerator {
      *
      * @return PublicKey
      */
-    public static PrivateKey getPrivateKey() throws DsaException {
+    public static PrivateKey getPrivateKey() throws DigitalSignatureException {
         return getKeyPair().getPrivate();
     }
 
@@ -96,7 +104,7 @@ public class DsaKeyGenerator {
      *
      * @return String
      */
-    public static String getPublicKeyStr() throws DsaException {
+    public static String getPublicKeyStr() throws DigitalSignatureException {
         return Base64.encodeBase64String(getKeyPair().getPublic().getEncoded());
     }
 
@@ -105,7 +113,7 @@ public class DsaKeyGenerator {
      *
      * @return String
      */
-    public static String getPrivateKeyStr() throws DsaException {
+    public static String getPrivateKeyStr() throws DigitalSignatureException {
         return Base64.encodeBase64String(getKeyPair().getPrivate().getEncoded());
     }
 
@@ -133,8 +141,8 @@ public class DsaKeyGenerator {
      * @param publicKey 公钥
      * @return PublicKey
      */
-    public static PublicKey getPublicKey(String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        KeyFactory keyFactory = KeyFactory.getInstance(DsaProperties.ALGORITHM);
+    public static PublicKey getPublicKey(String algorithm, String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
         byte[] decodedKey = Base64.decodeBase64(publicKey.getBytes());
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
         return keyFactory.generatePublic(keySpec);
@@ -146,39 +154,11 @@ public class DsaKeyGenerator {
      * @param privateKey 私钥
      * @return PrivateKey
      */
-    public static PrivateKey getPrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        KeyFactory keyFactory = KeyFactory.getInstance(DsaProperties.ALGORITHM);
+    public static PrivateKey getPrivateKey(String algorithm, String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
         byte[] decodedKey = Base64.decodeBase64(privateKey.getBytes());
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
         return keyFactory.generatePrivate(keySpec);
-    }
-
-    /**
-     * 单例模式-线程安全
-     */
-    private static void newInstance() {
-        if (BaseUtils.isNull(dsaProperties)) {
-            // 线程安全
-            synchronized (LOCK) {
-                if (BaseUtils.isNull(dsaProperties)) {
-                    dsaProperties = new DsaProperties();
-                }
-            }
-        }
-    }
-
-    /**
-     * 获取Dsa配置文件
-     *
-     * @return DsaProperties
-     */
-    public static DsaProperties getDsaProperties() throws DsaException {
-        newInstance();
-        if (BaseUtils.isNull(dsaProperties.getPublicKey(), dsaProperties.getPrivateKey())) {
-            dsaProperties.setPublicKey(getPublicKeyStr());
-            dsaProperties.setPrivateKey(getPrivateKeyStr());
-        }
-        return dsaProperties;
     }
 
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.AlgorithmModeEnum;
+import org.tools.encrypt.SignAlgorithmEnum;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -11,7 +12,7 @@ import java.security.PublicKey;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/09/11 17:22
+ * @date 2023/09/11
  * @description rsa加密配置文件
  * @scope rsa
  */
@@ -37,7 +38,7 @@ public class RsaProperties {
     /**
      * 验签算法
      */
-    private String signAlgorithm = AlgorithmEnum.MD5withRSA.getAlgorithm();
+    private String signAlgorithm = SignAlgorithmEnum.MD5_WITH_RSA.getSignAlgorithm();
 
     /**
      * 密钥位数

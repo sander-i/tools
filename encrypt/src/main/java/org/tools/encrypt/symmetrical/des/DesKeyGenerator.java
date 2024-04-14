@@ -18,7 +18,7 @@ import java.security.spec.InvalidKeySpecException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/03 11:27
+ * @date 2023/03/03
  * @description des密钥生成工具
  * @scope des
  */
