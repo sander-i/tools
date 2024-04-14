@@ -8,8 +8,8 @@ import java.util.Arrays;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/28 21:37
- * @description 描述
+ * @date 2024/03/28
+ * @description 算法
  * @scope 作用域
  */
 @Getter
@@ -44,9 +44,9 @@ public enum AlgorithmEnum {
     AES("AES"),
 
     /**
-     * DIGITAL_SIGNATURE
+     * DSA
      */
-    MD5withRSA("MD5withRSA"),
+    DSA("DSA"),
     ;
 
     private final String algorithm;

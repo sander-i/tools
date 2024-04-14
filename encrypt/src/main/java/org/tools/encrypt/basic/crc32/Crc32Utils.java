@@ -5,7 +5,7 @@ import java.util.zip.CRC32;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/28 21:47
+ * @date 2024/03/28
  * @description crc32 校验工具类
  * @scope all
  */
