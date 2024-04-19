@@ -17,7 +17,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Inherit
 public class BaseBean {
 
     private Long id;

@@ -310,7 +310,7 @@ public class ClassUtils {
                 getReadMethod(fieldName, cls);
                 fieldList.add(field);
             } catch (IntrospectionException e) {
-                log.debug(e.getMessage(), e);
+                log.info(e.getMessage(), e);
             }
         }
         return fieldList.toArray(new Field[0]);
@@ -504,7 +504,7 @@ public class ClassUtils {
             try {
                 fetchField(field, clz, fieldMap);
             } catch (IntrospectionException e) {
-                log.error(e.getLocalizedMessage(), e);
+                log.info(e.getLocalizedMessage(), e);
             }
         }
     }

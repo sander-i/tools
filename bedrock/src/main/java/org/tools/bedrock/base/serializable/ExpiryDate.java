@@ -20,7 +20,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
 public class ExpiryDate implements Serializable {
 
     private static final long serialVersionUID = 7502769832110568563L;
