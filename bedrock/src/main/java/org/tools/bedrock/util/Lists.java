@@ -73,25 +73,6 @@ public class Lists {
 
     /**
      * ArrayList 集合反转
-     * <p>
-     * Collections.reverse(list);
-     * </p>
-     *
-     * @param list List<T>
-     * @return List<T>
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use Lists.reversalStream(list).
-     */
-    @Deprecated
-    public static <T> List<T> reversal(List<T> list) {
-        List<T> reversal = new ArrayList<>();
-        for (int i = list.size() - 1; i > -1; i--) {
-            reversal.add(list.get(i));
-        }
-        return reversal;
-    }
-
-    /**
-     * ArrayList 集合反转
      * jdk1.8新特性 stream流
      *
      * @param list List<T>
@@ -101,28 +82,6 @@ public class Lists {
         return list.stream()
                 .sorted(Collections.reverseOrder())
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * 提取list
-     *
-     * @param list list集合
-     * @param clz  提取泛型class
-     * @param <T>  泛型
-     * @return List<T>
-     * @deprecated This method is deprecated and should not be used anymore. Recommended use Lists.extractGenericListStream(list, clz).
-     */
-    @Deprecated
-    public static <T> List<T> extractGenericList(List<T> list, Class<T> clz) {
-        List<T> extract = new ArrayList<>();
-        if (BaseUtils.isNotEmpty(list, clz)) {
-            list.forEach(o -> {
-                if (clz.getTypeName().equals(o.getClass().getTypeName())) {
-                    extract.add(o);
-                }
-            });
-        }
-        return extract;
     }
 
     /**
