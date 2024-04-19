@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -65,8 +66,12 @@ public class CopyUtil {
                 Collections.emptySet() : new HashSet<>(Arrays.asList(ignoreProperties));
         // 过滤忽略属性
         List<Field> commonFieldList = Arrays.stream(commonFields)
-                .filter(field -> !ignoreSet.contains(field.getName()))
-                .collect(Collectors.toList());
+                .filter(commonField -> {
+                    AtomicBoolean isIgnore = new AtomicBoolean(true);
+                    ignoreSet.forEach(ignore -> isIgnore.set(!ignore.equals(commonField.getName())));
+                    return isIgnore.get();
+                }).collect(Collectors.toList());
+
         for (Field field : commonFieldList) {
             try {
                 // 获取源对象处理布尔类型后的属性值
@@ -203,10 +208,11 @@ public class CopyUtil {
     }
 
     /**
-     * @param source 源对象
-     * @param clz    目标对象类信息
-     * @param <S>    源对象泛型
-     * @param <T>    目标对象泛型
+     * @param source           源对象
+     * @param clz              目标对象类信息
+     * @param ignoreProperties 忽略属性
+     * @param <S>              源对象泛型
+     * @param <T>              目标对象泛型
      * @return 目标对象
      */
     public static <S, T> T copyCurrentObj(S source, Class<T> clz, String... ignoreProperties) {
