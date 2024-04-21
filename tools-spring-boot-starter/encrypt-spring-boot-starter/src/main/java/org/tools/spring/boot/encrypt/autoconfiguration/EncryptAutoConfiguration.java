@@ -30,7 +30,7 @@ import org.tools.encrypt.entity.Encrypt;
 public class EncryptAutoConfiguration {
 
     @Autowired
-    Encrypt encrypt;
+    private Encrypt encrypt;
 
     @Bean
     @ConditionalOnMissingBean(name = {"encryptTemplate"})

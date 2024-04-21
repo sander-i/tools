@@ -3,12 +3,14 @@ package org.tools.encrypt.symmetrical.aes;
 import lombok.Getter;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.entity.KeyPair;
+import org.tools.encrypt.entity.symmetrical.Aes;
 import org.tools.encrypt.exception.symmetrical.aes.AesException;
 
 import javax.crypto.SecretKey;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 /**
  * <p>
@@ -25,6 +27,45 @@ public class AesHelper {
     @Getter
     private static AesProperties properties;
 
+    private static void init(Aes aes, KeyPair keyPair) {
+        if (BaseUtils.isEmpty(keyPair.getKeyBits())) {
+            keyPair.setKeyBits(aes.getKeyBits());
+        }
+        if (BaseUtils.isEmpty(keyPair.getAlgorithm())) {
+            keyPair.setAlgorithm(aes.getAlgorithm());
+        }
+        if (BaseUtils.isEmpty(keyPair.getAlgorithmMode())) {
+            keyPair.setAlgorithmMode(aes.getAlgorithmMode());
+        }
+        if (BaseUtils.isEmpty(keyPair.getSignAlgorithm())) {
+            keyPair.setSignAlgorithm(aes.getSignAlgorithm());
+        }
+    }
+
+    public static void load(KeyPair keyPair, String name) throws AesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+        if (BaseUtils.isEmpty(keyPair)) {
+            throw new AesException("keyPair 不能为空！");
+        }
+        if (!(keyPair instanceof Aes)) {
+            throw new AesException("load(KeyPair keyPair, String name) 需要传入 KeyPair 子类 Aes ！");
+        }
+        Aes aes = (Aes) keyPair;
+        if (!aes.getEnable()) {
+            throw new AesException("Aes enable: false");
+        }
+        if (aes.getGroupEnable()) {
+            List<KeyPair> groupList = aes.getGroup();
+            for (KeyPair group : groupList) {
+                if (name.equals(group.getName())) {
+                    init(aes, group);
+                    load(group);
+                    return;
+                }
+            }
+        }
+        load(keyPair);
+    }
+
     public static void load(KeyPair keyPair) throws AesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new AesException("keyPair 不能为空！");
@@ -36,6 +77,7 @@ public class AesHelper {
         properties.setAlgorithm(keyPair.getAlgorithm());
         properties.setAlgorithmMode(keyPair.getAlgorithmMode());
         properties.setIvParameter(keyPair.getIvParameter());
+        properties.setKeyBits(keyPair.getKeyBits());
         load(properties);
     }
 
