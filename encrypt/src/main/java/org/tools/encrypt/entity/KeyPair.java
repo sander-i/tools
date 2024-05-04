@@ -12,6 +12,9 @@ import lombok.Data;
 @Data
 public class KeyPair {
 
+    /**
+     * 名称
+     */
     private String name;
 
     /**

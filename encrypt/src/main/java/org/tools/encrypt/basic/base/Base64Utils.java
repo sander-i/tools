@@ -15,18 +15,18 @@ public class Base64Utils {
     private Base64Utils() {
     }
 
-    protected final Base64.Decoder decoder = Base64.getDecoder();
-    protected final Base64.Encoder encoder = Base64.getEncoder();
+    protected static final Base64.Decoder decoder = Base64.getDecoder();
+    protected static final Base64.Encoder encoder = Base64.getEncoder();
 
-    public String encode(byte[] raw) {
+    public static String encode(byte[] raw) {
         return encoder.encodeToString(raw);
     }
 
-    public String encode(String raw) {
+    public static String encode(String raw) {
         return encode(raw.getBytes());
     }
 
-    public String decode(String wrought) {
+    public static String decode(String wrought) {
         return new String(decoder.decode(wrought), StandardCharsets.UTF_8);
     }
 

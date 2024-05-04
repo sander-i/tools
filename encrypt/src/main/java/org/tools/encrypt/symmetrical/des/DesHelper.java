@@ -50,10 +50,10 @@ public class DesHelper {
             throw new DesException("load(KeyPair keyPair, String name) 需要传入 KeyPair 子类 Des ！");
         }
         Des des = (Des) keyPair;
-        if (!des.getEnable()) {
+        if (!des.getEnabled()) {
             throw new DesException("Des enable: false");
         }
-        if (des.getGroupEnable()) {
+        if (des.getGroupEnabled()) {
             List<KeyPair> groupList = des.getGroup();
             for (KeyPair group : groupList) {
                 if (name.equals(group.getName())) {

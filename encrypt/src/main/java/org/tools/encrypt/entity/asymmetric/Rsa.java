@@ -2,7 +2,7 @@ package org.tools.encrypt.entity.asymmetric;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.tools.encrypt.entity.KeyPair;
 
 import java.util.List;
@@ -15,11 +15,14 @@ import java.util.List;
  * @author sander 2024/03/15
  */
 @EqualsAndHashCode(callSuper = true)
-@Slf4j
 @Data
+@ConfigurationProperties(prefix = "tools.encrypt.asymmetric.rsa")
 public class Rsa extends KeyPair {
 
-    private Boolean enable;
+    /**
+     * 是否启用
+     */
+    private Boolean enabled = false;
 
     /**
      * 算法模式
@@ -70,8 +73,14 @@ public class Rsa extends KeyPair {
      */
     private String privateKey;
 
-    private Boolean groupEnable;
+    /**
+     * 分组是否启用
+     */
+    private Boolean groupEnabled = false;
 
+    /**
+     * 分组
+     */
     private List<KeyPair> group;
 
 }

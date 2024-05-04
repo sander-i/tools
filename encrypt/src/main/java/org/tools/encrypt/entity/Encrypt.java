@@ -17,8 +17,14 @@ import org.tools.encrypt.entity.symmetrical.Symmetrical;
 @ConfigurationProperties(prefix = "tools.encrypt")
 public class Encrypt {
 
+    /**
+     * 非对称加密
+     */
     private Asymmetric asymmetric;
 
+    /**
+     * 对称加密
+     */
     private Symmetrical symmetrical;
 
 }
