@@ -4,16 +4,15 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.entity.KeyPair;
+import org.tools.encrypt.entity.asymmetric.Rsa;
 import org.tools.encrypt.exception.EncryptException;
 import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -35,6 +34,45 @@ public class RsaHelper {
     protected static Signature signature;
     protected static Cipher publicCipher;
     protected static Cipher privateCipher;
+
+    private static void init(Rsa rsa, KeyPair keyPair) {
+        if (BaseUtils.isEmpty(keyPair.getKeyBits())) {
+            keyPair.setKeyBits(rsa.getKeyBits());
+        }
+        if (BaseUtils.isEmpty(keyPair.getAlgorithm())) {
+            keyPair.setAlgorithm(rsa.getAlgorithm());
+        }
+        if (BaseUtils.isEmpty(keyPair.getAlgorithmMode())) {
+            keyPair.setAlgorithmMode(rsa.getAlgorithmMode());
+        }
+        if (BaseUtils.isEmpty(keyPair.getSignAlgorithm())) {
+            keyPair.setSignAlgorithm(rsa.getSignAlgorithm());
+        }
+    }
+
+    public static void load(KeyPair keyPair, String name) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException {
+        if (BaseUtils.isEmpty(keyPair)) {
+            throw new RsaException("keyPair 不能为空！");
+        }
+        if (!(keyPair instanceof Rsa)) {
+            throw new RsaException("load(KeyPair keyPair, String name) 需要传入 KeyPair 子类 Rsa ！");
+        }
+        Rsa rsa = (Rsa) keyPair;
+        if (!rsa.getEnabled()) {
+            throw new RsaException("Aes enable: false");
+        }
+        if (rsa.getGroupEnabled()) {
+            List<KeyPair> groupList = rsa.getGroup();
+            for (KeyPair group : groupList) {
+                if (name.equals(group.getName())) {
+                    init(rsa, group);
+                    load(group);
+                    return;
+                }
+            }
+        }
+        load(keyPair);
+    }
 
     public static void load(KeyPair keyPair) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         if (BaseUtils.isEmpty(keyPair)) {

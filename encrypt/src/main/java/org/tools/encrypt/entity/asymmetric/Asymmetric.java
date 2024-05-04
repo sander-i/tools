@@ -1,7 +1,7 @@
 package org.tools.encrypt.entity.asymmetric;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * <p>
@@ -10,10 +10,13 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author sander 2024/03/15
  */
-@Slf4j
 @Data
+@ConfigurationProperties(prefix = "tools.encrypt.asymmetric")
 public class Asymmetric {
 
+    /**
+     * RSA
+     */
     private Rsa rsa;
 
 }

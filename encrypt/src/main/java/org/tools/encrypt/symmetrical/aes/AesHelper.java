@@ -50,10 +50,10 @@ public class AesHelper {
             throw new AesException("load(KeyPair keyPair, String name) 需要传入 KeyPair 子类 Aes ！");
         }
         Aes aes = (Aes) keyPair;
-        if (!aes.getEnable()) {
+        if (!aes.getEnabled()) {
             throw new AesException("Aes enable: false");
         }
-        if (aes.getGroupEnable()) {
+        if (aes.getGroupEnabled()) {
             List<KeyPair> groupList = aes.getGroup();
             for (KeyPair group : groupList) {
                 if (name.equals(group.getName())) {

@@ -37,8 +37,8 @@ public class AesHelperTest extends TestCase {
 //        System.out.println("decode: " + decode);
 
         Aes aes = new Aes();
-        aes.setEnable(true);
-        aes.setGroupEnable(true);
+        aes.setEnabled(true);
+        aes.setGroupEnabled(true);
         aes.setSecretKey(AesKeyGenerator.getSecretKeyStr(secretKey));
         aes.setIvParameter("1234567812345678");
 

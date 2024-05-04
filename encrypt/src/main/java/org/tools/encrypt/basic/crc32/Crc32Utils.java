@@ -14,9 +14,9 @@ public class Crc32Utils {
     private Crc32Utils() {
     }
 
-    private final CRC32 crc32 = new CRC32();
+    private static final CRC32 crc32 = new CRC32();
 
-    public long encode(byte[] raw) {
+    public static long encode(byte[] raw) {
         crc32.update(raw);
         return crc32.getValue();
     }
