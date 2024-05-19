@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.bedrock.util.ClassUtils;
-import org.tools.bedrock.util.DateUtils;
+import org.tools.bedrock.util.date.DateUtils;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -79,7 +79,7 @@ public class JSONUtils {
         // JSONObject对象数据转换为Map集合
         Map<String, Object> jsonObjInnerMap = jsonObj.getInnerMap();
         // 获取当前对象class
-        Class<?> cls = ClassUtils.newClass(obj);
+        Class<?> cls = obj.getClass();
         // 获取当前对象所有属性(包含父类属性)
         Field[] fields = ClassUtils.getAllDeclaredFields(cls);
         // set写入方法
@@ -104,7 +104,7 @@ public class JSONUtils {
                     setMethod = pd.getWriteMethod();
 
                     /* java类 */
-                    if (fieldType.contains("java") || ClassUtils.containBaseType(fieldType)) {
+                    if (fieldType.contains("java") || ClassUtils.isBaseClass(fieldType)) {
 
                         /* java工具类 */
                         if (fieldType.contains("util")) {

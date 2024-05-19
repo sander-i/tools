@@ -39,7 +39,7 @@ public class Maps {
      * @return boolean
      */
     public static boolean isNotEmpty(Map<?, ?> map) {
-        return !isEmpty(map);
+        return map != null && !map.isEmpty();
     }
 
     /**
