@@ -19,7 +19,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
 public class Address implements Serializable {
 
     private static final long serialVersionUID = 3283872528783904171L;
