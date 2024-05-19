@@ -19,7 +19,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
 public class Identity extends BaseBean {
     private static final long serialVersionUID = 3510047205897590711L;
     /**

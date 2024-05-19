@@ -19,7 +19,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
 public class ExpiryDate {
 
     /**
