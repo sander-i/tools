@@ -16,11 +16,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
+ * des密钥生成工具
+ *
  * @author sander
  * @version 1.0
- * @date 2023/03/03
- * @description des密钥生成工具
- * @scope des
  */
 @Slf4j
 public class AesKeyGenerator {
@@ -70,6 +69,7 @@ public class AesKeyGenerator {
      * 获取密钥对象
      *
      * @return SecretKey
+     * @throws AesException AES加解密异常
      */
     public static SecretKey getSecretKey() throws AesException {
         init();
@@ -79,7 +79,8 @@ public class AesKeyGenerator {
     /**
      * 获取密钥字符串
      *
-     * @return String
+     * @param secretKey 密钥对象
+     * @return 密钥字符串
      */
     public static String getSecretKeyStr(SecretKey secretKey) {
         return Hex.encodeHexString(secretKey.getEncoded());
@@ -88,7 +89,12 @@ public class AesKeyGenerator {
     /**
      * 获取密钥对象
      *
-     * @return SecretKey
+     * @param algorithm 算法
+     * @param secretKey 密钥字符串
+     * @return 密钥对象
+     * @throws InvalidKeyException      无效密钥异常
+     * @throws NoSuchAlgorithmException 算法不存在或不支持异常
+     * @throws InvalidKeySpecException  无效的密钥规范异常
      */
     public static SecretKey getSecretKey(String algorithm, String secretKey) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] secretKeyBytes = secretKey.getBytes(StandardCharsets.UTF_8);

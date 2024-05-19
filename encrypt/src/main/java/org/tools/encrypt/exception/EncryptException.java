@@ -6,9 +6,6 @@ import org.tools.bedrock.exception.ToolsException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/07
- * @description 加密异常
- * @scope encrypt
  */
 public class EncryptException extends ToolsException {
 

@@ -6,9 +6,6 @@ import java.util.Base64;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/28 21:44
- * @description 描述
- * @scope 作用域
  */
 public class Base64Utils {
 

@@ -6,9 +6,6 @@ import org.tools.encrypt.exception.EncryptException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/07
- * @description 对称加密异常
- * @scope encrypt
  */
 public class SymmetricalException extends EncryptException {
 

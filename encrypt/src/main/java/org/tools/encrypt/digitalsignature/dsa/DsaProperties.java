@@ -11,9 +11,6 @@ import java.security.PublicKey;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/09/13
- * @description dsa签名配置文件
- * @scope dsa
  */
 @Slf4j
 @Data

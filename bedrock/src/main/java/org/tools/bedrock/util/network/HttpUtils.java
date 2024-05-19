@@ -17,9 +17,6 @@ import java.util.Map;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/28 20:28
- * @description 原生java http工具
- * @scope all
  */
 @Slf4j
 public class HttpUtils {

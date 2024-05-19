@@ -17,9 +17,6 @@ import java.security.spec.X509EncodedKeySpec;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/09/13
- * @description dsa密钥生成器
- * @scope dsa
  */
 @Slf4j
 public class DsaKeyGenerator {
@@ -75,6 +72,7 @@ public class DsaKeyGenerator {
      * 获取密钥对象
      *
      * @return SecretKey
+     * @throws DigitalSignatureException 签名异常
      */
     public static KeyPair getKeyPair() throws DigitalSignatureException {
         init();
@@ -85,6 +83,7 @@ public class DsaKeyGenerator {
      * 获取公钥
      *
      * @return PublicKey
+     * @throws DigitalSignatureException 签名异常
      */
     public static PublicKey getPublicKey() throws DigitalSignatureException {
         return getKeyPair().getPublic();
@@ -94,6 +93,7 @@ public class DsaKeyGenerator {
      * 获取私钥
      *
      * @return PublicKey
+     * @throws DigitalSignatureException 签名异常
      */
     public static PrivateKey getPrivateKey() throws DigitalSignatureException {
         return getKeyPair().getPrivate();
@@ -103,6 +103,7 @@ public class DsaKeyGenerator {
      * 获取公钥
      *
      * @return String
+     * @throws DigitalSignatureException 签名异常
      */
     public static String getPublicKeyStr() throws DigitalSignatureException {
         return Base64.encodeBase64String(getKeyPair().getPublic().getEncoded());
@@ -111,7 +112,8 @@ public class DsaKeyGenerator {
     /**
      * 获取私钥
      *
-     * @return String
+     * @return 私钥字符串
+     * @throws DigitalSignatureException 签名异常
      */
     public static String getPrivateKeyStr() throws DigitalSignatureException {
         return Base64.encodeBase64String(getKeyPair().getPrivate().getEncoded());
@@ -120,7 +122,8 @@ public class DsaKeyGenerator {
     /**
      * 获取公钥
      *
-     * @return String
+     * @param publicKey 公钥对象
+     * @return 公钥对象
      */
     public static String getPublicKeyStr(PublicKey publicKey) {
         return Base64.encodeBase64String(publicKey.getEncoded());
@@ -129,7 +132,8 @@ public class DsaKeyGenerator {
     /**
      * 获取私钥
      *
-     * @return String
+     * @param privateKey 私钥对象
+     * @return 私钥字符串
      */
     public static String getPrivateKeyStr(PrivateKey privateKey) {
         return Base64.encodeBase64String(privateKey.getEncoded());
@@ -138,8 +142,11 @@ public class DsaKeyGenerator {
     /**
      * 获取公钥
      *
-     * @param publicKey 公钥
-     * @return PublicKey
+     * @param algorithm 算法
+     * @param publicKey 公钥字符串
+     * @return 公钥对象
+     * @throws NoSuchAlgorithmException 算法不存在或不支持异常
+     * @throws InvalidKeySpecException  无效的密钥规范异常
      */
     public static PublicKey getPublicKey(String algorithm, String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
@@ -151,8 +158,11 @@ public class DsaKeyGenerator {
     /**
      * 获取私钥
      *
-     * @param privateKey 私钥
-     * @return PrivateKey
+     * @param algorithm  算法
+     * @param privateKey 私钥字符串
+     * @return 私钥对象
+     * @throws NoSuchAlgorithmException 算法不存在或不支持异常
+     * @throws InvalidKeySpecException  无效的密钥规范异常
      */
     public static PrivateKey getPrivateKey(String algorithm, String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance(algorithm);

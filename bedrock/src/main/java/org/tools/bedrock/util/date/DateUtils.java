@@ -15,9 +15,6 @@ import java.util.*;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:37
- * @description 日期类型工具
- * @scope all
  */
 @Slf4j
 public class DateUtils {
@@ -181,7 +178,8 @@ public class DateUtils {
     /**
      * 日期转字符串格式化
      *
-     * @param date 日期
+     * @param date    日期
+     * @param pattern 日期格式
      * @return String 格式化日期
      */
     public static String dateFormatStr(Date date, String pattern) {

@@ -14,9 +14,6 @@ import java.util.Map;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/18 0:28
- * @description jwt
- * @scope all
  */
 public class JWTUtils {
 

@@ -10,9 +10,6 @@ import java.util.stream.Collectors;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/12/31 11:26
- * @description 描述
- * @scope 作用域
  */
 @Slf4j
 public class CopyUtil {

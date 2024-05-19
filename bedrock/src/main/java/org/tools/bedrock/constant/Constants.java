@@ -3,9 +3,6 @@ package org.tools.bedrock.constant;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:58
- * @description 常量
- * @scope all
  */
 public class Constants {
 

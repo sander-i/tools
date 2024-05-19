@@ -17,11 +17,10 @@ import java.net.URL;
 
 
 /**
+ * 图片工具
+ *
  * @author sander
  * @version 1.0
- * @date 2023/03/23 23:21
- * @description 图片工具
- * @scope all
  */
 @Slf4j
 public class ImageUtils {

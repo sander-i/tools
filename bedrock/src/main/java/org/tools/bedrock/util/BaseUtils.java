@@ -10,9 +10,6 @@ import java.util.Map;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:40
- * @description 基础方法
- * @scope all
  */
 @Slf4j
 public class BaseUtils {
@@ -73,7 +70,7 @@ public class BaseUtils {
     /**
      * List为 空
      *
-     * @param list List<?>
+     * @param list 集合
      * @return boolean
      */
     public static boolean isEmpty(List<?> list) {
@@ -83,7 +80,7 @@ public class BaseUtils {
     /**
      * Map为 空
      *
-     * @param map Map<?, ?>
+     * @param map 集合
      * @return boolean
      */
     public static boolean isEmpty(Map<?, ?> map) {
@@ -134,7 +131,7 @@ public class BaseUtils {
     /**
      * List非 空
      *
-     * @param list List<?>
+     * @param list 集合
      * @return boolean
      */
     public static boolean isNotEmpty(List<?> list) {
@@ -144,7 +141,7 @@ public class BaseUtils {
     /**
      * Map非 空
      *
-     * @param map Map<?, ?>
+     * @param map 集合
      * @return boolean
      */
     public static boolean isNotEmpty(Map<?, ?> map) {

@@ -17,9 +17,6 @@ import java.util.*;
  *
  * @author sander
  * @version 1.0
- * @date 2023/02/19 13:28
- * @description 类工具
- * @scope all
  */
 @Slf4j
 public class ClassUtils {
@@ -86,7 +83,7 @@ public class ClassUtils {
      * 获取当前对象属性class
      *
      * @param clsTypeName 属性类型名称
-     * @return Class<?>
+     * @return class
      * @throws ClassNotFoundException 找不到类
      */
     public static Class<?> newClass(String clsTypeName) throws ClassNotFoundException {
@@ -99,7 +96,7 @@ public class ClassUtils {
      *
      * @param clsTypeName 属性类型名称
      * @param lob         接口类型
-     * @return Class<?>
+     * @return class
      * @throws ClassNotFoundException 找不到类
      */
     public static Class<?> newClass(String clsTypeName, String lob) throws ClassNotFoundException {
@@ -117,7 +114,7 @@ public class ClassUtils {
      * 获取当前对象父类属性class
      *
      * @param cls class
-     * @return Class<?>
+     * @return 父类class
      */
     public static Class<?> newSuperClass(Class<?> cls) {
         // 获取当前属性父类的class对象
@@ -128,7 +125,7 @@ public class ClassUtils {
      * 获取当前对象父类属性class
      *
      * @param cls class
-     * @return Class<?>
+     * @return 父类class
      */
     public static Class<?>[] newSupersClass(Class<?> cls) {
         boolean existSuper = true;
@@ -165,7 +162,7 @@ public class ClassUtils {
      * 获取当前对象父类属性class
      *
      * @param obj 对象
-     * @return Class<?>
+     * @return 父类class
      */
     public static Class<?> newSuperClass(Object obj) {
         // 获取当前属性父类的class对象
@@ -176,7 +173,7 @@ public class ClassUtils {
      * 获取当前对象父类属性class
      *
      * @param clsTypeName 属性类型名称
-     * @return Class<?>
+     * @return class
      * @throws ClassNotFoundException 找不到类
      */
     public static Class<?> newSuperClass(String clsTypeName) throws ClassNotFoundException {
@@ -300,6 +297,7 @@ public class ClassUtils {
      * 去除方法未找到的属性
      *
      * @param fields 属性数组
+     * @param cls    class
      * @return Field[]
      */
     public static Field[] roverMethodNotFoundDeclaredFields(Field[] fields, Class<?> cls) {
@@ -352,6 +350,7 @@ public class ClassUtils {
      * 实例化对象
      *
      * @param clsTypeName 集合属性类型名称
+     * @param lob         接口类型
      * @return Object
      * @throws ClassNotFoundException 找不到类
      * @throws InstantiationException 实例化
@@ -438,7 +437,7 @@ public class ClassUtils {
 
     /**
      * 字符串分隔符首字母大写
-     * str_separator_first_capitalize --> strSeparatorFirstCapitalize
+     * str_separator_first_capitalize = strSeparatorFirstCapitalize
      *
      * @param fieldName 字段名称
      * @return 驼峰命名法
@@ -461,7 +460,7 @@ public class ClassUtils {
 
     /**
      * 字符串首字母大写
-     * str --> Str
+     * str = Str
      *
      * @param fieldName 字段名称
      * @return 首字母大写

@@ -8,9 +8,6 @@ import java.security.NoSuchAlgorithmException;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/28
- * @description sha加密
- * @scope sha
  */
 public class ShaUtils {
 

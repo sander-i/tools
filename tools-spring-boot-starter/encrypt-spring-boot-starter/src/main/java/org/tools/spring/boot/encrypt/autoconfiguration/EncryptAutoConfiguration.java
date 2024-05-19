@@ -32,11 +32,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Objects;
 
 /**
+ * des 自动配置类
+ *
  * @author sander
  * @version 1.0
- * @date 2023/09/10 22:36
- * @description des 自动配置类
- * @scope spring boot
  */
 @Slf4j
 // 配置类

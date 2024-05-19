@@ -14,9 +14,6 @@ import java.util.Base64;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/30
- * @description 描述
- * @scope 作用域
  */
 @Slf4j
 public class AesUtils {
@@ -44,11 +41,11 @@ public class AesUtils {
      * @param stuff         待处理
      * @return byte[]
      * @throws NoSuchPaddingException             指定填充方案不存在或不支持
-     * @throws NoSuchAlgorithmException           算法不存在或不支持
+     * @throws NoSuchAlgorithmException           算法不存在或不支持异常
      * @throws InvalidKeyException                密钥错误或密钥的格式不正确
      * @throws InvalidAlgorithmParameterException 算法参数不适用于当前操作或算法参数值不适合算法
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
+     * @throws IllegalBlockSizeException          非法块大小异常
+     * @throws BadPaddingException                错误填充异常
      */
     protected static byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff)
             throws InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {

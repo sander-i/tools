@@ -7,9 +7,6 @@ import java.util.UUID;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/09/11 16:19
- * @description uuid 工具
- * @scope bedrock
  */
 public class UniqueUtils {
 
@@ -26,7 +23,7 @@ public class UniqueUtils {
      * 获取多个uuid
      *
      * @param size 数量
-     * @return List<StringBuilder>
+     * @return uuid
      */
     public List<StringBuilder> getUnique(int size) {
         List<StringBuilder> uuidList = new ArrayList<>();
@@ -49,7 +46,7 @@ public class UniqueUtils {
      * 获取格式化后的多个uuid
      *
      * @param size 数量
-     * @return List<StringBuilder>
+     * @return uuid
      */
     public List<StringBuilder> getUniqueFormatPrint(int size) {
         List<StringBuilder> uuidList = new ArrayList<>();
@@ -72,7 +69,7 @@ public class UniqueUtils {
      * 获取多个uuid
      *
      * @param size 数量
-     * @return List<String>
+     * @return uuid
      */
     public List<String> getUniqueStr(int size) {
         List<String> uuidList = new ArrayList<>();
@@ -95,7 +92,7 @@ public class UniqueUtils {
      * 获取格式化后的多个uuid
      *
      * @param size 数量
-     * @return List<String>
+     * @return uuid
      */
     public List<String> getUniqueFormatPrintStr(int size) {
         List<String> uuidList = new ArrayList<>();

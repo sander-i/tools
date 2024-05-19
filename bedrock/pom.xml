@@ -3,13 +3,53 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.tools</groupId>
+        <groupId>io.gitee.sander-o</groupId>
         <artifactId>tools</artifactId>
         <version>1.0.6</version>
     </parent>
+
     <artifactId>bedrock</artifactId>
-    <name>bedrock</name>
-    <description>bedrock</description>
+
+    <packaging>jar</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+
+    <description>Portable toolbox to make coding easier!
+        Most of the tools and methods of the project are searchable on the Internet, and the concept of this project is
+        to solve the problem that searching on the Internet is time-consuming and laborious, and it is not very easy to
+        use
+    </description>
+
+    <url>https://gitee.com/sander-o/tools</url>
+
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://gitee.com/sander-o/tools/blob/release/LICENSE</url>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>sander-o</name>
+        <url>https://gitee.com/sander-o</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>sander</id>
+            <name>sander</name>
+            <email>ailuoli.tao@gmail.com</email>
+            <roles>
+                <role>Committer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://gitee.com/sander-o/tools.git</connection>
+        <developerConnection>scm:git:git://gitee.com/sander-o/tools.git</developerConnection>
+        <url>https://gitee.com/sander-o/tools/tree/release/</url>
+    </scm>
 
     <properties>
         <spring.application.name>tools</spring.application.name>

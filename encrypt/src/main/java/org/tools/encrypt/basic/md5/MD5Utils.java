@@ -13,9 +13,6 @@ import java.security.NoSuchAlgorithmException;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/26
- * @description md5工具
- * @scope all
  */
 @Slf4j
 public class MD5Utils {
@@ -77,7 +74,7 @@ public class MD5Utils {
 
     /**
      * @param raw 原字符串
-     * @return String
+     * @return 密文
      * @throws EncryptException 加密异常
      */
     public static String encode(String raw) throws EncryptException {
@@ -87,7 +84,7 @@ public class MD5Utils {
     /**
      * @param raw     原字符串
      * @param isLower 小写加密
-     * @return String
+     * @return 密文
      * @throws EncryptException 加密异常
      */
     public static String encode(String raw, boolean isLower) throws EncryptException {
@@ -99,7 +96,7 @@ public class MD5Utils {
 
     /**
      * @param raw 原字符串
-     * @return String
+     * @return 密文
      * @throws EncryptException 加密异常
      */
     public static String encode(byte[] raw) throws EncryptException {
@@ -109,7 +106,7 @@ public class MD5Utils {
     /**
      * @param raw     原字符串
      * @param isLower 小写加密
-     * @return String
+     * @return 密文
      * @throws EncryptException 加密异常
      */
     public static String encode(byte[] raw, boolean isLower) throws EncryptException {
