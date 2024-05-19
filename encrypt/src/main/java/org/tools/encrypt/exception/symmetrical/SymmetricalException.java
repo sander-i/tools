@@ -6,12 +6,13 @@ import org.tools.encrypt.exception.EncryptException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/07 23:32
+ * @date 2023/03/07
  * @description 对称加密异常
  * @scope encrypt
  */
-@Deprecated
 public class SymmetricalException extends EncryptException {
+
+    private static final long serialVersionUID = 6591125072110387210L;
 
     public SymmetricalException() {
     }
