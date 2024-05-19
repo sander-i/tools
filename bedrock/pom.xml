@@ -10,8 +10,6 @@
 
     <artifactId>bedrock</artifactId>
 
-    <packaging>jar</packaging>
-
     <name>${project.groupId}:${project.artifactId}</name>
 
     <description>Portable toolbox to make coding easier!
@@ -20,36 +18,7 @@
         use
     </description>
 
-    <url>https://gitee.com/sander-o/tools</url>
-
-    <licenses>
-        <license>
-            <name>The MIT License</name>
-            <url>https://gitee.com/sander-o/tools/blob/release/LICENSE</url>
-        </license>
-    </licenses>
-
-    <organization>
-        <name>sander-o</name>
-        <url>https://gitee.com/sander-o</url>
-    </organization>
-
-    <developers>
-        <developer>
-            <id>sander</id>
-            <name>sander</name>
-            <email>ailuoli.tao@gmail.com</email>
-            <roles>
-                <role>Committer</role>
-            </roles>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:git://gitee.com/sander-o/tools.git</connection>
-        <developerConnection>scm:git:git://gitee.com/sander-o/tools.git</developerConnection>
-        <url>https://gitee.com/sander-o/tools/tree/release/</url>
-    </scm>
+    <url>https://gitee.com/sander-o/tools/tree/release/bedrock</url>
 
     <properties>
         <spring.application.name>tools</spring.application.name>
