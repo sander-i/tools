@@ -62,8 +62,8 @@ public class CopyUtil {
                 ClassUtils.commonFields(sourceClz, targetClz, typeSame) :
                 ClassUtils.allCommonFields(sourceClz, targetClz, typeSame);
         // 忽略属性集合
-        Set<String> ignoreSet = BaseUtils.isEmpty(ignoreProperties) ?
-                Collections.emptySet() : new HashSet<>(Arrays.asList(ignoreProperties));
+        Set<String> ignoreSet = BaseUtils.isNotEmpty(ignoreProperties) ?
+                new HashSet<>(Arrays.asList(ignoreProperties)) : Collections.emptySet();
         // 过滤忽略属性
         List<Field> commonFieldList = Arrays.stream(commonFields)
                 .filter(commonField -> {
