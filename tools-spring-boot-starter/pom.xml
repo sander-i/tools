@@ -13,7 +13,7 @@
 
     <packaging>pom</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>${project.artifactId}</name>
 
     <description>Portable toolbox to make coding easier!
         Most of the tools and methods of the project are searchable on the Internet, and the concept of this project is
