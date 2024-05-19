@@ -26,17 +26,17 @@
             <dependency>
                 <groupId>org.tools</groupId>
                 <artifactId>bedrock</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.tools</groupId>
                 <artifactId>encrypt</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.tools.spring.boot</groupId>
                 <artifactId>encrypt-spring-boot-starter</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

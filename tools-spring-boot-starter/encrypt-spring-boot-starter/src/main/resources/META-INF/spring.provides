@@ -1,1 +1,1 @@
-provides: encrypt-spring-boot-starter,encrypt,bedrock
+provides: encrypt-spring-boot-starter,encrypt

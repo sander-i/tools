@@ -1,22 +1,81 @@
 {
   "properties": [
     {
-      "defaultValue": "",
-      "name": "tools.encrypt.symmetrical.des.secret-key",
-      "description": "des对称密钥.",
-      "type": "java.lang.String"
+      "defaultValue": false,
+      "name": "tools.encrypt.enabled",
+      "description": "加密开关.",
+      "type": "java.lang.Boolean"
     },
     {
-      "defaultValue": "",
+      "defaultValue": false,
+      "name": "tools.encrypt.asymmetric.rsa.enabled",
+      "description": "rsa非对称加密开关.",
+      "type": "java.lang.Boolean"
+    },
+    {
       "name": "tools.encrypt.asymmetric.rsa.public-key",
       "description": "rsa公钥.",
       "type": "java.lang.String"
     },
     {
-      "defaultValue": "",
       "name": "tools.encrypt.asymmetric.rsa.private-key",
       "description": "rsa私钥.",
       "type": "java.lang.String"
+    },
+    {
+      "defaultValue": false,
+      "name": "tools.encrypt.asymmetric.rsa.group-enabled",
+      "description": "des对称加密分组开关.",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "tools.encrypt.asymmetric.rsa.group",
+      "description": "des对称加密分组.",
+      "type": "java.util.List<org.tools.encrypt.entity.KeyPair>"
+    },
+    {
+      "defaultValue": false,
+      "name": "tools.encrypt.symmetrical.des.enabled",
+      "description": "des对称加密开关.",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "tools.encrypt.symmetrical.des.secret-key",
+      "description": "des对称密钥.",
+      "type": "java.lang.String"
+    },
+    {
+      "defaultValue": false,
+      "name": "tools.encrypt.symmetrical.des.group-enabled",
+      "description": "des对称加密分组开关.",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "tools.encrypt.symmetrical.des.group",
+      "description": "des对称加密分组.",
+      "type": "java.util.List<org.tools.encrypt.entity.KeyPair>"
+    },
+    {
+      "defaultValue": false,
+      "name": "tools.encrypt.symmetrical.aes.enabled",
+      "description": "aes对称加密开关.",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "tools.encrypt.symmetrical.aes.secret-key",
+      "description": "aes对称密钥.",
+      "type": "java.lang.String"
+    },
+    {
+      "defaultValue": false,
+      "name": "tools.encrypt.symmetrical.aes.group-enabled",
+      "description": "aes对称加密分组开关.",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "tools.encrypt.symmetrical.aes.group",
+      "description": "aes对称加密分组.",
+      "type": "java.util.List<org.tools.encrypt.entity.KeyPair>"
     }
   ]
 }
