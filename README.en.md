@@ -62,31 +62,19 @@ Integration spring-boot-starter，At springboot profiles properties|yml Configur
         </dependency>
     </dependencies>
 
-    <!-- 仓库地址 -->
+    <!-- Warehouse address -->
     <repositories>
         <repository>
-            <id>ailuoli</id>
-            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
+            <id>maven2</id>
+            <url>https://repo1.maven.org/maven2</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>ailuoli-plugin</id>
-            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 ```
 
 #### Instructions
