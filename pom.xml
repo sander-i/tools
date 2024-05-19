@@ -35,7 +35,6 @@
     </modules>
 
     <properties>
-        <major.version>1.0.5</major.version>
         <copyright>2024</copyright>
         <spring.application.name>tools</spring.application.name>
         <java.version>1.8</java.version>

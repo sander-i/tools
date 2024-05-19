@@ -21,7 +21,7 @@ tools:
         secret-key: "BeYourself"
         group-enabled: true
         group:
-          - name: password
+          - name: pwd
             secret-key: "BeYourself"
           - name: id-card
             secret-key: "BeYourself"
@@ -30,7 +30,7 @@ tools:
         secret-key: "BeYourself"
         group-enabled: true
         group:
-          - name: password
+          - name: pwd
             secret-key: "BeYourself"
           - name: id-card
             secret-key: "BeYourself"
