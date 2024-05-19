@@ -35,7 +35,7 @@
     </modules>
 
     <properties>
-        <major.version>1.0.3</major.version>
+        <major.version>1.0.5</major.version>
         <copyright>2024</copyright>
         <spring.application.name>tools</spring.application.name>
         <java.version>1.8</java.version>
@@ -243,6 +243,9 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+                <includes>
+                    <include>**/**</include>
+                </includes>
             </resource>
         </resources>
         <plugins>
