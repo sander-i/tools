@@ -3,9 +3,6 @@ package org.tools.bedrock.http;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 11:58
- * @description http请求常量
- * @scope http
  */
 public class HttpConsts {
 

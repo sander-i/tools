@@ -11,9 +11,6 @@ import java.util.Date;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:30
- * @description 有效期限
- * @scope all
  */
 @Builder
 @NoArgsConstructor

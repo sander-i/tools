@@ -9,20 +9,19 @@ import com.aliyun.tea.TeaException;
 import com.aliyun.teaopenapi.models.Config;
 import com.aliyun.teautil.models.RuntimeOptions;
 import lombok.extern.slf4j.Slf4j;
+import org.tools.bedrock.util.BaseUtils;
 import org.tools.fortify.ddns.aliyun.AliyunDdnsConfig;
 import org.tools.fortify.ddns.aliyun.Record;
-import org.tools.bedrock.util.BaseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * 阿里云ddns工具
+ *
  * @author sander
  * @version 1.0
- * @date 2023/10/23 21:04
- * @description 阿里云ddns工具
- * @scope all
  */
 @Slf4j
 public class AliyunDdnsUtils {
@@ -46,11 +45,11 @@ public class AliyunDdnsUtils {
     /**
      * 读取域记录
      *
-     * @param aliyunDdnsConfig
+     * @param aliyunDdnsConfig 阿里云ddns配置
      * @param domainName       域名
      * @param type             域名前缀
-     * @return
-     * @throws Exception
+     * @return 域记录
+     * @throws Exception 异常
      */
     public static List<Record> readDomainRecords(AliyunDdnsConfig aliyunDdnsConfig, String domainName, String type) throws Exception {
         com.aliyun.alidns20150109.Client client = createClient(aliyunDdnsConfig);
@@ -72,10 +71,10 @@ public class AliyunDdnsUtils {
     /**
      * 更新域记录
      *
-     * @param aliyunDdnsConfig
+     * @param aliyunDdnsConfig 阿里云ddns配置
      * @param newRecord        新域记录
-     * @return
-     * @throws Exception
+     * @return 域记录
+     * @throws Exception 异常
      */
     public static Record updateDomainRecord(AliyunDdnsConfig aliyunDdnsConfig, Record newRecord) throws Exception {
         com.aliyun.alidns20150109.Client client = createClient(aliyunDdnsConfig);
@@ -109,10 +108,10 @@ public class AliyunDdnsUtils {
     /**
      * 更新域记录
      *
-     * @param aliyunDdnsConfig
+     * @param aliyunDdnsConfig 阿里云ddns配置
      * @param newRecords       新域记录
-     * @return
-     * @throws Exception
+     * @return 域记录
+     * @throws Exception 异常
      */
     public static List<Record> updateDomainRecordBatch(AliyunDdnsConfig aliyunDdnsConfig, List<Record> newRecords) throws Exception {
         com.aliyun.alidns20150109.Client client = createClient(aliyunDdnsConfig);

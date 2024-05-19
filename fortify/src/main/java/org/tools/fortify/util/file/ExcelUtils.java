@@ -17,9 +17,6 @@ import java.util.stream.Stream;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/10/22 15:33
- * @description excel工具
- * @scope all
  */
 @Slf4j
 public class ExcelUtils {

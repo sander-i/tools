@@ -6,9 +6,6 @@ import lombok.RequiredArgsConstructor;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/02 20:35
- * @description 避免传参魔法数字，定义枚举类型
- * @scope 作用域
  */
 @Getter
 @RequiredArgsConstructor

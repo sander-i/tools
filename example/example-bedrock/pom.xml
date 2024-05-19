@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.tools</groupId>
+        <groupId>io.gitee.sander-o</groupId>
         <artifactId>example</artifactId>
         <version>1.0.0</version>
     </parent>
@@ -12,6 +12,7 @@
     <artifactId>example-bedrock</artifactId>
 
     <properties>
+        <io.gitee.sander-o-version>1.0.6</io.gitee.sander-o-version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,8 +20,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.tools</groupId>
+            <groupId>io.gitee.sander-o</groupId>
             <artifactId>bedrock</artifactId>
+            <version>${io.gitee.sander-o-version}</version>
         </dependency>
 
         <dependency>

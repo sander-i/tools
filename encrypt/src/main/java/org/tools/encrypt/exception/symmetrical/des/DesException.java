@@ -6,9 +6,6 @@ import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/06
- * @description des加密异常
- * @scope encrypt
  */
 public class DesException extends SymmetricalException {
 

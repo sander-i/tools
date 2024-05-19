@@ -9,8 +9,7 @@ import org.tools.bedrock.http.resp.RR;
 import java.util.HashMap;
 
 /**
- * @description 描述
- * @scope 作用域
+ * @author sander
  */
 public class HttpTest {
 

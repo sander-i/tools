@@ -9,9 +9,6 @@ import java.util.List;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/12/23 16:16
- * @description 分页
- * @scope http
  */
 @Data
 @ToString

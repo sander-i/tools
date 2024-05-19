@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:10
- * @description List<T> 工具类
- * @scope all
  */
 public class Lists {
 
@@ -23,7 +20,7 @@ public class Lists {
     /**
      * List为 空
      *
-     * @param list List<?>
+     * @param list 集合
      * @return boolean
      */
     public static boolean isEmpty(List<?> list) {
@@ -33,7 +30,7 @@ public class Lists {
     /**
      * List非 空
      *
-     * @param list List<?>
+     * @param list 集合
      * @return boolean
      */
     public static boolean isNotEmpty(List<?> list) {
@@ -43,7 +40,7 @@ public class Lists {
     /**
      * List 多条记录
      *
-     * @param list List<?>
+     * @param list 集合
      * @return boolean
      */
     public static boolean multiRecord(List<?> list) {
@@ -53,7 +50,7 @@ public class Lists {
     /**
      * List 记录是否满足传入条数
      *
-     * @param list List<?>
+     * @param list 集合
      * @param size 大小
      * @return boolean
      */
@@ -64,7 +61,7 @@ public class Lists {
     /**
      * List 一条记录
      *
-     * @param list List<?>
+     * @param list 集合
      * @return boolean
      */
     public static boolean oneRecord(List<?> list) {
@@ -75,8 +72,9 @@ public class Lists {
      * ArrayList 集合反转
      * jdk1.8新特性 stream流
      *
-     * @param list List<T>
-     * @return List<T>
+     * @param list 集合
+     * @param <T>  范型
+     * @return 反转集合
      */
     public static <T> List<T> reversalStream(List<T> list) {
         return list.stream()
@@ -91,7 +89,7 @@ public class Lists {
      * @param list list集合
      * @param clz  提取泛型class
      * @param <T>  泛型
-     * @return List<T>
+     * @return list
      */
     public static <T> List<T> extractGenericListStream(List<T> list, Class<T> clz) {
         return BaseUtils.isNotEmpty(list, clz) ?
@@ -107,7 +105,7 @@ public class Lists {
      * @param list 集合
      * @param rows 行数
      * @param <T>  泛型
-     * @return List<List < T>>
+     * @return 分页
      */
     public static <T> List<List<T>> pagination(List<T> list, int rows) {
         List<List<T>> gather = new ArrayList<>();

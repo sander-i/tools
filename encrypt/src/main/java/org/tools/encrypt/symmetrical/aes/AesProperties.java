@@ -9,11 +9,10 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 
 /**
+ * des加密配置文件
+ *
  * @author sander
  * @version 1.0
- * @date 2023/03/03
- * @description des加密配置文件
- * @scope des
  */
 @Data
 public class AesProperties {

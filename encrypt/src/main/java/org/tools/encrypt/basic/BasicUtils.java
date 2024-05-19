@@ -6,9 +6,6 @@ import java.security.NoSuchAlgorithmException;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/26
- * @description 基础工具
- * @scope all
  */
 public class BasicUtils {
 

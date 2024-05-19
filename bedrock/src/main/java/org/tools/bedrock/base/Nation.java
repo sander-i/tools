@@ -6,9 +6,6 @@ import lombok.Getter;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:56
- * @description 民族
- * @scope all
  */
 @Getter
 @AllArgsConstructor

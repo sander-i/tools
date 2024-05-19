@@ -49,14 +49,15 @@ public class RsaUtils {
      * @param secretKey     密钥
      * @param ivParameter   向量
      * @param stuff         待处理
+     * @param maxBlock      最大块
      * @return byte[]
      * @throws NoSuchPaddingException             指定填充方案不存在或不支持
-     * @throws NoSuchAlgorithmException           算法不存在或不支持
+     * @throws NoSuchAlgorithmException           算法不存在或不支持异常
      * @throws InvalidKeyException                密钥错误或密钥的格式不正确
      * @throws InvalidAlgorithmParameterException 算法参数不适用于当前操作或算法参数值不适合算法
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws IOException
+     * @throws IllegalBlockSizeException          非法块大小异常
+     * @throws BadPaddingException                错误填充异常
+     * @throws IOException                        IO流异常
      */
     protected static byte[] actuator(String algorithm, String algorithmMode, PublicKey secretKey, String ivParameter, byte[] stuff, int maxBlock)
             throws InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
@@ -80,14 +81,15 @@ public class RsaUtils {
      * @param secretKey     密钥
      * @param ivParameter   向量
      * @param stuff         待处理
+     * @param maxBlock      最大块
      * @return String
      * @throws NoSuchPaddingException             指定填充方案不存在或不支持
-     * @throws NoSuchAlgorithmException           算法不存在或不支持
+     * @throws NoSuchAlgorithmException           算法不存在或不支持异常
      * @throws InvalidKeyException                密钥错误或密钥的格式不正确
      * @throws InvalidAlgorithmParameterException 算法参数不适用于当前操作或算法参数值不适合算法
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws IOException
+     * @throws IllegalBlockSizeException          非法块大小异常
+     * @throws BadPaddingException                错误填充异常
+     * @throws IOException                        IO流异常
      */
     protected static String actuator(String algorithm, String algorithmMode, PrivateKey secretKey, String ivParameter, byte[] stuff, int maxBlock)
             throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeyException, InvalidAlgorithmParameterException {
@@ -106,16 +108,16 @@ public class RsaUtils {
     /**
      * 对数据进行分段处理
      *
-     * @param todo     待处理
+     * @param stuff    待处理
      * @param cipher   密码对象
      * @param maxBlock 最大明密文大小
-     * @return
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
+     * @return 字节排列输出流
+     * @throws IllegalBlockSizeException 非法块大小异常
+     * @throws BadPaddingException       错误填充异常
      */
-    protected static ByteArrayOutputStream subLevel(byte[] todo, Cipher cipher, int maxBlock)
+    protected static ByteArrayOutputStream subLevel(byte[] stuff, Cipher cipher, int maxBlock)
             throws IllegalBlockSizeException, BadPaddingException {
-        int inputLen = todo.length;
+        int inputLen = stuff.length;
         int offset = 0;
         byte[] cache;
         int i = 0;
@@ -123,9 +125,9 @@ public class RsaUtils {
         // 对数据分段
         while (inputLen - offset > 0) {
             if (inputLen - offset > maxBlock) {
-                cache = cipher.doFinal(todo, offset, maxBlock);
+                cache = cipher.doFinal(stuff, offset, maxBlock);
             } else {
-                cache = cipher.doFinal(todo, offset, inputLen - offset);
+                cache = cipher.doFinal(stuff, offset, inputLen - offset);
             }
             baos.write(cache, 0, cache.length);
             i++;

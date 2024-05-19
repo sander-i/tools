@@ -6,9 +6,6 @@ import org.tools.encrypt.exception.EncryptException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/09/13 17:28
- * @description 数字签名算法异常
- * @scope encrypt
  */
 public class DigitalSignatureException extends EncryptException {
 

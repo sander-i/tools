@@ -3,9 +3,6 @@ package org.tools.bedrock.exception;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/04/21 23:15
- * @description 基础异常
- * @scope exception
  */
 public class BaseException extends Exception {
 

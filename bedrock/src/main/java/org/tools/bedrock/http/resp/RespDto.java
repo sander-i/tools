@@ -5,9 +5,6 @@ import org.tools.bedrock.http.HttpEnum;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 12:04
- * @description 响应模型
- * @scope response
  */
 public class RespDto {
 

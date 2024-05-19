@@ -8,9 +8,6 @@ import org.tools.bedrock.annotations.Inherit;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/04/21 23:01
- * @description response result
- * @scope response
  */
 @Inherit
 @NoArgsConstructor

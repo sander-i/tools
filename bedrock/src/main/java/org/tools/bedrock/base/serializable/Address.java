@@ -11,9 +11,6 @@ import java.io.Serializable;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:29
- * @description 地址
- * @scope all
  */
 @Builder
 @NoArgsConstructor

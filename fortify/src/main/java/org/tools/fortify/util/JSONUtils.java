@@ -15,11 +15,10 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
+ * json方法
+ *
  * @author sander
  * @version 1.0
- * @date 2023/02/19 13:24
- * @description json方法
- * @scope all
  */
 public class JSONUtils {
 
@@ -29,7 +28,6 @@ public class JSONUtils {
     /**
      * @param obj 转换对象
      * @return String json字符串
-     * @description 对象 转 json
      */
     public static String objToJson(Object obj) {
         return BaseUtils.isNotEmpty(obj) ? JSON.toJSONString(obj, SerializerFeature.WriteMapNullValue.getMask()) : "";
@@ -38,7 +36,6 @@ public class JSONUtils {
     /**
      * @param jsonStr json字符串
      * @return JSONObject 转换对象
-     * @description json 转 JSONObject
      */
     public static JSONObject jsonToObj(String jsonStr) {
         return BaseUtils.isNotEmpty(jsonStr) ? JSON.parseObject(jsonStr) : new JSONObject();
@@ -48,7 +45,6 @@ public class JSONUtils {
      * @param jsonStr json字符串
      * @param clz     转换对象class
      * @return Object 转换对象
-     * @description json 转 对象
      */
     public static Object jsonToObj(String jsonStr, Class<?> clz) {
         return BaseUtils.isNotEmpty(jsonStr) ? JSON.parseObject(jsonStr, clz) : new JSONObject();
@@ -56,8 +52,9 @@ public class JSONUtils {
 
     /**
      * @param obj 转换对象
+     * @param clz class
+     * @param <T> 范型
      * @return String json字符串
-     * @description 对象 转 json
      */
     public static <T> List<T> objToJsonArray(Object obj, Class<T> clz) {
         return BaseUtils.isNotEmpty(obj) ? JSON.parseArray(objToJson(obj), clz) : new ArrayList<>();
@@ -67,7 +64,11 @@ public class JSONUtils {
      * @param jsonStr json字符串
      * @param obj     转换对象
      * @return Object 转换对象
-     * @description json 转 对象
+     * @throws IntrospectionException    自检异常
+     * @throws InvocationTargetException 调用目标异常
+     * @throws IllegalAccessException    非法访问异常
+     * @throws ClassNotFoundException    未找到类异常
+     * @throws InstantiationException    实例化异常
      */
     public static Object jsonToObj(String jsonStr, Object obj) throws IntrospectionException, InvocationTargetException, IllegalAccessException, ClassNotFoundException, InstantiationException {
         // json字符串转JSONObject对象

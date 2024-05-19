@@ -16,9 +16,6 @@ import java.security.spec.X509EncodedKeySpec;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/09/11
- * @description rsa密钥生成器
- * @scope rsa
  */
 @Slf4j
 public class RsaKeyGenerator {
@@ -49,6 +46,8 @@ public class RsaKeyGenerator {
 
     /**
      * 初始化密钥生成器对象
+     *
+     * @throws RsaException RSA加解密异常
      */
     private static void init() throws RsaException {
         if (BaseUtils.isNull(keyPairGenerator, keyPair)) {
@@ -72,6 +71,7 @@ public class RsaKeyGenerator {
      * 获取密钥对象
      *
      * @return SecretKey
+     * @throws RsaException RSA加解密异常
      */
     public static KeyPair getKeyPair() throws RsaException {
         init();
@@ -83,6 +83,7 @@ public class RsaKeyGenerator {
      * 获取公钥
      *
      * @return PublicKey
+     * @throws RsaException RSA加解密异常
      */
     public static PublicKey getPublicKey() throws RsaException {
         return getKeyPair().getPublic();
@@ -92,6 +93,7 @@ public class RsaKeyGenerator {
      * 获取私钥
      *
      * @return PublicKey
+     * @throws RsaException RSA加解密异常
      */
     public static PrivateKey getPrivateKey() throws RsaException {
         return getKeyPair().getPrivate();
@@ -100,7 +102,8 @@ public class RsaKeyGenerator {
     /**
      * 获取公钥
      *
-     * @return String
+     * @return 公钥字符串
+     * @throws EncryptException 加解密异常
      */
     public static String getPublicKeyStr() throws EncryptException {
         return Base64.encodeBase64String(getKeyPair().getPublic().getEncoded());
@@ -110,6 +113,7 @@ public class RsaKeyGenerator {
      * 获取私钥
      *
      * @return String
+     * @throws EncryptException 加解密异常
      */
     public static String getPrivateKeyStr() throws EncryptException {
         return Base64.encodeBase64String(getKeyPair().getPrivate().getEncoded());
@@ -118,7 +122,8 @@ public class RsaKeyGenerator {
     /**
      * 获取公钥
      *
-     * @return String
+     * @param publicKey 公钥对象
+     * @return 公钥字符串
      */
     public static String getPublicKeyStr(PublicKey publicKey) {
         return Base64.encodeBase64String(publicKey.getEncoded());
@@ -127,7 +132,8 @@ public class RsaKeyGenerator {
     /**
      * 获取私钥
      *
-     * @return String
+     * @param privateKey 私钥对象
+     * @return 私钥对象
      */
     public static String getPrivateKeyStr(PrivateKey privateKey) {
         return Base64.encodeBase64String(privateKey.getEncoded());
@@ -136,8 +142,10 @@ public class RsaKeyGenerator {
     /**
      * 获取公钥
      *
-     * @param publicKey 公钥
-     * @return PublicKey
+     * @param publicKey 公钥字符串
+     * @return 公钥对象
+     * @throws NoSuchAlgorithmException 算法不存在或不支持异常
+     * @throws InvalidKeySpecException  无效的密钥规范异常
      */
     public static PublicKey getPublicKey(String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         initProperties();
@@ -151,8 +159,10 @@ public class RsaKeyGenerator {
     /**
      * 获取私钥
      *
-     * @param privateKey 私钥
-     * @return PrivateKey
+     * @param privateKey 私钥字符串
+     * @return 私钥对象
+     * @throws NoSuchAlgorithmException 算法不存在或不支持异常
+     * @throws InvalidKeySpecException  无效的密钥规范异常
      */
     public static PrivateKey getPrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         initProperties();
@@ -181,6 +191,7 @@ public class RsaKeyGenerator {
      * 获取Rsa配置文件
      *
      * @return RsaProperties
+     * @throws EncryptException 加解密异常
      */
     public static RsaProperties getRsaProperties() throws EncryptException {
         initProperties();

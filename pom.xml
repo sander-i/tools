@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.tools</groupId>
+    <groupId>io.gitee.sander-o</groupId>
     <artifactId>tools</artifactId>
     <version>1.0.6</version>
 
@@ -43,16 +43,16 @@
     </developers>
 
     <scm>
-        <connection>scm:svn:svn://gitee.com/sander-o/tools.git</connection>
-        <developerConnection>scm:svn:ssh://gitee.com/sander-o/tools.git</developerConnection>
+        <connection>scm:git:svn://gitee.com/sander-o/tools.git</connection>
+        <developerConnection>scm:git:ssh://gitee.com/sander-o/tools.git</developerConnection>
         <url>https://gitee.com/sander-o/tools/tree/release/</url>
     </scm>
 
     <modules>
         <module>bedrock</module>
         <module>encrypt</module>
-        <module>tools-spring-boot-starter</module>
         <module>fortify</module>
+        <module>tools-spring-boot-starter</module>
     </modules>
 
     <properties>
@@ -97,21 +97,21 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/org.tools/bedrock -->
+            <!-- https://mvnrepository.com/artifact/io.gitee.sander-o/bedrock -->
             <dependency>
-                <groupId>org.tools</groupId>
+                <groupId>io.gitee.sander-o</groupId>
                 <artifactId>bedrock</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.tools/encrypt -->
+            <!-- https://mvnrepository.com/artifact/io.gitee.sander-o/encrypt -->
             <dependency>
-                <groupId>org.tools</groupId>
+                <groupId>io.gitee.sander-o</groupId>
                 <artifactId>encrypt</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.tools/fortify -->
+            <!-- https://mvnrepository.com/artifact/io.gitee.sander-o/fortify -->
             <dependency>
-                <groupId>org.tools</groupId>
+                <groupId>io.gitee.sander-o</groupId>
                 <artifactId>fortify</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -376,19 +376,19 @@
                 </executions>
             </plugin>
             <!-- 生成javadoc 文件 java注释规范存在问题需要调整后在生成javadoc -->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-javadoc-plugin</artifactId>-->
-<!--                <version>2.9.1</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>attach-javadocs</id>-->
-<!--                        <goals>-->
-<!--                            <goal>jar</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -439,53 +439,59 @@
 
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>ossrh</id>
             <properties>
-                <repository-id>ailuoli-dev-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-releases/</repository-url>
-                <snapshot-id>ailuoli-dev-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-snapshots/</snapshot-url>
+                <gpg.executable>sander-o</gpg.executable>
             </properties>
         </profile>
-        <profile>
-            <id>sit</id>
-            <properties>
-                <repository-id>ailuoli-sit-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-releases/</repository-url>
-                <snapshot-id>ailuoli-sit-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-snapshots/</snapshot-url>
-            </properties>
-        </profile>
-        <profile>
-            <id>uat</id>
-            <properties>
-                <repository-id>ailuoli-uat-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-releases/</repository-url>
-                <snapshot-id>ailuoli-uat-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-snapshots/</snapshot-url>
-            </properties>
-        </profile>
-        <profile>
-            <id>pre</id>
-            <properties>
-                <repository-id>ailuoli-pre-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-releases/</repository-url>
-                <snapshot-id>ailuoli-pre-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-snapshots/</snapshot-url>
-            </properties>
-        </profile>
-        <profile>
-            <id>pro</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <repository-id>ailuoli-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-releases/</repository-url>
-                <snapshot-id>ailuoli-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-snapshots/</snapshot-url>
-            </properties>
-        </profile>
+        <!--        <profile>-->
+        <!--            <id>dev</id>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-dev-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-dev-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>sit</id>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-sit-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-sit-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>uat</id>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-uat-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-uat-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>pre</id>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-pre-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-pre-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>pro</id>-->
+        <!--            <activation>-->
+        <!--                <activeByDefault>true</activeByDefault>-->
+        <!--            </activation>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
     </profiles>
 
     <distributionManagement>

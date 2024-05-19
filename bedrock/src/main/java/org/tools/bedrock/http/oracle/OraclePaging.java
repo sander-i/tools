@@ -5,9 +5,6 @@ import org.tools.bedrock.http.Paging;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/12/23 23:09
- * @description 描述
- * @scope 作用域
  */
 public class OraclePaging<T> extends Paging<T> {
 

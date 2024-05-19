@@ -12,9 +12,6 @@ import java.util.Map;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/10/23 21:02
- * @description 网络工具
- * @scope all
  */
 @Slf4j
 public class NetworkUtils {

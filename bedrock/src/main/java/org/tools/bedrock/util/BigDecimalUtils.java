@@ -6,9 +6,6 @@ import java.math.RoundingMode;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/04/08 20:37
- * @description BigDecimal 工具
- * @scope all
  */
 public class BigDecimalUtils {
 
