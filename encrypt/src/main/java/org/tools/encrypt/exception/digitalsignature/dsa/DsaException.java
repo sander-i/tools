@@ -1,17 +1,18 @@
 package org.tools.encrypt.exception.digitalsignature.dsa;
 
 import org.tools.bedrock.exception.ErrorEnum;
-import org.tools.encrypt.exception.digitalsignature.DigitalsignatureException;
+import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 
 /**
  * @author sander
  * @version 1.0
- * @date 2023/09/13 17:27
+ * @date 2023/09/13
  * @description dsa签名算法异常
  * @scope encrypt
  */
-@Deprecated
-public class DsaException extends DigitalsignatureException {
+public class DsaException extends DigitalSignatureException {
+
+    private static final long serialVersionUID = -1333337529605308307L;
 
     public DsaException() {
     }
