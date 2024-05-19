@@ -25,9 +25,9 @@ public class NetworkUtils {
     /**
      * 通过域名获取ipv4地址
      *
-     * @param domain
-     * @return
-     * @throws UnknownHostException
+     * @param domain 域名
+     * @return ipv4
+     * @throws UnknownHostException 未知主机异常
      */
     public static String getIpv4ByDomain(String domain) throws UnknownHostException {
         return InetAddress.getByName(domain).getHostAddress();
@@ -36,9 +36,9 @@ public class NetworkUtils {
     /**
      * 通过ip获得域名
      *
-     * @param ipv4
-     * @return
-     * @throws UnknownHostException
+     * @param ipv4 ip
+     * @return 域名
+     * @throws UnknownHostException 未知主机异常
      */
     public static String getDomainByIpv4(String ipv4) throws UnknownHostException {
         String[] ipStr = ipv4.split("[.]");
@@ -53,6 +53,9 @@ public class NetworkUtils {
 
     /**
      * 获取本机ipv6地址
+     *
+     * @return ipv6
+     * @throws SocketException 网络连接异常
      */
     public static String getLocalIpv6() throws SocketException {
         Enumeration<NetworkInterface> enumeration = NetworkInterface.getNetworkInterfaces();
@@ -76,7 +79,7 @@ public class NetworkUtils {
     /**
      * 获取外网ipv4
      *
-     * @return
+     * @return ipv4
      */
     public static String getExtranetIpv4() {
         StringBuilder result = new StringBuilder();
