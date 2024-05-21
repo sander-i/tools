@@ -34,7 +34,7 @@ Integration spring-boot-starter，At springboot profiles properties|yml Configur
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.tools</groupId>
+                <groupId>io.gitee.sander-o</groupId>
                 <artifactId>tools</artifactId>
                 <version>${tools.version}</version>
                 <type>pom</type>
@@ -45,19 +45,19 @@ Integration spring-boot-starter，At springboot profiles properties|yml Configur
 
     <dependencies>
         <dependency>
-            <groupId>org.tools</groupId>
+            <groupId>io.gitee.sander-o</groupId>
             <artifactId>bedrock</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.tools</groupId>
+            <groupId>io.gitee.sander-o</groupId>
             <artifactId>encrypt</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.tools</groupId>
+            <groupId>io.gitee.sander-o</groupId>
             <artifactId>fortify</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.tools.spring.boot</groupId>
+            <groupId>io.gitee.sander-o.spring.boot</groupId>
             <artifactId>encrypt-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
