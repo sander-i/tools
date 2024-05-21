@@ -201,9 +201,11 @@ public class HttpUtils {
      * @return 请求标头
      */
     public static Map<String, String> defaultRequestHeaders(Map<String, String> headers) {
-        if (BaseUtils.isEmpty(headers)) {
+        if (BaseUtils.isNull(headers)) {
             // 通用的请求属性
             headers = new HashMap<>();
+        }
+        if (headers.isEmpty()) {
             headers.put("accept", "*/*");
             headers.put("connection", "Keep-Alive");
             headers.put("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
