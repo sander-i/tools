@@ -9,9 +9,6 @@ import java.io.Serializable;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/17 17:21
- * @description 响应实体
- * @scope response
  */
 @NoArgsConstructor
 @Data

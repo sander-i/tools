@@ -10,9 +10,6 @@ import java.util.Date;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:59
- * @description 数据实体基础对象
- * @scope all
  */
 @NoArgsConstructor
 @AllArgsConstructor

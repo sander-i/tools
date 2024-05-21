@@ -3,9 +3,6 @@ package org.tools.bedrock.util.date;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/12/23 14:32
- * @description 描述
- * @scope 作用域
  */
 public class DateConstants {
 

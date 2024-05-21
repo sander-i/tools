@@ -6,11 +6,10 @@ import org.tools.bedrock.exception.ToolsException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/07 23:27
- * @description 加密异常
- * @scope encrypt
  */
 public class EncryptException extends ToolsException {
+
+    private static final long serialVersionUID = 5124407319923889191L;
 
     public EncryptException() {
     }

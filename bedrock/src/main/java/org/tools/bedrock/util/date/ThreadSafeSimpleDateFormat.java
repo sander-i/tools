@@ -9,9 +9,6 @@ import java.util.TimeZone;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/12/23 12:23
- * @description 时区工具类
- * @scope 作用域
  */
 public class ThreadSafeSimpleDateFormat extends ThreadSafeDateFormat {
     private static final long serialVersionUID = -6344863844634215860L;

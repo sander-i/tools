@@ -9,9 +9,6 @@ import java.util.List;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/04/15 0:27
- * @description 架构
- * @scope mysql
  */
 @NoArgsConstructor
 @AllArgsConstructor

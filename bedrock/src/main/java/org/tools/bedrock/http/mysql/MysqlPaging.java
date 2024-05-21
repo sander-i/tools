@@ -8,9 +8,6 @@ import org.tools.bedrock.http.Paging;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/12/23 17:23
- * @description 描述
- * @scope 作用域
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

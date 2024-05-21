@@ -10,9 +10,6 @@ import java.util.Date;
 /**
  * @author sander
  * @version 1.0
- * @date 2024/03/10 17:16
- * @description 描述
- * @scope 作用域
  */
 public class DateConvert {
 
