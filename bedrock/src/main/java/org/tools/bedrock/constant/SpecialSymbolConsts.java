@@ -3,9 +3,6 @@ package org.tools.bedrock.constant;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 0:35
- * @description 特殊符号集
- * @scope all
  */
 public class SpecialSymbolConsts {
 
@@ -41,7 +38,7 @@ public class SpecialSymbolConsts {
      */
     public static final String WELL = "#";
     /**
-     * @
+     * &#064;
      */
     public static final String POST = "@";
     /**

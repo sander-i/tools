@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/04/15 19:30
- * @description 列
- * @scope mysql
  */
 @NoArgsConstructor
 @AllArgsConstructor

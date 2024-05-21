@@ -8,9 +8,6 @@ import lombok.experimental.Accessors;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/04/21 23:25
- * @description result query
- * @scope response
  */
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor

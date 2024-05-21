@@ -9,11 +9,10 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 
 /**
+ * requestBody复用实现
+ *
  * @author sander
  * @version 1.0
- * @date 2023/10/21 15:39
- * @description requestBody复用实现
- * @scope http
  */
 @Slf4j
 public class BodyReaderRequestWrapper extends HttpServletRequestWrapper {

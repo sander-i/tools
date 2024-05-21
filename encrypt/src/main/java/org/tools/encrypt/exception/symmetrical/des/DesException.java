@@ -6,12 +6,10 @@ import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/03/06 23:26
- * @description des加密异常
- * @scope encrypt
  */
-@Deprecated
 public class DesException extends SymmetricalException {
+
+    private static final long serialVersionUID = -658506542807550203L;
 
     public DesException() {
     }

@@ -8,9 +8,6 @@ import java.util.Date;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/02/19 1:01
- * @description 身份证
- * @scope all
  */
 @EqualsAndHashCode(callSuper = true)
 @Builder

@@ -10,9 +10,6 @@ import java.math.RoundingMode;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/04/22 0:32
- * @description query data
- * @scope response
  */
 @Slf4j
 @Data

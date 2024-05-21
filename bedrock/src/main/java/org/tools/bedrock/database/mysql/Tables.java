@@ -10,9 +10,6 @@ import java.util.List;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/04/15 19:28
- * @description 表
- * @scope mysql
  */
 @NoArgsConstructor
 @AllArgsConstructor

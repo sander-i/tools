@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/12/31 19:58
- * @description 描述
- * @scope 作用域
  */
 @Slf4j
 public class Maps {
@@ -25,7 +22,7 @@ public class Maps {
     /**
      * Map为 空
      *
-     * @param map Map<?, ?>
+     * @param map 集合
      * @return boolean
      */
     public static boolean isEmpty(Map<?, ?> map) {
@@ -35,7 +32,7 @@ public class Maps {
     /**
      * Map非 空
      *
-     * @param map Map<?, ?>
+     * @param map 集合
      * @return boolean
      */
     public static boolean isNotEmpty(Map<?, ?> map) {

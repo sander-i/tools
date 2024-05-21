@@ -3,18 +3,38 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.tools</groupId>
+    <groupId>io.gitee.sander-o</groupId>
     <artifactId>tools</artifactId>
-    <version>1.0.6</version>
-    <name>tools</name>
+    <version>1.0.6.1</version>
+
     <packaging>pom</packaging>
-    <description>tools</description>
+
+    <name>${project.artifactId}</name>
+
+    <description>Portable toolbox to make coding easier!
+        Most of the tools and methods of the project are searchable on the Internet, and the concept of this project is
+        to solve the problem that searching on the Internet is time-consuming and laborious, and it is not very easy to
+        use
+    </description>
+
     <url>https://gitee.com/sander-o/tools</url>
+
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://gitee.com/sander-o/tools/blob/release/LICENSE</url>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>sander-o</name>
+        <url>https://gitee.com/sander-o</url>
+    </organization>
 
     <developers>
         <developer>
             <id>sander</id>
-            <name>sander</name>
+            <name>sander-o</name>
             <email>ailuoli.tao@gmail.com</email>
             <roles>
                 <role>Committer</role>
@@ -22,20 +42,20 @@
         </developer>
     </developers>
 
-    <organization>
-        <name>sander</name>
-        <url>https://gitee.com/sander-o</url>
-    </organization>
+    <scm>
+        <connection>scm:git:svn://gitee.com/sander-o/tools.git</connection>
+        <developerConnection>scm:git:ssh://gitee.com/sander-o/tools.git</developerConnection>
+        <url>https://gitee.com/sander-o/tools/tree/release/</url>
+    </scm>
 
     <modules>
         <module>bedrock</module>
         <module>encrypt</module>
-        <module>tools-spring-boot-starter</module>
         <module>fortify</module>
+        <module>tools-spring-boot-starter</module>
     </modules>
 
     <properties>
-        <major.version>1.0.3</major.version>
         <copyright>2024</copyright>
         <spring.application.name>tools</spring.application.name>
         <java.version>1.8</java.version>
@@ -53,6 +73,9 @@
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
+        <central-publishing-maven-plugin.version>0.4.0</central-publishing-maven-plugin.version>
+        <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
+        <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
 
         <!-- framework.dependencies -->
         <!-- spring.dependencies -->
@@ -77,21 +100,21 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/org.tools/bedrock -->
+            <!-- https://mvnrepository.com/artifact/io.gitee.sander-o/bedrock -->
             <dependency>
-                <groupId>org.tools</groupId>
+                <groupId>io.gitee.sander-o</groupId>
                 <artifactId>bedrock</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.tools/encrypt -->
+            <!-- https://mvnrepository.com/artifact/io.gitee.sander-o/encrypt -->
             <dependency>
-                <groupId>org.tools</groupId>
+                <groupId>io.gitee.sander-o</groupId>
                 <artifactId>encrypt</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.tools/fortify -->
+            <!-- https://mvnrepository.com/artifact/io.gitee.sander-o/fortify -->
             <dependency>
-                <groupId>org.tools</groupId>
+                <groupId>io.gitee.sander-o</groupId>
                 <artifactId>fortify</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -243,9 +266,39 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+                <includes>
+                    <include>**/**</include>
+                </includes>
             </resource>
         </resources>
         <plugins>
+            <!-- Maven插件发布 -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>${central-publishing-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <tokenAuth>true</tokenAuth>
+                    <autoPublish>false</autoPublish>
+                </configuration>
+            </plugin>
+            <!-- 签名插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- 一键更新子模块版本号 mvn -N versions:update-child-modules -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -276,7 +329,7 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>${maven-resources-plugin.version}</version>
                 <configuration>
-                    <encoding>UTF-8</encoding>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <delimiters>
                         <delimit>$</delimit>
                     </delimiters>
@@ -318,6 +371,20 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 生成javadoc 文件 java注释规范存在问题需要调整后在生成javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
@@ -374,64 +441,78 @@
 
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>ossrh</id>
             <properties>
-                <repository-id>ailuoli-dev-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-releases/</repository-url>
-                <snapshot-id>ailuoli-dev-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-snapshots/</snapshot-url>
+                <gpg.executable>sander-o</gpg.executable>
             </properties>
         </profile>
-        <profile>
-            <id>sit</id>
-            <properties>
-                <repository-id>ailuoli-sit-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-releases/</repository-url>
-                <snapshot-id>ailuoli-sit-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-snapshots/</snapshot-url>
-            </properties>
-        </profile>
-        <profile>
-            <id>uat</id>
-            <properties>
-                <repository-id>ailuoli-uat-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-releases/</repository-url>
-                <snapshot-id>ailuoli-uat-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-snapshots/</snapshot-url>
-            </properties>
-        </profile>
-        <profile>
-            <id>pre</id>
-            <properties>
-                <repository-id>ailuoli-pre-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-releases/</repository-url>
-                <snapshot-id>ailuoli-pre-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-snapshots/</snapshot-url>
-            </properties>
-        </profile>
-        <profile>
-            <id>pro</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <repository-id>ailuoli-releases</repository-id>
-                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-releases/</repository-url>
-                <snapshot-id>ailuoli-snapshots</snapshot-id>
-                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-snapshots/</snapshot-url>
-            </properties>
-        </profile>
+        <!--        <profile>-->
+        <!--            <id>dev</id>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-dev-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-dev-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>sit</id>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-sit-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-sit-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>uat</id>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-uat-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-uat-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>pre</id>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-pre-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-pre-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
+        <!--        <profile>-->
+        <!--            <id>pro</id>-->
+        <!--            <activation>-->
+        <!--                <activeByDefault>true</activeByDefault>-->
+        <!--            </activation>-->
+        <!--            <properties>-->
+        <!--                <repository-id>ailuoli-releases</repository-id>-->
+        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-releases/</repository-url>-->
+        <!--                <snapshot-id>ailuoli-snapshots</snapshot-id>-->
+        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-snapshots/</snapshot-url>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
     </profiles>
 
     <distributionManagement>
         <repository>
-            <id>${repository-id}</id>
-            <url>${repository-url}</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
         <snapshotRepository>
-            <id>${snapshot-id}</id>
-            <url>${snapshot-url}</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </snapshotRepository>
+        <!--        <repository>-->
+        <!--            <id>${repository-id}</id>-->
+        <!--            <url>${repository-url}</url>-->
+        <!--        </repository>-->
+        <!--        <snapshotRepository>-->
+        <!--            <id>${snapshot-id}</id>-->
+        <!--            <url>${snapshot-url}</url>-->
+        <!--        </snapshotRepository>-->
     </distributionManagement>
 
 </project>

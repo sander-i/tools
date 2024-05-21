@@ -10,9 +10,6 @@ import java.util.TimeZone;
 /**
  * @author sander
  * @version 1.0
- * @date 2023/11/11 20:48
- * @description 时区工具类
- * @scope all
  */
 @Slf4j
 public class TimeZoneUtils {
