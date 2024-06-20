@@ -20,7 +20,7 @@ public class BaseUtils {
     /**
      * 对象为 null
      *
-     * @param obj Object
+     * @param obj 对象
      * @return boolean
      */
     public static boolean isNull(Object obj) {
@@ -28,43 +28,13 @@ public class BaseUtils {
     }
 
     /**
-     * 多个对象为 null
-     *
-     * @param objs Object...
-     * @return boolean
-     */
-    public static boolean isNull(Object... objs) {
-        for (Object obj : objs) {
-            if (isNotNull(obj)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * 对象非 null
      *
-     * @param obj Object
+     * @param obj 对象
      * @return boolean
      */
     public static boolean isNotNull(Object obj) {
         return obj != null;
-    }
-
-    /**
-     * 多个对象非 null
-     *
-     * @param objs Object...
-     * @return boolean
-     */
-    public static boolean isNotNull(Object... objs) {
-        for (Object obj : objs) {
-            if (isNull(obj)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -90,7 +60,7 @@ public class BaseUtils {
     /**
      * 对象为 空
      *
-     * @param obj Object
+     * @param obj 对象
      * @return boolean
      */
     public static boolean isEmpty(Object obj) {
@@ -98,9 +68,94 @@ public class BaseUtils {
     }
 
     /**
-     * 多个对象为 空
+     * 对象非 空
      *
-     * @param objs Object...
+     * @param obj 对象
+     * @return boolean
+     */
+    public static boolean isNotEmpty(Object obj) {
+        return obj != null && !obj.toString().trim().isEmpty();
+    }
+
+    /**
+     * 多个对象是否为 null
+     * <p>
+     * 传入对象数组中存在 null 对象，返回 true 反之 false
+     * </p>
+     *
+     * @param objs 对象数组
+     * @return boolean
+     */
+    public static boolean isNull(Object... objs) {
+        for (Object obj : objs) {
+            if (isNull(obj)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 多个对象为 null
+     * <p>
+     * 传入对象数组中存在非 null对象，返回 false 反之 true
+     * </p>
+     *
+     * @param objs 对象数组
+     * @return boolean
+     */
+    public static boolean isAllNull(Object... objs) {
+        for (Object obj : objs) {
+            if (isNotNull(obj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 多个对象是否非 null
+     * <p>
+     * 传入对象数组中存在非 null 对象，返回 true 反之 false
+     * </p>
+     *
+     * @param objs 对象数组
+     * @return boolean
+     */
+    public static boolean isNotNull(Object... objs) {
+        for (Object obj : objs) {
+            if (isNotNull(obj)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 多个对象非 null
+     * <p>
+     * 传入对象数组中存在 null 对象，返回 false 反之 true
+     * </p>
+     *
+     * @param objs 对象数组
+     * @return boolean
+     */
+    public static boolean isAllNotNull(Object... objs) {
+        for (Object obj : objs) {
+            if (isNull(obj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 多个对象为 空
+     * <p>
+     * 传入对象数组中存在 空 对象，返回 true 反之 false
+     * </p>
+     *
+     * @param objs 对象数组
      * @return boolean
      */
     public static boolean isEmpty(Object... objs) {
@@ -109,11 +164,51 @@ public class BaseUtils {
         }
 
         for (Object obj : objs) {
-            if (obj instanceof List<?> && !((List<?>) obj).isEmpty()) {
-                return false;
+            if (obj instanceof List<?> && isEmpty((List<?>) obj)) {
+                return true;
             }
-            if (obj instanceof Map<?, ?> && !((Map<?, ?>) obj).isEmpty()) {
-                return false;
+            if (obj instanceof Map<?, ?> && isEmpty((Map<?, ?>) obj)) {
+                return true;
+            }
+            if (obj instanceof Object[]) {
+                if (isEmpty((Object[]) obj)) {
+                    return true;
+                }
+                continue;
+            }
+            if (isEmpty(obj)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 多个对象为 空
+     * <p>
+     * 传入对象数组中存在非 空 对象，返回 false 反之 true
+     * </p>
+     *
+     * @param objs 对象数组
+     * @return boolean
+     */
+    public static boolean isAllEmpty(Object... objs) {
+        if (isAllNull(objs)) {
+            return true;
+        }
+
+        for (Object obj : objs) {
+            if (obj instanceof List<?>) {
+                if (isNotEmpty((List<?>) obj)) {
+                    return false;
+                }
+                continue;
+            }
+            if (obj instanceof Map<?, ?>) {
+                if (isNotEmpty((Map<?, ?>) obj)) {
+                    return false;
+                }
+                continue;
             }
             if (obj instanceof Object[]) {
                 if (isNotEmpty((Object[]) obj)) {
@@ -129,13 +224,13 @@ public class BaseUtils {
     }
 
     /**
-     * List非 空
+     * 集合非 空
      *
      * @param list 集合
      * @return boolean
      */
     public static boolean isNotEmpty(List<?> list) {
-        return !isEmpty(list);
+        return list != null && !list.isEmpty();
     }
 
     /**
@@ -145,35 +240,65 @@ public class BaseUtils {
      * @return boolean
      */
     public static boolean isNotEmpty(Map<?, ?> map) {
-        return !isEmpty(map);
-    }
-
-    /**
-     * 对象非 空
-     *
-     * @param obj Object
-     * @return boolean
-     */
-    public static boolean isNotEmpty(Object obj) {
-        return obj != null && !obj.toString().trim().isEmpty();
+        return map != null && !map.isEmpty();
     }
 
     /**
      * 多个对象非 空
      *
-     * @param objs Object...
+     * @param objs 对象数组
      * @return boolean
      */
     public static boolean isNotEmpty(Object... objs) {
+        if (isAllNull(objs)) {
+            return false;
+        }
+
+        for (Object obj : objs) {
+            if (obj instanceof List<?>) {
+                if (isNotEmpty((List<?>) obj)) {
+                    return true;
+                }
+                continue;
+            }
+            if (obj instanceof Map<?, ?>) {
+                if (isNotEmpty((Map<?, ?>) obj)) {
+                    return true;
+                }
+                continue;
+            }
+            if (obj instanceof Object[]) {
+                if (isNotEmpty((Object[]) obj)) {
+                    return true;
+                }
+                continue;
+            }
+            if (isNotEmpty(obj)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 多个对象非 空
+     * <p>
+     * 传入对象数组中存在 空 对象，返回 false 反之 true
+     * </p>
+     *
+     * @param objs 对象数组
+     * @return boolean
+     */
+    public static boolean isAllNotEmpty(Object... objs) {
         if (isNull(objs)) {
             return false;
         }
 
         for (Object obj : objs) {
-            if (obj instanceof List<?> && ((List<?>) obj).isEmpty()) {
+            if (obj instanceof List<?> && isEmpty((List<?>) obj)) {
                 return false;
             }
-            if (obj instanceof Map<?, ?> && ((Map<?, ?>) obj).isEmpty()) {
+            if (obj instanceof Map<?, ?> && isEmpty((Map<?, ?>) obj)) {
                 return false;
             }
             if (obj instanceof Object[]) {

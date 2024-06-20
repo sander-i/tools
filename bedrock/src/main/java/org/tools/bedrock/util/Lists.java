@@ -34,7 +34,7 @@ public class Lists {
      * @return boolean
      */
     public static boolean isNotEmpty(List<?> list) {
-        return !isEmpty(list);
+        return list != null && !list.isEmpty();
     }
 
     /**
