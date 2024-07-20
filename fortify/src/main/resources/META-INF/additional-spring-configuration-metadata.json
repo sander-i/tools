@@ -1,9 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "tools.fortify.longNumber.enabled",
-      "type": "java.lang.Boolean",
-      "description": "Description for tools.fortify.longNumber.enabled."
-    }
-  ]
-}
