@@ -1,77 +1,70 @@
 package org.tools.bedrock.http.resp;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @author sander
  * @version 1.0
  */
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 @Data
-@Accessors(chain = true)
-public class R<T> extends RR {
+public class R<T> implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    private boolean success;
+    private String code;
+    private String message;
     private T data;
 
-    public R(int code, String msg) {
-        super(code, msg);
+    private R(boolean success, String code, String message) {
+        this.code = code;
+        this.message = message;
+        this.success = success;
     }
 
-    public R(int code, String msg, T data) {
-        super(code, msg);
+    private R(boolean success, String code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.success = success;
         this.data = data;
     }
 
-    public static RR success() {
-        return new R<>(RE.SUCCESS.getCode(), RE.SUCCESS.getMsg());
+    private R(boolean success, S s) {
+        this.success = success;
+        this.code = s.getCode();
+        this.message = s.getMessage();
     }
 
-    public static RR success(int code, String msg) {
-        return new R<>(code, msg);
+    private R(boolean success, S s, T data) {
+        this.success = success;
+        this.code = s.getCode();
+        this.message = s.getMessage();
+        this.data = data;
     }
 
-    public static RR success(RE re) {
-        return new R<>(re.getCode(), re.getMsg());
+    public static <T> R<T> ok() {
+        return new R<>(true, RS.OK);
     }
 
-    public static <T> R<T> success(T data) {
-        return new R<>(RE.SUCCESS.getCode(), RE.SUCCESS.getMsg(), data);
+    public static <T> R<T> ok(T data) {
+        return new R<>(true, RS.OK, data);
     }
 
-    public static <T> R<T> success(int code, String msg, T data) {
-        return new R<>(code, msg, data);
+    public static <T> R<T> ok(T data, S s) {
+        return new R<>(true, s, data);
     }
 
-    public static <T> R<T> success(RE re, T data) {
-        return new R<>(re.getCode(), re.getMsg(), data);
-    }
-
-    public static RR fail() {
-        return new R<>(RE.SUCCESS.getCode(), RE.SUCCESS.getMsg());
-    }
-
-    public static RR fail(int code, String msg) {
-        return new R<>(code, msg);
-    }
-
-    public static RR fail(RE re) {
-        return new R<>(re.getCode(), re.getMsg());
+    public static <T> R<T> fail() {
+        return new R<>(false, RS.FAIL);
     }
 
     public static <T> R<T> fail(T data) {
-        return new R<>(RE.FAIL.getCode(), RE.FAIL.getMsg(), data);
+        return new R<>(false, RS.FAIL, data);
     }
 
-    public static <T> R<T> fail(int code, String msg, T data) {
-        return new R<>(code, msg, data);
-    }
-
-    public static <T> R<T> fail(RE re, T data) {
-        return new R<>(re.getCode(), re.getMsg(), data);
+    public static <T> R<T> fail(T data, S s) {
+        return new R<>(false, s, data);
     }
 
 }
