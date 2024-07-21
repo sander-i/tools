@@ -1,6 +1,7 @@
 package org.tools.bedrock.http.resp;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
  * @author sander
  * @version 1.0
  */
+@NoArgsConstructor
 @Data
 public class R<T> implements Serializable {
 
