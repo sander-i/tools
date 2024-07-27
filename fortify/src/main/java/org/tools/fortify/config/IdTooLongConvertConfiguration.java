@@ -5,11 +5,9 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -20,14 +18,8 @@ import java.io.IOException;
  *
  * @author sander 2024/06/27
  */
-@Slf4j
-@Configuration
-@ConditionalOnProperty(prefix = "tools", name = "fortify.longNumber.enabled", havingValue = "true")
+@Component
 public class IdTooLongConvertConfiguration {
-
-    static {
-        log.info("IdTooLongConvertConfiguration.enabled: {}", true);
-    }
 
     private static final long MAX = (long) Math.pow(2, 53) - 1;
 
