@@ -19,7 +19,7 @@ import org.tools.fortify.config.IdTooLongConvertConfiguration;
 @ConditionalOnProperty(prefix = "tools", name = "fortify.longNumber.enabled", havingValue = "true")
 @Import({IdTooLongConvertConfiguration.class})
 // 扫描 IdTooLongConvertConfiguration 类所在包
-@ComponentScan(basePackageClasses = IdTooLongConvertConfiguration.class)
+@ComponentScan(basePackages = {"org.tools.fortify"})
 public class IdTooLongConvertAutoConfiguration {
 
     static {
