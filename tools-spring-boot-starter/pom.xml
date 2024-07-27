@@ -29,6 +29,7 @@
 
     <modules>
         <module>encrypt-spring-boot-starter</module>
+        <module>fortify-spring-boot-starter</module>
     </modules>
 
     <dependencyManagement>
@@ -46,6 +47,11 @@
             <dependency>
                 <groupId>io.gitee.sander-o.spring.boot</groupId>
                 <artifactId>encrypt-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.gitee.sander-o.spring.boot</groupId>
+                <artifactId>fortify-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
