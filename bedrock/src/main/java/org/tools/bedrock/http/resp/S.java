@@ -11,6 +11,6 @@ public interface S {
 
     String getCode();
 
-    String getMessage();
+    String getMsg();
 
 }

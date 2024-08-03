@@ -33,6 +33,6 @@ public enum RS implements S {
     GET_LOCK_ERROR("1007", "获取分布式锁失败");
 
     private final String code;
-    private final String message;
+    private final String msg;
 
 }
