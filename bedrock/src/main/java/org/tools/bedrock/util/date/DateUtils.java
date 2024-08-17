@@ -548,4 +548,34 @@ public class DateUtils {
         return result;
     }
 
+    /**
+     * 生成开始日期到结束日期之间的日期列表
+     *
+     * @param start 开始日期
+     * @param end   结束日期
+     * @return 日期列表
+     */
+    public static List<Date> getDateRange(Date start, Date end) {
+        if (BaseUtils.isNull(start, end)) {
+            return Collections.emptyList();
+        }
+        if (start.after(end)) {
+            throw new IllegalArgumentException("开始日期不能大于结束日期");
+        }
+        if (start.equals(end)) {
+            return Collections.singletonList(start);
+        }
+
+        List<Date> dates = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(start);
+
+        while (!calendar.getTime().after(end)) {
+            dates.add(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        return dates;
+    }
+
 }
