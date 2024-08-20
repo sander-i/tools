@@ -17,6 +17,7 @@ public class FeatureUtil {
      * @param supplier       线上内容
      * @param returnSupplier 沙箱内容
      * @param toggle         切换
+     * @param <T>            T
      * @return 线上内容 ｜ 沙箱内容
      */
     public static <T> T featureToggle(Supplier<T> supplier, Supplier<T> returnSupplier, boolean toggle) {
