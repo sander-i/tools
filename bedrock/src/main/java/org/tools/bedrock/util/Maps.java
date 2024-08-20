@@ -247,7 +247,7 @@ public class Maps {
      * @param target 目标
      * @param <T>    T
      * @param <O>    O
-     * @return Map<T, List < O>> 合并后Map
+     * @return 合并后Map
      */
     public static <T, O> Map<T, List<O>> mergeMap(Map<T, List<O>> source, Map<T, List<O>> target) {
         if (BaseUtils.isAllEmpty(source, target)) {
@@ -289,7 +289,7 @@ public class Maps {
      * @param targets 目标
      * @param <T>     T
      * @param <O>     O
-     * @return Map<T, List < O>> 合并后Map
+     * @return 合并后Map
      */
     @SafeVarargs
     public static <T, O> Map<T, List<O>> mergeMap(Map<T, List<O>> source, Map<T, List<O>>... targets) {
