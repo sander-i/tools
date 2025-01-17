@@ -4,7 +4,7 @@ package org.tools.bedrock.exception;
  * @author sander
  * @version 1.0
  */
-public class BaseException extends Exception {
+public class BaseException extends RuntimeException {
 
     private static final long serialVersionUID = -1681405590078669877L;
 
