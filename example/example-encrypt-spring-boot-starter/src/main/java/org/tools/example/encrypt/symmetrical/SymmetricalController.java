@@ -31,7 +31,7 @@ public class SymmetricalController {
 
     @RequestMapping("des/load")
     public String desLoad() throws DesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
-//        DesHelper.load(encrypt.getSymmetrical().getDes());
+        DesHelper.load(encrypt.getSymmetrical().getDes());
 //        final Encrypt encrypt = tools.getEncrypt();
 //        final Symmetrical symmetrical = encrypt.getSymmetrical();
         return DesHelper.getProperties().getSecretKey();

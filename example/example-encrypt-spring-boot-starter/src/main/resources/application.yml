@@ -35,8 +35,8 @@ tools:
 #            secret-key: "BeYourself"
       des:
         enabled: true
-        secret-key: "BeYourself"
-        group-enabled: true
+        secret-key: "12345678"
+        group-enabled: false
         group:
           - name: phone
             secret-key: "BeYourself"
