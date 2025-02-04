@@ -8,7 +8,6 @@ import java.util.Map;
 
 /**
  * @author sander
- * @date 2024/11/02
  **/
 public class Assert {
 
@@ -19,6 +18,9 @@ public class Assert {
      * 对象为 null
      *
      * @param obj 对象
+     * @param errorMsg 错误信息
+     * @param params 参数
+     * @return boolean
      */
     public static <T> T isNotNull(T obj, String errorMsg, Object... params) throws IllegalArgumentException {
         if (BaseUtils.isNotNull(obj)) {
