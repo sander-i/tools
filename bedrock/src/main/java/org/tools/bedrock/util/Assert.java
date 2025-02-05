@@ -20,6 +20,7 @@ public class Assert {
      * @param obj 对象
      * @param errorMsg 错误信息
      * @param params 参数
+     * @param <T> 泛型
      * @return boolean
      */
     public static <T> T isNotNull(T obj, String errorMsg, Object... params) throws IllegalArgumentException {
