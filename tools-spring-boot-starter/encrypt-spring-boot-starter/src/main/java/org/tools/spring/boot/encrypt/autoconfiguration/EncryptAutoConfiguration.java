@@ -1,10 +1,10 @@
 package org.tools.spring.boot.encrypt.autoconfiguration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -38,27 +38,28 @@ import java.util.Objects;
  * @version 1.0
  */
 @Slf4j
-// 配置类
-@Configuration
 // 存在 Encrypt 类时初始化该配置类
 @ConditionalOnClass({Encrypt.class})
+@ComponentScan("org.tools.spring.boot.encrypt.autoconfiguration")
 // 开启配置属性支持
 @EnableConfigurationProperties({Encrypt.class, Asymmetric.class, Symmetrical.class, Rsa.class, Aes.class, Des.class})
-//@EnableConfigurationProperties({Encrypt.class})
-// 扫描 Encrypt 类所在包
-@ComponentScan(basePackageClasses = Encrypt.class)
+@Configuration
 // 存在对应配置信息时初始化该配置类
-@ConditionalOnProperty(prefix = "tools", value = "encrypt.enabled", havingValue = "true")
+@ConfigurationProperties(prefix = "tools.encrypt")
 public class EncryptAutoConfiguration {
 
-    @Autowired
-    private Encrypt encrypt;
+    private final Encrypt encrypt;
+
+    public EncryptAutoConfiguration(Encrypt encrypt) {
+        this.encrypt = encrypt;
+        printWelcome();
+    }
 
     @Bean
     @ConditionalOnMissingBean(type = "rsaTemplate")
     @ConditionalOnProperty(prefix = "tools.encrypt.asymmetric.rsa", value = "enabled", havingValue = "true")
     public RsaProperties rsa() {
-        final String checkEncrypt = checkEncrypt(false, AlgorithmEnum.AES);
+        final String checkEncrypt = checkEncrypt(false, AlgorithmEnum.RSA);
         if (BaseUtils.isNotEmpty(checkEncrypt)) {
             return null;
         }
@@ -158,6 +159,23 @@ public class EncryptAutoConfiguration {
                 break;
         }
         return "";
+    }
+
+    private static void printWelcome() {
+        final String[] banner = {
+                "\n" +
+                        "  _____           _     \n" +
+                        " |_   _|__   ___ | |___ \n" +
+                        "   | |/ _ \\ / _ \\| / __|\n" +
+                        "   | | (_) | (_) | \\__ \\\n" +
+                        "   |_|\\___/ \\___/|_|___/\n" +
+                        "               1.0.6.4-d01\n" +
+                        "\n"
+        };
+
+        String fullBanner = String.join("\n", banner);
+        System.out.print(fullBanner);
+//        System.out.print("\033[32m" + " :: Tools :: " + "\033[0m" + "\n\n");
     }
 
 }
