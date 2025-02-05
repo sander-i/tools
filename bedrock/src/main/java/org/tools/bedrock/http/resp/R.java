@@ -1,6 +1,8 @@
 package org.tools.bedrock.http.resp;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -8,7 +10,10 @@ import java.io.Serializable;
  * @author sander
  * @version 1.0
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Deprecated
 public class R<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -17,54 +22,28 @@ public class R<T> implements Serializable {
     private String message;
     private T data;
 
-    private R(boolean success, String code, String message) {
-        this.code = code;
-        this.message = message;
-        this.success = success;
-    }
-
-    private R(boolean success, String code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.success = success;
-        this.data = data;
-    }
-
-    private R(boolean success, S s) {
-        this.success = success;
-        this.code = s.getCode();
-        this.message = s.getMessage();
-    }
-
-    private R(boolean success, S s, T data) {
-        this.success = success;
-        this.code = s.getCode();
-        this.message = s.getMessage();
-        this.data = data;
-    }
-
     public static <T> R<T> ok() {
-        return new R<>(true, RS.OK);
+        return new R<>(true, RS.OK.getCode(), RS.OK.getMsg(), null);
     }
 
     public static <T> R<T> ok(T data) {
-        return new R<>(true, RS.OK, data);
+        return new R<>(true, RS.OK.getCode(), RS.OK.getMsg(), data);
     }
 
     public static <T> R<T> ok(T data, S s) {
-        return new R<>(true, s, data);
+        return new R<>(true, s.getCode(), s.getMsg(), data);
     }
 
     public static <T> R<T> fail() {
-        return new R<>(false, RS.FAIL);
+        return new R<>(false, RS.FAIL.getCode(), RS.FAIL.getMsg(), null);
     }
 
     public static <T> R<T> fail(T data) {
-        return new R<>(false, RS.FAIL, data);
+        return new R<>(false, RS.FAIL.getCode(), RS.FAIL.getMsg(), data);
     }
 
     public static <T> R<T> fail(T data, S s) {
-        return new R<>(false, s, data);
+        return new R<>(false, s.getCode(), s.getMsg(), data);
     }
 
 }

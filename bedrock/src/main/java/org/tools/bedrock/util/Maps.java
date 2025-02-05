@@ -3,10 +3,7 @@ package org.tools.bedrock.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -81,6 +78,7 @@ public class Maps {
      * @param <T>       目标对象泛型
      * @return 目标
      */
+    @SuppressWarnings("unchecked")
     public static <T> T mapToObj(Map<String, Object> sourceMap, T target) {
         Class<?> clz = target.getClass();
         // 获取所有属性
@@ -240,6 +238,70 @@ public class Maps {
             log.error(e.getLocalizedMessage(), e);
         }
         return null;
+    }
+
+    /**
+     * 合并Map
+     *
+     * @param source 源
+     * @param target 目标
+     * @param <T>    T
+     * @param <O>    O
+     * @return 合并后Map
+     */
+    public static <T, O> Map<T, List<O>> mergeMap(Map<T, List<O>> source, Map<T, List<O>> target) {
+        if (BaseUtils.isAllEmpty(source, target)) {
+            return source;
+        }
+        if ((BaseUtils.isNotNull(source) && BaseUtils.isEmpty(source)) && BaseUtils.isNotEmpty(target)) {
+            source.putAll(target);
+            return source;
+        }
+        target.forEach((k, v) -> {
+            if (Lists.isEmpty(v)) {
+                return;
+            }
+            final List<O> sourceValues = source.get(k);
+            if (BaseUtils.isEmpty(sourceValues)) {
+                source.put(k, v);
+                return;
+            }
+            sourceValues.addAll(v);
+        });
+
+//        source.forEach((k, v) -> {
+//            if (Lists.isEmpty(v)) {
+//                return;
+//            }
+//            List<O> targetValues = target.get(k);
+//            if (BaseUtils.isEmpty(targetValues)) {
+//                return;
+//            }
+//            v.addAll(targetValues);
+//        });
+        return source;
+    }
+
+    /**
+     * 合并Map
+     *
+     * @param source  源
+     * @param targets 目标
+     * @param <T>     T
+     * @param <O>     O
+     * @return 合并后Map
+     */
+    @SafeVarargs
+    public static <T, O> Map<T, List<O>> mergeMap(Map<T, List<O>> source, Map<T, List<O>>... targets) {
+        if (BaseUtils.isAllEmpty(source, targets)) {
+            return source;
+        }
+        if ((BaseUtils.isNotNull(source) && BaseUtils.isEmpty(source)) && BaseUtils.isNotEmpty(targets)) {
+            Arrays.stream(targets).filter(Maps::isNotEmpty).forEach(source::putAll);
+            return source;
+        }
+        Arrays.stream(targets).filter(Maps::isNotEmpty).forEach(tmpMap -> source.putAll(mergeMap(source, tmpMap)));
+        return source;
     }
 
 }
