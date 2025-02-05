@@ -445,7 +445,8 @@
         <profile>
             <id>ossrh</id>
             <properties>
-                <gpg.executable>sander-o</gpg.executable>
+                <gpg.executable>gpg</gpg.executable>
+                <gpg.passphrase>Ailuoli@123</gpg.passphrase>
             </properties>
         </profile>
         <!--        <profile>-->
