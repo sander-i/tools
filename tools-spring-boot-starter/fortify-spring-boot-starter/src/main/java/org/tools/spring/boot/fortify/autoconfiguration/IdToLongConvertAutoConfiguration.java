@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.tools.fortify.config.IdTooLongConvertConfiguration;
+import org.tools.fortify.config.IdToLongConvertConfiguration;
 
 /**
  * <p>
@@ -17,10 +17,10 @@ import org.tools.fortify.config.IdTooLongConvertConfiguration;
 @Slf4j
 @Configuration
 @ConditionalOnProperty(prefix = "tools", name = "fortify.longNumber.enabled", havingValue = "true")
-@Import({IdTooLongConvertConfiguration.class})
+@Import({IdToLongConvertConfiguration.class})
 // 扫描 IdTooLongConvertConfiguration 类所在包
 @ComponentScan(basePackages = {"org.tools.fortify"})
-public class IdTooLongConvertAutoConfiguration {
+public class IdToLongConvertAutoConfiguration {
 
     static {
         log.info("IdTooLongConvertConfiguration.enabled: {}", true);

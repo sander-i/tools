@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author sander 2024/06/27
  */
 @Component
-public class IdTooLongConvertConfiguration {
+public class IdToLongConvertConfiguration {
 
     private static final long MAX = (long) Math.pow(2, 53) - 1;
 
