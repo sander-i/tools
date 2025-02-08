@@ -115,7 +115,7 @@ public class AliyunDdnsUtils {
 
         if (BaseUtils.isNotEmpty(error.toString())) {
             log.error("updateDomainRecordBatch error: {}", error);
-            throw new Exception(error.toString());
+            throw new Exception(error.substring(0, error.length() - 1));
         }
         return succeedList;
     }
