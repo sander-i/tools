@@ -81,8 +81,7 @@
         <!-- framework.dependencies -->
         <!-- spring.dependencies -->
         <spring-boot-starter.version>2.7.1</spring-boot-starter.version>
-        <spring-cloud.varsion>2021.0.6</spring-cloud.varsion>
-        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <spring-cloud.version>2021.0.6</spring-cloud.version>
         <!-- log4j.dependencies -->
         <lombk.version>1.18.24</lombk.version>
         <slf4j.version>1.7.21</slf4j.version>
@@ -132,15 +131,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.varsion}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

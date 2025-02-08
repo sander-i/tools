@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.gitee.sander-o.spring.boot</groupId>
+        <artifactId>tools-spring-boot-starter</artifactId>
+        <version>1.0.6.5</version>
+    </parent>
+    <artifactId>fortify-spring-boot-starter</artifactId>
+
+    <name>${project.artifactId}</name>
+
+    <description>Portable toolbox to make coding easier!
+        Most of the tools and methods of the project are searchable on the Internet, and the concept of this project is
+        to solve the problem that searching on the Internet is time-consuming and laborious, and it is not very easy to
+        use
+    </description>
+
+    <url>https://gitee.com/sander-o/tools/tree/release/tools-spring-boot-starter/fortigy-spring-boot-starter</url>
+
+    <properties>
+        <spring.application.name>fortify-spring-boot-starter</spring.application.name>
+    </properties>
+
+    <dependencies>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter</artifactId>-->
+        <!--        </dependency>-->
+        <!--        Compile dependencies-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <!-- Optional dependencies -->
+        <dependency>
+            <groupId>io.gitee.sander-o</groupId>
+            <artifactId>fortify</artifactId>
+            <!--            <optional>true</optional>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!--         @ConfigurationProperties annotation processing (metadata for IDEs)-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+    </dependencies>
+
+</project>
