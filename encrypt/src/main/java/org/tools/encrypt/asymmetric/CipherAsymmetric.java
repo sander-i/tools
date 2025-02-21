@@ -35,7 +35,7 @@ public class CipherAsymmetric extends CipherAbst {
     public byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff, int maxBlock)
             throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException {
         actuatorCheck(algorithm, algorithmMode, secretKey, stuff);
-        // 用密匙初始化Cipher对象
+        // Cipher对象实际完成解密操作
         AlgorithmEnum algorithmEnum = AlgorithmEnum.enumName(algorithm);
         AlgorithmModeEnum algorithmModeEnum = AlgorithmModeEnum.enumName(algorithmMode);
         Cipher cipher = CipherSupply.getInstance().prepCipher(algorithmEnum, algorithmModeEnum, secretKey, ivParameter, mode);
@@ -43,7 +43,7 @@ public class CipherAsymmetric extends CipherAbst {
         ByteArrayOutputStream out = subLevel(stuff, cipher, maxBlock);
         byte[] execute = out.toByteArray();
         out.close();
-        // 加密处理后的字符
+
         return execute;
     }
 
@@ -67,6 +67,7 @@ public class CipherAsymmetric extends CipherAbst {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // 对数据分段
         while (inputLen - offset > 0) {
+            // 每次加密的字节数，如果不是最后一块，加密maxBlock字节
             if (inputLen - offset > maxBlock) {
                 cache = cipher.doFinal(stuff, offset, maxBlock);
             } else {

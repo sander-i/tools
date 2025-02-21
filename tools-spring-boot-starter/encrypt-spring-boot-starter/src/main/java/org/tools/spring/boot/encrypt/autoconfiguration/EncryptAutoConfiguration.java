@@ -20,11 +20,14 @@ import org.tools.encrypt.entity.symmetrical.Aes;
 import org.tools.encrypt.entity.symmetrical.AesProperties;
 import org.tools.encrypt.entity.symmetrical.Des;
 import org.tools.encrypt.entity.symmetrical.DesProperties;
+import org.tools.encrypt.entity.symmetrical.Idea;
+import org.tools.encrypt.entity.symmetrical.IdeaProperties;
 import org.tools.encrypt.entity.symmetrical.Symmetrical;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.exception.EncryptException;
 import org.tools.encrypt.symmetrical.aes.AesHelper;
 import org.tools.encrypt.symmetrical.des.DesHelper;
+import org.tools.encrypt.symmetrical.idea.IdeaHelper;
 import org.tools.spring.boot.encrypt.OnEncryptPropertiesCondition;
 
 import javax.crypto.NoSuchPaddingException;
@@ -101,6 +104,22 @@ public class EncryptAutoConfiguration {
         return AesHelper.getProperties();
     }
 
+    @Bean
+    @ConditionalOnMissingBean(type = "ideaTemplate")
+    @ConditionalOnProperty(prefix = "tools.encrypt.symmetrical.idea", value = "enabled", havingValue = "true")
+    public IdeaProperties idea() {
+        final String checkEncrypt = checkEncrypt(true, AlgorithmEnum.IDEA);
+        if (BaseUtils.isNotEmpty(checkEncrypt)) {
+            return null;
+        }
+        try {
+            IdeaHelper.load(encrypt.getSymmetrical().getIdea());
+        } catch (EncryptException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException e) {
+            log.error("EncryptAutoConfiguration idea error", e);
+        }
+        return IdeaHelper.getProperties();
+    }
+
     /**
      * 检查加密配置
      *
@@ -150,6 +169,13 @@ public class EncryptAutoConfiguration {
                 if (Objects.isNull(aes)) {
                     log.error("EncryptAutoConfiguration aes error");
                     return "EncryptAutoConfiguration aes error";
+                }
+                break;
+            case IDEA:
+                final Idea idea = symmetrical.getIdea();
+                if (Objects.isNull(idea)) {
+                    log.error("EncryptAutoConfiguration idea error");
+                    return "EncryptAutoConfiguration idea error";
                 }
                 break;
             default:
