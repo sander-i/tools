@@ -1,6 +1,6 @@
 package org.tools.encrypt.basic.sha;
 
-import org.tools.encrypt.AlgorithmEnum;
+import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.basic.BasicUtils;
 
 import java.security.NoSuchAlgorithmException;

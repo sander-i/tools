@@ -1,14 +1,19 @@
 package org.tools.encrypt.asymmetric.rsa;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.EncryptKeyGenerator;
+import org.tools.encrypt.entity.asymmetric.RsaProperties;
 import org.tools.encrypt.exception.EncryptException;
 import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 
-import java.security.*;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -31,7 +36,6 @@ public class RsaKeyGenerator {
     /**
      * Rsa 配置文件
      */
-    @Setter
     private static RsaProperties properties;
 
     /**
@@ -196,12 +200,12 @@ public class RsaKeyGenerator {
     public static RsaProperties getRsaProperties() throws EncryptException {
         initProperties();
 
-        if (BaseUtils.isEmpty(properties.getPublicKey(), properties.getPrivateKey()) ||
-                BaseUtils.isEmpty(properties.getRsaPublicKey(), properties.getRsaPrivateKey())) {
-            properties.setRsaPublicKey(RsaKeyGenerator.getPublicKey());
-            properties.setRsaPrivateKey(RsaKeyGenerator.getPrivateKey());
-            properties.setPublicKey(RsaKeyGenerator.getPublicKeyStr(properties.getRsaPublicKey()));
-            properties.setPrivateKey(RsaKeyGenerator.getPrivateKeyStr(properties.getRsaPrivateKey()));
+        if (BaseUtils.isEmpty(properties.getPublicKeyStr(), properties.getPrivateKeyStr()) ||
+                BaseUtils.isEmpty(properties.getPublicKey(), properties.getPrivateKey())) {
+            properties.setPublicKey(RsaKeyGenerator.getPublicKey());
+            properties.setPrivateKey(RsaKeyGenerator.getPrivateKey());
+            properties.setPublicKeyStr(RsaKeyGenerator.getPublicKeyStr(properties.getPublicKey()));
+            properties.setPrivateKeyStr(RsaKeyGenerator.getPrivateKeyStr(properties.getPrivateKey()));
         }
         return properties;
     }

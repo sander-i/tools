@@ -1,4 +1,4 @@
-package org.tools.encrypt;
+package org.tools.encrypt.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +39,10 @@ public enum AlgorithmEnum {
      * AES
      */
     AES("AES"),
+    /**
+     * IDEA
+     */
+    IDEA("IDEA"),
 
     /**
      * DSA

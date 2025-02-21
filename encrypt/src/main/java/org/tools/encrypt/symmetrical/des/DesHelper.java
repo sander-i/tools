@@ -4,7 +4,9 @@ import lombok.Getter;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.Des;
+import org.tools.encrypt.entity.symmetrical.DesProperties;
 import org.tools.encrypt.exception.symmetrical.des.DesException;
+import org.tools.encrypt.symmetrical.SymmetricalUtils;
 
 import javax.crypto.SecretKey;
 import java.security.InvalidKeyException;
@@ -71,9 +73,9 @@ public class DesHelper {
             throw new DesException("keyPair 不能为空！");
         }
         DesProperties properties = new DesProperties();
-        properties.setSecretKey(keyPair.getSecretKey());
+        properties.setSecretKeyStr(keyPair.getSecretKey());
         SecretKey secretKey = DesKeyGenerator.getSecretKey(keyPair.getAlgorithm(), keyPair.getSecretKey());
-        properties.setDesKey(secretKey);
+        properties.setSecretKey(secretKey);
         properties.setAlgorithm(keyPair.getAlgorithm());
         properties.setAlgorithmMode(keyPair.getAlgorithmMode());
         properties.setIvParameter(keyPair.getIvParameter());
@@ -85,14 +87,14 @@ public class DesHelper {
         if (BaseUtils.isEmpty(properties)) {
             throw new DesException("properties 不能为空！");
         }
-        if (BaseUtils.isEmpty(properties.getDesKey())) {
+        if (BaseUtils.isEmpty(properties.getSecretKey())) {
             throw new DesException("secretKey 不能为空！");
         }
         DesHelper.properties = properties;
     }
 
     public static String encode(String raw) throws DesException {
-        return DesUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getDesKey(), properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), properties.getIvParameter(), raw);
     }
 
     public static String encode(String secretKey, String raw) throws DesException {
@@ -102,15 +104,15 @@ public class DesHelper {
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new DesException(e);
         }
-        return DesUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), raw);
     }
 
     public static String encode(SecretKey secretKey, String raw) throws DesException {
-        return DesUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), raw);
     }
 
     public static String decode(String wrought) throws DesException {
-        return DesUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getDesKey(), properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), properties.getIvParameter(), wrought);
     }
 
     public static String decode(String secretKey, String wrought) throws DesException {
@@ -120,11 +122,11 @@ public class DesHelper {
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new DesException(e);
         }
-        return DesUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), wrought);
     }
 
     public static String decode(SecretKey secretKey, String wrought) throws DesException {
-        return DesUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), wrought);
     }
 
 }
