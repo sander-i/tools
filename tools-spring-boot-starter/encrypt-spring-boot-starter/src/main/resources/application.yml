@@ -1,7 +1,6 @@
 #-----------------------------------encrypt-??-----------------------------------#
 tools:
   encrypt:
-    enabled: false
     asymmetric:
       rsa:
         enabled: true

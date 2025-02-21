@@ -3,7 +3,11 @@ package org.tools.bedrock.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -59,7 +63,7 @@ public class CopyUtil {
                 ClassUtils.commonFields(sourceClz, targetClz, typeSame) :
                 ClassUtils.allCommonFields(sourceClz, targetClz, typeSame);
         // 忽略属性集合
-        Set<String> ignoreSet = BaseUtils.isNotEmpty(ignoreProperties) ?
+        Set<String> ignoreSet = BaseUtils.isNotEmpty((Object[]) ignoreProperties) ?
                 new HashSet<>(Arrays.asList(ignoreProperties)) : Collections.emptySet();
         // 过滤忽略属性
         List<Field> commonFieldList = Arrays.stream(commonFields)

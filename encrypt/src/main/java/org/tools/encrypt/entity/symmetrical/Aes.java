@@ -3,8 +3,8 @@ package org.tools.encrypt.entity.symmetrical;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.tools.encrypt.AlgorithmEnum;
-import org.tools.encrypt.AlgorithmModeEnum;
+import org.tools.encrypt.enums.AlgorithmEnum;
+import org.tools.encrypt.enums.AlgorithmModeEnum;
 import org.tools.encrypt.entity.KeyPair;
 
 import java.util.List;

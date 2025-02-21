@@ -1,12 +1,12 @@
 package org.tools.encrypt.symmetrical.des;
 
 import junit.framework.TestCase;
-import org.tools.encrypt.AlgorithmEnum;
-import org.tools.encrypt.AlgorithmModeEnum;
+import org.tools.encrypt.entity.symmetrical.DesProperties;
+import org.tools.encrypt.enums.AlgorithmEnum;
+import org.tools.encrypt.enums.AlgorithmModeEnum;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.exception.EncryptException;
 
-import javax.crypto.SecretKey;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -34,10 +34,8 @@ public class DesHelperTest extends TestCase {
         DesHelper.load(keyPair);
 
         final DesProperties properties = DesHelper.getProperties();
-        final String secretKey = properties.getSecretKey();
-        final SecretKey desKey = properties.getDesKey();
+        final String secretKey = properties.getSecretKeyStr();
         System.out.println("secretKey: " + secretKey);
-        System.out.println("desKey: " + desKey);
 
         final String encode = DesHelper.encode("66666666");
         System.out.println("encode: " + encode);

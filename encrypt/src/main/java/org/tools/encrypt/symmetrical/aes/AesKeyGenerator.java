@@ -3,17 +3,16 @@ package org.tools.encrypt.symmetrical.aes;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
-import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.EncryptKeyGenerator;
+import org.tools.encrypt.entity.symmetrical.AesProperties;
+import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.exception.symmetrical.aes.AesException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 /**
  * des密钥生成工具
@@ -36,13 +35,14 @@ public class AesKeyGenerator {
      * 锁对象
      */
     private static final Object LOCK = new Object();
+
     /**
      * 密钥生成器
      */
     private static KeyGenerator keyGenerator;
 
     /**
-     * Des 配置文件
+     * Aes 配置文件
      */
     private static AesProperties properties;
 
@@ -92,16 +92,16 @@ public class AesKeyGenerator {
      * @param algorithm 算法
      * @param secretKey 密钥字符串
      * @return 密钥对象
-     * @throws InvalidKeyException      无效密钥异常
-     * @throws NoSuchAlgorithmException 算法不存在或不支持异常
-     * @throws InvalidKeySpecException  无效的密钥规范异常
      */
-    public static SecretKey getSecretKey(String algorithm, String secretKey) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static SecretKey getSecretKey(String algorithm, String secretKey) {
         byte[] secretKeyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return new SecretKeySpec(secretKeyBytes, algorithm);
     }
 
-    public static AesProperties getProperties() throws AesException {
+    /**
+     * 单例模式-线程安全
+     */
+    private static void initProperties() {
         if (BaseUtils.isNull(properties)) {
             synchronized (LOCK) {
                 if (BaseUtils.isNull(properties)) {
@@ -109,9 +109,20 @@ public class AesKeyGenerator {
                 }
             }
         }
-        if (BaseUtils.isEmpty(properties.getSecretKey(), properties.getAesKey())) {
-            properties.setAesKey(getSecretKey());
-            properties.setSecretKey(getSecretKeyStr(properties.getAesKey()));
+    }
+
+    /**
+     * 获取Aes配置文件
+     *
+     * @return AesProperties
+     * @throws AesException AES加解密异常
+     */
+    public static AesProperties getProperties() throws AesException {
+        initProperties();
+
+        if (BaseUtils.isEmpty(properties.getSecretKeyStr(), properties.getSecretKey())) {
+            properties.setSecretKey(getSecretKey());
+            properties.setSecretKeyStr(getSecretKeyStr(properties.getSecretKey()));
         }
         return properties;
     }

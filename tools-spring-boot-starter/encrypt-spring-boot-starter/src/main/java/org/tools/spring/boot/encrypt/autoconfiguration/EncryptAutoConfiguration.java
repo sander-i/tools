@@ -1,29 +1,31 @@
 package org.tools.spring.boot.encrypt.autoconfiguration;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.tools.bedrock.util.BaseUtils;
-import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.asymmetric.rsa.RsaHelper;
-import org.tools.encrypt.asymmetric.rsa.RsaProperties;
 import org.tools.encrypt.entity.Encrypt;
+import org.tools.encrypt.entity.EncryptScanPackage;
 import org.tools.encrypt.entity.asymmetric.Asymmetric;
 import org.tools.encrypt.entity.asymmetric.Rsa;
+import org.tools.encrypt.entity.asymmetric.RsaProperties;
 import org.tools.encrypt.entity.symmetrical.Aes;
+import org.tools.encrypt.entity.symmetrical.AesProperties;
 import org.tools.encrypt.entity.symmetrical.Des;
+import org.tools.encrypt.entity.symmetrical.DesProperties;
 import org.tools.encrypt.entity.symmetrical.Symmetrical;
+import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.exception.EncryptException;
 import org.tools.encrypt.symmetrical.aes.AesHelper;
-import org.tools.encrypt.symmetrical.aes.AesProperties;
 import org.tools.encrypt.symmetrical.des.DesHelper;
-import org.tools.encrypt.symmetrical.des.DesProperties;
+import org.tools.spring.boot.encrypt.OnEncryptPropertiesCondition;
 
 import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidKeyException;
@@ -32,26 +34,22 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Objects;
 
 /**
- * des 自动配置类
+ * 自动配置类
  *
  * @author sander
  * @version 1.0
  */
 @Slf4j
-// 存在 Encrypt 类时初始化该配置类
-@ConditionalOnClass({Encrypt.class})
-@ComponentScan("org.tools.spring.boot.encrypt.autoconfiguration")
-// 开启配置属性支持
-@EnableConfigurationProperties({Encrypt.class, Asymmetric.class, Symmetrical.class, Rsa.class, Aes.class, Des.class})
 @Configuration
-// 存在对应配置信息时初始化该配置类
-@ConfigurationProperties(prefix = "tools.encrypt")
+@ConditionalOnClass({Encrypt.class})
+@Conditional(OnEncryptPropertiesCondition.class)
+@ConfigurationPropertiesScan(basePackages = EncryptScanPackage.ENTITY)
+@RequiredArgsConstructor
 public class EncryptAutoConfiguration {
 
     private final Encrypt encrypt;
 
-    public EncryptAutoConfiguration(Encrypt encrypt) {
-        this.encrypt = encrypt;
+    static {
         printWelcome();
     }
 
@@ -169,7 +167,7 @@ public class EncryptAutoConfiguration {
                         "   | |/ _ \\ / _ \\| / __|\n" +
                         "   | | (_) | (_) | \\__ \\\n" +
                         "   |_|\\___/ \\___/|_|___/\n" +
-                        "               1.0.6.4-d01\n" +
+                        "               1.0.6.5-d01\n" +
                         "\n"
         };
 

@@ -3,8 +3,9 @@ package org.tools.encrypt.symmetrical.des;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
-import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.EncryptKeyGenerator;
+import org.tools.encrypt.entity.symmetrical.DesProperties;
+import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.exception.symmetrical.des.DesException;
 
 import javax.crypto.KeyGenerator;
@@ -101,7 +102,10 @@ public class DesKeyGenerator {
         return new SecretKeySpec(secretKeyBytes, algorithm);
     }
 
-    public static DesProperties getProperties() throws DesException {
+    /**
+     * 单例模式-线程安全
+     */
+    private static void initProperties() {
         if (BaseUtils.isNull(properties)) {
             synchronized (LOCK) {
                 if (BaseUtils.isNull(properties)) {
@@ -109,9 +113,20 @@ public class DesKeyGenerator {
                 }
             }
         }
-        if (BaseUtils.isEmpty(properties.getSecretKey(), properties.getDesKey())) {
-            properties.setDesKey(getSecretKey());
-            properties.setSecretKey(getSecretKeyStr(properties.getDesKey()));
+    }
+
+    /**
+     * 获取Des配置文件
+     *
+     * @return DesProperties
+     * @throws DesException DES加解密异常
+     */
+    public static DesProperties getProperties() throws DesException {
+        initProperties();
+
+        if (BaseUtils.isEmpty(properties.getSecretKeyStr(), properties.getSecretKey())) {
+            properties.setSecretKey(getSecretKey());
+            properties.setSecretKeyStr(getSecretKeyStr(properties.getSecretKey()));
         }
         return properties;
     }
