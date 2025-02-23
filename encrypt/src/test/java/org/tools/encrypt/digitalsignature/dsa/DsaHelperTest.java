@@ -1,8 +1,8 @@
 package org.tools.encrypt.digitalsignature.dsa;
 
 import junit.framework.TestCase;
-import org.tools.encrypt.SignAlgorithmEnum;
 import org.tools.encrypt.entity.digitalsignature.DsaProperties;
+import org.tools.encrypt.enums.SignAlgorithmEnum;
 import org.tools.encrypt.exception.EncryptException;
 
 import java.security.KeyPair;

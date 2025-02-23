@@ -1,6 +1,7 @@
 package org.tools.encrypt;
 
 
+import lombok.SneakyThrows;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 
@@ -10,6 +11,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 /**
  * @author sander
@@ -32,13 +34,16 @@ public abstract class CipherSupplyAbst {
      * @throws InvalidKeyException                密钥错误或密钥的格式不正确
      * @throws InvalidAlgorithmParameterException 算法参数不适用于当前操作或算法参数值不适合算法
      */
+    @SneakyThrows
     public Cipher prepCipher(AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode)
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, InvalidAlgorithmParameterException {
         initSupport(algorithmMode);
-        Cipher cipher = Cipher.getInstance(algorithmMode.getAlgorithmMode());
+        Cipher cipher = getInstanceCipher(algorithmMode);
         initCipher(cipher, algorithm, algorithmMode, secretKey, ivParameter, mode);
         return cipher;
     }
+
+    public abstract Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException;
 
     public abstract void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode) throws InvalidKeyException, InvalidAlgorithmParameterException;
 

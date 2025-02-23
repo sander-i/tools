@@ -23,7 +23,7 @@ public class EncryptProperties {
     /**
      * 算法模式
      */
-    private String algorithmMode;
+    protected String algorithmMode;
 
     /**
      * 验签算法
@@ -38,12 +38,12 @@ public class EncryptProperties {
     /**
      * 最大加密明文大小
      */
-    private Integer maxEncryptBlock;
+    protected Integer maxEncryptBlock;
 
     /**
      * 最大解密密文大小
      */
-    private Integer maxDecryptBlock;
+    protected Integer maxDecryptBlock;
 
     /**
      * 向量
@@ -53,31 +53,31 @@ public class EncryptProperties {
     /**
      * 密钥
      */
-    private String secretKeyStr;
+    protected String secretKeyStr;
 
     /**
      * 密钥对象
      */
-    private SecretKey secretKey;
+    protected SecretKey secretKey;
 
     /**
-     * RSA公钥
+     * 公钥
      */
-    private String publicKeyStr;
+    protected String publicKeyStr;
 
     /**
-     * RSA公钥对象
+     * 公钥对象
      */
-    private PublicKey publicKey;
+    protected PublicKey publicKey;
 
     /**
-     * RSA私钥
+     * 私钥
      */
-    private String privateKeyStr;
+    protected String privateKeyStr;
 
     /**
-     * RSA私钥对象
+     * 私钥对象
      */
-    private PrivateKey privateKey;
+    protected PrivateKey privateKey;
 
 }
