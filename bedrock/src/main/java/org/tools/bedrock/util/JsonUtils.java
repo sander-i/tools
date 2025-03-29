@@ -9,7 +9,9 @@ import java.util.Set;
 /**
  * @author sander
  * @version 1.0
+ * @deprecated org.tools.bedrock.util.JsonUtil
  */
+@Deprecated
 public class JsonUtils {
 
     public static String listToJSON(List<?> list) {
