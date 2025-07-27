@@ -10,10 +10,13 @@ import org.tools.bedrock.http.resp.S;
 /**
  * @author sander
  * @version 2.0
+ * @deprecated The current object is migrated to
+ * @see org.tools.bedrock.http.resp.R
  */
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
+@Deprecated
 public class R<T> extends RR {
 
     private static final long serialVersionUID = -3650942902842307882L;
