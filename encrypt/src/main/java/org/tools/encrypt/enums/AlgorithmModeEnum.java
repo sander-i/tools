@@ -1,4 +1,4 @@
-package org.tools.encrypt;
+package org.tools.encrypt.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,6 +44,12 @@ public enum AlgorithmModeEnum {
      */
     AES("AES"),
     AES_CBC_PKCS5PADDING("AES/CBC/PKCS5Padding"),
+
+    /**
+     * IDEA
+     */
+    IDEA("IDEA"),
+    IDEA_ECB_ISO10126Padding("IDEA/ECB/ISO10126Padding"),
 
     /**
      * DIGITAL_SIGNATURE
