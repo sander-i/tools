@@ -3,6 +3,7 @@ package org.tools.encrypt.symmetrical.aes;
 import junit.framework.TestCase;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.Aes;
+import org.tools.encrypt.entity.symmetrical.AesProperties;
 import org.tools.encrypt.exception.symmetrical.aes.AesException;
 
 import javax.crypto.SecretKey;

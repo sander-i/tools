@@ -3,7 +3,9 @@ package org.tools.encrypt.digitalsignature.dsa;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.tools.bedrock.util.BaseUtils;
+import org.tools.encrypt.digitalsignature.SignatureUtils;
 import org.tools.encrypt.entity.KeyPair;
+import org.tools.encrypt.entity.digitalsignature.DsaProperties;
 import org.tools.encrypt.exception.EncryptException;
 
 import java.security.NoSuchAlgorithmException;
@@ -36,8 +38,8 @@ public class DsaHelper {
             throw new EncryptException("keyPair 不能为空！");
         }
         DsaProperties properties = new DsaProperties();
-        properties.setPublicKey(keyPair.getPublicKey());
-        properties.setPrivateKey(keyPair.getPrivateKey());
+        properties.setPublicKeyStr(keyPair.getPublicKey());
+        properties.setPrivateKeyStr(keyPair.getPrivateKey());
         properties.setSignAlgorithm(keyPair.getSignAlgorithm());
         load(properties);
     }
@@ -46,7 +48,7 @@ public class DsaHelper {
         if (BaseUtils.isEmpty(properties)) {
             throw new EncryptException("properties 不能为空！");
         }
-        if (!BaseUtils.isNotEmpty(properties.getDsaPublicKey(), properties.getDsaPrivateKey())) {
+        if (!BaseUtils.isNotEmpty(properties.getPublicKey(), properties.getPrivateKey())) {
             throw new EncryptException("publicKey|privateKey 不能为空！");
         }
         DsaHelper.properties = properties;
@@ -58,11 +60,11 @@ public class DsaHelper {
     }
 
     public static String sign(String wrought) throws EncryptException {
-        return DsaUtils.sign(properties.getSignAlgorithm(), properties.getDsaPrivateKey(), wrought);
+        return SignatureUtils.sign(properties.getSignAlgorithm(), properties.getPrivateKey(), wrought);
     }
 
-    public static Boolean verify(String wrought, String sign) throws EncryptException {
-        return DsaUtils.verify(properties.getSignAlgorithm(), properties.getDsaPublicKey(), wrought, sign);
+    public static boolean verify(String wrought, String sign) throws EncryptException {
+        return SignatureUtils.verify(properties.getSignAlgorithm(), properties.getPublicKey(), wrought, sign);
     }
 
     public static String sign(String privateKey, String wrought) throws EncryptException {
@@ -76,7 +78,7 @@ public class DsaHelper {
         return signText;
     }
 
-    public static Boolean verify(String publicKey, String wrought, String sign) throws EncryptException {
+    public static boolean verify(String publicKey, String wrought, String sign) throws EncryptException {
         try {
             return verify(DsaKeyGenerator.getPublicKey(properties.getSignAlgorithm(), publicKey), wrought, sign);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
@@ -86,11 +88,11 @@ public class DsaHelper {
     }
 
     public static String sign(PrivateKey privateKey, String wrought) throws EncryptException {
-        return DsaUtils.sign(properties.getSignAlgorithm(), privateKey, wrought);
+        return SignatureUtils.sign(properties.getSignAlgorithm(), privateKey, wrought);
     }
 
-    public static Boolean verify(PublicKey publicKey, String wrought, String sign) throws EncryptException {
-        return DsaUtils.verify(properties.getSignAlgorithm(), publicKey, wrought, sign);
+    public static boolean verify(PublicKey publicKey, String wrought, String sign) throws EncryptException {
+        return SignatureUtils.verify(properties.getSignAlgorithm(), publicKey, wrought, sign);
     }
 
 }

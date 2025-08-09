@@ -5,11 +5,19 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.tools.bedrock.util.BaseUtils;
-import org.tools.encrypt.AlgorithmEnum;
 import org.tools.encrypt.EncryptKeyGenerator;
+import org.tools.encrypt.asymmetric.rsa.RsaKeyGenerator;
+import org.tools.encrypt.entity.digitalsignature.DsaProperties;
+import org.tools.encrypt.enums.AlgorithmEnum;
+import org.tools.encrypt.exception.EncryptException;
 import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 
-import java.security.*;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -36,6 +44,11 @@ public class DsaKeyGenerator {
     @Getter
     @Setter
     private static int keyBits = 1024;
+
+    /**
+     * Dsa 配置文件
+     */
+    private static DsaProperties properties;
 
     /**
      * 密钥对生成器
@@ -169,6 +182,39 @@ public class DsaKeyGenerator {
         byte[] decodedKey = Base64.decodeBase64(privateKey.getBytes());
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
         return keyFactory.generatePrivate(keySpec);
+    }
+
+    /**
+     * 单例模式-线程安全
+     */
+    private static void initProperties() {
+        if (BaseUtils.isNull(properties)) {
+            // 线程安全
+            synchronized (LOCK) {
+                if (BaseUtils.isNull(properties)) {
+                    properties = new DsaProperties();
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取Dsa配置文件
+     *
+     * @return DsaProperties
+     * @throws EncryptException 加解密异常
+     */
+    public static DsaProperties getDsaProperties() throws EncryptException {
+        initProperties();
+
+        if (BaseUtils.isEmpty(properties.getPublicKeyStr(), properties.getPrivateKeyStr()) ||
+                BaseUtils.isEmpty(properties.getPublicKey(), properties.getPrivateKey())) {
+            properties.setPublicKey(RsaKeyGenerator.getPublicKey());
+            properties.setPrivateKey(RsaKeyGenerator.getPrivateKey());
+            properties.setPublicKeyStr(RsaKeyGenerator.getPublicKeyStr(properties.getPublicKey()));
+            properties.setPrivateKeyStr(RsaKeyGenerator.getPrivateKeyStr(properties.getPrivateKey()));
+        }
+        return properties;
     }
 
 }

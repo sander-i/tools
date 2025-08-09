@@ -2,12 +2,6 @@
   "properties": [
     {
       "defaultValue": false,
-      "name": "tools.encrypt.enabled",
-      "description": "加密开关.",
-      "type": "java.lang.Boolean"
-    },
-    {
-      "defaultValue": false,
       "name": "tools.encrypt.asymmetric.rsa.enabled",
       "description": "rsa非对称加密开关.",
       "type": "java.lang.Boolean"

@@ -30,13 +30,14 @@ public class RsaHelperTest extends TestCase {
 
         RsaHelper.load(keyPair);
 
-        final String encode = RsaHelper.encode("1234567890");
+        String raw = "1234567890";
+        final String encode = RsaHelper.encode(raw);
         System.out.println("encode: " + encode);
         final String decode = RsaHelper.decode(encode);
         System.out.println("decode: " + decode);
-        String sign = RsaHelper.sign("1234567890" + encode);
+        String sign = RsaHelper.sign(raw + encode);
         System.out.println("sign: " + sign);
-        final Boolean verify = RsaHelper.verify(decode + encode, sign);
+        final boolean verify = RsaHelper.verify(decode + encode, sign);
         System.out.println("verify: " + verify);
     }
 
