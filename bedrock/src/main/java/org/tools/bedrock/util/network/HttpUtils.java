@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.tools.bedrock.constant.SpecialSymbolConsts;
 import org.tools.bedrock.http.HttpConsts;
 import org.tools.bedrock.util.BaseUtils;
+import org.tools.bedrock.util.JsonUtil;
 import org.tools.bedrock.util.JsonUtils;
 
 import java.io.*;
@@ -41,7 +42,7 @@ public class HttpUtils {
     }
 
     public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, Map<String, ?> requestBody, String charset) {
-        return httpPost(url, headers, requestParam, JsonUtils.mapToJSON(requestBody), charset);
+        return httpPost(url, headers, requestParam, JsonUtil.mapToJson(requestBody, true), charset);
     }
 
     public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody, String charset) {

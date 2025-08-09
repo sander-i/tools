@@ -6,10 +6,10 @@ import org.tools.bedrock.base.Address;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonUtilsTest {
+public class JsonUtilTest {
 
     @Test
-    public void listToJSON() {
+    public void listToJson() {
 
         List<Address> addresses = new ArrayList<>();
 
@@ -17,12 +17,12 @@ public class JsonUtilsTest {
 
         addresses.add(address);
 
-        String s = JsonUtils.listToJSON(addresses);
+        String s = JsonUtil.listToJson(addresses);
         System.out.println(s);
 
     }
 
     @Test
-    public void mapToJSON() {
+    public void mapToJson() {
     }
 }
