@@ -6,7 +6,6 @@ import org.tools.encrypt.entity.EncryptProperties;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 
@@ -19,16 +18,6 @@ import java.nio.charset.StandardCharsets;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class AesProperties extends EncryptProperties {
-
-    /**
-     * AES密钥
-     */
-    private String secretKeyStr;
-
-    /**
-     * AES 密钥对象
-     */
-    private SecretKey secretKey;
 
     {
         setAlgorithmMode(AlgorithmModeEnum.AES_CBC_PKCS5PADDING.getAlgorithmMode());

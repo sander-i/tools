@@ -35,9 +35,10 @@ public enum AlgorithmModeEnum {
      * RSA
      */
     RSA("RSA"),
-    RSA_NONE_NO_PADDING("RSA/None/NoPadding"),
-    RSA_NONE_OAEPWITHSHA__256ANDMGF1PADDING("RSA/None/OAEPWITHSHA-256ANDMGF1PADDING"),
-    RSA_ECB_OAEPWITHSHA256ANDMGF1PADDING("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING"),
+    @Deprecated
+    RSA_ECB_NO_PADDING("RSA/ECB/NoPadding"),
+    RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING"),
+    OAEPWithSHA__256AndMGF1Padding("OAEPWithSHA-256AndMGF1Padding"),
 
     /**
      * AES
@@ -59,15 +60,15 @@ public enum AlgorithmModeEnum {
 
     private final String algorithmMode;
 
+    public boolean equals(String algorithmMode) {
+        return this.algorithmMode.equals(algorithmMode);
+    }
+
     public static AlgorithmModeEnum enumName(String algorithmMode) {
         return Arrays.stream(AlgorithmModeEnum.values())
                 .filter(algorithmModeEnum -> algorithmModeEnum.equals(algorithmMode))
                 .findFirst()
                 .get();
-    }
-
-    public boolean equals(String algorithmMode) {
-        return this.algorithmMode.equals(algorithmMode);
     }
 
 }
