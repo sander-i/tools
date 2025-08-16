@@ -5,7 +5,6 @@ import org.tools.bedrock.constant.SpecialSymbolConsts;
 import org.tools.bedrock.http.HttpConsts;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.bedrock.util.JsonUtil;
-import org.tools.bedrock.util.JsonUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;

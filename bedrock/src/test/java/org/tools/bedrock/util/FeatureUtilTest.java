@@ -1,7 +1,7 @@
 package org.tools.bedrock.util;
 
 import junit.framework.TestCase;
-import org.tools.bedrock.http.resp.R;
+import org.tools.bedrock.http.resp.v2.R;
 
 /**
  * <p>
