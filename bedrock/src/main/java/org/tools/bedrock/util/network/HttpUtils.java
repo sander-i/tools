@@ -1,12 +1,19 @@
 package org.tools.bedrock.util.network;
 
 import lombok.extern.slf4j.Slf4j;
-import org.tools.bedrock.constant.SpecialSymbolConsts;
+import org.tools.bedrock.constant.v2.SpecialSymbolConst;
 import org.tools.bedrock.http.HttpConsts;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.bedrock.util.JsonUtils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -223,8 +230,8 @@ public class HttpUtils {
      */
     public static String setRequestParam(String url, Map<String, ?> requestParam) {
         if (BaseUtils.isNotEmpty(requestParam)) {
-            StringBuilder urlParam = new StringBuilder(url).append(SpecialSymbolConsts.QUESTION_MARK);
-            requestParam.forEach((k, v) -> urlParam.append(k).append(SpecialSymbolConsts.BE_EQUAL_TO).append(v));
+            StringBuilder urlParam = new StringBuilder(url).append(SpecialSymbolConst.QUESTION_MARK);
+            requestParam.forEach((k, v) -> urlParam.append(k).append(SpecialSymbolConst.BE_EQUAL_TO).append(v));
             return urlParam.toString();
         }
         return url;
@@ -291,22 +298,22 @@ public class HttpUtils {
      * @throws IOException 响应异常
      */
     public static void httpResponse(HttpURLConnection httpConn, StringBuilder result) throws IOException {
-        result.append(SpecialSymbolConsts.LEFT_BRACE);
+        result.append(SpecialSymbolConst.LEFT_BRACE);
         // "code"
-        result.append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append("code").append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK);
+        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append("code").append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
         // :
-        result.append(SpecialSymbolConsts.COLON);
+        result.append(SpecialSymbolConst.COLON);
         // "httpConn.getResponseCode()"
-        result.append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append(httpConn.getResponseCode()).append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK);
+        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(httpConn.getResponseCode()).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
         // ,
-        result.append(SpecialSymbolConsts.SEMICOLON);
+        result.append(SpecialSymbolConst.SEMICOLON);
         // "message"
-        result.append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append("message").append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK);
+        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append("message").append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
         // :
-        result.append(SpecialSymbolConsts.COLON);
+        result.append(SpecialSymbolConst.COLON);
         // "httpConn.getResponseMessage()"
-        result.append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append(httpConn.getResponseMessage()).append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK);
-        result.append(SpecialSymbolConsts.RIGHT_BRACE);
+        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(httpConn.getResponseMessage()).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
+        result.append(SpecialSymbolConst.RIGHT_BRACE);
     }
 
     /**

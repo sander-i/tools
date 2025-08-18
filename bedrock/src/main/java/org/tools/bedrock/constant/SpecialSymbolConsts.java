@@ -3,6 +3,8 @@ package org.tools.bedrock.constant;
 /**
  * @author sander
  * @version 1.0
+ * @see org.tools.bedrock.constant.v2.SpecialSymbolConst
+ * @deprecated 根据开发规范调整对象信息
  */
 public class SpecialSymbolConsts {
 
