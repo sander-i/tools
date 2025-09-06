@@ -443,4 +443,16 @@ public class Aver {
         isFalse(expression, "Expression must be false");
     }
 
+    public static void assertFalse(boolean expression, String message) {
+        if (expression) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    public static void assertTrue(boolean expression, String message) {
+        if (!expression) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
 }

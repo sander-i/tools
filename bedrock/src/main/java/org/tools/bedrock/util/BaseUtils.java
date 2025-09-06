@@ -124,11 +124,11 @@ public class BaseUtils {
      */
     public static boolean isNotNull(Object... objs) {
         for (Object obj : objs) {
-            if (isNotNull(obj)) {
-                return true;
+            if (isNull(obj)) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
