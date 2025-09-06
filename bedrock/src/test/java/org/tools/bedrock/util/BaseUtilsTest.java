@@ -19,139 +19,108 @@ public class BaseUtilsTest extends TestCase {
 
     public void testIsNull() {
         Address address = new Address();
-        boolean isNull = BaseUtils.isNull(address);
-        System.out.println("isNull " + isNull + " address: " + address);
+        Aver.isFalse(BaseUtils.isNull(address), "非null对象应该返回false");
         address = null;
-        isNull = BaseUtils.isNull(address);
-        System.out.println("isNull " + isNull + " address: " + address);
+        Aver.isTrue(BaseUtils.isNull(address), "null对象应该返回true");
     }
 
     public void testIsNotNull() {
         Address address = new Address();
-        boolean isNotNull = BaseUtils.isNotNull(address);
-        System.out.println("isNotNull " + isNotNull + " address: " + address);
+        Aver.isTrue(BaseUtils.isNotNull(address), "非null对象应该返回true");
         address = null;
-        isNotNull = BaseUtils.isNotNull(address);
-        System.out.println("isNotNull " + isNotNull + " address: " + address);
+        Aver.isFalse(BaseUtils.isNotNull(address), "null对象应该返回false");
     }
 
     public void testIsEmpty() {
         List list = new ArrayList();
         list.add("1234567890");
-        boolean isEmpty = BaseUtils.isEmpty(list);
-        System.out.println("isEmpty " + isEmpty + " list: " + list);
+        Aver.isFalse(BaseUtils.isEmpty(list), "非空List应该返回false");
         list.clear();
-        isEmpty = BaseUtils.isEmpty(list);
-        System.out.println("isEmpty " + isEmpty + " list: " + list);
+        Aver.isTrue(BaseUtils.isEmpty(list), "空List应该返回true");
         list = null;
-        isEmpty = BaseUtils.isEmpty(list);
-        System.out.println("isEmpty " + isEmpty + " list: " + list);
+        Aver.isTrue(BaseUtils.isEmpty(list), "null List应该返回true");
     }
 
     public void testIsNotEmpty() {
         List list = new ArrayList();
         list.add("1234567890");
-        boolean isNotEmpty = BaseUtils.isNotEmpty(list);
-        System.out.println("isNotEmpty " + isNotEmpty + " list: " + list);
+        Aver.isTrue(BaseUtils.isNotEmpty(list), "非空List应该返回true");
         list.clear();
-        isNotEmpty = BaseUtils.isNotEmpty(list);
-        System.out.println("isNotEmpty " + isNotEmpty + " list: " + list);
+        Aver.isFalse(BaseUtils.isNotEmpty(list), "空List应该返回false");
         list = null;
-        isNotEmpty = BaseUtils.isNotEmpty(list);
-        System.out.println("isNotEmpty " + isNotEmpty + " list: " + list);
+        Aver.isFalse(BaseUtils.isNotEmpty(list), "null List应该返回false");
     }
 
     public void testTestIsEmpty() {
         Map map = new HashMap<>();
         map.put("1", "1234567890");
-        boolean isEmpty = BaseUtils.isEmpty(map);
-        System.out.println("isEmpty " + isEmpty + " map: " + map);
+        Aver.isFalse(BaseUtils.isEmpty(map), "非空Map应该返回false");
         map.clear();
-        isEmpty = BaseUtils.isEmpty(map);
-        System.out.println("isEmpty " + isEmpty + " map: " + map);
+        Aver.isTrue(BaseUtils.isEmpty(map), "空Map应该返回true");
         map = null;
-        isEmpty = BaseUtils.isEmpty(map);
-        System.out.println("isEmpty " + isEmpty + " map: " + map);
+        Aver.isTrue(BaseUtils.isEmpty(map), "null Map应该返回true");
     }
 
     public void testTestIsNotEmpty() {
         Map map = new HashMap<>();
         map.put("1", "1234567890");
-        boolean isNotEmpty = BaseUtils.isNotEmpty(map);
-        System.out.println("isNotEmpty " + isNotEmpty + " map: " + map);
+        Aver.isTrue(BaseUtils.isNotEmpty(map), "非空Map应该返回true");
         map.clear();
-        isNotEmpty = BaseUtils.isNotEmpty(map);
-        System.out.println("isNotEmpty " + isNotEmpty + " map: " + map);
+        Aver.isFalse(BaseUtils.isNotEmpty(map), "空Map应该返回false");
         map = null;
-        isNotEmpty = BaseUtils.isNotEmpty(map);
-        System.out.println("isNotEmpty " + isNotEmpty + " map: " + map);
+        Aver.isFalse(BaseUtils.isNotEmpty(map), "null Map应该返回false");
     }
 
     public void testTestIsEmpty1() {
         Address address = new Address();
-        boolean isEmpty = BaseUtils.isEmpty(address);
-        System.out.println("isEmpty " + isEmpty + " address: " + address);
+        Aver.isFalse(BaseUtils.isEmpty(address), "非null对象应该返回false");
         address = null;
-        isEmpty = BaseUtils.isEmpty(address);
-        System.out.println("isEmpty " + isEmpty + " address: " + address);
+        Aver.isTrue(BaseUtils.isEmpty(address), "null对象应该返回true");
     }
 
     public void testTestIsNotEmpty1() {
         Address address = new Address();
-        boolean isNotEmpty = BaseUtils.isNotEmpty(address);
-        System.out.println("isNotEmpty " + isNotEmpty + " address: " + address);
+        Aver.isTrue(BaseUtils.isNotEmpty(address), "非null对象应该返回true");
         address = null;
-        isNotEmpty = BaseUtils.isNotEmpty(address);
-        System.out.println("isNotEmpty " + isNotEmpty + " address: " + address);
+        Aver.isFalse(BaseUtils.isNotEmpty(address), "null对象应该返回false");
     }
 
     public void testTestIsNull() {
         Address address = new Address();
         Address address1 = new Address();
-        boolean isNull = BaseUtils.isNull(address, address1);
-        System.out.println("isNull " + isNull + " address: " + address + " address1: " + address1);
+        Aver.isFalse(BaseUtils.isNull(address, address1), "两个非null对象应该返回false");
         address = null;
-        isNull = BaseUtils.isNull(address, address1);
-        System.out.println("isNull " + isNull + " address: " + address + " address1: " + address1);
+        Aver.isTrue(BaseUtils.isNull(address, address1), "有一个null对象应该返回true");
     }
 
     public void testIsAllNull() {
         Address address = new Address();
         Address address1 = new Address();
-        boolean isAllNull = BaseUtils.isAllNull(address, address1);
-        System.out.println("isAllNull " + isAllNull + " address: " + address + " address1: " + address1);
+        Aver.isFalse(BaseUtils.isAllNull(address, address1), "两个非null对象应该返回false");
         address = null;
-        isAllNull = BaseUtils.isAllNull(address, address1);
-        System.out.println("isAllNull " + isAllNull + " address: " + address + " address1: " + address1);
+        Aver.isFalse(BaseUtils.isAllNull(address, address1), "只有一个null对象应该返回false");
         address1 = null;
-        isAllNull = BaseUtils.isAllNull(address, address1);
-        System.out.println("isAllNull " + isAllNull + " address: " + address + " address1: " + address1);
+        Aver.isTrue(BaseUtils.isAllNull(address, address1), "两个null对象应该返回true");
     }
 
     public void testTestIsNotNull() {
         Address address = new Address();
         Address address1 = new Address();
-        boolean isNotNull = BaseUtils.isNotNull(address, address1);
-        System.out.println("isNotNull " + isNotNull + " address: " + address + " address1: " + address1);
+        Aver.isTrue(BaseUtils.isNotNull(address, address1), "两个非null对象应该返回true");
         address = null;
-        isNotNull = BaseUtils.isNotNull(address, address1);
-        System.out.println("isNotNull " + isNotNull + " address: " + address + " address1: " + address1);
+        Aver.isFalse(BaseUtils.isNotNull(address, address1), "有一个null对象应该返回false");
         address1 = null;
-        isNotNull = BaseUtils.isNotNull(address, address1);
-        System.out.println("isNotNull " + isNotNull + " address: " + address + " address1: " + address1);
+        Aver.isFalse(BaseUtils.isNotNull(address, address1), "两个null对象应该返回false");
     }
 
     public void testIsAllNotNull() {
         Address address = new Address();
         Address address1 = new Address();
-        boolean isAllNotNull = BaseUtils.isAllNotNull(address, address1);
-        System.out.println("isAllNotNull " + isAllNotNull + " address: " + address + " address1: " + address1);
+        Aver.isTrue(BaseUtils.isAllNotNull(address, address1), "两个非null对象应该返回true");
         address = null;
-        isAllNotNull = BaseUtils.isAllNotNull(address, address1);
-        System.out.println("isAllNotNull " + isAllNotNull + " address: " + address + " address1: " + address1);
+        Aver.isFalse(BaseUtils.isAllNotNull(address, address1), "有一个null对象应该返回false");
         address1 = null;
-        isAllNotNull = BaseUtils.isAllNotNull(address, address1);
-        System.out.println("isAllNotNull " + isAllNotNull + " address: " + address + " address1: " + address1);
+        Aver.isFalse(BaseUtils.isAllNotNull(address, address1), "两个null对象应该返回false");
     }
 
     public void testTestIsEmpty2() {
@@ -162,11 +131,9 @@ public class BaseUtilsTest extends TestCase {
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
-        boolean isEmpty = BaseUtils.isEmpty(address, list, map, addresses);
-        System.out.println("isEmpty " + isEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isFalse(BaseUtils.isEmpty(address, list, map, addresses), "所有对象都非空应该返回false");
         list = null;
-        isEmpty = BaseUtils.isEmpty(address, list, map, addresses);
-        System.out.println("isEmpty " + isEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isTrue(BaseUtils.isEmpty(address, list, map, addresses), "有一个对象为空应该返回true");
     }
 
     public void testIsAllEmpty() {
@@ -177,20 +144,15 @@ public class BaseUtilsTest extends TestCase {
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
-        boolean isAllEmpty = BaseUtils.isAllEmpty(address, list, map, addresses);
-        System.out.println("isAllEmpty " + isAllEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isFalse(BaseUtils.isAllEmpty(address, list, map, addresses), "所有对象都非空应该返回false");
         address = null;
-        isAllEmpty = BaseUtils.isAllEmpty(address, list, map, addresses);
-        System.out.println("isAllEmpty " + isAllEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isFalse(BaseUtils.isAllEmpty(address, list, map, addresses), "只有一个对象为空应该返回false");
         addresses[0] = null;
-        isAllEmpty = BaseUtils.isAllEmpty(address, list, map, addresses);
-        System.out.println("isAllEmpty " + isAllEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isFalse(BaseUtils.isAllEmpty(address, list, map, addresses), "只有两个对象为空应该返回false");
         list.clear();
-        isAllEmpty = BaseUtils.isAllEmpty(address, list, map, addresses);
-        System.out.println("isAllEmpty " + isAllEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isFalse(BaseUtils.isAllEmpty(address, list, map, addresses), "只有三个对象为空应该返回false");
         map.clear();
-        isAllEmpty = BaseUtils.isAllEmpty(address, list, map, addresses);
-        System.out.println("isAllEmpty " + isAllEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isTrue(BaseUtils.isAllEmpty(address, list, map, addresses), "所有对象都为空应该返回true");
     }
 
     public void testTestIsNotEmpty2() {
@@ -201,20 +163,15 @@ public class BaseUtilsTest extends TestCase {
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
-        boolean isNotEmpty = BaseUtils.isNotEmpty(address, list, map, addresses);
-        System.out.println("isNotEmpty " + isNotEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isTrue(BaseUtils.isNotEmpty(address, list, map, addresses), "所有对象都非空应该返回true");
         address = null;
-        isNotEmpty = BaseUtils.isNotEmpty(address, list, map, addresses);
-        System.out.println("isNotEmpty " + isNotEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isTrue(BaseUtils.isNotEmpty(address, list, map, addresses), "有一个对象为空仍应返回true");
         addresses[0] = null;
-        isNotEmpty = BaseUtils.isNotEmpty(address, list, map, addresses);
-        System.out.println("isNotEmpty " + isNotEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isTrue(BaseUtils.isNotEmpty(address, list, map, addresses), "有两个对象为空仍应返回true");
         list.clear();
-        isNotEmpty = BaseUtils.isNotEmpty(address, list, map, addresses);
-        System.out.println("isNotEmpty " + isNotEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isTrue(BaseUtils.isNotEmpty(address, list, map, addresses), "有三个对象为空仍应返回true");
         map.clear();
-        isNotEmpty = BaseUtils.isNotEmpty(address, list, map, addresses);
-        System.out.println("isNotEmpty " + isNotEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isFalse(BaseUtils.isNotEmpty(address, list, map, addresses), "所有对象都为空应该返回false");
     }
 
     public void testIsAllNotEmpty() {
@@ -225,19 +182,15 @@ public class BaseUtilsTest extends TestCase {
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
-        boolean isAllNotEmpty = BaseUtils.isAllNotEmpty(address, list, map, addresses);
-        System.out.println("isAllNotEmpty " + isAllNotEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isTrue(BaseUtils.isAllNotEmpty(address, list, map, addresses), "所有对象都非空应该返回true");
         list = null;
-        isAllNotEmpty = BaseUtils.isAllNotEmpty(address, list, map, addresses);
-        System.out.println("isAllNotEmpty " + isAllNotEmpty + " address: " + address + " list: " + list + " map: " + map + " addresses: " + addresses);
+        Aver.isFalse(BaseUtils.isAllNotEmpty(address, list, map, addresses), "有一个对象为空应该返回false");
     }
 
     public void testIsEmptyObj() {
         Address address = new Address();
-        boolean isEmptyObj = BaseUtils.isEmptyObj(address);
-        System.out.println("isEmptyObj " + isEmptyObj + " address: " + address);
+        Aver.isTrue(BaseUtils.isEmptyObj(address), "新创建的对象应该为空");
         address.setCity("10010");
-        isEmptyObj = BaseUtils.isEmptyObj(address);
-        System.out.println("isEmptyObj " + isEmptyObj + " address: " + address);
+        Aver.isFalse(BaseUtils.isEmptyObj(address), "设置了属性的对象应该不为空");
     }
 }
