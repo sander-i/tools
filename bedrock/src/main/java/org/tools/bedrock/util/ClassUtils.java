@@ -230,9 +230,7 @@ public class ClassUtils {
             }
             files = new Field[filesize];
             for (Field[] fields : fileList) {
-                for (int i = 0; i < filesize; i++) {
-                    files[i] = fields[i];
-                }
+                System.arraycopy(fields, 0, files, 0, filesize);
             }
         }
         // 获取当前对象所有私有属性

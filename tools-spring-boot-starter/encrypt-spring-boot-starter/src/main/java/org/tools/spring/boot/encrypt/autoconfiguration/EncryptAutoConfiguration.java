@@ -98,7 +98,7 @@ public class EncryptAutoConfiguration {
         }
         try {
             AesHelper.load(encrypt.getSymmetrical().getAes());
-        } catch (EncryptException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException e) {
+        } catch (EncryptException e) {
             log.error("EncryptAutoConfiguration des error", e);
         }
         return AesHelper.getProperties();
@@ -114,7 +114,7 @@ public class EncryptAutoConfiguration {
         }
         try {
             IdeaHelper.load(encrypt.getSymmetrical().getIdea());
-        } catch (EncryptException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException e) {
+        } catch (EncryptException e) {
             log.error("EncryptAutoConfiguration idea error", e);
         }
         return IdeaHelper.getProperties();

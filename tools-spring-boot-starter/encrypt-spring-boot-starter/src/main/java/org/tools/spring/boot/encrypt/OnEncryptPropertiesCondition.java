@@ -9,6 +9,7 @@ import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+import org.springframework.lang.NonNull;
 
 /**
  * 判断是否存在加密配置
@@ -21,10 +22,10 @@ public class OnEncryptPropertiesCondition implements Condition {
     /**
      * 加密配置前缀
      */
-    private final static String prefix = "tools.encrypt.";
+    private static final String PREFIX = "tools.encrypt.";
 
     @Override
-    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+    public boolean matches(@NonNull ConditionContext context, @NonNull AnnotatedTypeMetadata metadata) {
         Environment env = context.getEnvironment();
 
         for (PropertySource<?> ps : ((AbstractEnvironment) env).getPropertySources()) {
@@ -32,7 +33,7 @@ public class OnEncryptPropertiesCondition implements Condition {
                 EnumerablePropertySource<?> eps = (EnumerablePropertySource<?>) ps;
                 for (String name : eps.getPropertyNames()) {
                     // 判断是否存在加密配置
-                    if (name.startsWith(prefix)) {
+                    if (name.startsWith(PREFIX)) {
                         return true;
                     }
                 }

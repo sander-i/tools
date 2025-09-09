@@ -15,7 +15,7 @@ public class R<T> extends RR {
 
     private static final long serialVersionUID = -3650942902842307882L;
 
-    private T data;
+    private transient T data;
 
     private R(boolean success, String code, String msg, String message, T data) {
         super(success, code, msg, message);

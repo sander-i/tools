@@ -99,11 +99,7 @@ public class DesHelper {
 
     public static String encode(String secretKey, String raw) throws DesException {
         SecretKey key;
-        try {
-            key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new DesException(e);
-        }
+        key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
         return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), raw);
     }
 
@@ -117,11 +113,7 @@ public class DesHelper {
 
     public static String decode(String secretKey, String wrought) throws DesException {
         SecretKey key;
-        try {
-            key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new DesException(e);
-        }
+        key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
         return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), wrought);
     }
 

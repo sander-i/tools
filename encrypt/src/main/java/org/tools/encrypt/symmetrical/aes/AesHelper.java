@@ -68,7 +68,7 @@ public class AesHelper {
         load(keyPair);
     }
 
-    public static void load(KeyPair keyPair) throws AesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+    public static void load(KeyPair keyPair) throws AesException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new AesException("keyPair 不能为空！");
         }

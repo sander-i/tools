@@ -1,7 +1,6 @@
 package org.tools.bedrock.base.serializable;
 
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.tools.bedrock.base.Nation;
 import org.tools.bedrock.base.Sex;
 

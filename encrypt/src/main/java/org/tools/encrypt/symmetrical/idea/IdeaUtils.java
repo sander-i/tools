@@ -55,7 +55,7 @@ public class IdeaUtils extends SymmetricalUtils {
      * @param secretKey     密钥
      * @param raw           原文
      * @return 密文
-     * @throws IdeaException IdeaException
+     * @throws IdeaException idea异常
      */
     public static String encode(String algorithm, String algorithmMode, SecretKey secretKey, String raw)
             throws IdeaException {
@@ -67,7 +67,7 @@ public class IdeaUtils extends SymmetricalUtils {
             execute = CipherSymmetrical.getInstance()
                     .actuator(algorithm, algorithmMode, secretKey, null, Cipher.ENCRYPT_MODE, before, 0);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
-                 BadPaddingException | InvalidAlgorithmParameterException e) {
+                BadPaddingException | InvalidAlgorithmParameterException e) {
             log.error("encode error! algorithm {}, algorithmMode {}, secretKey {}, mode Cipher.ENCRYPT_MODE , before {}", algorithm, algorithmMode, secretKey, before);
             throw new IdeaException(e);
         }
@@ -83,7 +83,7 @@ public class IdeaUtils extends SymmetricalUtils {
      * @param secretKey     密钥
      * @param wrought       密文
      * @return 原文
-     * @throws IdeaException IdeaException
+     * @throws IdeaException idea异常
      */
     public static String decode(String algorithm, String algorithmMode, SecretKey secretKey, String wrought)
             throws IdeaException {
@@ -95,7 +95,7 @@ public class IdeaUtils extends SymmetricalUtils {
             execute = CipherSymmetrical.getInstance()
                     .actuator(algorithm, algorithmMode, secretKey, null, Cipher.DECRYPT_MODE, before, 0);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
-                 BadPaddingException | InvalidAlgorithmParameterException e) {
+                BadPaddingException | InvalidAlgorithmParameterException e) {
             log.error("decode error! algorithm {}, algorithmMode {}, secretKey {}, mode Cipher.ENCRYPT_MODE , before {}", algorithm, algorithmMode, secretKey, before);
             throw new IdeaException(e);
         }
