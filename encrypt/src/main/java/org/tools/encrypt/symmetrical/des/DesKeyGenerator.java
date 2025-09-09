@@ -12,9 +12,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 /**
  * des密钥生成工具
@@ -93,11 +91,8 @@ public class DesKeyGenerator {
      * @param algorithm 算法
      * @param secretKey 密钥字符串
      * @return 密钥对象
-     * @throws InvalidKeyException      无效密钥异常
-     * @throws NoSuchAlgorithmException 算法不存在或不支持异常
-     * @throws InvalidKeySpecException  无效的密钥规范异常
      */
-    public static SecretKey getSecretKey(String algorithm, String secretKey) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static SecretKey getSecretKey(String algorithm, String secretKey) {
         byte[] secretKeyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return new SecretKeySpec(secretKeyBytes, algorithm);
     }

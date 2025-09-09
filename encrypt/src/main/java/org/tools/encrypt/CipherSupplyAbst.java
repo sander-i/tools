@@ -29,14 +29,9 @@ public abstract class CipherSupplyAbst {
      * @param ivParameter   向量
      * @param mode          加密对象模式
      * @return javax.crypto.Cipher
-     * @throws NoSuchPaddingException             指定填充方案不存在或不支持
-     * @throws NoSuchAlgorithmException           算法不存在或不支持异常
-     * @throws InvalidKeyException                密钥错误或密钥的格式不正确
-     * @throws InvalidAlgorithmParameterException 算法参数不适用于当前操作或算法参数值不适合算法
      */
     @SneakyThrows
-    public Cipher prepCipher(AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, InvalidAlgorithmParameterException {
+    public Cipher prepCipher(AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode) {
         initSupport(algorithmMode);
         Cipher cipher = getInstanceCipher(algorithmMode);
         initCipher(cipher, algorithm, algorithmMode, secretKey, ivParameter, mode);

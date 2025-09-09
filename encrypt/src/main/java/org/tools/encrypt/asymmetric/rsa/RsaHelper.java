@@ -13,7 +13,6 @@ import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -57,7 +56,7 @@ public class RsaHelper {
         }
     }
 
-    public static void load(KeyPair keyPair, String name) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException {
+    public static void load(KeyPair keyPair, String name) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new RsaException("keyPair 不能为空！");
         }

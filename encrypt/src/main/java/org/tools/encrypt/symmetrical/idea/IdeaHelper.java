@@ -65,7 +65,7 @@ public class IdeaHelper {
         load(keyPair);
     }
 
-    public static void load(KeyPair keyPair) throws IdeaException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+    public static void load(KeyPair keyPair) throws IdeaException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new IdeaException("keyPair 不能为空！");
         }
