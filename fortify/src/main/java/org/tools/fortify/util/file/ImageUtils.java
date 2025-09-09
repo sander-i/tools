@@ -3,7 +3,7 @@ package org.tools.fortify.util.file;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.tools.bedrock.constant.Constants;
-import org.tools.bedrock.constant.SpecialSymbolConsts;
+import org.tools.bedrock.constant.v2.SpecialSymbolConst;
 import org.tools.bedrock.util.BaseUtils;
 
 import javax.imageio.ImageIO;
@@ -11,7 +11,12 @@ import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -190,7 +195,7 @@ public class ImageUtils {
      * @return 文件类型
      */
     public static String formatName(String filePath) {
-        return filePath.substring(filePath.indexOf(SpecialSymbolConsts.POINT) + Constants.ONE_I);
+        return filePath.substring(filePath.indexOf(SpecialSymbolConst.POINT) + Constants.ONE_I);
     }
 
     /**
@@ -417,7 +422,7 @@ public class ImageUtils {
                 input.close();
             }
         } catch (IOException e) {
-            log.error(errorMsg + SpecialSymbolConsts.SPACE + "input.close", e);
+            log.error(errorMsg + SpecialSymbolConst.SPACE + "input.close", e);
         }
     }
 
@@ -433,7 +438,7 @@ public class ImageUtils {
                 output.close();
             }
         } catch (IOException e) {
-            log.error(errorMsg + SpecialSymbolConsts.SPACE + "output.close", e);
+            log.error(errorMsg + SpecialSymbolConst.SPACE + "output.close", e);
         }
     }
 

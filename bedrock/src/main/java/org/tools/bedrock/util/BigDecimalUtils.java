@@ -1,5 +1,8 @@
 package org.tools.bedrock.util;
 
+import org.tools.bedrock.constant.Constants;
+import org.tools.bedrock.constant.v2.SpecialSymbolConst;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -8,6 +11,9 @@ import java.math.RoundingMode;
  * @version 1.0
  */
 public class BigDecimalUtils {
+
+    private BigDecimalUtils() {
+    }
 
     /**
      * 加法
@@ -45,7 +51,7 @@ public class BigDecimalUtils {
     public static double multiply(double v1, double v2) {
         BigDecimal b1 = BigDecimal.valueOf(v1);
         BigDecimal b2 = BigDecimal.valueOf(v2);
-        return b1.multiply(b2).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return b1.multiply(b2).setScale(Constants.TWO_I, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
@@ -61,7 +67,56 @@ public class BigDecimalUtils {
         }
         BigDecimal b1 = BigDecimal.valueOf(v1);
         BigDecimal b2 = BigDecimal.valueOf(v2);
-        return b1.divide(b2, 2, RoundingMode.HALF_UP).doubleValue();
+        return b1.divide(b2, Constants.TWO_I, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    /**
+     * crawler获取日元字符串转BigDecimal
+     *
+     * @param strVal 字符串日元
+     * @return BigDecimal
+     */
+    public static BigDecimal strValToBigDecimal(String strVal) {
+        return new BigDecimal(strVal.replace(",", ""));
+    }
+
+    /**
+     * crawler获取日元字符串转BigDecimal
+     *
+     * @param strVal           字符串日元
+     * @param handlingDecimals 处理小数位
+     * @return BigDecimal
+     */
+    public static BigDecimal strValToBigDecimal(String strVal, boolean handlingDecimals) {
+        return strValToBigDecimal(strVal, handlingDecimals, Constants.TWO_I);
+    }
+
+    /**
+     * crawler获取日元字符串转BigDecimal
+     * 本身如果是正确的小数位符号直接由BigDecimal处理
+     *
+     * @param strVal           字符串日元
+     * @param handlingDecimals 处理小数位
+     * @param decimalPlaces    小数位数
+     * @return BigDecimal
+     */
+    public static BigDecimal strValToBigDecimal(String strVal, boolean handlingDecimals, int decimalPlaces) {
+        // 正则校验位数分隔符是否符合规范
+        if (strVal.matches("^(,\\d{3})*([,.]\\d+)?$"))
+            throw new IllegalArgumentException("当前金额格式不符合规范！");
+
+        if (!handlingDecimals) return strValToBigDecimal(strVal);
+
+        int semicolon = strVal.lastIndexOf(SpecialSymbolConst.SEMICOLON);
+
+        String strBefore = strVal.substring(Constants.ZERO_I, semicolon);
+        String strAfter = strVal.substring(semicolon)
+                .replace(SpecialSymbolConst.SEMICOLON,
+                        SpecialSymbolConst.POINT);
+
+        // 小数位数
+        return (strVal.length() - semicolon) - Constants.ONE_I <= decimalPlaces ?
+                strValToBigDecimal(strBefore + strAfter) : strValToBigDecimal(strVal);
     }
 
 }
