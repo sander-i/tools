@@ -1,49 +1,62 @@
 package org.tools.bedrock.http.resp;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * @author sander
- * @version 1.0
+ * @version 2.0
  */
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Deprecated
-public class R<T> implements Serializable {
+public class R<T> extends RR {
 
-    private static final long serialVersionUID = 1L;
-    private boolean success;
-    private String code;
-    private String message;
+    private static final long serialVersionUID = -3650942902842307882L;
+
     private T data;
 
-    public static <T> R<T> ok() {
-        return new R<>(true, RS.OK.getCode(), RS.OK.getMsg(), null);
+    private R(boolean success, String code, String msg, String message, T data) {
+        super(success, code, msg, message);
+        this.data = data;
+    }
+
+    private R(boolean success, S s, String message, T data) {
+        super(success, s.getCode(), s.getMsg(), message);
+        this.data = data;
+    }
+
+    public static RR ok() {
+        return new RR();
+    }
+
+    public static RR fail() {
+        return new RR();
     }
 
     public static <T> R<T> ok(T data) {
-        return new R<>(true, RS.OK.getCode(), RS.OK.getMsg(), data);
+        return new R<>(true, RS.OK, null, data);
     }
 
-    public static <T> R<T> ok(T data, S s) {
-        return new R<>(true, s.getCode(), s.getMsg(), data);
-    }
-
-    public static <T> R<T> fail() {
-        return new R<>(false, RS.FAIL.getCode(), RS.FAIL.getMsg(), null);
+    public static <T> R<T> fail(String message) {
+        return new R<>(false, RS.FAIL, message, null);
     }
 
     public static <T> R<T> fail(T data) {
-        return new R<>(false, RS.FAIL.getCode(), RS.FAIL.getMsg(), data);
+        return new R<>(false, RS.FAIL, null, data);
     }
 
-    public static <T> R<T> fail(T data, S s) {
-        return new R<>(false, s.getCode(), s.getMsg(), data);
+    public static RR build(S s, String message) {
+        return new RR(true, s.getCode(), s.getMsg(), message);
+    }
+
+    public static <T> R<T> build(S s, T data) {
+        return new R<>(true, s, null, data);
+    }
+
+    public static <T> R<T> build(S s, String message, T data) {
+        return new R<>(true, s, message, data);
     }
 
 }
