@@ -3,11 +3,10 @@ package org.tools.bedrock.util;
 import java.util.Objects;
 
 /**
+ * 断言工具类，用于参数校验和条件检查
+ *
  * @author sander
  * @version 1.0
- * @date 2025/08/23 21:47
- * @description 断言工具类，用于参数校验和条件检查
- * @scope 作用域
  */
 public class Aver {
 

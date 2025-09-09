@@ -32,7 +32,7 @@ public class BaseUtilsTest extends TestCase {
     }
 
     public void testIsEmpty() {
-        List list = new ArrayList();
+        List<String> list = new ArrayList<>();
         list.add("1234567890");
         Aver.isFalse(BaseUtils.isEmpty(list), "非空List应该返回false");
         list.clear();
@@ -42,7 +42,7 @@ public class BaseUtilsTest extends TestCase {
     }
 
     public void testIsNotEmpty() {
-        List list = new ArrayList();
+        List<String> list = new ArrayList<>();
         list.add("1234567890");
         Aver.isTrue(BaseUtils.isNotEmpty(list), "非空List应该返回true");
         list.clear();
@@ -52,7 +52,7 @@ public class BaseUtilsTest extends TestCase {
     }
 
     public void testTestIsEmpty() {
-        Map map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("1", "1234567890");
         Aver.isFalse(BaseUtils.isEmpty(map), "非空Map应该返回false");
         map.clear();
@@ -62,7 +62,7 @@ public class BaseUtilsTest extends TestCase {
     }
 
     public void testTestIsNotEmpty() {
-        Map map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("1", "1234567890");
         Aver.isTrue(BaseUtils.isNotEmpty(map), "非空Map应该返回true");
         map.clear();
@@ -125,9 +125,9 @@ public class BaseUtilsTest extends TestCase {
 
     public void testTestIsEmpty2() {
         Address address = new Address();
-        List list = new ArrayList();
+        List<List<?>> list = new ArrayList<>();
         list.add(list);
-        Map map = new HashMap();
+        Map<String, List<?>> map = new HashMap<>();
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
@@ -138,9 +138,9 @@ public class BaseUtilsTest extends TestCase {
 
     public void testIsAllEmpty() {
         Address address = new Address();
-        List list = new ArrayList();
+        List<List<?>> list = new ArrayList<>();
         list.add(list);
-        Map map = new HashMap();
+        Map<String, List<?>> map = new HashMap<>();
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
@@ -157,9 +157,9 @@ public class BaseUtilsTest extends TestCase {
 
     public void testTestIsNotEmpty2() {
         Address address = new Address();
-        List list = new ArrayList();
+        List<List<?>> list = new ArrayList<>();
         list.add(list);
-        Map map = new HashMap();
+        Map<String, List<?>> map = new HashMap<>();
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
@@ -176,9 +176,9 @@ public class BaseUtilsTest extends TestCase {
 
     public void testIsAllNotEmpty() {
         Address address = new Address();
-        List list = new ArrayList();
+        List<List<?>> list = new ArrayList<>();
         list.add(list);
-        Map map = new HashMap();
+        Map<String, List<?>> map = new HashMap<>();
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;

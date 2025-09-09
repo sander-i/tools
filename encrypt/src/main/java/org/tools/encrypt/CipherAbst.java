@@ -45,6 +45,13 @@ public abstract class CipherAbst {
      * @param stuff         待处理
      * @param maxBlock      最大块
      * @return byte[]
+     * @throws IllegalBlockSizeException          非法块大小异常
+     * @throws BadPaddingException                错误填充异常
+     * @throws InvalidAlgorithmParameterException 无效算法参数异常
+     * @throws NoSuchPaddingException             无效填充异常
+     * @throws NoSuchAlgorithmException           无效算法异常
+     * @throws InvalidKeyException                无效密钥异常
+     * @throws IOException                        IO流异常
      */
     public abstract byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff, int maxBlock)
             throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException;
