@@ -5,7 +5,7 @@
 
     <groupId>io.gitee.sander-o</groupId>
     <artifactId>tools</artifactId>
-    <version>1.0.6.5</version>
+    <version>1.0.6.5-d01</version>
 
     <packaging>pom</packaging>
 
@@ -50,8 +50,8 @@
 
     <modules>
         <module>bedrock</module>
-        <module>encrypt</module>
         <module>fortify</module>
+        <module>encrypt</module>
         <module>tools-spring-boot-starter</module>
     </modules>
 
@@ -75,7 +75,7 @@
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <central-publishing-maven-plugin.version>0.4.0</central-publishing-maven-plugin.version>
-        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
 
         <!-- framework.dependencies -->
@@ -262,6 +262,32 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals><goal>sign</goal></goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <executable>F:/Program Files (x86)/GnuPG/bin/gpg.exe</executable>
+                        <keyname>0BF26B60D6EECB9A</keyname>
+                        <passphraseServerId>gpg.passphrase</passphraseServerId>
+                        <gpgArguments>
+                            <arg>--batch</arg>
+                            <arg>--pinentry-mode</arg>
+                            <arg>loopback</arg>
+                        </gpgArguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <finalName>${project.name}</finalName>
         <resources>
             <resource>
@@ -282,7 +308,7 @@
                 <configuration>
                     <publishingServerId>central</publishingServerId>
                     <tokenAuth>true</tokenAuth>
-                    <autoPublish>true</autoPublish>
+                    <autoPublish>false</autoPublish>
                 </configuration>
             </plugin>
             <!-- 签名插件 -->
@@ -290,15 +316,23 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>${maven-gpg-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <configuration>
+                    <executable>F:/Program Files (x86)/GnuPG/bin/gpg.exe</executable>
+                    <homedir>${user.home}/AppData/Roaming/gnupg</homedir>
+                    <passphraseServerId>gpg.passphrase</passphraseServerId>
+                    <useAgent>false</useAgent>
+                    <!-- 强制使用完整指纹 -->
+                    <keyname>7B643951F17084DFA4095E130BF26B60D6EECB9A</keyname>
+                    <gpgArguments>
+                        <arg>--batch</arg>
+                        <arg>--armor</arg>
+                        <arg>--detach-sign</arg>
+                        <arg>--pinentry-mode</arg>
+                        <arg>loopback</arg>
+                        <arg>--passphrase-fd</arg>
+                        <arg>0</arg>
+                    </gpgArguments>
+                </configuration>
             </plugin>
             <!-- 一键更新子模块版本号 mvn -N versions:update-child-modules -->
             <plugin>
@@ -384,12 +418,29 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <!-- 关键编码配置 -->
+                    <encoding>UTF-8</encoding>
+                    <!-- 生成文档编码 -->
+                    <docencoding>UTF-8</docencoding>
+                    <!-- HTML页面字符集 -->
+                    <charset>UTF-8</charset>
+
+                    <!-- 其他必要配置 -->
+                    <source>8</source>
+                    <detectOfflineLinks>true</detectOfflineLinks>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <docencoding>UTF-8</docencoding>
+                            <charset>UTF-8</charset>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -442,13 +493,14 @@
     </pluginRepositories>
 
     <profiles>
-        <profile>
-            <id>ossrh</id>
-            <properties>
-                <gpg.executable>gpg</gpg.executable>
-                <gpg.passphrase>Ailuoli@123</gpg.passphrase>
-            </properties>
-        </profile>
+        <!--        <profile>-->
+        <!--            <id>ossrh</id>-->
+        <!--            <properties>-->
+        <!--                <gpg.executable>sander-o</gpg.executable>-->
+        <!--                <passphrase></passphrase>-->
+        <!--                &lt;!&ndash;                <gpg.passphrase>Ailuoli@123</gpg.passphrase>&ndash;&gt;-->
+        <!--            </properties>-->
+        <!--        </profile>-->
         <!--        <profile>-->
         <!--            <id>dev</id>-->
         <!--            <properties>-->
