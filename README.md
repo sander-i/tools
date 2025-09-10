@@ -30,7 +30,7 @@
 pom.xml
 ```
     <properties>
-        <tools.version>1.0.6.3</tools.version>
+        <tools.version>Latest Version</tools.version>
     </properties>
 
     <dependencyManagement>
