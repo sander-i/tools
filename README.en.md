@@ -28,7 +28,7 @@ Integration spring-boot-starter，At springboot profiles properties|yml Configur
 
 ```
     <properties>
-        <tools.version>1.0.6.3</tools.version>
+        <tools.version>Latest Version</tools.version>
     </properties>
 
     <dependencyManagement>
