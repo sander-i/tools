@@ -119,4 +119,24 @@ public class BigDecimalUtils {
                 strValToBigDecimal(strBefore + strAfter) : strValToBigDecimal(strVal);
     }
 
+    /**
+     * 检查BigDecimal是否为null
+     *
+     * @param value 待检查的BigDecimal值
+     * @return 如果为null则返回true，否则返回false
+     */
+    public static boolean isNull(BigDecimal value) {
+        return value == null;
+    }
+
+    /**
+     * 检查BigDecimal是否为零
+     *
+     * @param value 待检查的BigDecimal值
+     * @return 如果为零则返回true，否则返回false
+     */
+    public static boolean isZero(BigDecimal value) {
+        return value != null && value.compareTo(BigDecimal.ZERO) == 0;
+    }
+
 }
