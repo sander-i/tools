@@ -1,14 +1,16 @@
 package org.tools.bedrock.util.date;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateConvertTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class DateConvertTest {
+
+    @Test
     public void testToLocalTime() {
         // 测试转换为LocalTime（包含纳秒）
         // 注意：DateConvert.toLocalTime() 实际接受 Duration 参数，不是 Date
@@ -18,6 +20,7 @@ public class DateConvertTest extends TestCase {
         assertNotNull("LocalTime转换结果不应为null", localTime);
     }
 
+    @Test
     public void testToLocalTimeNoNanoTime() {
         // 测试转换为LocalTime（不包含纳秒）
         // 注意：DateConvert.toLocalTimeNoNanoTime() 实际接受 Duration 参数，不是 Date
@@ -26,6 +29,7 @@ public class DateConvertTest extends TestCase {
         assertNotNull("LocalTime(无纳秒)转换结果不应为null", localTime);
     }
 
+    @Test
     public void testToLocalDate() {
         // 测试转换为LocalDate
         Date date = new Date();
@@ -33,6 +37,7 @@ public class DateConvertTest extends TestCase {
         assertNotNull("LocalDate转换结果不应为null", localDate);
     }
 
+    @Test
     public void testToCalendar() {
         // 测试转换为Calendar
         Date date = new Date();
@@ -40,6 +45,7 @@ public class DateConvertTest extends TestCase {
         assertNotNull("Calendar转换结果不应为null", calendar);
     }
 
+    @Test
     public void testTestToCalendar() {
         // 测试另一种Calendar转换方法（如果存在重载）
         Date date = new Date();
@@ -47,7 +53,9 @@ public class DateConvertTest extends TestCase {
         assertNotNull("Calendar转换结果不应为null", calendar);
     }
 
-    // 冒烟测试：验证所有基本转换功能
+    // 冒烟测试：验
+    // 证所有基本转换功能
+    @Test
     public void testDateConvertSmoke() {
         Date date = new Date();
         java.time.Duration duration = java.time.Duration.ofHours(2).plusMinutes(30).plusSeconds(45).plusNanos(123456789);

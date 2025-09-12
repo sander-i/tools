@@ -1,14 +1,13 @@
 package org.tools.bedrock.util;
 
 import org.junit.Test;
-import org.tools.bedrock.base.Address;
-import org.tools.bedrock.base.Identity;
-import org.tools.bedrock.base.Sex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.Assert.*;
+
 
 public class CopyUtilTest {
 
@@ -21,7 +20,8 @@ public class CopyUtilTest {
         private List<String> tags;
         private InnerEntity inner;
 
-        public SourceEntity() {}
+        public SourceEntity() {
+        }
 
         public SourceEntity(String name, int age, boolean active, BigDecimal amount) {
             this.name = name;
@@ -31,23 +31,53 @@ public class CopyUtilTest {
         }
 
         // Getters and Setters
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
+        public String getName() {
+            return name;
+        }
 
-        public int getAge() { return age; }
-        public void setAge(int age) { this.age = age; }
+        public void setName(String name) {
+            this.name = name;
+        }
 
-        public boolean isActive() { return active; }
-        public void setActive(boolean active) { this.active = active; }
+        public int getAge() {
+            return age;
+        }
 
-        public BigDecimal getAmount() { return amount; }
-        public void setAmount(BigDecimal amount) { this.amount = amount; }
+        public void setAge(int age) {
+            this.age = age;
+        }
 
-        public List<String> getTags() { return tags; }
-        public void setTags(List<String> tags) { this.tags = tags; }
+        public boolean isActive() {
+            return active;
+        }
 
-        public InnerEntity getInner() { return inner; }
-        public void setInner(InnerEntity inner) { this.inner = inner; }
+        public void setActive(boolean active) {
+            this.active = active;
+        }
+
+        public BigDecimal getAmount() {
+            return amount;
+        }
+
+        public void setAmount(BigDecimal amount) {
+            this.amount = amount;
+        }
+
+        public List<String> getTags() {
+            return tags;
+        }
+
+        public void setTags(List<String> tags) {
+            this.tags = tags;
+        }
+
+        public InnerEntity getInner() {
+            return inner;
+        }
+
+        public void setInner(InnerEntity inner) {
+            this.inner = inner;
+        }
     }
 
     // 测试用的目标对象类
@@ -59,26 +89,57 @@ public class CopyUtilTest {
         private List<String> tags;
         private InnerEntity inner;
 
-        public TargetEntity() {}
+        public TargetEntity() {
+        }
 
         // Getters and Setters
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
+        public String getName() {
+            return name;
+        }
 
-        public int getAge() { return age; }
-        public void setAge(int age) { this.age = age; }
+        public void setName(String name) {
+            this.name = name;
+        }
 
-        public boolean isActive() { return active; }
-        public void setActive(boolean active) { this.active = active; }
+        public int getAge() {
+            return age;
+        }
 
-        public BigDecimal getAmount() { return amount; }
-        public void setAmount(BigDecimal amount) { this.amount = amount; }
+        public void setAge(int age) {
+            this.age = age;
+        }
 
-        public List<String> getTags() { return tags; }
-        public void setTags(List<String> tags) { this.tags = tags; }
+        public boolean isActive() {
+            return active;
+        }
 
-        public InnerEntity getInner() { return inner; }
-        public void setInner(InnerEntity inner) { this.inner = inner; }
+        public void setActive(boolean active) {
+            this.active = active;
+        }
+
+        public BigDecimal getAmount() {
+            return amount;
+        }
+
+        public void setAmount(BigDecimal amount) {
+            this.amount = amount;
+        }
+
+        public List<String> getTags() {
+            return tags;
+        }
+
+        public void setTags(List<String> tags) {
+            this.tags = tags;
+        }
+
+        public InnerEntity getInner() {
+            return inner;
+        }
+
+        public void setInner(InnerEntity inner) {
+            this.inner = inner;
+        }
     }
 
     // 内部嵌套对象类
@@ -86,7 +147,8 @@ public class CopyUtilTest {
         private String description;
         private int code;
 
-        public InnerEntity() {}
+        public InnerEntity() {
+        }
 
         public InnerEntity(String description, int code) {
             this.description = description;
@@ -94,31 +156,53 @@ public class CopyUtilTest {
         }
 
         // Getters and Setters
-        public String getDescription() { return description; }
-        public void setDescription(String description) { this.description = description; }
+        public String getDescription() {
+            return description;
+        }
 
-        public int getCode() { return code; }
-        public void setCode(int code) { this.code = code; }
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
     }
 
     // 带继承关系的源对象类
     static class ExtendedSourceEntity extends SourceEntity {
         private String extraField;
 
-        public ExtendedSourceEntity() {}
+        public ExtendedSourceEntity() {
+        }
 
-        public String getExtraField() { return extraField; }
-        public void setExtraField(String extraField) { this.extraField = extraField; }
+        public String getExtraField() {
+            return extraField;
+        }
+
+        public void setExtraField(String extraField) {
+            this.extraField = extraField;
+        }
     }
 
     // 带继承关系的目标对象类
     static class ExtendedTargetEntity extends TargetEntity {
         private String extraField;
 
-        public ExtendedTargetEntity() {}
+        public ExtendedTargetEntity() {
+        }
 
-        public String getExtraField() { return extraField; }
-        public void setExtraField(String extraField) { this.extraField = extraField; }
+        public String getExtraField() {
+            return extraField;
+        }
+
+        public void setExtraField(String extraField) {
+            this.extraField = extraField;
+        }
     }
 
     @Test
@@ -294,22 +378,42 @@ public class CopyUtilTest {
         private String name;
         private java.util.Map<String, String> properties;
 
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
+        public String getName() {
+            return name;
+        }
 
-        public java.util.Map<String, String> getProperties() { return properties; }
-        public void setProperties(java.util.Map<String, String> properties) { this.properties = properties; }
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public java.util.Map<String, String> getProperties() {
+            return properties;
+        }
+
+        public void setProperties(java.util.Map<String, String> properties) {
+            this.properties = properties;
+        }
     }
 
     static class MapTargetEntity {
         private String name;
         private java.util.Map<String, String> properties;
 
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
+        public String getName() {
+            return name;
+        }
 
-        public java.util.Map<String, String> getProperties() { return properties; }
-        public void setProperties(java.util.Map<String, String> properties) { this.properties = properties; }
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public java.util.Map<String, String> getProperties() {
+            return properties;
+        }
+
+        public void setProperties(java.util.Map<String, String> properties) {
+            this.properties = properties;
+        }
     }
 
     // 为Set测试新增的类
@@ -317,22 +421,42 @@ public class CopyUtilTest {
         private String name;
         private java.util.Set<String> tagSet;
 
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
+        public String getName() {
+            return name;
+        }
 
-        public java.util.Set<String> getTagSet() { return tagSet; }
-        public void setTagSet(java.util.Set<String> tagSet) { this.tagSet = tagSet; }
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public java.util.Set<String> getTagSet() {
+            return tagSet;
+        }
+
+        public void setTagSet(java.util.Set<String> tagSet) {
+            this.tagSet = tagSet;
+        }
     }
 
     static class SetTargetEntity {
         private String name;
         private java.util.Set<String> tagSet;
 
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
+        public String getName() {
+            return name;
+        }
 
-        public java.util.Set<String> getTagSet() { return tagSet; }
-        public void setTagSet(java.util.Set<String> tagSet) { this.tagSet = tagSet; }
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public java.util.Set<String> getTagSet() {
+            return tagSet;
+        }
+
+        public void setTagSet(java.util.Set<String> tagSet) {
+            this.tagSet = tagSet;
+        }
     }
 
     @Test

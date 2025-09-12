@@ -222,4 +222,96 @@ public class MapsTest {
         Person person = Maps.mapToObj(null, Person.class);
         assertNull("null Map应转换为null对象", person);
     }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedence() {
+        // 测试带关系映射和优先级控制的Map转对象功能
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_name", "钱七");
+        map.put("user_age", 28);
+        map.put("user_active", true);
+
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+        relations.put("user_age", "age");
+        relations.put("user_active", "active");
+
+        // 测试 precedenceRelation = false 的情况（覆盖已有值）
+        Person person1 = new Person("初始姓名", 20, false);
+        Person result1 = Maps.mapToObj(map, relations, person1, false);
+
+        assertSame("应返回相同的对象实例", person1, result1);
+        assertEquals("name属性应被覆盖", "钱七", person1.getName());
+        assertEquals("age属性应被覆盖", 28, person1.getAge());
+        assertEquals("active属性应被覆盖", true, person1.isActive());
+
+        // 测试 precedenceRelation = true 的情况（不覆盖已有值）
+        Person person2 = new Person("初始姓名", 20, false);
+        Person result2 = Maps.mapToObj(map, relations, person2, true);
+
+        assertSame("应返回相同的对象实例", person2, result2);
+        assertEquals("name属性不应被覆盖", "初始姓名", person2.getName());
+        assertEquals("age属性不应被覆盖", 20, person2.getAge());
+        assertEquals("active属性不应被覆盖", false, person2.isActive());
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedenceWithNullTarget() {
+        // 测试目标对象为null的情况
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_name", "测试用户");
+
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+
+        Person result = Maps.mapToObj(map, relations, (Person) null, false);
+        assertNull("目标对象为null时应返回null", result);
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedenceWithNullMap() {
+        // 测试源Map为null的情况
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+
+        Person person = new Person("初始姓名", 25, true);
+        Person result = Maps.mapToObj(null, relations, person, false);
+
+        assertSame("应返回相同的对象实例", person, result);
+        assertEquals("属性值应保持不变", "初始姓名", person.getName());
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedenceWithEmptyMap() {
+        // 测试空Map的情况
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+
+        Person person = new Person("初始姓名", 25, true);
+        Person result = Maps.mapToObj(map, relations, person, false);
+
+        assertSame("应返回相同的对象实例", person, result);
+        assertEquals("属性值应保持不变", "初始姓名", person.getName());
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedenceWithNonExistentField() {
+        // 测试映射到不存在的字段
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_name", "测试用户");
+        map.put("user_nonexistent", "不存在的值");
+
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+        relations.put("user_nonexistent", "nonexistent"); // 不存在的字段
+
+        Person person = new Person();
+        Person result = Maps.mapToObj(map, relations, person, false);
+
+        assertSame("应返回相同的对象实例", person, result);
+        assertEquals("存在的字段应正确设置", "测试用户", person.getName());
+        // 不存在的字段不会影响其他字段的设置
+    }
+
 }
