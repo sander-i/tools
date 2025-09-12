@@ -1,11 +1,15 @@
 package org.tools.bedrock.util.date;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Date;
 
-public class TimeZoneUtilsTest extends TestCase {
+import static org.junit.Assert.assertNotNull;
 
+
+public class TimeZoneUtilsTest {
+
+    @Test
     public void testTimeZoneUtilsSmoke() {
         // 冒烟测试：验证 TimeZoneUtils 类的基本功能
 
@@ -41,41 +45,49 @@ public class TimeZoneUtilsTest extends TestCase {
     }
 
     // 针对各个具体方法的简单测试
+    @Test
     public void testCovertTimeZoneStr() {
         String result = TimeZoneUtils.covertTimeZoneStr("2023-12-25 12:00:00", "yyyy-MM-dd HH:mm:ss", "GMT+8", "GMT");
         assertNotNull(result);
     }
 
+    @Test
     public void testCovertTimeZoneStrWithDate() {
         String result = TimeZoneUtils.covertTimeZoneStr(new Date(), "yyyy-MM-dd HH:mm:ss", "GMT+8", "GMT");
         assertNotNull(result);
     }
 
+    @Test
     public void testCovertTimeZone() {
         Date result = TimeZoneUtils.covertTimeZone("2023-12-25 12:00:00", "yyyy-MM-dd HH:mm:ss", "GMT+8", "GMT");
         assertNotNull(result);
     }
 
+    @Test
     public void testCovertTimeZoneWithDate() {
         Date result = TimeZoneUtils.covertTimeZone(new Date(), "yyyy-MM-dd HH:mm:ss", "GMT+8", "GMT");
         assertNotNull(result);
     }
 
+    @Test
     public void testCovertTimeZoneUTCStr() {
         String result = TimeZoneUtils.covertTimeZoneUTCStr("2023-12-25 12:00:00", "yyyy-MM-dd HH:mm:ss", "GMT+8");
         assertNotNull(result);
     }
 
+    @Test
     public void testCovertTimeZoneUTCStrWithDate() {
         String result = TimeZoneUtils.covertTimeZoneUTCStr(new Date(), "yyyy-MM-dd HH:mm:ss", "GMT+8");
         assertNotNull(result);
     }
 
+    @Test
     public void testCovertTimeZoneUTC() {
         Date result = TimeZoneUtils.covertTimeZoneUTC("2023-12-25 12:00:00", "yyyy-MM-dd HH:mm:ss", "GMT+8");
         assertNotNull(result);
     }
 
+    @Test
     public void testCovertTimeZoneUTCWithDate() {
         Date result = TimeZoneUtils.covertTimeZoneUTC(new Date(), "yyyy-MM-dd HH:mm:ss", "GMT+8");
         assertNotNull(result);

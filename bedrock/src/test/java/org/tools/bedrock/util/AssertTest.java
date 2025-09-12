@@ -1,14 +1,17 @@
 package org.tools.bedrock.util;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AssertTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class AssertTest {
+
+    @Test
     public void testAssertSmoke() {
         // 冒烟测试：验证 Assert 类的基本功能
 
@@ -61,6 +64,7 @@ public class AssertTest extends TestCase {
         System.out.println("Assert冒烟测试通过：所有基本功能正常工作");
     }
 
+    @Test
     public void testIsNotNullWithMessage() {
         // 测试 isNotNull 正常情况
         String obj = "test";
@@ -68,6 +72,7 @@ public class AssertTest extends TestCase {
         assertEquals(obj, result);
     }
 
+    @Test
     public void testIsNotNullWithoutMessage() {
         // 测试 isNotNull 正常情况
         String obj = "test";
@@ -75,20 +80,24 @@ public class AssertTest extends TestCase {
         // 不抛出异常即为通过
     }
 
+    @Test
     public void testIsEmptyList() {
         List<String> list = new ArrayList<>();
         assertTrue(Assert.isEmpty(list));
     }
 
+    @Test
     public void testIsEmptyMap() {
         Map<String, String> map = new HashMap<>();
         assertTrue(Assert.isEmpty(map));
     }
 
+    @Test
     public void testIsEmptyObject() {
         assertTrue(Assert.isEmpty(""));
     }
 
+    @Test
     public void testIsNotEmpty() {
         assertTrue(Assert.isNotEmpty("test"));
         assertFalse(Assert.isNotEmpty(""));

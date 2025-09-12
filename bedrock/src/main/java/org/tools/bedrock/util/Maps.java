@@ -207,40 +207,43 @@ public class Maps {
         Class<?> clz = target.getClass();
         // 获取所有属性
         Field[] declaredFields = ClassUtils.getAllDeclaredFields(clz);
-        // 去除方法未找到的属性
+        // 去除方法未找到的属性（保留原逻辑）
         declaredFields = ClassUtils.roverMethodNotFoundDeclaredFields(declaredFields, clz);
+
+        // 构建字段名到 Field 的映射，提高查找效率
+        Map<String, Field> fieldMap = new HashMap<>();
+        for (Field field : declaredFields) {
+            fieldMap.put(field.getName(), field);
+        }
 
         for (Map.Entry<String, Object> source : sourceMap.entrySet()) {
             String sourceKey = source.getKey();
+            String targetName = relations.get(sourceKey);
 
-            for (Map.Entry<String, String> relation : relations.entrySet()) {
+            if (targetName == null) {
+                continue;
+            }
 
-                String sourceName = relation.getKey();
-                String targetName = relation.getValue();
+            Field targetField = fieldMap.get(targetName);
+            if (targetField == null) {
+                continue;
+            }
 
-                if (sourceKey.equals(sourceName)) {
+            // 如果 precedenceRelation 为 true，则跳过已有值的属性（不覆盖已有的值）
+            if (precedenceRelation && ClassUtils.hasPropertyValue(target, targetName)) {
+                continue;
+            }
 
-                    for (Field oldField : declaredFields) {
-
-                        String fieldName = oldField.getName();
-
-                        if (targetName.equals(fieldName)) {
-
-                            Object entityMapValue = source.getValue();
-
-                            ClassUtils.setProperty(target, fieldName, entityMapValue);
-                        }
-                    }
-                }
+            Object entityMapValue = source.getValue();
+            try {
+                ClassUtils.setProperty(target, targetName, entityMapValue);
+            } catch (IllegalArgumentException e) {
+                log.error("设置属性值失败 - 类型不匹配，字段: {}, 值: {}, 错误: {}", targetName, entityMapValue, e.getMessage(), e);
+            } catch (Exception e) {
+                log.error("设置属性值失败 - 其他异常，字段: {}, 错误: {}", targetName, e.getMessage(), e);
             }
         }
 
-        // todo 过滤 relationship 中不存在的属性 list1
-        if (precedenceRelation) {
-            // todo 过滤 list1 中 target 目标对象有值的属性（已经通过上面的relationship关系映射赋值了，不能再次覆盖）
-            return target;
-        }
-        // todo 覆盖 list1 中 target 目标对象有值的属性
         return target;
     }
 

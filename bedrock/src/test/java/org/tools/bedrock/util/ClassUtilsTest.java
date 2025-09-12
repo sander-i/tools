@@ -1,6 +1,7 @@
 package org.tools.bedrock.util;
 
 import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -85,6 +86,7 @@ public class ClassUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testIsBaseClass() {
         // 测试基础类型检查
         assertTrue(ClassUtils.isBaseClass("int"));
@@ -94,6 +96,7 @@ public class ClassUtilsTest extends TestCase {
         assertFalse(ClassUtils.isBaseClass("BigDecimal"));
     }
 
+    @Test
     public void testNewClass() {
         try {
             // 测试类实例化
@@ -107,6 +110,7 @@ public class ClassUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testNewInstance() {
         try {
             // 测试对象实例化
@@ -120,6 +124,7 @@ public class ClassUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testGetDeclaredFields() {
         try {
             // 测试获取类字段
@@ -163,6 +168,7 @@ public class ClassUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testGetAllDeclaredFields() {
         try {
             // 测试获取类及其父类的所有字段
@@ -174,6 +180,7 @@ public class ClassUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testGetProperty() {
         // 测试属性读取
         TestEntity entity = new TestEntity("test", 25, true, new BigDecimal("100.50"));
@@ -188,6 +195,7 @@ public class ClassUtilsTest extends TestCase {
         assertEquals(true, active);
     }
 
+    @Test
     public void testSetProperty() {
         // 测试属性写入
         TestEntity entity = new TestEntity();
@@ -201,6 +209,7 @@ public class ClassUtilsTest extends TestCase {
         assertEquals(30, entity.getAge());
     }
 
+    @Test
     public void testStrSeparatorFirstCapitalize() {
         // 测试字符串分隔符首字母大写转换
         String result1 = ClassUtils.strSeparatorFirstCapitalize("str_separator_first_capitalize");
@@ -213,6 +222,7 @@ public class ClassUtilsTest extends TestCase {
         assertEquals("firstNameTest", result3);
     }
 
+    @Test
     public void testHandleBooleanType() throws NoSuchFieldException {
         // 测试布尔类型处理
         Field activeField = TestEntity.class.getDeclaredField("active");
@@ -238,6 +248,7 @@ public class ClassUtilsTest extends TestCase {
         assertEquals("Active", isActiveFieldName); // 去掉is前缀，首字母大写
     }
 
+    @Test
     public void testCommonFields() {
         // 测试获取两个类的公共字段
         Field[] commonFields = ClassUtils.commonFields(TestEntity.class, ExtendedTestEntity.class, false);
@@ -245,6 +256,7 @@ public class ClassUtilsTest extends TestCase {
         assertTrue(commonFields.length < 2);
     }
 
+    @Test
     public void testAllCommonFields() {
         // 测试获取两个类的公共字段
         Field[] commonFields = ClassUtils.allCommonFields(TestEntity.class, ExtendedTestEntity.class, false);
@@ -252,6 +264,7 @@ public class ClassUtilsTest extends TestCase {
         assertTrue(commonFields.length >= 5);
     }
 
+    @Test
     public void testIsEnumClass() {
         // 测试枚举类检查
         assertFalse(ClassUtils.isEnumClass(null));
@@ -260,6 +273,7 @@ public class ClassUtilsTest extends TestCase {
         // 如果有枚举类可以测试，可以添加相应的测试
     }
 
+    @Test
     public void testNativeClass() {
         // 测试原生类检查
         assertFalse(ClassUtils.nativeClass(null));

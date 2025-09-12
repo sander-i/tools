@@ -8,7 +8,11 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 跨对象传值优化
@@ -606,6 +610,27 @@ public class ClassUtils {
         }
         Field[] newFields = new Field[0];
         return fields.toArray(newFields);
+    }
+
+    /**
+     * 检查对象的指定属性是否有值（不为null）
+     *
+     * @param target 目标对象
+     *               * @param fieldName 属性名
+     * @return 如果属性值不为null返回true，否则返回false
+     */
+    public static boolean hasPropertyValue(Object target, String fieldName) {
+        if (target == null || fieldName == null || fieldName.isEmpty()) {
+            return false;
+        }
+
+        try {
+            Object value = getProperty(target, fieldName);
+            return value != null;
+        } catch (Exception e) {
+            // 如果无法获取字段值，返回false
+            return false;
+        }
     }
 
 }

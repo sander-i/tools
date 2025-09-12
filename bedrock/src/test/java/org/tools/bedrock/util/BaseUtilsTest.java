@@ -1,12 +1,14 @@
 package org.tools.bedrock.util;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.tools.bedrock.base.Address;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 /**
  * <p>
@@ -15,114 +17,127 @@ import java.util.Map;
  *
  * @author sander 2024/04/20
  */
-public class BaseUtilsTest extends TestCase {
+public class BaseUtilsTest {
 
+    @Test
     public void testIsNull() {
         Address address = new Address();
-        Aver.isFalse(BaseUtils.isNull(address), "非null对象应该返回false");
+        assertFalse("非null对象应该返回false", BaseUtils.isNull(address));
         address = null;
-        Aver.isTrue(BaseUtils.isNull(address), "null对象应该返回true");
+        assertTrue("null对象应该返回true", BaseUtils.isNull(address));
     }
 
+    @Test
     public void testIsNotNull() {
         Address address = new Address();
-        Aver.isTrue(BaseUtils.isNotNull(address), "非null对象应该返回true");
+        assertTrue("非null对象应该返回true", BaseUtils.isNotNull(address));
         address = null;
-        Aver.isFalse(BaseUtils.isNotNull(address), "null对象应该返回false");
+        assertFalse("null对象应该返回false", BaseUtils.isNotNull(address));
     }
 
+    @Test
     public void testIsEmpty() {
         List<String> list = new ArrayList<>();
         list.add("1234567890");
-        Aver.isFalse(BaseUtils.isEmpty(list), "非空List应该返回false");
+        assertFalse("非空List应该返回false", BaseUtils.isEmpty(list));
         list.clear();
-        Aver.isTrue(BaseUtils.isEmpty(list), "空List应该返回true");
+        assertTrue("空List应该返回true", BaseUtils.isEmpty(list));
         list = null;
-        Aver.isTrue(BaseUtils.isEmpty(list), "null List应该返回true");
+        assertTrue("null List应该返回true", BaseUtils.isEmpty(list));
     }
 
+    @Test
     public void testIsNotEmpty() {
         List<String> list = new ArrayList<>();
         list.add("1234567890");
-        Aver.isTrue(BaseUtils.isNotEmpty(list), "非空List应该返回true");
+        assertTrue("非空List应该返回true", BaseUtils.isNotEmpty(list));
         list.clear();
-        Aver.isFalse(BaseUtils.isNotEmpty(list), "空List应该返回false");
+        assertFalse("空List应该返回false", BaseUtils.isNotEmpty(list));
         list = null;
-        Aver.isFalse(BaseUtils.isNotEmpty(list), "null List应该返回false");
+        assertFalse("null List应该返回false", BaseUtils.isNotEmpty(list));
     }
 
+    @Test
     public void testTestIsEmpty() {
         Map<String, String> map = new HashMap<>();
         map.put("1", "1234567890");
-        Aver.isFalse(BaseUtils.isEmpty(map), "非空Map应该返回false");
+        assertFalse("非空Map应该返回false", BaseUtils.isEmpty(map));
         map.clear();
-        Aver.isTrue(BaseUtils.isEmpty(map), "空Map应该返回true");
+        assertTrue("空Map应该返回true", BaseUtils.isEmpty(map));
         map = null;
-        Aver.isTrue(BaseUtils.isEmpty(map), "null Map应该返回true");
+        assertTrue("null Map应该返回true", BaseUtils.isEmpty(map));
     }
 
+    @Test
     public void testTestIsNotEmpty() {
         Map<String, String> map = new HashMap<>();
         map.put("1", "1234567890");
-        Aver.isTrue(BaseUtils.isNotEmpty(map), "非空Map应该返回true");
+        assertTrue("非空Map应该返回true", BaseUtils.isNotEmpty(map));
         map.clear();
-        Aver.isFalse(BaseUtils.isNotEmpty(map), "空Map应该返回false");
+        assertFalse("空Map应该返回false", BaseUtils.isNotEmpty(map));
         map = null;
-        Aver.isFalse(BaseUtils.isNotEmpty(map), "null Map应该返回false");
+        assertFalse("null Map应该返回false", BaseUtils.isNotEmpty(map));
     }
 
+    @Test
     public void testTestIsEmpty1() {
         Address address = new Address();
-        Aver.isFalse(BaseUtils.isEmpty(address), "非null对象应该返回false");
+        assertFalse("非null对象应该返回false", BaseUtils.isEmpty(address));
         address = null;
-        Aver.isTrue(BaseUtils.isEmpty(address), "null对象应该返回true");
+        assertTrue("null对象应该返回true", BaseUtils.isEmpty(address));
     }
 
+    @Test
     public void testTestIsNotEmpty1() {
         Address address = new Address();
-        Aver.isTrue(BaseUtils.isNotEmpty(address), "非null对象应该返回true");
+        assertTrue("非null对象应该返回true", BaseUtils.isNotEmpty(address));
         address = null;
-        Aver.isFalse(BaseUtils.isNotEmpty(address), "null对象应该返回false");
+        assertFalse("null对象应该返回false", BaseUtils.isNotEmpty(address));
     }
 
+    @Test
     public void testTestIsNull() {
         Address address = new Address();
         Address address1 = new Address();
-        Aver.isFalse(BaseUtils.isNull(address, address1), "两个非null对象应该返回false");
+        assertFalse("两个非null对象应该返回false", BaseUtils.isNull(address, address1));
         address = null;
-        Aver.isTrue(BaseUtils.isNull(address, address1), "有一个null对象应该返回true");
+        assertTrue("有一个null对象应该返回true", BaseUtils.isNull(address, address1));
     }
 
+    @Test
     public void testIsAllNull() {
         Address address = new Address();
         Address address1 = new Address();
-        Aver.isFalse(BaseUtils.isAllNull(address, address1), "两个非null对象应该返回false");
+        assertFalse("两个非null对象应该返回false", BaseUtils.isAllNull(address, address1));
         address = null;
-        Aver.isFalse(BaseUtils.isAllNull(address, address1), "只有一个null对象应该返回false");
+        assertFalse("只有一个null对象应该返回false", BaseUtils.isAllNull(address, address1));
         address1 = null;
-        Aver.isTrue(BaseUtils.isAllNull(address, address1), "两个null对象应该返回true");
+        assertTrue("两个null对象应该返回true", BaseUtils.isAllNull(address, address1));
     }
 
+    @Test
     public void testTestIsNotNull() {
         Address address = new Address();
         Address address1 = new Address();
-        Aver.isTrue(BaseUtils.isNotNull(address, address1), "两个非null对象应该返回true");
+        assertTrue("两个非null对象应该返回true", BaseUtils.isNotNull(address, address1));
         address = null;
-        Aver.isFalse(BaseUtils.isNotNull(address, address1), "有一个null对象应该返回false");
+        assertFalse("有一个null对象应该返回false", BaseUtils.isNotNull(address, address1));
         address1 = null;
-        Aver.isFalse(BaseUtils.isNotNull(address, address1), "两个null对象应该返回false");
+        assertFalse("两个null对象应该返回false", BaseUtils.isNotNull(address, address1));
     }
 
+    @Test
     public void testIsAllNotNull() {
         Address address = new Address();
         Address address1 = new Address();
-        Aver.isTrue(BaseUtils.isAllNotNull(address, address1), "两个非null对象应该返回true");
+        assertTrue("两个非null对象应该返回true", BaseUtils.isAllNotNull(address, address1));
         address = null;
-        Aver.isFalse(BaseUtils.isAllNotNull(address, address1), "有一个null对象应该返回false");
+        assertFalse("有一个null对象应该返回false", BaseUtils.isAllNotNull(address, address1));
         address1 = null;
-        Aver.isFalse(BaseUtils.isAllNotNull(address, address1), "两个null对象应该返回false");
+        assertFalse("两个null对象应该返回false", BaseUtils.isAllNotNull(address, address1));
     }
 
+    @Test
     public void testTestIsEmpty2() {
         Address address = new Address();
         List<List<?>> list = new ArrayList<>();
@@ -131,11 +146,12 @@ public class BaseUtilsTest extends TestCase {
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
-        Aver.isFalse(BaseUtils.isEmpty(address, list, map, addresses), "所有对象都非空应该返回false");
+        assertFalse("所有对象都非空应该返回false", BaseUtils.isEmpty(address, list, map, addresses));
         list = null;
-        Aver.isTrue(BaseUtils.isEmpty(address, list, map, addresses), "有一个对象为空应该返回true");
+        assertTrue("有一个对象为空应该返回true", BaseUtils.isEmpty(address, list, map, addresses));
     }
 
+    @Test
     public void testIsAllEmpty() {
         Address address = new Address();
         List<List<?>> list = new ArrayList<>();
@@ -144,17 +160,18 @@ public class BaseUtilsTest extends TestCase {
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
-        Aver.isFalse(BaseUtils.isAllEmpty(address, list, map, addresses), "所有对象都非空应该返回false");
+        assertFalse("所有对象都非空应该返回false", BaseUtils.isAllEmpty(address, list, map, addresses));
         address = null;
-        Aver.isFalse(BaseUtils.isAllEmpty(address, list, map, addresses), "只有一个对象为空应该返回false");
+        assertFalse("只有一个对象为空应该返回false", BaseUtils.isAllEmpty(address, list, map, addresses));
         addresses[0] = null;
-        Aver.isFalse(BaseUtils.isAllEmpty(address, list, map, addresses), "只有两个对象为空应该返回false");
+        assertFalse("只有两个对象为空应该返回false", BaseUtils.isAllEmpty(address, list, map, addresses));
         list.clear();
-        Aver.isFalse(BaseUtils.isAllEmpty(address, list, map, addresses), "只有三个对象为空应该返回false");
+        assertFalse("只有三个对象为空应该返回false", BaseUtils.isAllEmpty(address, list, map, addresses));
         map.clear();
-        Aver.isTrue(BaseUtils.isAllEmpty(address, list, map, addresses), "所有对象都为空应该返回true");
+        assertTrue("所有对象都为空应该返回true", BaseUtils.isAllEmpty(address, list, map, addresses));
     }
 
+    @Test
     public void testTestIsNotEmpty2() {
         Address address = new Address();
         List<List<?>> list = new ArrayList<>();
@@ -163,17 +180,18 @@ public class BaseUtilsTest extends TestCase {
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
-        Aver.isTrue(BaseUtils.isNotEmpty(address, list, map, addresses), "所有对象都非空应该返回true");
+        assertTrue("所有对象都非空应该返回true", BaseUtils.isNotEmpty(address, list, map, addresses));
         address = null;
-        Aver.isTrue(BaseUtils.isNotEmpty(address, list, map, addresses), "有一个对象为空仍应返回true");
+        assertTrue("有一个对象为空仍应返回true", BaseUtils.isNotEmpty(address, list, map, addresses));
         addresses[0] = null;
-        Aver.isTrue(BaseUtils.isNotEmpty(address, list, map, addresses), "有两个对象为空仍应返回true");
+        assertTrue("有两个对象为空仍应返回true", BaseUtils.isNotEmpty(address, list, map, addresses));
         list.clear();
-        Aver.isTrue(BaseUtils.isNotEmpty(address, list, map, addresses), "有三个对象为空仍应返回true");
+        assertTrue("有三个对象为空仍应返回true", BaseUtils.isNotEmpty(address, list, map, addresses));
         map.clear();
-        Aver.isFalse(BaseUtils.isNotEmpty(address, list, map, addresses), "所有对象都为空应该返回false");
+        assertFalse("所有对象都为空应该返回false", BaseUtils.isNotEmpty(address, list, map, addresses));
     }
 
+    @Test
     public void testIsAllNotEmpty() {
         Address address = new Address();
         List<List<?>> list = new ArrayList<>();
@@ -182,15 +200,16 @@ public class BaseUtilsTest extends TestCase {
         map.put("1", list);
         Address[] addresses = new Address[1];
         addresses[0] = address;
-        Aver.isTrue(BaseUtils.isAllNotEmpty(address, list, map, addresses), "所有对象都非空应该返回true");
+        assertTrue("所有对象都非空应该返回true", BaseUtils.isAllNotEmpty(address, list, map, addresses));
         list = null;
-        Aver.isFalse(BaseUtils.isAllNotEmpty(address, list, map, addresses), "有一个对象为空应该返回false");
+        assertFalse("有一个对象为空应该返回false", BaseUtils.isAllNotEmpty(address, list, map, addresses));
     }
 
+    @Test
     public void testIsEmptyObj() {
         Address address = new Address();
-        Aver.isTrue(BaseUtils.isEmptyObj(address), "新创建的对象应该为空");
+        assertTrue("新创建的对象应该为空", BaseUtils.isEmptyObj(address));
         address.setCity("10010");
-        Aver.isFalse(BaseUtils.isEmptyObj(address), "设置了属性的对象应该不为空");
+        assertFalse("设置了属性的对象应该不为空", BaseUtils.isEmptyObj(address));
     }
 }
