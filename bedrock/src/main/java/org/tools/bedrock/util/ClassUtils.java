@@ -65,23 +65,40 @@ public class ClassUtils {
         return false;
     }
 
+    /**
+     * 判断给定对象是否为枚举类型
+     *
+     * @param obj 待判断的对象
+     * @return 如果对象是枚举类型则返回true，否则返回false
+     */
     public static boolean isEnumClass(Object obj) {
         if (obj == null) {
             return false;
         }
+        // 检查对象是否为Class类型
         if (!(obj instanceof Class)) {
             return false;
         }
+        // 获取Class对象并判断是否为枚举类型
         Class<?> clazz = (Class<?>) obj;
         return clazz.isEnum();
     }
 
+
+    /**
+     * 判断对象是否为原生类型或实现了Comparable接口
+     *
+     * @param obj 待检查的对象，可以为null
+     * @return 如果对象不为null且实现了Comparable接口则返回true，否则返回false
+     */
     public static boolean nativeClass(Object obj) {
         if (obj == null) {
             return false;
         }
+        // 判断对象是否实现了Comparable接口
         return obj instanceof Comparable;
     }
+
 
     /**
      * 获取当前对象属性class
@@ -121,6 +138,7 @@ public class ClassUtils {
      * @return 父类class
      */
     public static Class<?> newSuperClass(Class<?> cls) {
+        Aver.notNull(cls, "cls can not be null");
         // 获取当前属性父类的class对象
         return cls.getSuperclass();
     }
@@ -132,6 +150,8 @@ public class ClassUtils {
      * @return 父类class
      */
     public static Class<?>[] newSupersClass(Class<?> cls) {
+        Aver.notNull(cls, "cls can not be null");
+
         boolean existSuper = true;
         Integer classIndex = 0;
         Class<?> aClass = newSuperClass(cls);
@@ -139,26 +159,35 @@ public class ClassUtils {
             classIndex--;
             existSuper = false;
         }
+        // 保存第一个父类用于后续填充数组
+        Class<?> firstSuperClass = aClass;
+        // 遍历获取所有父类
         while (existSuper) {
             classIndex++;
             aClass = newSuperClass(aClass);
             if (aClass == null) {
-                aClass = newSuperClass(cls);
                 classIndex--;
                 existSuper = false;
             }
         }
-        if (classIndex.compareTo(Constants.ZERO_I) < Constants.ONE_I) {
+        // 如果没有父类，返回空数组
+        if (classIndex.compareTo(Constants.ZERO_I) < Constants.ONE_I || firstSuperClass == null) {
             return new Class[0];
         }
+        // 构造父类数组并填充数据
         Class<?>[] supersClass = new Class<?>[classIndex];
-        supersClass[0] = aClass;
+        supersClass[0] = firstSuperClass;
+        aClass = firstSuperClass;
         for (int i = 1; i < classIndex; i++) {
             aClass = newSuperClass(aClass);
-            supersClass[i] = aClass;
+            if (aClass != null) {
+                supersClass[i] = aClass;
+            } else {
+                // 防止空指针，提前终止
+                break;
+            }
         }
 
-        // 获取当前属性父类的class对象
         return supersClass;
     }
 
@@ -631,6 +660,40 @@ public class ClassUtils {
             // 如果无法获取字段值，返回false
             return false;
         }
+    }
+
+    /**
+     * 判断是否为基础类型或包装类型
+     *
+     * @param clazz 待判断的类对象
+     * @return 如果是基础类型或包装类型返回true，否则返回false
+     */
+    public static boolean isPrimitiveOrWrapper(Class<?> clazz) {
+        return clazz.isPrimitive() || isWrapperType(clazz);
+    }
+
+    /**
+     * 判断给定的类是否为Java基本类型的包装类
+     *
+     * @param clazz 待判断的类对象
+     * @return 如果是基本类型的包装类则返回true，否则返回false
+     */
+    public static boolean isWrapperType(Class<?> clazz) {
+        // 检查是否为8种基本数据类型的包装类
+        return clazz == Boolean.class || clazz == Character.class ||
+                clazz == Byte.class || clazz == Short.class ||
+                clazz == Integer.class || clazz == Long.class ||
+                clazz == Float.class || clazz == Double.class;
+    }
+
+    /**
+     * 判断是否为 java.lang 包下的类型
+     *
+     * @param clazz 待判断的类对象
+     * @return 如果是 java.lang 包下的类型返回 true，否则返回 false
+     */
+    public static boolean isJavaLangType(Class<?> clazz) {
+        return clazz.getName().startsWith("java.lang");
     }
 
 }
