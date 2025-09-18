@@ -644,8 +644,8 @@ public class ClassUtils {
     /**
      * 检查对象的指定属性是否有值（不为null）
      *
-     * @param target 目标对象
-     *               * @param fieldName 属性名
+     * @param target    目标对象
+     * @param fieldName 属性名
      * @return 如果属性值不为null返回true，否则返回false
      */
     public static boolean hasPropertyValue(Object target, String fieldName) {
