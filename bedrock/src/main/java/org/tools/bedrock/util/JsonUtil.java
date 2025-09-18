@@ -1,6 +1,6 @@
 package org.tools.bedrock.util;
 
-import org.tools.bedrock.constant.SpecialSymbolConsts;
+import org.tools.bedrock.constant.v2.SpecialSymbolConst;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class JsonUtil {
         if (BaseUtils.isEmpty(list)) {
             return null;
         }
-        StringBuilder result = new StringBuilder(SpecialSymbolConsts.LEFT_BRACKET);
+        StringBuilder result = new StringBuilder(SpecialSymbolConst.LEFT_BRACKET);
         int size = 1;
         for (Object o : list) {
             if (skipNull && BaseUtils.isNull(o)) {
@@ -67,13 +67,13 @@ public class JsonUtil {
             } else if (o instanceof Map) {
                 result.append(mapToJson((Map<?, ?>) o, skipNull));
             } else {
-                result.append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append(o).append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK);
+                result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(o).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
             }
             if (size++ < list.size()) {
-                result.append(SpecialSymbolConsts.SEMICOLON);
+                result.append(SpecialSymbolConst.SEMICOLON);
             }
         }
-        result.append(SpecialSymbolConsts.RIGHT_BRACKET);
+        result.append(SpecialSymbolConst.RIGHT_BRACKET);
         return result.toString();
     }
 
@@ -98,7 +98,7 @@ public class JsonUtil {
         if (BaseUtils.isEmpty(map)) {
             return null;
         }
-        StringBuilder result = new StringBuilder(SpecialSymbolConsts.LEFT_BRACE);
+        StringBuilder result = new StringBuilder(SpecialSymbolConst.LEFT_BRACE);
         int size = 1;
         String key;
         Object val;
@@ -112,7 +112,7 @@ public class JsonUtil {
                 continue;
             }
 
-            result.append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append(key).append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append(SpecialSymbolConsts.COLON);
+            result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(key).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(SpecialSymbolConst.COLON);
             if (val instanceof List) {
                 valList = (List<?>) val;
                 result.append(listToJson(valList, skipNull));
@@ -121,19 +121,19 @@ public class JsonUtil {
                 result.append(mapToJson(valMap, skipNull));
             } else if (val.getClass().isArray()) {
                 Object[] array = (Object[]) val;
-                result.append(SpecialSymbolConsts.LEFT_BRACKET);
+                result.append(SpecialSymbolConst.LEFT_BRACKET);
                 for (Object o : array) {
-                    result.append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append(o).append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK);
+                    result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(o).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
                 }
-                result.append(SpecialSymbolConsts.RIGHT_BRACKET);
+                result.append(SpecialSymbolConst.RIGHT_BRACKET);
             } else {
-                result.append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK).append(val).append(SpecialSymbolConsts.DOUBLE_QUOTATION_MARK);
+                result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(val).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
             }
             if (size++ < map.size()) {
-                result.append(SpecialSymbolConsts.SEMICOLON);
+                result.append(SpecialSymbolConst.SEMICOLON);
             }
         }
-        result.append(SpecialSymbolConsts.RIGHT_BRACE);
+        result.append(SpecialSymbolConst.RIGHT_BRACE);
         return result.toString();
     }
 
