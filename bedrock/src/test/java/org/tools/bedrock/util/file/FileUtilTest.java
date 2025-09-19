@@ -28,7 +28,7 @@ public class FileUtilTest {
     @Test
     public void testReadResourceFile() throws IOException {
         // 测试读取存在的资源文件
-        String content = FileUtil.readResourceFile("static/315805.jpg");
+        String content = FileUtil.readResourceFile("static/378991.jpg");
         assertNotNull(content);
         assertFalse(content.isEmpty());
     }
@@ -36,7 +36,7 @@ public class FileUtilTest {
     @Test
     public void testReadResourceFileBytes() throws IOException {
         // 测试读取存在的资源文件为字节数组
-        byte[] content = FileUtil.readResourceFileBytes("static/315805.jpg");
+        byte[] content = FileUtil.readResourceFileBytes("static/378991.jpg");
         assertNotNull(content);
         assertTrue(content.length > 0);
     }
@@ -50,7 +50,7 @@ public class FileUtilTest {
     @Test
     public void testGetResourceAsStream() {
         // 测试获取资源文件输入流
-        InputStream inputStream = FileUtil.getResourceAsStream("static/315805.jpg");
+        InputStream inputStream = FileUtil.getResourceAsStream("static/378991.jpg");
         assertNotNull(inputStream);
     }
 
@@ -64,7 +64,7 @@ public class FileUtilTest {
     @Test
     public void testGetResourceURL() {
         // 测试获取资源文件URL
-        URL url = FileUtil.getResourceURL("static/315805.jpg");
+        URL url = FileUtil.getResourceURL("static/378991.jpg");
         assertNotNull(url);
     }
 
