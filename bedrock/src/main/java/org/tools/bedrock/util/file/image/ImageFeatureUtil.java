@@ -34,9 +34,9 @@ public class ImageFeatureUtil {
         // 简化的主颜色提取算法
         int width = resizedImage.getWidth();
         int height = resizedImage.getHeight();
-        int[] colors = new int[width * height];
 
-        // 获取所有像素颜色
+        // 使用通用方法获取所有像素颜色
+        int[] colors = new int[width * height];
         int index = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -231,7 +231,7 @@ public class ImageFeatureUtil {
         int height = image.getHeight();
         int[] colors = new int[width * height];
 
-        // 获取所有像素颜色
+        // 使用通用方法获取所有像素颜色
         int index = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -337,32 +337,102 @@ public class ImageFeatureUtil {
         int height = image.getHeight();
         int totalPixels = width * height;
 
-        // 获取所有像素颜色
-        int[] colors = new int[totalPixels];
-        int index = 0;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                colors[index++] = image.getRGB(x, y);
+        // 处理边界情况
+        if (totalPixels == 0) {
+            return false;
+        }
+
+        // 对于大图片采用采样方式提高效率
+        if (totalPixels > 10000) { // 图片超过10000像素时进行采样
+            return isSolidColorBackgroundWithSampling(image, threshold);
+        }
+
+        // 直接统计所有像素
+        Map<Integer, Integer> colorCountMap = new HashMap<>();
+        
+        // 使用通用方法进行完整统计
+        populateColorCountMap(image, colorCountMap, width, height, 1);
+
+        // 计算满足阈值所需的最小像素数，避免在循环中进行浮点运算
+        int thresholdCount = (int) (threshold * totalPixels);
+
+        // 查找出现次数最多的颜色，并检查是否满足阈值条件
+        int maxCount = findMaxColorCount(colorCountMap);
+        return maxCount >= thresholdCount;
+    }
+
+    /**
+     * 填充颜色计数Map
+     * 
+     * @param image 图片
+     * @param colorCountMap 颜色计数Map
+     * @param width 图片宽度
+     * @param height 图片高度
+     * @param sampleInterval 采样间隔（1表示不采样，逐像素处理）
+     * @return 处理的像素数量
+     */
+    private static int populateColorCountMap(BufferedImage image, Map<Integer, Integer> colorCountMap,
+                                            int width, int height, int sampleInterval) {
+        int pixelCount = 0;
+        for (int y = 0; y < height; y += sampleInterval) {
+            for (int x = 0; x < width; x += sampleInterval) {
+                int color = image.getRGB(x, y);
+                colorCountMap.put(color, colorCountMap.getOrDefault(color, 0) + 1);
+                pixelCount++;
             }
         }
+        return pixelCount;
+    }
 
-        // 统计颜色分布
-        Map<Integer, Integer> colorCountMap = new HashMap<>();
-        for (int color : colors) {
-            colorCountMap.put(color, colorCountMap.getOrDefault(color, 0) + 1);
+    /**
+     * 通过采样方式判断图片是否为纯色背景（用于大图片优化）
+     *
+     * @param image     图片
+     * @param threshold 阈值
+     * @return 是否为纯色背景
+     */
+    private static boolean isSolidColorBackgroundWithSampling(BufferedImage image, float threshold) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        int totalPixels = width * height;
+
+        // 计算采样间隔，确保采样点数在10000左右
+        int sampleInterval = (int) Math.sqrt((double) totalPixels / 10000);
+        if (sampleInterval < 1) {
+            sampleInterval = 1;
         }
 
-        // 找到出现次数最多的颜色及其出现次数
+        // 使用通用方法进行采样统计
+        Map<Integer, Integer> colorCountMap = new HashMap<>();
+        int sampleCount = populateColorCountMap(image, colorCountMap, width, height, sampleInterval);
+
+        // 如果没有采样点，直接返回false
+        if (sampleCount == 0) {
+            return false;
+        }
+
+        // 查找出现次数最多的颜色
+        int maxCount = findMaxColorCount(colorCountMap);
+        
+        // 判断主要颜色占比是否超过阈值
+        float ratio = (float) maxCount / sampleCount;
+        return ratio >= threshold;
+    }
+    
+    /**
+     * 查找颜色计数Map中出现次数最多的颜色的计数值
+     * 
+     * @param colorCountMap 颜色计数Map
+     * @return 最大计数值
+     */
+    private static int findMaxColorCount(Map<Integer, Integer> colorCountMap) {
         int maxCount = 0;
         for (int count : colorCountMap.values()) {
             if (count > maxCount) {
                 maxCount = count;
             }
         }
-
-        // 判断主要颜色占比是否超过阈值
-        float ratio = (float) maxCount / totalPixels;
-        return ratio >= threshold;
+        return maxCount;
     }
 
     /**
