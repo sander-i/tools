@@ -1,7 +1,19 @@
 package org.tools.bedrock.util.file;
 
-import java.io.*;
-import java.nio.file.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -16,6 +28,108 @@ import java.util.zip.ZipOutputStream;
  * @version 1.0
  */
 public class FileUtil {
+
+    /**
+     * 读取resources目录下文件内容为字符串
+     *
+     * @param resourcePath resources目录下的文件路径
+     * @return 文件内容字符串
+     * @throws IOException IO异常
+     */
+    public static String readResourceFile(String resourcePath) throws IOException {
+        try (InputStream is = getResourceAsStream(resourcePath)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource file not found: " + resourcePath);
+            }
+            return readInputStreamAsString(is);
+        }
+    }
+
+    /**
+     * 读取resources目录下文件内容为字节数组
+     *
+     * @param resourcePath resources目录下的文件路径
+     * @return 文件内容字节数组
+     * @throws IOException IO异常
+     */
+    public static byte[] readResourceFileBytes(String resourcePath) throws IOException {
+        try (InputStream is = getResourceAsStream(resourcePath)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource file not found: " + resourcePath);
+            }
+            return readInputStreamAsBytes(is);
+        }
+    }
+
+    /**
+     * 获取resources目录下的文件输入流
+     *
+     * @param resourcePath resources目录下的文件路径
+     * @return 文件输入流
+     */
+    public static InputStream getResourceAsStream(String resourcePath) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(resourcePath);
+
+        if (inputStream == null) {
+            // 如果使用当前线程的类加载器找不到，则尝试使用FileUtil类的类加载器
+            inputStream = FileUtil.class.getClassLoader().getResourceAsStream(resourcePath);
+        }
+
+        return inputStream;
+    }
+
+    /**
+     * 获取resources目录下的文件URL
+     *
+     * @param resourcePath resources目录下的文件路径
+     * @return 文件URL
+     */
+    public static URL getResourceURL(String resourcePath) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL url = classLoader.getResource(resourcePath);
+
+        if (url == null) {
+            // 如果使用当前线程的类加载器找不到，则尝试使用FileUtil类的类加载器
+            url = FileUtil.class.getClassLoader().getResource(resourcePath);
+        }
+
+        return url;
+    }
+
+    /**
+     * 从输入流读取内容为字符串
+     *
+     * @param inputStream 输入流
+     * @return 字符串内容
+     * @throws IOException IO异常
+     */
+    private static String readInputStreamAsString(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            result.write(buffer, 0, length);
+        }
+        return result.toString("UTF-8");
+    }
+
+    /**
+     * 从输入流读取内容为字节数组
+     *
+     * @param inputStream 输入流
+     * @return 字节数组内容
+     * @throws IOException IO异常
+     */
+    private static byte[] readInputStreamAsBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            result.write(buffer, 0, length);
+        }
+        return result.toByteArray();
+    }
 
     /**
      * 读取文件内容为字符串

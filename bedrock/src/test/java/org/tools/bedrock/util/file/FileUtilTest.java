@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,6 +24,56 @@ import static org.junit.Assert.*;
 public class FileUtilTest {
 
     private Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
+
+    @Test
+    public void testReadResourceFile() throws IOException {
+        // 测试读取存在的资源文件
+        String content = FileUtil.readResourceFile("static/315805.jpg");
+        assertNotNull(content);
+        assertFalse(content.isEmpty());
+    }
+
+    @Test
+    public void testReadResourceFileBytes() throws IOException {
+        // 测试读取存在的资源文件为字节数组
+        byte[] content = FileUtil.readResourceFileBytes("static/315805.jpg");
+        assertNotNull(content);
+        assertTrue(content.length > 0);
+    }
+
+    @Test(expected = IOException.class)
+    public void testReadResourceFile_NotFound() throws IOException {
+        // 测试读取不存在的资源文件应该抛出异常
+        FileUtil.readResourceFile("nonexistent.txt");
+    }
+
+    @Test
+    public void testGetResourceAsStream() {
+        // 测试获取资源文件输入流
+        InputStream inputStream = FileUtil.getResourceAsStream("static/315805.jpg");
+        assertNotNull(inputStream);
+    }
+
+    @Test
+    public void testGetResourceAsStream_NotFound() {
+        // 测试获取不存在的资源文件输入流应该返回null
+        InputStream inputStream = FileUtil.getResourceAsStream("nonexistent.txt");
+        assertNull(inputStream);
+    }
+
+    @Test
+    public void testGetResourceURL() {
+        // 测试获取资源文件URL
+        URL url = FileUtil.getResourceURL("static/315805.jpg");
+        assertNotNull(url);
+    }
+
+    @Test
+    public void testGetResourceURL_NotFound() {
+        // 测试获取不存在的资源文件URL应该返回null
+        URL url = FileUtil.getResourceURL("nonexistent.txt");
+        assertNull(url);
+    }
 
     @Test
     public void testReadFile() throws IOException {
