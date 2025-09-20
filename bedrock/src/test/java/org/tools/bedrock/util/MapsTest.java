@@ -1,40 +1,317 @@
 package org.tools.bedrock.util;
 
 import org.junit.Test;
-import org.tools.bedrock.base.Address;
-import org.tools.bedrock.base.Identity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
+/**
+ * Maps 冒烟测试
+ * 测试基本的Map操作功能
+ */
 public class MapsTest {
 
-    @Test
-    public void mapToObj() {
+    // 测试用的简单POJO类
+    public static class Person {
+        private String name;
+        private int age;
+        private boolean active;
 
-        Map<String, Object> identityMap = new HashMap<>();
-        identityMap.put("street", "123 Main St");
-        identityMap.put("city", "New York");
+        public Person() {
+        }
 
-        Map<String, String> releashipMap = new HashMap<>();
-        releashipMap.put("city", "name");
+        public Person(String name, int age, boolean active) {
+            this.name = name;
+            this.age = age;
+            this.active = active;
+        }
 
-        Identity identity = new Identity();
-        Address address = new Address();
-        address.setRemark("6");
-        identity.setAddress(address);
-        identity.setName("123");
+        public String getName() {
+            return name;
+        }
 
-        Map<String, Object> stringObjectMap = Maps.objToMap(identity);
-        System.out.println(stringObjectMap);
+        public void setName(String name) {
+            this.name = name;
+        }
 
-        Identity identity1 = Maps.mapToObj(stringObjectMap, Identity.class);
+        public int getAge() {
+            return age;
+        }
 
-        List<Object> collect = new ArrayList<>(identityMap.values());
-        ArrayList<String> strings = new ArrayList<>(identityMap.keySet());
+        public void setAge(int age) {
+            this.age = age;
+        }
 
-        System.out.println(identity1);
+        public boolean isActive() {
+            return active;
+        }
+
+        public void setActive(boolean active) {
+            this.active = active;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Person person = (Person) o;
+            return age == person.age &&
+                    active == person.active &&
+                    Objects.equals(name, person.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, age, active);
+        }
     }
+
+    @Test
+    public void testIsEmpty() {
+        // 测试isEmpty方法
+        assertTrue("null Map应为空", Maps.isEmpty(null));
+        assertTrue("空Map应为空", Maps.isEmpty(new HashMap<>()));
+        assertFalse("非空Map不应为空", Maps.isEmpty(Collections.singletonMap("key", "value")));
+    }
+
+    @Test
+    public void testIsNotEmpty() {
+        // 测试isNotEmpty方法
+        assertFalse("null Map应为空", Maps.isNotEmpty(null));
+        assertFalse("空Map应为空", Maps.isNotEmpty(new HashMap<>()));
+        assertTrue("非空Map应为非空", Maps.isNotEmpty(Collections.singletonMap("key", "value")));
+    }
+
+    @Test
+    public void testObjToMap() {
+        // 测试对象转Map功能
+        Person person = new Person("张三", 25, true);
+        Map<String, Object> map = Maps.objToMap(person);
+
+        assertNotNull("转换后的Map不应为null", map);
+        assertFalse("转换后的Map不应为空", map.isEmpty());
+        assertEquals("应包含name属性", "张三", map.get("name"));
+        assertEquals("应包含age属性", 25, map.get("age"));
+        assertEquals("应包含active属性", true, map.get("active"));
+    }
+
+    @Test
+    public void testObjToMapWithNull() {
+        // 测试null对象转Map
+        Map<String, Object> map = Maps.objToMap(null);
+        assertNotNull("转换后的Map不应为null", map);
+        assertTrue("null对象应转换为空Map", map.isEmpty());
+    }
+
+    @Test
+    public void testMapToObj() {
+        // 测试Map转对象功能
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "李四");
+        map.put("age", 30);
+        map.put("active", false);
+
+        Person person = Maps.mapToObj(map, Person.class);
+        assertNotNull("转换后的对象不应为null", person);
+        assertEquals("name属性应正确设置", "李四", person.getName());
+        assertEquals("age属性应正确设置", 30, person.getAge());
+        assertEquals("active属性应正确设置", false, person.isActive());
+    }
+
+    @Test
+    public void testMapToObjWithExistingObject() {
+        // 测试Map转已有对象功能
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "王五");
+        map.put("age", 35);
+
+        Person person = new Person();
+        Person result = Maps.mapToObj(map, person);
+
+        assertSame("应返回相同的对象实例", person, result);
+        assertEquals("name属性应正确设置", "王五", person.getName());
+        assertEquals("age属性应正确设置", 35, person.getAge());
+    }
+
+    @Test
+    public void testMapToObjWithRelations() {
+        // 测试带关系映射的Map转对象功能
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_name", "赵六");
+        map.put("user_age", 40);
+
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+        relations.put("user_age", "age");
+
+        Person person = Maps.mapToObj(map, relations, Person.class);
+        assertNotNull("转换后的对象不应为null", person);
+        assertEquals("name属性应通过关系映射正确设置", "赵六", person.getName());
+        assertEquals("age属性应通过关系映射正确设置", 40, person.getAge());
+    }
+
+    @Test
+    public void testMergeMap() {
+        // 测试Map合并功能
+        Map<String, List<String>> source = new HashMap<>();
+        source.put("key1", new ArrayList<>(Arrays.asList("value1", "value2")));
+        source.put("key2", new ArrayList<>(Arrays.asList("value3")));
+
+        Map<String, List<String>> target = new HashMap<>();
+        target.put("key2", new ArrayList<>(Arrays.asList("value4", "value5")));
+        target.put("key3", new ArrayList<>(Arrays.asList("value6")));
+
+        Map<String, List<String>> merged = Maps.mergeMap(source, target);
+
+        assertSame("应返回源Map", source, merged);
+        assertEquals("合并后应包含3个键", 3, merged.size());
+        assertEquals("key1应保持不变", 2, merged.get("key1").size());
+        assertEquals("key2应合并两个列表", 3, merged.get("key2").size());
+        assertEquals("key3应新增", 1, merged.get("key3").size());
+    }
+
+    @Test
+    public void testMergeMapWithVarargs() {
+        // 测试多Map合并功能
+        Map<String, List<String>> source = new HashMap<>();
+        source.put("key1", Arrays.asList("value1"));
+
+        Map<String, List<String>> target1 = new HashMap<>();
+        target1.put("key1", Arrays.asList("value2"));
+        target1.put("key2", Arrays.asList("value3"));
+
+        Map<String, List<String>> target2 = new HashMap<>();
+        target2.put("key2", Arrays.asList("value4"));
+        target2.put("key3", Arrays.asList("value5"));
+
+        Map<String, List<String>> merged = Maps.mergeMap(source, target1, target2);
+
+        assertSame("应返回源Map", source, merged);
+        assertEquals("合并后应包含3个键", 3, merged.size());
+        assertEquals("key1应合并两个列表", 2, merged.get("key1").size());
+        assertEquals("key2应合并两个列表", 2, merged.get("key2").size());
+        assertEquals("key3应新增", 1, merged.get("key3").size());
+    }
+
+    @Test
+    public void testMergeMapWithEmptyMaps() {
+        // 测试空Map合并
+        Map<String, List<String>> source = new HashMap<>();
+        Map<String, List<String>> target = new HashMap<>();
+
+        Map<String, List<String>> merged = Maps.mergeMap(source, target);
+        assertSame("应返回源Map", source, merged);
+        assertTrue("合并空Map应保持空", merged.isEmpty());
+    }
+
+    @Test
+    public void testMapToObjWithNullMap() {
+        // 测试null Map转对象
+        Person person = Maps.mapToObj(null, Person.class);
+        assertNull("null Map应转换为null对象", person);
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedence() {
+        // 测试带关系映射和优先级控制的Map转对象功能
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_name", "钱七");
+        map.put("user_age", 28);
+        map.put("user_active", true);
+
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+        relations.put("user_age", "age");
+        relations.put("user_active", "active");
+
+        // 测试 precedenceRelation = false 的情况（覆盖已有值）
+        Person person1 = new Person("初始姓名", 20, false);
+        Person result1 = Maps.mapToObj(map, relations, person1, false);
+
+        assertSame("应返回相同的对象实例", person1, result1);
+        assertEquals("name属性应被覆盖", "钱七", person1.getName());
+        assertEquals("age属性应被覆盖", 28, person1.getAge());
+        assertEquals("active属性应被覆盖", true, person1.isActive());
+
+        // 测试 precedenceRelation = true 的情况（不覆盖已有值）
+        Person person2 = new Person("初始姓名", 20, false);
+        Person result2 = Maps.mapToObj(map, relations, person2, true);
+
+        assertSame("应返回相同的对象实例", person2, result2);
+        assertEquals("name属性不应被覆盖", "初始姓名", person2.getName());
+        assertEquals("age属性不应被覆盖", 20, person2.getAge());
+        assertEquals("active属性不应被覆盖", false, person2.isActive());
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedenceWithNullTarget() {
+        // 测试目标对象为null的情况
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_name", "测试用户");
+
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+
+        Person result = Maps.mapToObj(map, relations, (Person) null, false);
+        assertNull("目标对象为null时应返回null", result);
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedenceWithNullMap() {
+        // 测试源Map为null的情况
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+
+        Person person = new Person("初始姓名", 25, true);
+        Person result = Maps.mapToObj(null, relations, person, false);
+
+        assertSame("应返回相同的对象实例", person, result);
+        assertEquals("属性值应保持不变", "初始姓名", person.getName());
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedenceWithEmptyMap() {
+        // 测试空Map的情况
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+
+        Person person = new Person("初始姓名", 25, true);
+        Person result = Maps.mapToObj(map, relations, person, false);
+
+        assertSame("应返回相同的对象实例", person, result);
+        assertEquals("属性值应保持不变", "初始姓名", person.getName());
+    }
+
+    @Test
+    public void testMapToObjWithRelationsAndPrecedenceWithNonExistentField() {
+        // 测试映射到不存在的字段
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_name", "测试用户");
+        map.put("user_nonexistent", "不存在的值");
+
+        Map<String, String> relations = new HashMap<>();
+        relations.put("user_name", "name");
+        relations.put("user_nonexistent", "nonexistent"); // 不存在的字段
+
+        Person person = new Person();
+        Person result = Maps.mapToObj(map, relations, person, false);
+
+        assertSame("应返回相同的对象实例", person, result);
+        assertEquals("存在的字段应正确设置", "测试用户", person.getName());
+        // 不存在的字段不会影响其他字段的设置
+    }
+
 }

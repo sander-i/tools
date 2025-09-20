@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.aliyun.alidns20150109.models.DescribeDomainRecordsRequest;
 import com.aliyun.alidns20150109.models.DescribeDomainRecordsResponse;
 import com.aliyun.alidns20150109.models.UpdateDomainRecordRequest;
-import com.aliyun.tea.TeaException;
 import com.aliyun.teaopenapi.models.Config;
 import com.aliyun.teautil.models.RuntimeOptions;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.tools.fortify.ddns.aliyun.Record;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 阿里云ddns工具
@@ -91,17 +89,7 @@ public class AliyunDdnsUtils {
         RuntimeOptions runtime = new RuntimeOptions();
         // 1秒超时
         runtime.readTimeout = 1000;
-        try {
-            client.updateDomainRecordWithOptions(updateDomainRecordRequest, runtime);
-        } catch (TeaException e) {
-            Map<String, Object> data = e.getData();
-            if (DOMAIN_RECORD_DUPLICATE.equals(data.get(CODE))) {
-                log.warn("域记录重复");
-            }
-            log.error(e.getLocalizedMessage(), e);
-        } catch (Exception e) {
-            log.error(e.getLocalizedMessage(), e);
-        }
+        client.updateDomainRecordWithOptions(updateDomainRecordRequest, runtime);
         return newRecord;
     }
 
@@ -114,34 +102,21 @@ public class AliyunDdnsUtils {
      * @throws Exception 异常
      */
     public static List<Record> updateDomainRecordBatch(AliyunDdnsConfig aliyunDdnsConfig, List<Record> newRecords) throws Exception {
-        com.aliyun.alidns20150109.Client client = createClient(aliyunDdnsConfig);
         List<Record> succeedList = new ArrayList<>();
-        newRecords.forEach(r -> {
-            UpdateDomainRecordRequest updateDomainRecordRequest = new UpdateDomainRecordRequest()
-                    //记录RecordId
-                    .setRecordId(r.getRecordId())
-                    .setValue(r.getValue())
-                    .setType(r.getType())
-                    .setTTL(r.getTTL())
-                    .setLine(r.getLine())
-                    .setRR(r.getRR());
+        StringBuilder error = new StringBuilder();
 
-            RuntimeOptions runtime = new RuntimeOptions();
-            // 1秒超时
-            runtime.readTimeout = 1000;
+        newRecords.forEach(r -> {
             try {
-                client.updateDomainRecordWithOptions(updateDomainRecordRequest, runtime);
-                succeedList.add(r);
-            } catch (TeaException e) {
-                Map<String, Object> data = e.getData();
-                if (DOMAIN_RECORD_DUPLICATE.equals(data.get(CODE))) {
-                    log.warn(DOMAIN_RECORD_DUPLICATE);
-                }
-                log.error(e.getLocalizedMessage(), e);
+                succeedList.add(updateDomainRecord(aliyunDdnsConfig, r));
             } catch (Exception e) {
-                log.error(e.getLocalizedMessage(), e);
+                error.append(e.getMessage()).append("\n");
             }
         });
+
+        if (BaseUtils.isNotEmpty(error.toString())) {
+            log.error("updateDomainRecordBatch error: {}", error);
+            throw new Exception(error.substring(0, error.length() - 1));
+        }
         return succeedList;
     }
 

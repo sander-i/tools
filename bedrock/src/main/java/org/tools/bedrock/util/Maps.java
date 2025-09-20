@@ -3,7 +3,13 @@ package org.tools.bedrock.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -80,6 +86,10 @@ public class Maps {
      */
     @SuppressWarnings("unchecked")
     public static <T> T mapToObj(Map<String, Object> sourceMap, T target) {
+        if (BaseUtils.isEmpty(sourceMap) || target == null) {
+            return target;
+        }
+
         Class<?> clz = target.getClass();
         // 获取所有属性
         Field[] declaredFields = ClassUtils.roverMethodNotFoundDeclaredFields(ClassUtils.getAllDeclaredFields(clz), clz);
@@ -120,9 +130,13 @@ public class Maps {
      * @return 目标
      */
     public static <T> T mapToObj(Map<String, Object> sourceMap, Class<T> target) {
+        if (BaseUtils.isEmpty(sourceMap) || target == null) {
+            return null;
+        }
+
         try {
-            return mapToObj(sourceMap, target.newInstance());
-        } catch (InstantiationException | IllegalAccessException e) {
+            return mapToObj(sourceMap, target.getDeclaredConstructor().newInstance());
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             log.error(e.getLocalizedMessage(), e);
         }
         return null;
@@ -138,6 +152,10 @@ public class Maps {
      * @return 目标
      */
     public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relations, T target) {
+        if (BaseUtils.isEmpty(sourceMap) || target == null) {
+            return target;
+        }
+
         Class<?> clz = target.getClass();
         // 获取所有属性
         Field[] declaredFields = ClassUtils.getAllDeclaredFields(clz);
@@ -182,43 +200,50 @@ public class Maps {
      * @return 目标
      */
     public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relations, T target, boolean precedenceRelation) {
+        if (BaseUtils.isEmpty(sourceMap) || target == null) {
+            return target;
+        }
+
         Class<?> clz = target.getClass();
         // 获取所有属性
         Field[] declaredFields = ClassUtils.getAllDeclaredFields(clz);
-        // 去除方法未找到的属性
+        // 去除方法未找到的属性（保留原逻辑）
         declaredFields = ClassUtils.roverMethodNotFoundDeclaredFields(declaredFields, clz);
+
+        // 构建字段名到 Field 的映射，提高查找效率
+        Map<String, Field> fieldMap = new HashMap<>();
+        for (Field field : declaredFields) {
+            fieldMap.put(field.getName(), field);
+        }
 
         for (Map.Entry<String, Object> source : sourceMap.entrySet()) {
             String sourceKey = source.getKey();
+            String targetName = relations.get(sourceKey);
 
-            for (Map.Entry<String, String> relation : relations.entrySet()) {
+            if (targetName == null) {
+                continue;
+            }
 
-                String sourceName = relation.getKey();
-                String targetName = relation.getValue();
+            Field targetField = fieldMap.get(targetName);
+            if (targetField == null) {
+                continue;
+            }
 
-                if (sourceKey.equals(sourceName)) {
+            // 如果 precedenceRelation 为 true，则跳过已有值的属性（不覆盖已有的值）
+            if (precedenceRelation && ClassUtils.hasPropertyValue(target, targetName)) {
+                continue;
+            }
 
-                    for (Field oldField : declaredFields) {
-
-                        String fieldName = oldField.getName();
-
-                        if (targetName.equals(fieldName)) {
-
-                            Object entityMapValue = source.getValue();
-
-                            ClassUtils.setProperty(target, fieldName, entityMapValue);
-                        }
-                    }
-                }
+            Object entityMapValue = source.getValue();
+            try {
+                ClassUtils.setProperty(target, targetName, entityMapValue);
+            } catch (IllegalArgumentException e) {
+                log.error("设置属性值失败 - 类型不匹配，字段: {}, 值: {}, 错误: {}", targetName, entityMapValue, e.getMessage(), e);
+            } catch (Exception e) {
+                log.error("设置属性值失败 - 其他异常，字段: {}, 错误: {}", targetName, e.getMessage(), e);
             }
         }
 
-        // todo 过滤 relationship 中不存在的属性 list1
-        if (precedenceRelation) {
-            // todo 过滤 list1 中 target 目标对象有值的属性（已经通过上面的relationship关系映射赋值了，不能再次覆盖）
-            return target;
-        }
-        // todo 覆盖 list1 中 target 目标对象有值的属性
         return target;
     }
 
@@ -232,9 +257,13 @@ public class Maps {
      * @return 目标
      */
     public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relations, Class<T> target) {
+        if (BaseUtils.isEmpty(sourceMap) || target == null) {
+            return null;
+        }
+
         try {
-            return mapToObj(sourceMap, relations, target.newInstance());
-        } catch (InstantiationException | IllegalAccessException e) {
+            return mapToObj(sourceMap, relations, target.getDeclaredConstructor().newInstance());
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             log.error(e.getLocalizedMessage(), e);
         }
         return null;
@@ -250,35 +279,35 @@ public class Maps {
      * @return 合并后Map
      */
     public static <T, O> Map<T, List<O>> mergeMap(Map<T, List<O>> source, Map<T, List<O>> target) {
-        if (BaseUtils.isAllEmpty(source, target)) {
-            return source;
+        // 处理null情况
+        if (source == null && target == null) {
+            return Collections.emptyMap();
         }
-        if ((BaseUtils.isNotNull(source) && BaseUtils.isEmpty(source)) && BaseUtils.isNotEmpty(target)) {
-            source.putAll(target);
-            return source;
+
+        if (source == null) {
+            return Collections.emptyMap();
         }
+
+        if (target == null) {
+            return Collections.emptyMap();
+        }
+
+        // 合并逻辑
         target.forEach((k, v) -> {
-            if (Lists.isEmpty(v)) {
-                return;
-            }
             final List<O> sourceValues = source.get(k);
-            if (BaseUtils.isEmpty(sourceValues)) {
-                source.put(k, v);
-                return;
+            if (sourceValues == null) {
+                // 如果source中没有这个key，直接添加（确保创建可修改的列表）
+                source.put(k, v == null ? new ArrayList<>() : new ArrayList<>(v));
+            } else if (v != null) {
+                // 如果source中有这个key且target的值不为null，合并列表
+                // 创建新的可修改列表以避免UnsupportedOperationException
+                List<O> mergedList = new ArrayList<>(sourceValues);
+                mergedList.addAll(v);
+                source.put(k, mergedList);
             }
-            sourceValues.addAll(v);
+            // 如果v为null，但source中已存在该key，则不改变source中的值
         });
 
-//        source.forEach((k, v) -> {
-//            if (Lists.isEmpty(v)) {
-//                return;
-//            }
-//            List<O> targetValues = target.get(k);
-//            if (BaseUtils.isEmpty(targetValues)) {
-//                return;
-//            }
-//            v.addAll(targetValues);
-//        });
         return source;
     }
 
@@ -293,14 +322,20 @@ public class Maps {
      */
     @SafeVarargs
     public static <T, O> Map<T, List<O>> mergeMap(Map<T, List<O>> source, Map<T, List<O>>... targets) {
-        if (BaseUtils.isAllEmpty(source, targets)) {
+        if (source == null) {
+            return null;
+        }
+
+        if (targets == null) {
             return source;
         }
-        if ((BaseUtils.isNotNull(source) && BaseUtils.isEmpty(source)) && BaseUtils.isNotEmpty(targets)) {
-            Arrays.stream(targets).filter(Maps::isNotEmpty).forEach(source::putAll);
-            return source;
+
+        for (Map<T, List<O>> target : targets) {
+            if (target != null) {
+                mergeMap(source, target);
+            }
         }
-        Arrays.stream(targets).filter(Maps::isNotEmpty).forEach(tmpMap -> source.putAll(mergeMap(source, tmpMap)));
+
         return source;
     }
 

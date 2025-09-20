@@ -37,17 +37,4 @@ public class MysqlPaging<T> extends Paging<T> {
         setStartRecord((currentPage - 1) * pageSize);
     }
 
-    public static void main(String[] args) {
-        MysqlPaging mysqlPaging = new MysqlPaging();
-        mysqlPaging.initPaging(3, 33, 100);
-
-        System.out.println(mysqlPaging.getStartRecord());
-        System.out.println(mysqlPaging.getEndRecord());
-        System.out.println("====");
-        System.out.println(mysqlPaging.getCurrentPage());
-        System.out.println(mysqlPaging.getPageSize());
-        System.out.println(mysqlPaging.getTotalPage());
-        System.out.println(mysqlPaging.getTotalCount());
-    }
-
 }

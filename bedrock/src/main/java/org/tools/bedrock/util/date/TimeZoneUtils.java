@@ -37,6 +37,9 @@ public class TimeZoneUtils {
 
     public static Date covertTimeZone(String sourceDate, String pattern, String sourceTimeZone, String targetTimeZone) {
         String targetDate = covertTimeZoneStr(sourceDate, pattern, sourceTimeZone, targetTimeZone);
+        if (targetDate == null) {
+            return null;
+        }
         try {
             return new SimpleDateFormat(pattern).parse(targetDate);
         } catch (ParseException e) {

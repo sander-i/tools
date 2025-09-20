@@ -24,4 +24,9 @@ public class Symmetrical {
      */
     private Des des;
 
+    /**
+     * IDEA
+     */
+    private Idea idea;
+
 }

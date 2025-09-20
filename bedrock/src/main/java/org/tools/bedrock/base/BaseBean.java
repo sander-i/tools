@@ -3,7 +3,6 @@ package org.tools.bedrock.base;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.tools.bedrock.annotations.Inherit;
 
 import java.util.Date;
 

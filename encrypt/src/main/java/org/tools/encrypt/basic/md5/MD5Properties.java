@@ -1,7 +1,7 @@
 package org.tools.encrypt.basic.md5;
 
 import lombok.Data;
-import org.tools.encrypt.AlgorithmEnum;
+import org.tools.encrypt.enums.AlgorithmEnum;
 
 /**
  * @author sander
