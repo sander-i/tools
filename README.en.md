@@ -1,31 +1,27 @@
 # tools
 
-#### Description
+## Introduce
+
 Portable toolbox to make coding easier!
-Most of the tools and methods of the project are searchable on the Internet, and the concept of this project is to solve the problem that searching on the Internet is time-consuming and laborious, and it is not very easy to use
 
-(More reflected in the fact that the article posted by one person is wrong, and other people directly copy the original resulting in a bunch of garbage code articles, and it is very difficult to find the code you want)
+Most of the tooling methods for this project are available on the web, Its core philosophy is to solve the problem of time-consuming and laborious online searches and the difficulty of finding truly usable code. We are committed to providing proven, useful tool code，Avoid code quality issues caused by incorrect copying. 
 
-[bedrock](bedrock) It provides common methods, basic objects, constants, special symbols, JWT, HTTP response enumeration, pagination, distributed ID, remote image conversion, collection pagination, ddns, and Excel export
+## Software architecture
 
-[encrypt](encrypt) Irreversible encryption, symmetric encryption, digital signature, asymmetric encryption
+- **tools**
+  - **[bedrock](bedrock)**: Provides basic functions such as common methods, basic objects, constants, special symbols, JWT, HTTP response enumeration, pagination, distributed ID, remote image conversion, file compression, image similarity detection, collection pagination, DDNS, Excel export, and more.
+  - **[encrypt](encrypt)**: Provide security-related functions such as irreversible encryption, symmetric encryption, digital signatures, and asymmetric encryption.
+  - **[fortify](fortify)**: Offers enhanced features such as DDNS, HTTP request handling, JSON tools, file handling (e.g., Excel, image compression), and more.
+  - **[tools-spring-boot-starter](tools-spring-boot-starter)**: Spring Boot integration support is available.
+    - **[encrypt-spring-boot-starter](tools-spring-boot-starter/encrypt-spring-boot-starter)**: Spring Boot Starter implements the 'encrypt' module to support injecting encryption-related beans through configuration files in Spring Boot.
 
-[tools-spring-boot-starter](tools-spring-boot-starter) Management Compilation spring-boot-starter Project
+## Installation tutorial
 
-[encrypt-spring-boot-starter](tools-spring-boot-starter%2Fencrypt-spring-boot-starter) Implement [encrypt](encrypt) Module
-Integration spring-boot-starter，At springboot profiles properties|yml Configure attributes such as keys for automatic injection
+### Maven Dependency configuration
 
-#### Software Architecture
+Latest version link：https://central.sonatype.com/artifact/io.gitee.sander-o/tools
 
-- tools
-  - [bedrock](bedrock)
-  - [encrypt](encrypt)
-  - [fortify](fortify)
-  - [tools-spring-boot-starter](tools-spring-boot-starter)
-    - [encrypt-spring-boot-starter](tools-spring-boot-starter%2Fencrypt-spring-boot-starter)
-
-#### Installation
-
+Add the following dependencies to your：`pom.xml`
 ```
     <properties>
         <tools.version>Latest Version</tools.version>
@@ -77,28 +73,27 @@ Integration spring-boot-starter，At springboot profiles properties|yml Configur
     </repositories>
 ```
 
-#### Instructions
+## Instructions
 
-1. This project can be used for any purpose
-2. There are no restrictions on the behavior of this project
-3. The user's actions are not related to this project
-4. The author shall not be liable for any consequences caused by the user
-5. This project is currently maintained and updated by sander personally, if you are interested or have suggestions and optimization points, you can directly contact or create a new issue
+1. This item is suitable for any purpose。
+2. There are no restrictions on behavior。
+3. User behavior has nothing to do with this project。
+4. The author is not legally responsible for the consequences of the user's actions。
+5. This project is currently maintained and updated by individuals, and suggestions or optimization points are welcome, which can be submitted through Issues。
 
-#### Contribution
+## Contribution
 
-1. Fork this repository
-2. Create feat/${user_name}/${demand} branch
-3. Commit your code
-4. Create Pull Request Apply for merger develop${year}${month}${day}
-5. develop${year}${month}${day} Create a new file after the test is passed Pull Request Apply for merger release
-6. Merge and release on the 20th of each month, verify the function and assess the risk, and officially release the version on the 21st
+1. Fork This warehouse。
+2. Newly Built `feat/${user_name}/${demand}` Branch。
+3. Submit the code。
+4. Create Pull Request Incorporated to `develop${year}${month}${day}` Branch。
+5. `develop${year}${month}${day}` Created after the test passes Pull Request Incorporated to `release`。
 
-#### Gitee Feature
+## Stunt
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1. Use `Readme_XXX.md` Multilingual documentation is supported, such as: `Readme_en.md`, `Readme_zh.md`。
+2. Gitee Official Blog：[blog.gitee.com](https://blog.gitee.com)
+3. Explore Gitee Excellent open source projects on the：[https://gitee.com/explore](https://gitee.com/explore)
+4. GVP（Gitee Most valuable open source project）：[https://gitee.com/gvp](https://gitee.com/gvp)
+5. Gitee Official user manual：[https://gitee.com/help](https://gitee.com/help)
+6. Gitee Cover character column：[https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
