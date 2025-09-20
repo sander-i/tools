@@ -1,7 +1,6 @@
 #-----------------------------------encrypt-??-----------------------------------#
 tools:
   encrypt:
-    enabled: false
     asymmetric:
       rsa:
         enabled: true
@@ -34,3 +33,12 @@ tools:
             secret-key: "BeYourself"
           - name: id-card
             secret-key: "BeYourself"
+      idea:
+        enabled: true
+        secret-key: "a0879d74c02a9ebcde4dc7ac3c3c28f7"
+        group-enabled: true
+        group:
+          - name: pwd
+            secret-key: "b1d58f20dfe96a6659ad818370500e66"
+          - name: id-card
+            secret-key: "2331bdac2fbd03f27fa595e06f888612"

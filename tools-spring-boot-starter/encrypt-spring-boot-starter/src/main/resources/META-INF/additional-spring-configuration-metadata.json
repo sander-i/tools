@@ -2,12 +2,6 @@
   "properties": [
     {
       "defaultValue": false,
-      "name": "tools.encrypt.enabled",
-      "description": "加密开关.",
-      "type": "java.lang.Boolean"
-    },
-    {
-      "defaultValue": false,
       "name": "tools.encrypt.asymmetric.rsa.enabled",
       "description": "rsa非对称加密开关.",
       "type": "java.lang.Boolean"
@@ -76,6 +70,26 @@
       "name": "tools.encrypt.symmetrical.aes.group",
       "description": "aes对称加密分组.",
       "type": "java.util.List<org.tools.encrypt.entity.KeyPair>"
+    },
+    {
+      "name": "tools.encrypt.symmetrical.idea.enabled",
+      "type": "java.lang.String",
+      "description": "idea对称加密开关."
+    },
+    {
+      "name": "tools.encrypt.symmetrical.idea.secret-key",
+      "type": "java.lang.String",
+      "description": "idea对称密钥."
+    },
+    {
+      "name": "tools.encrypt.symmetrical.idea.group",
+      "type": "java.lang.String",
+      "description": "idea对称加密分组."
+    },
+    {
+      "name": "tools.encrypt.symmetrical.idea.group-enabled",
+      "type": "java.lang.String",
+      "description": "idea对称加密分组开关."
     }
   ]
 }

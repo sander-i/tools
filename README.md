@@ -13,7 +13,7 @@
 
 [tools-spring-boot-starter](tools-spring-boot-starter) 管理集成 spring-boot-starter 项目
 
-[encrypt-spring-boot-starter](tools-spring-boot-starter%2Fencrypt-spring-boot-starter) 实现 [encrypt](encrypt) 模块
+[encrypt-spring-boot-starter](tools-spring-boot-starter/encrypt-spring-boot-starter) 实现 [encrypt](encrypt) 模块
 集成 spring-boot-starter，在 springboot 配置文件 properties|yml 配置密钥等属性，实现自动注入
 
 #### 软件架构
@@ -23,14 +23,14 @@
     - [encrypt](encrypt)
     - [fortify](fortify)
     - [tools-spring-boot-starter](tools-spring-boot-starter)
-        - [encrypt-spring-boot-starter](tools-spring-boot-starter%2Fencrypt-spring-boot-starter)
+        - [encrypt-spring-boot-starter](tools-spring-boot-starter/encrypt-spring-boot-starter)
 
 #### 安装教程
 
 pom.xml
 ```
     <properties>
-        <tools.version>1.0.6.3</tools.version>
+        <tools.version>Latest Version</tools.version>
     </properties>
 
     <dependencyManagement>

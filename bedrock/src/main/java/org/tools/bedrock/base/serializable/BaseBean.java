@@ -3,7 +3,6 @@ package org.tools.bedrock.base.serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.tools.bedrock.annotations.Inherit;
 
 import java.io.Serializable;

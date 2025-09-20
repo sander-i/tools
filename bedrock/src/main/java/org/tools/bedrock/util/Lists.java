@@ -6,6 +6,7 @@ import org.tools.bedrock.constant.Constants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -77,6 +78,9 @@ public class Lists {
      * @return 反转集合
      */
     public static <T> List<T> reversalStream(List<T> list) {
+        if (isEmpty(list)) {
+            return new ArrayList<>();
+        }
         return list.stream()
                 .sorted(Collections.reverseOrder())
                 .collect(Collectors.toList());
@@ -91,13 +95,17 @@ public class Lists {
      * @param <T>  泛型
      * @return list
      */
-    public static <T> List<T> extractGenericListStream(List<T> list, Class<T> clz) {
-        return BaseUtils.isNotEmpty(list, clz) ?
-                list.stream()
-                        .filter(o -> clz.getTypeName().equals(o.getClass().getTypeName()))
-                        .collect(Collectors.toList())
-                : new ArrayList<>();
+    public static <T> List<T> extractGenericListStream(List<?> list, Class<T> clz) {
+        if (BaseUtils.isEmpty(list)) {
+            return new ArrayList<>();
+        }
+        return list.stream()
+                .filter(Objects::nonNull)
+                .filter(clz::isInstance)
+                .map(clz::cast)
+                .collect(Collectors.toList());
     }
+
 
     /**
      * 集合分页
@@ -126,7 +134,7 @@ public class Lists {
             if (start == list.size()) {
                 break;
             }
-            end = (end += rows) > list.size() ? list.size() : end;
+            end = (end = end + rows) > list.size() ? list.size() : end;
             gather.add(list.subList(start, end));
 
         }

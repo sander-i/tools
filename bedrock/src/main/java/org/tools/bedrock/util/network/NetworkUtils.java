@@ -38,12 +38,29 @@ public class NetworkUtils {
      * @throws UnknownHostException 未知主机异常
      */
     public static String getDomainByIpv4(String ipv4) throws UnknownHostException {
-        String[] ipStr = ipv4.split("[.]");
-        byte[] ipBytes = new byte[4];
-        for (int i = 0; i < 4; i++) {
-            int m = Integer.parseInt(ipStr[i]);
-            ipBytes[i] = (byte) (m & 0xff);
+        // 验证IP地址格式是否正确
+        if (ipv4 == null || ipv4.isEmpty()) {
+            throw new UnknownHostException("Invalid IP address: " + ipv4);
         }
+
+        String[] ipStr = ipv4.split("\\.");
+        if (ipStr.length != 4) {
+            throw new UnknownHostException("Invalid IP address: " + ipv4);
+        }
+
+        byte[] ipBytes = new byte[4];
+        try {
+            for (int i = 0; i < 4; i++) {
+                int m = Integer.parseInt(ipStr[i]);
+                if (m < 0 || m > 255) {
+                    throw new UnknownHostException("Invalid IP address: " + ipv4);
+                }
+                ipBytes[i] = (byte) (m & 0xff);
+            }
+        } catch (NumberFormatException e) {
+            throw new UnknownHostException("Invalid IP address: " + ipv4);
+        }
+
         InetAddress inetAddressByIp = InetAddress.getByAddress(ipBytes);
         return inetAddressByIp.getCanonicalHostName();
     }
@@ -82,7 +99,7 @@ public class NetworkUtils {
         StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
-            URL realUrl = new URL("https://www.taobao.com/help/getip.php");
+            URL realUrl = new URL("https://ipv4.icanhazip.com");
             // 打开和URL之间的连接
             URLConnection connection = realUrl.openConnection();
             // 设置通用的请求属性
@@ -92,8 +109,6 @@ public class NetworkUtils {
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             // 建立实际的连接
             connection.connect();
-            // 获取所有响应头字段
-            Map<String, List<String>> map = connection.getHeaderFields();
             // 定义 BufferedReader输入流来读取URL的响应
             in = new BufferedReader(new InputStreamReader(
                     connection.getInputStream()));
@@ -112,10 +127,7 @@ public class NetworkUtils {
                 log.error("获取ipv4公网地址异常", e2);
             }
         }
-        String str = result.toString().replace("ipCallback({ip:", "");
-        String ipStr = str.replace("})", "");
-
-        return ipStr.replace('"', ' ');
+        return result.toString().trim();
     }
 
 }

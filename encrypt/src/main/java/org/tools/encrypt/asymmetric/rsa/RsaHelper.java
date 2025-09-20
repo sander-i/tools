@@ -3,14 +3,20 @@ package org.tools.encrypt.asymmetric.rsa;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.tools.bedrock.util.BaseUtils;
+import org.tools.encrypt.asymmetric.AsymmetricUtils;
+import org.tools.encrypt.digitalsignature.SignatureUtils;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.asymmetric.Rsa;
+import org.tools.encrypt.entity.asymmetric.RsaProperties;
 import org.tools.encrypt.exception.EncryptException;
 import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
-import java.security.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +35,7 @@ public class RsaHelper {
     }
 
     @Getter
-    private static RsaProperties properties;
+    private static RsaProperties properties = new RsaProperties();
 
     protected static Signature signature;
     protected static Cipher publicCipher;
@@ -50,7 +56,7 @@ public class RsaHelper {
         }
     }
 
-    public static void load(KeyPair keyPair, String name) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException {
+    public static void load(KeyPair keyPair, String name) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new RsaException("keyPair 不能为空！");
         }
@@ -79,10 +85,10 @@ public class RsaHelper {
             throw new EncryptException("keyPair 不能为空！");
         }
         RsaProperties properties = new RsaProperties();
-        properties.setPublicKey(keyPair.getPublicKey());
-        properties.setPrivateKey(keyPair.getPrivateKey());
-        properties.setRsaPublicKey(RsaKeyGenerator.getPublicKey(keyPair.getPublicKey()));
-        properties.setRsaPrivateKey(RsaKeyGenerator.getPrivateKey(keyPair.getPrivateKey()));
+        properties.setPublicKeyStr(keyPair.getPublicKey());
+        properties.setPrivateKeyStr(keyPair.getPrivateKey());
+        properties.setPublicKey(RsaKeyGenerator.getPublicKey(keyPair.getPublicKey()));
+        properties.setPrivateKey(RsaKeyGenerator.getPrivateKey(keyPair.getPrivateKey()));
         properties.setIvParameter(keyPair.getIvParameter());
         load(properties);
     }
@@ -91,7 +97,7 @@ public class RsaHelper {
         if (BaseUtils.isEmpty(properties)) {
             throw new EncryptException("properties 不能为空！");
         }
-        if (!BaseUtils.isNotEmpty(properties.getRsaPublicKey(), properties.getRsaPrivateKey())) {
+        if (!BaseUtils.isNotEmpty(properties.getPublicKey(), properties.getPrivateKey())) {
             throw new EncryptException("publicKey|privateKey 不能为空！");
         }
         RsaHelper.properties = properties;
@@ -112,11 +118,11 @@ public class RsaHelper {
     }
 
     public static String encode(String raw) throws RsaException {
-        return RsaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getRsaPublicKey(), properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
+        return AsymmetricUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getPublicKey(), properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
     }
 
     public static String decode(String wrought) throws RsaException {
-        return RsaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getRsaPrivateKey(), properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
+        return AsymmetricUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getPrivateKey(), properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
     }
 
     public static String encode(String publicKey, String raw) throws RsaException {
@@ -138,19 +144,19 @@ public class RsaHelper {
     }
 
     public static String encode(PublicKey publicKey, String raw) throws RsaException {
-        return RsaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), publicKey, properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
+        return AsymmetricUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), publicKey, properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
     }
 
     public static String decode(PrivateKey privateKey, String wrought) throws RsaException {
-        return RsaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), privateKey, properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
+        return AsymmetricUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), privateKey, properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
     }
 
     public static String sign(String wrought) throws RsaException {
-        return RsaUtils.sign(properties.getSignAlgorithm(), properties.getRsaPrivateKey(), wrought);
+        return SignatureUtils.sign(properties.getSignAlgorithm(), properties.getPrivateKey(), wrought);
     }
 
-    public static Boolean verify(String wrought, String sign) throws RsaException {
-        return RsaUtils.verify(properties.getSignAlgorithm(), properties.getRsaPublicKey(), wrought, sign);
+    public static boolean verify(String wrought, String sign) throws RsaException {
+        return SignatureUtils.verify(properties.getSignAlgorithm(), properties.getPublicKey(), wrought, sign);
     }
 
     public static String sign(String privateKey, String wrought) throws RsaException {
@@ -162,7 +168,7 @@ public class RsaHelper {
         }
     }
 
-    public static Boolean verify(String publicKey, String wrought, String sign) throws RsaException {
+    public static boolean verify(String publicKey, String wrought, String sign) throws RsaException {
         try {
             return verify(RsaKeyGenerator.getPublicKey(publicKey), wrought, sign);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
@@ -172,11 +178,11 @@ public class RsaHelper {
     }
 
     public static String sign(PrivateKey privateKey, String wrought) throws RsaException {
-        return RsaUtils.sign(properties.getSignAlgorithm(), privateKey, wrought);
+        return SignatureUtils.sign(properties.getSignAlgorithm(), privateKey, wrought);
     }
 
-    public static Boolean verify(PublicKey publicKey, String wrought, String sign) throws RsaException {
-        return RsaUtils.verify(properties.getSignAlgorithm(), publicKey, wrought, sign);
+    public static boolean verify(PublicKey publicKey, String wrought, String sign) throws RsaException {
+        return SignatureUtils.verify(properties.getSignAlgorithm(), publicKey, wrought, sign);
     }
 
 }
