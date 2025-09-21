@@ -1,6 +1,7 @@
 package org.tools.bedrock.util.file.image;
 
 import org.tools.bedrock.base.image.Point;
+import org.tools.bedrock.constant.ImageConstants;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,6 +21,9 @@ import java.util.Map;
  */
 public class ImageFeatureUtil {
 
+    private ImageFeatureUtil() {
+    }
+
     /**
      * 提取图片的主要颜色特征
      *
@@ -29,7 +33,7 @@ public class ImageFeatureUtil {
      */
     public static Color[] extractDominantColors(BufferedImage image, int count) {
         // 缩小图片以提高处理速度
-        BufferedImage resizedImage = ImageUtil.resizeImage(image, 150, 150);
+        BufferedImage resizedImage = ImageUtil.resizeImage(image, ImageConstants.RESIZE_WIDTH, ImageConstants.RESIZE_HEIGHT);
 
         // 简化的主颜色提取算法
         int width = resizedImage.getWidth();
@@ -349,7 +353,7 @@ public class ImageFeatureUtil {
 
         // 直接统计所有像素
         Map<Integer, Integer> colorCountMap = new HashMap<>();
-        
+
         // 使用通用方法进行完整统计
         populateColorCountMap(image, colorCountMap, width, height, 1);
 
@@ -363,16 +367,16 @@ public class ImageFeatureUtil {
 
     /**
      * 填充颜色计数Map
-     * 
-     * @param image 图片
-     * @param colorCountMap 颜色计数Map
-     * @param width 图片宽度
-     * @param height 图片高度
+     *
+     * @param image          图片
+     * @param colorCountMap  颜色计数Map
+     * @param width          图片宽度
+     * @param height         图片高度
      * @param sampleInterval 采样间隔（1表示不采样，逐像素处理）
      * @return 处理的像素数量
      */
     private static int populateColorCountMap(BufferedImage image, Map<Integer, Integer> colorCountMap,
-                                            int width, int height, int sampleInterval) {
+                                             int width, int height, int sampleInterval) {
         int pixelCount = 0;
         for (int y = 0; y < height; y += sampleInterval) {
             for (int x = 0; x < width; x += sampleInterval) {
@@ -413,15 +417,15 @@ public class ImageFeatureUtil {
 
         // 查找出现次数最多的颜色
         int maxCount = findMaxColorCount(colorCountMap);
-        
+
         // 判断主要颜色占比是否超过阈值
         float ratio = (float) maxCount / sampleCount;
         return ratio >= threshold;
     }
-    
+
     /**
      * 查找颜色计数Map中出现次数最多的颜色的计数值
-     * 
+     *
      * @param colorCountMap 颜色计数Map
      * @return 最大计数值
      */
@@ -472,8 +476,8 @@ public class ImageFeatureUtil {
         // 我们通过模拟方式实现一个简化的特征匹配算法
 
         // 调整图片大小以提高处理效率
-        BufferedImage resizedImage1 = ImageUtil.resizeImage(image1, 100, 100);
-        BufferedImage resizedImage2 = ImageUtil.resizeImage(image2, 100, 100);
+        BufferedImage resizedImage1 = ImageUtil.resizeImage(image1, ImageConstants.DEFAULT_IMAGE_SIZE, ImageConstants.DEFAULT_IMAGE_SIZE);
+        BufferedImage resizedImage2 = ImageUtil.resizeImage(image2, ImageConstants.DEFAULT_IMAGE_SIZE, ImageConstants.DEFAULT_IMAGE_SIZE);
 
         // 转换为灰度图
         BufferedImage grayImage1 = convertToGray(resizedImage1);
@@ -525,7 +529,7 @@ public class ImageFeatureUtil {
         // 简化实现：在图像上按网格提取关键点
         int width = image.getWidth();
         int height = image.getHeight();
-        int gridSpacing = 10; // 网格间隔
+        int gridSpacing = ImageConstants.GRID_SPACING; // 网格间隔
 
         for (int y = gridSpacing; y < height - gridSpacing; y += gridSpacing) {
             for (int x = gridSpacing; x < width - gridSpacing; x += gridSpacing) {
@@ -550,7 +554,7 @@ public class ImageFeatureUtil {
     private static boolean isCorner(BufferedImage image, int x, int y) {
         // 简化的角点检测算法
         int center = getGrayValue(image, x, y);
-        int threshold = 30; // 角点检测阈值
+        int threshold = ImageConstants.CORNER_THRESHOLD; // 角点检测阈值
 
         // 检查周围像素
         int[] neighbors = new int[8];
@@ -586,7 +590,7 @@ public class ImageFeatureUtil {
 
         for (Point keypoint : keypoints) {
             // 提取关键点周围的像素值作为描述符
-            int[] descriptor = new int[16]; // 4x4区域的像素值
+            int[] descriptor = new int[ImageConstants.DESCRIPTOR_SIZE]; // 描述符大小
             int index = 0;
 
             for (int dy = -2; dy <= 1; dy++) {
@@ -617,7 +621,7 @@ public class ImageFeatureUtil {
      */
     private static int matchFeatures(Map<Point, int[]> descriptors1, Map<Point, int[]> descriptors2) {
         int matches = 0;
-        int threshold = 1000; // 匹配阈值
+        int threshold = ImageConstants.MATCH_THRESHOLD; // 匹配阈值
 
         for (Map.Entry<Point, int[]> entry1 : descriptors1.entrySet()) {
             int[] descriptor1 = entry1.getValue();

@@ -8,7 +8,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * ImageHashUtil 冒烟测试类
@@ -61,7 +63,7 @@ public class ImageHashUtilTest {
     public void testCalculateHammingDistance() {
         String hash1 = "1111111111111111111111111111111111111111111111111111111111111111";
         String hash2 = "0000000000000000000000000000000000000000000000000000000000000000";
-        
+
         int distance = ImageHashUtil.calculateHammingDistance(hash1, hash2);
         assertEquals("Hamming distance should be 64 for completely different hashes", 64, distance);
     }

@@ -1,5 +1,7 @@
 package org.tools.bedrock.util.file.image;
 
+import org.tools.bedrock.constant.ImageConstants;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -10,6 +12,9 @@ import java.awt.image.BufferedImage;
  * @version 1.0
  */
 public class ImagePixelUtil {
+
+    private ImagePixelUtil() {
+    }
 
     /**
      * 将图片转换为二值图
@@ -50,7 +55,7 @@ public class ImagePixelUtil {
      */
     public static BufferedImage convertToGray(BufferedImage image) {
         BufferedImage grayImage = new BufferedImage(
-                image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+                image.getWidth(), image.getHeight(), ImageConstants.GRAY_IMAGE_TYPE);
         Graphics g = grayImage.getGraphics();
         g.drawImage(image, 0, 0, null);
         g.dispose();
@@ -155,7 +160,7 @@ public class ImagePixelUtil {
      */
     private static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
-        BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, ImageConstants.RGB_IMAGE_TYPE);
         outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
         return outputImage;
     }

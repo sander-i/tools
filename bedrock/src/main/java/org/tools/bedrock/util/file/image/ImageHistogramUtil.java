@@ -1,5 +1,7 @@
 package org.tools.bedrock.util.file.image;
 
+import org.tools.bedrock.constant.ImageConstants;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,6 +16,9 @@ import java.io.IOException;
  */
 public class ImageHistogramUtil {
 
+    private ImageHistogramUtil() {
+    }
+
     /**
      * 计算两张图片的相似度（基于直方图）
      *
@@ -23,8 +28,8 @@ public class ImageHistogramUtil {
      */
     public static double calculateSimilarity(BufferedImage image1, BufferedImage image2) {
         // 调整图片大小以提高比较效率
-        BufferedImage resizedImage1 = ImageUtil.resizeImage(image1, 100, 100);
-        BufferedImage resizedImage2 = ImageUtil.resizeImage(image2, 100, 100);
+        BufferedImage resizedImage1 = ImageUtil.resizeImage(image1, ImageConstants.DEFAULT_IMAGE_SIZE, ImageConstants.DEFAULT_IMAGE_SIZE);
+        BufferedImage resizedImage2 = ImageUtil.resizeImage(image2, ImageConstants.DEFAULT_IMAGE_SIZE, ImageConstants.DEFAULT_IMAGE_SIZE);
 
         // 计算直方图
         int[] histogram1 = calculateHistogram(resizedImage1);
