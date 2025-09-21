@@ -14,6 +14,9 @@ import java.io.IOException;
  */
 public class ImageHashUtil {
 
+    private ImageHashUtil() {
+    }
+
     /**
      * 计算图片的平均哈希值(Average Hash)
      *

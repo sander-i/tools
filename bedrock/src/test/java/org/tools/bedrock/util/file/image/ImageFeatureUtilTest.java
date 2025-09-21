@@ -9,7 +9,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * ImageFeatureUtil 冒烟测试类
@@ -106,11 +109,11 @@ public class ImageFeatureUtilTest {
         assertNotNull("Resource URL should not be null", resourceURL);
 
         BufferedImage image = ImageIO.read(resourceURL);
-        
+
         // 使用较低阈值应该能检测到纯色背景
         boolean isSolidLowThreshold = ImageFeatureUtil.isSolidColorBackground(image, 0.5f);
         assertTrue("Should detect solid color background with low threshold", isSolidLowThreshold);
-        
+
         // 使用较高阈值可能检测不到纯色背景
         boolean isSolidHighThreshold = ImageFeatureUtil.isSolidColorBackground(image, 0.9f);
         assertFalse("Should not detect solid color background with high threshold", isSolidHighThreshold);

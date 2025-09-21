@@ -1,5 +1,7 @@
 package org.tools.bedrock.util.file.image;
 
+import org.tools.bedrock.constant.ImageConstants;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,9 @@ import java.io.IOException;
  * @version 1.0
  */
 public class ImageStructureUtil {
+
+    private ImageStructureUtil() {
+    }
 
     /**
      * 计算两张图片的结构相似度(SSIM)
@@ -60,9 +65,9 @@ public class ImageStructureUtil {
         int height = img1.getHeight();
 
         // SSIM参数
-        final double K1 = 0.01;
-        final double K2 = 0.03;
-        final int L = 255; // 8位图像的像素值范围
+        final double K1 = ImageConstants.SSIM_K1;
+        final double K2 = ImageConstants.SSIM_K2;
+        final int L = ImageConstants.SSIM_L; // 8位图像的像素值范围
         final double C1 = Math.pow(K1 * L, 2);
         final double C2 = Math.pow(K2 * L, 2);
 

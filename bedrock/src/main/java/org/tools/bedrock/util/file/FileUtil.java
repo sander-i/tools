@@ -1,5 +1,10 @@
 package org.tools.bedrock.util.file;
 
+import org.tools.bedrock.constant.Constants;
+import org.tools.bedrock.constant.FileUtilConstants;
+import org.tools.bedrock.constant.v2.SpecialSymbolConst;
+import org.tools.bedrock.util.BaseUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +34,38 @@ import java.util.zip.ZipOutputStream;
  */
 public class FileUtil {
 
+    private FileUtil() {
+    }
+
+    /**
+     * 通过文件路径截取文件类型
+     *
+     * @param filePath 文件路径
+     * @return 文件类型，如果无扩展名则返回空字符串
+     */
+    public static String formatName(String filePath) {
+        // 参数验证
+        if (BaseUtils.isEmpty(filePath)) {
+            return "";
+        }
+
+        // 查找最后一个点号的位置
+        int lastDotIndex = filePath.lastIndexOf(SpecialSymbolConst.POINT);
+
+        // 如果没有找到点号，或者点号在路径的末尾
+        if (lastDotIndex == -1 || lastDotIndex == filePath.length() - 1) {
+            return "";
+        }
+
+        // 如果点号在路径的开头（如 .config 文件），返回点号后的所有内容
+        if (lastDotIndex == 0) {
+            return filePath.substring(1);
+        }
+
+        // 返回点号后的扩展名
+        return filePath.substring(lastDotIndex + Constants.ONE_I);
+    }
+
     /**
      * 读取resources目录下文件内容为字符串
      *
@@ -39,7 +76,7 @@ public class FileUtil {
     public static String readResourceFile(String resourcePath) throws IOException {
         try (InputStream is = getResourceAsStream(resourcePath)) {
             if (is == null) {
-                throw new FileNotFoundException("Resource file not found: " + resourcePath);
+                throw new FileNotFoundException(FileUtilConstants.RESOURCE_FILE_NOT_FOUND + resourcePath);
             }
             return readInputStreamAsString(is);
         }
@@ -55,7 +92,7 @@ public class FileUtil {
     public static byte[] readResourceFileBytes(String resourcePath) throws IOException {
         try (InputStream is = getResourceAsStream(resourcePath)) {
             if (is == null) {
-                throw new FileNotFoundException("Resource file not found: " + resourcePath);
+                throw new FileNotFoundException(FileUtilConstants.RESOURCE_FILE_NOT_FOUND + resourcePath);
             }
             return readInputStreamAsBytes(is);
         }
@@ -106,12 +143,12 @@ public class FileUtil {
      */
     private static String readInputStreamAsString(InputStream inputStream) throws IOException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[FileUtilConstants.BUFFER_SIZE];
         int length;
         while ((length = inputStream.read(buffer)) != -1) {
             result.write(buffer, 0, length);
         }
-        return result.toString("UTF-8");
+        return result.toString(FileUtilConstants.UTF_8_ENCODING);
     }
 
     /**
@@ -123,7 +160,7 @@ public class FileUtil {
      */
     private static byte[] readInputStreamAsBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[FileUtilConstants.BUFFER_SIZE];
         int length;
         while ((length = inputStream.read(buffer)) != -1) {
             result.write(buffer, 0, length);
@@ -306,7 +343,7 @@ public class FileUtil {
                 zipOut.putNextEntry(zipEntry);
 
                 try (FileInputStream fis = new FileInputStream(file)) {
-                    byte[] bytes = new byte[1024];
+                    byte[] bytes = new byte[FileUtilConstants.BUFFER_SIZE];
                     int length;
                     while ((length = fis.read(bytes)) >= 0) {
                         zipOut.write(bytes, 0, length);
@@ -329,7 +366,7 @@ public class FileUtil {
         zipOut.putNextEntry(zipEntry);
 
         try (FileInputStream fis = new FileInputStream(filePath.toFile())) {
-            byte[] bytes = new byte[1024];
+            byte[] bytes = new byte[FileUtilConstants.BUFFER_SIZE];
             int length;
             while ((length = fis.read(bytes)) >= 0) {
                 zipOut.write(bytes, 0, length);
@@ -368,16 +405,15 @@ public class FileUtil {
 
                 // 防止路径遍历漏洞
                 if (!newPath.startsWith(targetPath)) {
-                    throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
+                    throw new IOException(FileUtilConstants.ENTRY_OUTSIDE_TARGET_DIR + zipEntry.getName());
                 }
 
                 if (zipEntry.isDirectory()) {
                     Files.createDirectories(newPath);
                 } else {
-                    if (newPath.getParent() != null) {
-                        if (Files.notExists(newPath.getParent())) {
-                            Files.createDirectories(newPath.getParent());
-                        }
+                    // 合并两个if语句为一个
+                    if (newPath.getParent() != null && Files.notExists(newPath.getParent())) {
+                        Files.createDirectories(newPath.getParent());
                     }
                     Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
                 }
@@ -407,7 +443,7 @@ public class FileUtil {
     public static void compressToGzip(Path sourcePath, Path gzipPath) throws IOException {
         try (GZIPOutputStream gzos = new GZIPOutputStream(Files.newOutputStream(gzipPath));
              FileInputStream fis = new FileInputStream(sourcePath.toFile())) {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[FileUtilConstants.BUFFER_SIZE];
             int len;
             while ((len = fis.read(buffer)) != -1) {
                 gzos.write(buffer, 0, len);
@@ -436,7 +472,7 @@ public class FileUtil {
     public static void decompressGzip(Path gzipPath, Path targetPath) throws IOException {
         try (GZIPInputStream gzis = new GZIPInputStream(Files.newInputStream(gzipPath));
              FileOutputStream fos = new FileOutputStream(targetPath.toFile())) {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[FileUtilConstants.BUFFER_SIZE];
             int len;
             while ((len = gzis.read(buffer)) != -1) {
                 fos.write(buffer, 0, len);

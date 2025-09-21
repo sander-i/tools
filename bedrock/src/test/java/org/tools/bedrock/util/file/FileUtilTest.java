@@ -9,10 +9,13 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * FileUtil 冒烟测试类
@@ -168,7 +171,7 @@ public class FileUtilTest {
                 // 解压文件
                 Path unzipDir = tempDir.resolve("unzip");
                 Files.createDirectories(unzipDir);
-                
+
                 try {
                     FileUtil.decompressZip(zipFile.toString(), unzipDir.toString());
 
@@ -209,7 +212,7 @@ public class FileUtilTest {
                 // 解压gzip文件
                 Path unzippedFile = tempDir.resolve("unzipped.txt");
                 FileUtil.decompressGzip(gzipFile.toString(), unzippedFile.toString());
-                
+
                 try {
                     // 验证解压成功
                     assertTrue(Files.exists(unzippedFile));
@@ -252,7 +255,7 @@ public class FileUtilTest {
 
             // 拷贝目录
             Path targetDir = tempDir.resolve("targetDir");
-            
+
             try {
                 FileUtil.copyDirectory(sourceDir.toString(), targetDir.toString());
 
@@ -275,10 +278,10 @@ public class FileUtilTest {
             deleteRecursively(sourceDir);
         }
     }
-    
+
     /**
      * 递归删除目录及其内容
-     * 
+     *
      * @param path 要删除的路径
      * @throws IOException IO异常
      */
