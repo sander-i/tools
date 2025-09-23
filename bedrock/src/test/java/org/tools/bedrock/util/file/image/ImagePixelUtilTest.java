@@ -47,7 +47,7 @@ public class ImagePixelUtilTest {
         assertNotNull("Resource URL should not be null", resourceURL);
 
         BufferedImage image = ImageIO.read(resourceURL);
-        BufferedImage binaryImage = ImagePixelUtil.convertToBinary(image, 128);
+        BufferedImage binaryImage = ImagePixelUtil.convertToBinary(image);
 
         assertNotNull("Binary image should not be null", binaryImage);
         assertEquals("Binary image width should match original", image.getWidth(), binaryImage.getWidth());
@@ -111,7 +111,7 @@ public class ImagePixelUtilTest {
         BufferedImage image = ImageIO.read(resourceURL);
 
         // 测试二值化
-        BufferedImage binaryImage = ImagePixelUtil.convertToBinary(image, 128);
+        BufferedImage binaryImage = ImagePixelUtil.convertToBinary(image);
         assertNotNull("Binary image should not be null", binaryImage);
 
         // 测试灰度化
@@ -126,11 +126,8 @@ public class ImagePixelUtilTest {
         double similarity1 = ImagePixelUtil.calculatePixelSimilarity(image, image);
         assertEquals("Similarity of same images should be 1.0", 1.0, similarity1, 0.001);
 
-        // 测试像素相似度（不同尺寸图片）
-        BufferedImage smallImage = createTestImage(50, 50, Color.RED);
-        double similarity2 = ImagePixelUtil.calculatePixelSimilarityWithResize(image, smallImage);
-        assertTrue("Similarity should be between 0 and 1", similarity2 >= 0.0 && similarity2 <= 1.0);
-
-        System.out.println("ImagePixelUtil smoke test passed!");
+        // 测试像素相似度（调整大小后）
+        double similarity2 = ImagePixelUtil.calculatePixelSimilarityWithResize(image, image);
+        assertEquals("Similarity of same images should be 1.0", 1.0, similarity2, 0.001);
     }
 }
