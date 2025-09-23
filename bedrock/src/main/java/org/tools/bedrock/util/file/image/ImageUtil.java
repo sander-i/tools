@@ -254,14 +254,21 @@ public class ImageUtil {
     }
 
     /**
-     * 读取输入流返回字节数组
+     * 从输入流读取内容为字节数组
      *
-     * @param stream 流
-     * @return 字节数组
+     * @param stream 输入流
+     * @param <T>    输入流类型
+     * @return 字节数组内容
      */
     public static <T> byte[] readInputStream(T stream) {
         InputStream inputStream = stream instanceof InputStream ? (InputStream) stream : null;
         FileImageInputStream fileImageInputStream = stream instanceof FileImageInputStream ? (FileImageInputStream) stream : null;
+
+        // 检查参数是否有效
+        if (inputStream == null && fileImageInputStream == null) {
+            log.warn("输入流参数无效，无法读取数据");
+            return Constants.EMPTY_BYTE_ARRAY;
+        }
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         String errorMsg = ImageConstants.READ_INPUT_STREAM_ERROR;

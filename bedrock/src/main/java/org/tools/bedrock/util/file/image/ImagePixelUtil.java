@@ -19,6 +19,23 @@ public class ImagePixelUtil {
     /**
      * 将图片转换为二值图
      *
+     * @param image 原始图片
+     * @return 二值图
+     */
+    public static BufferedImage convertToBinary(BufferedImage image) {
+        BufferedImage binaryImage = new BufferedImage(
+                image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+
+        Graphics2D g2d = binaryImage.createGraphics();
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
+
+        return binaryImage;
+    }
+
+    /**
+     * 将图片转换为二值图
+     *
      * @param image     原始图片
      * @param threshold 阈值
      * @return 二值图
