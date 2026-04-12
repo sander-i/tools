@@ -15,6 +15,7 @@
         Most of the tools and methods of the project are searchable on the Internet, and the concept of this project is
         to solve the problem that searching on the Internet is time-consuming and laborious, and it is not very easy to
         use
+        Copyright © ${project.inceptionYear}-${build.year} sander
     </description>
 
     <url>https://gitee.com/sander-o/tools</url>
@@ -56,7 +57,8 @@
     </modules>
 
     <properties>
-        <copyright>2024</copyright>
+        <project.inceptionYear>2023</project.inceptionYear>
+        <build.year>2026</build.year>
         <spring.application.name>tools</spring.application.name>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -78,6 +80,7 @@
         <central-publishing-maven-plugin.version>0.4.0</central-publishing-maven-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+        <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
 
         <!-- framework.dependencies -->
         <!-- spring.dependencies -->
@@ -380,6 +383,24 @@
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
+            </plugin>
+            <!-- 时间戳插件 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>timestamp-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>build.year</name>
+                            <pattern>yyyy</pattern>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <!--git的版本信息-->
             <plugin>
