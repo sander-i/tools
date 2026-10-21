@@ -1,0 +1,24 @@
+name: Sync from Gitee
+on:
+  schedule:
+    - cron: '0 */2 * * *'  # 每2小时自动拉取一次Gitee更新
+  workflow_dispatch:  # 支持手动点击触发同步
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出GitHub仓库代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 配置Gitee同步用SSH密钥
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: "SHA256:Tn+vWcVcor373Ay0VPwQn5bBrADsiKx+5PIehqWhOx0"
+      - name: 从Gitee镜像同步代码到GitHub
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: gitee/sander-o
+          dst: github/sander-i
+          dst_key: "SHA256:Tn+vWcVcor373Ay0VPwQn5bBrADsiKx+5PIehqWhOx0"
+          dst_token: cf40053ba2fd6f3d4c5177ba890c20d0
