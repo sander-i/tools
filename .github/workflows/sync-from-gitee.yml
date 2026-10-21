@@ -14,11 +14,11 @@ jobs:
       - name: 配置Gitee同步用SSH密钥
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: "SHA256:Tn+vWcVcor373Ay0VPwQn5bBrADsiKx+5PIehqWhOx0"
+          ssh-private-key: "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACCYXabBFxTIXN6Bo0pqiXk/pW4BoBavG3RUmWyqTmjLWQAAAJivESq9rxEqvQAAAAtzc2gtZWQyNTUxOQAAACCYXabBFxTIXN6Bo0pqiXk/pW4BoBavG3RUmWyqTmjLWQAAAEDYbLfRvm47FXIDX1jUFm1pK4pGZTXs0sDq/K1ADawZPZhdpsEXFMhc3oGjSmqJeT+lbgGgFq8bdFSZbKpOaMtZAAAAEUdpdEh1YiBTeW5jIFRvb2xzAQIDBA=="
       - name: 从Gitee镜像同步代码到GitHub
         uses: Yikun/hub-mirror-action@master
         with:
           src: gitee/sander-o
           dst: github/sander-i
-          dst_key: "SHA256:Tn+vWcVcor373Ay0VPwQn5bBrADsiKx+5PIehqWhOx0"
+          dst_key: "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACCYXabBFxTIXN6Bo0pqiXk/pW4BoBavG3RUmWyqTmjLWQAAAJivESq9rxEqvQAAAAtzc2gtZWQyNTUxOQAAACCYXabBFxTIXN6Bo0pqiXk/pW4BoBavG3RUmWyqTmjLWQAAAEDYbLfRvm47FXIDX1jUFm1pK4pGZTXs0sDq/K1ADawZPZhdpsEXFMhc3oGjSmqJeT+lbgGgFq8bdFSZbKpOaMtZAAAAEUdpdEh1YiBTeW5jIFRvb2xzAQIDBA=="
           dst_token: cf40053ba2fd6f3d4c5177ba890c20d0
