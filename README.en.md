@@ -1,99 +1,141 @@
-# tools
+# tools — A Verified Java Cryptography Library with `encrypt` as the Flagship
 
-## Introduce
+A verified, adopt-on-demand Java cryptography library (with companion utilities): symmetric / asymmetric encryption, digests, signatures and JWT out of the box, or one-step integration via a Spring Boot Starter. `bedrock` (basic utilities) and `fortify` (enhancements) are optional companion modules and are never forced into your dependency tree.
 
-Portable toolbox to make coding easier!
+> **Documentation**: [📖 Operations Guide (HTML)](docs/operations-guide.html) · [encrypt module](encrypt/README.md) · [encrypt-spring-boot-starter quick start](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md) · [Security policy](SECURITY.md) · [Changelog](CHANGELOG.md) · [中文文档](README.md)
 
-Most of the tooling methods for this project are available on the web, Its core philosophy is to solve the problem of time-consuming and laborious online searches and the difficulty of finding truly usable code. We are committed to providing proven, useful tool code，Avoid code quality issues caused by incorrect copying. 
+## 📖 Operations Guide (HTML)
 
-## Software architecture
+A self-contained operations guide (no external dependencies) covering the capability matrix, security boundary table, copy-paste examples for every capability, the Spring Boot integration walkthrough and a FAQ. Three ways to read it:
 
-- **tools**
-  - **[bedrock](bedrock)**: Provides basic functions such as common methods, basic objects, constants, special symbols, JWT, HTTP response enumeration, pagination, distributed ID, remote image conversion, file compression, image similarity detection, collection pagination, DDNS, Excel export, and more.
-  - **[encrypt](encrypt)**: Provide security-related functions such as irreversible encryption, symmetric encryption, digital signatures, and asymmetric encryption.
-  - **[fortify](fortify)**: Offers enhanced features such as DDNS, HTTP request handling, JSON tools, file handling (e.g., Excel, image compression), and more.
-  - **[tools-spring-boot-starter](tools-spring-boot-starter)**: Spring Boot integration support is available.
-    - **[encrypt-spring-boot-starter](tools-spring-boot-starter/encrypt-spring-boot-starter)**: Spring Boot Starter implements the 'encrypt' module to support injecting encryption-related beans through configuration files in Spring Boot.
+| Option | How |
+|---|---|
+| Clone and open locally | `git clone https://gitee.com/sander-o/tools.git`, then open **`docs/operations-guide.html`** in a browser |
+| Gitee web UI | Open `docs/operations-guide.html` in the repo, download it via the "RAW" button and open in a browser |
+| Offline distribution | Single self-contained file — download, e-mail or print directly (print stylesheet included) |
 
-## Installation tutorial
+## Quick Start
 
-### Maven Dependency configuration
+### 1. Add `encrypt`
 
-Latest version link：https://central.sonatype.com/artifact/io.gitee.sander-o/tools
-
-Add the following dependencies to your：`pom.xml`
+```xml
+<dependency>
+    <groupId>io.gitee.sander-o</groupId>
+    <artifactId>encrypt</artifactId>
+    <version>1.0.6.7-d01</version>
+</dependency>
 ```
-    <properties>
-        <tools.version>Latest Version</tools.version>
-    </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.gitee.sander-o</groupId>
-                <artifactId>tools</artifactId>
-                <version>${tools.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+> The version is read from the root `pom.xml` (currently `1.0.6.7-d01`, a development version that may change before release; use the version actually published on [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools)).
 
+### 2. Three lines of code
+
+```java
+// Digest: MD5 (uppercase hexadecimal)
+String md5 = MD5Utils.encode("password");
+
+// Symmetric encryption: AES/CBC/PKCS5Padding, hex key, 16-byte IV
+SecretKey key = AesKeyGenerator.getSecretKey();
+AesProperties props = new AesProperties();
+props.setSecretKey(key);
+props.setIvParameter("0123456789abcdef");
+AesHelper.load(props);
+String ciphertext = AesHelper.encode("hello");
+```
+
+### 3. One-step Spring Boot integration
+
+```xml
+<dependency>
+    <groupId>io.gitee.sander-o.spring.boot</groupId>
+    <artifactId>encrypt-spring-boot-starter</artifactId>
+    <version>1.0.6.7-d01</version>
+</dependency>
+```
+
+Annotate your application with `@EnableToolsEncrypt` and configure `tools.encrypt.*` in `application.yml`. See the [5-minute guide](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md).
+
+## Why `encrypt`
+
+- **Backed by tests**: the core encryption paths are covered by a smoke-test suite covering every public method (see [testing](encrypt/README.md#测试)).
+- **Clear boundaries**: algorithm / mode / padding / key / IV / charset behavior is documented per capability — see the [security boundary table](encrypt/README.md#安全边界).
+- **Adopt on demand**: need only crypto? Add `encrypt` only. Need Spring Boot auto-configuration? Add the starter. `bedrock` and `fortify` are optional companions, not prerequisites (only `encrypt` itself depends on a few basic utilities from `bedrock`, which is pulled in transitively).
+- **Covers the common cases**: AES / DES / IDEA, RSA, DSA, MD5 / SHA family, digital signatures, JWT, Base64, CRC32.
+
+## Project Layout
+
+```
+tools
+├── encrypt           # ★ Flagship module: cryptography & security (the primary entry point)
+│   ├── asymmetric    # Asymmetric encryption (RSA)
+│   ├── basic         # Digests & encoding (MD5, SHA, JWT, Base64, CRC32)
+│   ├── digitalsignature # Digital signatures (DSA)
+│   └── symmetrical   # Symmetric encryption (AES, DES, IDEA)
+├── tools-spring-boot-starter
+│   └── encrypt-spring-boot-starter  # Spring Boot auto-configuration
+├── bedrock           # Companion module: basic utilities
+└── fortify           # Companion module: enhancements
+```
+
+## Companion Modules
+
+- **bedrock** — `io.gitee.sander-o:bedrock`: collection / map / date / file / image utilities, unified HTTP response, distributed IDs. `encrypt` depends on a few of its basic utilities, which are pulled in transitively. See [bedrock/README.md](bedrock/README.md).
+- **fortify** — `io.gitee.sander-o:fortify`: Excel generation (`ExcelUtils` + `ExcelSheet`), image compression (`ImageUtils`), Alibaba Cloud DDNS (`AliyunDdnsUtils`) and more. See [fortify/README.md](fortify/README.md).
+
+## Installation (all modules)
+
+To pull in every module, import the BOM and declare what you need:
+
+```xml
+<properties>
+    <!-- Use the version actually published on Maven Central -->
+    <tools.version>1.0.6.7-d01</tools.version>
+</properties>
+
+<dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>io.gitee.sander-o</groupId>
-            <artifactId>bedrock</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.gitee.sander-o</groupId>
-            <artifactId>encrypt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.gitee.sander-o</groupId>
-            <artifactId>fortify</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.gitee.sander-o.spring.boot</groupId>
-            <artifactId>encrypt-spring-boot-starter</artifactId>
+            <artifactId>tools</artifactId>
+            <version>${tools.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
     </dependencies>
+</dependencyManagement>
 
-    <!-- Warehouse address -->
-    <repositories>
-        <repository>
-            <id>maven2</id>
-            <url>https://repo1.maven.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+<dependencies>
+    <!-- Cryptography (flagship) -->
+    <dependency>
+        <groupId>io.gitee.sander-o</groupId>
+        <artifactId>encrypt</artifactId>
+    </dependency>
+    <!-- Spring Boot Starter -->
+    <dependency>
+        <groupId>io.gitee.sander-o.spring.boot</groupId>
+        <artifactId>encrypt-spring-boot-starter</artifactId>
+    </dependency>
+    <!-- Basic utilities (companion, optional) -->
+    <dependency>
+        <groupId>io.gitee.sander-o</groupId>
+        <artifactId>bedrock</artifactId>
+    </dependency>
+    <!-- Enhancements (companion, optional) -->
+    <dependency>
+        <groupId>io.gitee.sander-o</groupId>
+        <artifactId>fortify</artifactId>
+    </dependency>
+</dependencies>
 ```
 
-## Instructions
+## Usage Samples
 
-1. This item is suitable for any purpose。
-2. There are no restrictions on behavior。
-3. User behavior has nothing to do with this project。
-4. The author is not legally responsible for the consequences of the user's actions。
-5. This project is currently maintained and updated by individuals, and suggestions or optimization points are welcome, which can be submitted through Issues。
+See the [operations guide](docs/operations-guide.html) for complete copy-paste examples of every capability, including the security boundary table and FAQ.
 
-## Contribution
+## Contributing / Support / License
 
-1. Fork This warehouse。
-2. Newly Built `feat/${user_name}/${demand}` Branch。
-3. Submit the code。
-4. Create Pull Request Incorporated to `develop${year}${month}${day}` Branch。
-5. `develop${year}${month}${day}` Created after the test passes Pull Request Incorporated to `release`。
+- Questions and suggestions: [Gitee Issues](https://gitee.com/sander-o/tools/issues). **Do not** submit security issues publicly — see [SECURITY.md](SECURITY.md).
+- Workflow: fork the repo, create a `feat/${user_name}/${demand}` branch, submit a Pull Request against `release`.
+- Licensed under the [MIT License](LICENSE).
 
-## Stunt
-
-1. Use `Readme_XXX.md` Multilingual documentation is supported, such as: `Readme_en.md`, `Readme_zh.md`。
-2. Gitee Official Blog：[blog.gitee.com](https://blog.gitee.com)
-3. Explore Gitee Excellent open source projects on the：[https://gitee.com/explore](https://gitee.com/explore)
-4. GVP（Gitee Most valuable open source project）：[https://gitee.com/gvp](https://gitee.com/gvp)
-5. Gitee Official user manual：[https://gitee.com/help](https://gitee.com/help)
-6. Gitee Cover character column：[https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+<!-- TODO(badge): add CI / version badges once their availability is confirmed. -->

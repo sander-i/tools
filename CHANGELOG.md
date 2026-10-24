@@ -8,6 +8,8 @@
 
 ### Added
 
+- 新增 `docs/operations-guide.html`：自包含 HTML 操作文档（无外部依赖），含目录导航、能力矩阵、安全边界表、各能力可复制示例、Spring Boot 5 分钟接入指引、FAQ 与安全问题报告渠道；可克隆仓库后用浏览器直接打开，亦支持离线分发与打印（含打印样式）。中英文 README 均已接入入口链接。
+- 中英文 README 优化：中文 README 新增"操作文档（HTML）"章节与文档导航链接；英文 README（`README.en.md`）整体重写，与中文版定位对齐（encrypt 旗舰、坐标与示例、文档链接、贡献流程），移除 `Latest Version` 占位符与 Gitee 模板段落。
 - 新增 `encrypt/README.md`：能力矩阵、安全边界表、各能力最小示例。
 - 新增 `encrypt-spring-boot-starter/README.md`：5 分钟接入指南、自动装配说明、FAQ。
 - 新增 `bedrock/README.md`、`fortify/README.md`（配套模块简版说明）。

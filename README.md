@@ -2,7 +2,17 @@
 
 一个经过验证、可按需引入的 Java 加密库（含配套工具）：对称 / 非对称加密、摘要、签名、JWT 开箱即用，也可通过 Spring Boot Starter 一键接入；基础工具（bedrock）与增强能力（fortify）作为配套模块按需引入，不会被强加进你的依赖树。
 
-> **文档导航**：[encrypt 模块文档](encrypt/README.md)（能力矩阵、安全边界、完整示例） · [encrypt-spring-boot-starter 5 分钟接入](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md) · [安全策略](SECURITY.md) · [变更记录](CHANGELOG.md)
+> **文档导航**：[📖 操作文档（HTML 版）](#操作文档html)（能力矩阵、安全边界、完整示例，可在浏览器中直接查阅） · [encrypt 模块文档](encrypt/README.md) · [encrypt-spring-boot-starter 5 分钟接入](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md) · [安全策略](SECURITY.md) · [变更记录](CHANGELOG.md) · [English](README.en.md)
+
+## 📖 操作文档（HTML）
+
+一份自包含的操作文档（无外部依赖，含目录导航、能力矩阵、安全边界表、各能力可复制示例、Spring Boot 接入指引、FAQ）：**[docs/operations-guide.html](docs/operations-guide.html)**。支持三种查阅方式：
+
+| 方式 | 操作 |
+|---|---|
+| 克隆仓库后本地打开 | `git clone https://gitee.com/sander-o/tools.git` 后，用浏览器打开 **`docs/operations-guide.html`** |
+| Gitee 网页端 | 进入 `docs/operations-guide.html` 页面，点击"原始数据/RAW"下载后用浏览器打开 |
+| 离线分发 | 文件自包含单文件，可直接下载、邮件分发或打印（已适配打印样式） |
 
 ## 快速开始
 

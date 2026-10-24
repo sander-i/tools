@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tools — encrypt 操作文档 | Java 加密工具库使用指南</title>
+<style>
+  :root {
+    --primary: #1a5fb4;
+    --primary-dark: #0d3c7a;
+    --bg: #f6f8fa;
+    --code-bg: #1e2530;
+    --code-text: #e6e8eb;
+    --border: #d0d7de;
+    --warn-bg: #fff8e1;
+    --warn-border: #f0b429;
+    --danger: #c0392b;
+    --ok: #1a7f37;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+    line-height: 1.75; color: #24292f; background: #fff;
+    max-width: 1080px; margin: 0 auto; padding: 24px 32px 64px;
+  }
+  header.hero {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: #fff; border-radius: 12px; padding: 32px 36px; margin-bottom: 28px;
+  }
+  header.hero h1 { margin: 0 0 8px; font-size: 26px; }
+  header.hero p { margin: 4px 0; opacity: .92; }
+  header.hero .meta { font-size: 13px; opacity: .78; margin-top: 12px; }
+  h2 {
+    font-size: 21px; border-bottom: 2px solid var(--border);
+    padding-bottom: 8px; margin: 40px 0 16px; color: var(--primary-dark);
+  }
+  h2 .anchor { color: var(--primary); text-decoration: none; margin-right: 6px; }
+  h3 { font-size: 17px; margin: 24px 0 10px; color: #24292f; }
+  code {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+    padding: 1px 6px; font-size: .92em;
+    font-family: Consolas, "JetBrains Mono", Menlo, monospace;
+  }
+  pre {
+    background: var(--code-bg); color: var(--code-text);
+    border-radius: 8px; padding: 14px 18px; overflow-x: auto;
+    font-family: Consolas, "JetBrains Mono", Menlo, monospace; font-size: 13.5px;
+    line-height: 1.6;
+  }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre .cmt { color: #7ec699; }
+  pre .kw { color: #79b8ff; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 14px; }
+  th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--bg); font-weight: 600; }
+  tr:nth-child(even) td { background: #fbfcfd; }
+  .warn {
+    background: var(--warn-bg); border-left: 4px solid var(--warn-border);
+    padding: 10px 16px; border-radius: 0 6px 6px 0; margin: 14px 0; font-size: 14px;
+  }
+  .danger { color: var(--danger); font-weight: 600; }
+  .ok { color: var(--ok); font-weight: 600; }
+  .pill {
+    display: inline-block; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 999px; padding: 1px 12px; font-size: 12.5px; margin: 2px 4px 2px 0;
+  }
+  nav.toc {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 24px; columns: 2; column-gap: 32px; font-size: 14px;
+  }
+  nav.toc a { color: var(--primary); text-decoration: none; display: block; padding: 2px 0; }
+  nav.toc a:hover { text-decoration: underline; }
+  a { color: var(--primary); }
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 13px; color: #57606a; }
+  @media print {
+    body { max-width: none; padding: 0; }
+    pre { white-space: pre-wrap; word-break: break-all; }
+    header.hero { background: var(--primary-dark); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>tools · encrypt 操作文档</h1>
+  <p>一个经过验证、可按需引入的 Java 加密库（含配套工具）：对称 / 非对称加密、摘要、签名、JWT 开箱即用，也可通过 Spring Boot Starter 一键接入。</p>
+  <p class="meta">
+    文档对应版本：<strong>1.0.6.7-d01</strong>（以根 pom.xml 为准） ·
+    仓库：<a href="https://gitee.com/sander-o/tools" style="color:#fff;">gitee.com/sander-o/tools</a> ·
+    许可证：MIT
+  </p>
+</header>
+
+<nav class="toc">
+  <a href="#quick-start">1. 快速开始</a>
+  <a href="#capability">2. 能力矩阵</a>
+  <a href="#boundary">3. 安全边界</a>
+  <a href="#digest">4.1 摘要（MD5 / SHA）</a>
+  <a href="#base64">4.2 Base64 / CRC32</a>
+  <a href="#aes">4.3 AES 对称加解密</a>
+  <a href="#des">4.4 DES 对称加解密</a>
+  <a href="#idea">4.5 IDEA 对称加解密</a>
+  <a href="#rsa">4.6 RSA 加解密与签名</a>
+  <a href="#dsa">4.7 DSA 签名</a>
+  <a href="#jwt">4.8 JWT 签发与解析</a>
+  <a href="#springboot">5. Spring Boot 5 分钟接入</a>
+  <a href="#risks">6. 已知风险与限制</a>
+  <a href="#faq">7. 常见问题</a>
+  <a href="#testing">8. 测试与构建验证</a>
+  <a href="#security">9. 安全问题报告</a>
+</nav>
+
+<h2 id="quick-start"><span class="anchor">1</span>快速开始</h2>
+
+<h3>引入 encrypt</h3>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;io.gitee.sander-o&lt;/groupId&gt;
+    &lt;artifactId&gt;encrypt&lt;/artifactId&gt;
+    &lt;version&gt;1.0.6.7-d01&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+<p>版本号以 <a href="https://central.sonatype.com/artifact/io.gitee.sander-o/tools">Maven Central</a> 实际发布为准。只做加密就只引 <code>encrypt</code>；Spring Boot 自动装配加 <code>encrypt-spring-boot-starter</code>（见 <a href="#springboot">第 5 节</a>）；<code>bedrock</code>、<code>fortify</code> 是可选的配套模块。</p>
+
+<h3>三行代码开始使用</h3>
+<pre><code><span class="cmt">// 摘要：MD5（大写十六进制输出）</span>
+String md5 = MD5Utils.encode("password");
+
+<span class="cmt">// 对称加密：AES/CBC/PKCS5Padding，密钥为 Hex 字符串，IV 为 16 字节</span>
+SecretKey key = AesKeyGenerator.getSecretKey();
+AesProperties props = new AesProperties();
+props.setSecretKey(key);
+props.setIvParameter("0123456789abcdef");
+AesHelper.load(props);
+String ciphertext = AesHelper.encode("hello");</code></pre>
+
+<h2 id="capability"><span class="anchor">2</span>能力矩阵</h2>
+<table>
+  <tr><th>能力</th><th>入口类</th><th>算法 / 说明</th><th>状态</th></tr>
+  <tr><td>摘要（不可逆）</td><td><code>MD5Utils</code></td><td>MD5，大写十六进制输出</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>摘要（不可逆）</td><td><code>ShaUtils</code></td><td>SHA-1 / 256 / 384 / 512（默认 SHA-256），小写十六进制</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>AesHelper</code> / <code>AesKeyGenerator</code></td><td>AES（默认 <code>AES/CBC/PKCS5Padding</code>）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>DesHelper</code> / <code>DesKeyGenerator</code></td><td>DES（默认 <code>DES</code>，即 ECB/PKCS5Padding）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>IdeaHelper</code> / <code>IdeaKeyGenerator</code> / <code>IdeaUtils</code></td><td>IDEA（ECB/ISO10126Padding，依赖 BouncyCastle）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>非对称加密</td><td><code>RsaHelper</code> / <code>RsaKeyGenerator</code></td><td>RSA（默认 <code>RSA/ECB/OAEPWithSHA-256AndMGF1Padding</code>）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>数字签名</td><td><code>RsaHelper.sign/verify</code>、<code>SignatureUtils</code></td><td>默认 <code>SHA256withRSA</code></td><td class="ok">✅ 可用</td></tr>
+  <tr><td>数字签名</td><td><code>DsaHelper</code> / <code>DsaKeyGenerator</code></td><td>DSA（默认 <code>SHA256withDSA</code>）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>JWT</td><td><code>JWTUtils</code></td><td>HS256（HMAC256，基于 java-jwt）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>编码</td><td><code>Base64Utils</code></td><td>标准 Base64（非 URL-Safe），UTF-8</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>校验</td><td><code>Crc32Utils</code></td><td>CRC32（每次调用独立实例，线程安全）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>des3</code> / <code>blowfish</code> / <code>rc</code> / <code>skipjack</code> / <code>tdea</code></td><td>仅有包占位，无实现</td><td class="danger">⛔ 请勿依赖</td></tr>
+  <tr><td>非对称 / 签名</td><td><code>ecc</code> / <code>dh</code> / <code>elgamal</code> / <code>ecdsa</code></td><td>仅有包占位，无实现</td><td class="danger">⛔ 请勿依赖</td></tr>
+</table>
+
+<h2 id="boundary"><span class="anchor">3</span>安全边界</h2>
+<p>下表描述代码<strong>当前实际行为</strong>，不是安全承诺。⚠️ 表示可用但存在已知风险。</p>
+<table>
+  <tr><th>算法</th><th>模式 / 填充</th><th>密钥要求</th><th>IV 处理</th><th>字符集</th><th>线程安全</th><th>异常</th></tr>
+  <tr><td>MD5</td><td>—</td><td>—</td><td>—</td><td>入参固定 UTF-8</td><td>✅ 每次 encode 新建 MessageDigest</td><td>空串返回 ""；null 抛 NPE</td></tr>
+  <tr><td>SHA</td><td>—</td><td>—</td><td>—</td><td>同上</td><td>✅</td><td>未知算法抛 NoSuchAlgorithmException</td></tr>
+  <tr><td>AES</td><td>默认 AES/CBC/PKCS5Padding</td><td><strong>Hex 字符串</strong>，解码后 16/24/32 字节</td><td>CBC 下 IV 为 16 字节；ECB 忽略</td><td>明文 / 解密输出均 UTF-8；密文 Base64</td><td>load 与 encode/decode 并发不安全；encode/decode 之间线程安全</td><td>统一包装为 AesException</td></tr>
+  <tr><td>DES</td><td>默认 DES（=ECB/PKCS5Padding）</td><td>原始字符串，UTF-8 后恰好 8 字节</td><td>⚠️ 默认模式 IV 不生效</td><td>同上</td><td>同 AES</td><td>DesException</td></tr>
+  <tr><td>IDEA</td><td>IDEA / IDEA/ECB/ISO10126Padding（BC）</td><td>Hex 字符串，32 个 Hex 字符 = 128 位</td><td>ECB 忽略</td><td>同上</td><td>同 AES</td><td>IdeaException</td></tr>
+  <tr><td>RSA 加解密</td><td>默认 RSA/ECB/OAEPWithSHA-256AndMGF1Padding（BC）</td><td>Base64(X.509) 公钥 / Base64(PKCS#8) 私钥；默认 2048 位，单块上限 (keyBits/8)-66 字节，超长自动分段</td><td>未使用</td><td>同上</td><td>加解密与签名/验签均线程安全（每次调用新建实例）</td><td>RsaException</td></tr>
+  <tr><td>RSA 签名</td><td>默认 SHA256withRSA</td><td>同上</td><td>—</td><td>原文固定 UTF-8</td><td>✅ 每次调用独立 Signature 实例</td><td>DigitalSignatureException</td></tr>
+  <tr><td>DSA</td><td>默认 SHA256withDSA</td><td>Base64 公私钥；默认 1024 位</td><td>—</td><td>同上</td><td>✅ 同上</td><td>EncryptException</td></tr>
+  <tr><td>JWT</td><td>HS256</td><td>任意字符串；<span class="danger">内置默认值仅供演示，生产必须显式传入</span></td><td>—</td><td>Claim 仅支持 String</td><td>✅</td><td>JWTVerificationException</td></tr>
+  <tr><td>Base64</td><td>RFC 4648</td><td>—</td><td>—</td><td>UTF-8</td><td>✅</td><td>非法输入抛 IllegalArgumentException</td></tr>
+  <tr><td>CRC32</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✅ 每次调用独立实例</td><td>—</td></tr>
+</table>
+
+<h2 id="digest"><span class="anchor">4.1</span>摘要（MD5 / SHA）</h2>
+<pre><code>String md5 = MD5Utils.encode("password");            <span class="cmt">// 大写十六进制</span>
+String lower = MD5Utils.encode("password", true);    <span class="cmt">// 小写（BigInteger 路径，可能丢失前导零）</span>
+String sha256 = ShaUtils.encode("password");         <span class="cmt">// 默认 SHA-256，小写十六进制</span>
+String sha512 = ShaUtils.encode("SHA-512", "password");</code></pre>
+<div class="warn">⚠️ MD5 不具备抗碰撞性，仅用于数据指纹等非安全场景，请勿用于密码存储。</div>
+
+<h2 id="base64"><span class="anchor">4.2</span>Base64 / CRC32</h2>
+<pre><code>String encoded = Base64Utils.encode("Hello World");  <span class="cmt">// 标准 Base64，UTF-8</span>
+String decoded = Base64Utils.decode(encoded);
+
+long crc = Crc32Utils.encode("data".getBytes());</code></pre>
+
+<h2 id="aes"><span class="anchor">4.3</span>AES 对称加解密</h2>
+<pre><code><span class="cmt">// 1. 生成随机密钥（也可用自定义 Hex 字符串，16/24/32 字节对应 AES-128/192/256）</span>
+SecretKey key = AesKeyGenerator.getSecretKey();
+String hexKey = AesKeyGenerator.getSecretKeyStr(key); <span class="cmt">// 便于持久化的 Hex 字符串</span>
+
+<span class="cmt">// 2. 加载配置：CBC 模式下 IV 必须是 16 字节（UTF-8 字节数）</span>
+AesProperties props = new AesProperties();
+props.setSecretKey(key);
+props.setIvParameter("0123456789abcdef");
+AesHelper.load(props);
+
+<span class="cmt">// 3. 加解密（密文为 Base64）</span>
+String ciphertext = AesHelper.encode("敏感数据");
+String plaintext  = AesHelper.decode(ciphertext);     <span class="cmt">// "敏感数据"</span>
+
+<span class="cmt">// 不依赖全局配置，指定密钥重载：</span>
+String c2 = AesHelper.encode(hexKey, "敏感数据");
+String p2 = AesHelper.decode(hexKey, c2);</code></pre>
+
+<h2 id="des"><span class="anchor">4.4</span>DES 对称加解密</h2>
+<pre><code>DesProperties props = new DesProperties();
+props.setSecretKeyStr("BeYour18");                       <span class="cmt">// UTF-8 编码后必须恰好 8 字节</span>
+props.setSecretKey(DesKeyGenerator.getSecretKey("DES", "BeYour18"));
+<span class="cmt">// props.setAlgorithmMode("DES/ECB/NoPadding");         // 可选模式</span>
+DesHelper.load(props);
+
+<span class="cmt">// 只提供字符串密钥时，load 会自动按 UTF-8 原文构造密钥对象：</span>
+DesProperties props2 = new DesProperties();
+props2.setSecretKeyStr("12345678");
+DesHelper.load(props2);
+
+String ciphertext = DesHelper.encode("敏感数据");
+String plaintext  = DesHelper.decode(ciphertext);</code></pre>
+<div class="warn">⚠️ DES 默认模式即 ECB，IV 不生效。为保证既有密文可解默认值未改动；建议优先使用 AES，或在配置中显式指定 IV 生效的模式。</div>
+
+<h2 id="idea"><span class="anchor">4.5</span>IDEA 对称加解密</h2>
+<pre><code><span class="cmt">// 密钥为 Hex 字符串（32 个 Hex 字符 = 128 位），依赖 BouncyCastle Provider（自动注册）</span>
+IdeaProperties props = new IdeaProperties();
+props.setSecretKeyStr("b1d58f20dfe96a6659ad818370500e66");
+props.setSecretKey(IdeaKeyGenerator.getSecretKey("IDEA", "b1d58f20dfe96a6659ad818370500e66"));
+IdeaHelper.load(props);
+
+String ciphertext = IdeaHelper.encode("敏感数据");
+String plaintext  = IdeaHelper.decode(ciphertext);
+
+<span class="cmt">// 显式传参、不依赖全局配置：</span>
+SecretKey key = new SecretKeySpec("0123456789abcdef".getBytes(StandardCharsets.UTF_8), "IDEA");
+String c2 = IdeaUtils.encode("IDEA", "IDEA/ECB/ISO10126Padding", key, "敏感数据");
+String p2 = IdeaUtils.decode("IDEA", "IDEA/ECB/ISO10126Padding", key, c2);</code></pre>
+
+<h2 id="rsa"><span class="anchor">4.6</span>RSA 加解密与签名</h2>
+<pre><code><span class="cmt">// 1. 生成密钥对（默认 2048 位），Base64(X.509) 公钥 / Base64(PKCS#8) 私钥</span>
+RsaKeyGenerator.getKeyPair();
+String publicKey = RsaKeyGenerator.getPublicKeyStr();
+String privateKey = RsaKeyGenerator.getPrivateKeyStr();
+
+<span class="cmt">// 2. 加载配置（默认 OAEPWithSHA-256AndMGF1Padding，签名默认 SHA256withRSA）</span>
+RsaProperties props = new RsaProperties();
+props.setPublicKeyStr(publicKey);
+props.setPrivateKeyStr(privateKey);
+props.setPublicKey(RsaKeyGenerator.getPublicKey(publicKey));
+props.setPrivateKey(RsaKeyGenerator.getPrivateKey(privateKey));
+RsaHelper.load(props);
+
+<span class="cmt">// 3. 加解密（超长明文自动分段）</span>
+String ciphertext = RsaHelper.encode("敏感数据");
+String plaintext  = RsaHelper.decode(ciphertext);
+
+<span class="cmt">// 4. 签名 / 验签</span>
+String sign = RsaHelper.sign("待签名内容");
+boolean pass = RsaHelper.verify("待签名内容", sign);</code></pre>
+<div class="warn">⚠️ <code>RsaProperties</code> 修改 <code>keyBits</code> / <code>algorithmMode</code> 后需调用 <code>recalcMaxBlocks()</code> 同步分块大小。</div>
+
+<h2 id="dsa"><span class="anchor">4.7</span>DSA 签名</h2>
+<pre><code>java.security.KeyPair keyPair = DsaKeyGenerator.getKeyPair();   <span class="cmt">// 默认 SHA256withDSA，1024 位</span>
+DsaProperties props = new DsaProperties();
+props.setSignAlgorithm("SHA256withDSA");
+props.setPublicKey(keyPair.getPublic());
+props.setPrivateKey(keyPair.getPrivate());
+DsaHelper.load(props);
+
+String sign = DsaHelper.sign("待签名内容");
+boolean pass = DsaHelper.verify("待签名内容", sign);</code></pre>
+
+<h2 id="jwt"><span class="anchor">4.8</span>JWT 签发与解析</h2>
+<pre><code>Map&lt;String, String&gt; payload = new HashMap&lt;&gt;();
+payload.put("userId", "123");
+
+<span class="cmt">// 始终显式传入签名密钥；类内置默认值仅供演示</span>
+String token = JWTUtils.generatorToken(payload, "your-strong-secret");
+Map&lt;String, String&gt; parsed = JWTUtils.parseToken(token, "your-strong-secret");
+
+<span class="cmt">// 带过期时间（签名 / 过期校验失败抛 JWTVerificationException）</span>
+String expiring = JWTUtils.generatorToken(payload,
+        new Date(System.currentTimeMillis() + 3600_000L), "your-strong-secret");</code></pre>
+
+<h2 id="springboot"><span class="anchor">5</span>Spring Boot 5 分钟接入</h2>
+
+<h3>第 1 步：引入依赖</h3>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;io.gitee.sander-o.spring.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;encrypt-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.0.6.7-d01&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+
+<h3>第 2 步：启用自动装配</h3>
+<pre><code>@SpringBootApplication
+@EnableToolsEncrypt
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}</code></pre>
+
+<h3>第 3 步：配置 application.yml</h3>
+<pre><code>tools:
+  encrypt:
+    symmetrical:
+      aes:
+        enabled: true                          <span class="cmt"># 是否启用 AES 自动装配</span>
+        algorithm-mode: AES/CBC/PKCS5Padding   <span class="cmt"># 模式/填充</span>
+        iv-parameter: "0123456789abcdef"       <span class="cmt"># CBC 模式必须为 16 字节（UTF-8）</span>
+        secret-key: "e5f7a1c93b8d24670fa1c93b8d24670f"   <span class="cmt"># Hex 字符串</span>
+        group-enabled: true                    <span class="cmt"># 多密钥分组（按 name 切换）</span>
+        group:
+          - name: phone
+            secret-key: "a1b2c3d4e5f60718293a4b5c6d7e8f90"
+            iv-parameter: "abcdef0123456789"
+      des:
+        enabled: true
+        secret-key: "BeYour18"                 <span class="cmt"># UTF-8 后必须恰好 8 字节</span>
+      idea:
+        enabled: false
+    asymmetric:
+      rsa:
+        enabled: true
+        algorithm-mode: RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING
+        sign-algorithm: SHA256withRSA          <span class="cmt"># JDK 8 默认 Provider 不支持 SHA3-256withRSA</span>
+        key-bits: 2048
+        public-key: "MIGfMA0GCSqGSIb3DQEBAQUAA4GN...（Base64 X.509 公钥）"
+        private-key: "MIICdgIBADANBgkqhkiG9w0BAQ...（Base64 PKCS#8 私钥）"</code></pre>
+
+<h3>第 4 步：业务代码直接调用</h3>
+<pre><code>@RestController
+@RequestMapping("/api/encrypt")
+public class EncryptController {
+
+    @GetMapping("/aes/encode")
+    public String aesEncode(@RequestParam String data) throws AesException {
+        return AesHelper.encode(data);
+    }
+
+    @GetMapping("/aes/decode")
+    public String aesDecode(@RequestParam String data) throws AesException {
+        return AesHelper.decode(data);
+    }
+
+    @GetMapping("/rsa/sign")
+    public String rsaSign(@RequestParam String data) throws RsaException {
+        return RsaHelper.sign(data);
+    }
+}</code></pre>
+
+<h3>自动装配了什么</h3>
+<table>
+  <tr><th>Bean</th><th>类型</th><th>装配条件</th></tr>
+  <tr><td><code>rsa</code></td><td><code>RsaProperties</code></td><td><code>tools.encrypt.asymmetric.rsa.enabled=true</code></td></tr>
+  <tr><td><code>des</code></td><td><code>DesProperties</code></td><td><code>tools.encrypt.symmetrical.des.enabled=true</code></td></tr>
+  <tr><td><code>aes</code></td><td><code>AesProperties</code></td><td><code>tools.encrypt.symmetrical.aes.enabled=true</code></td></tr>
+  <tr><td><code>idea</code></td><td><code>IdeaProperties</code></td><td><code>tools.encrypt.symmetrical.idea.enabled=true</code></td></tr>
+</table>
+<p>所有 Bean 均带 <code>@ConditionalOnMissingBean</code>，可自行声明同类型 Bean 覆盖默认装配。</p>
+
+<h3>密钥来源建议</h3>
+<div class="warn">⚠️ 不要把生产密钥提交到代码仓库或打包进 jar。建议通过环境变量、启动参数、配置中心或 KMS 注入：<code>secret-key: ${TOOLS_AES_KEY}</code>。当前 starter 不会在启动期拒绝不安全组合（如 DES/ECB、过短密钥）——请对照第 3 节安全边界自查配置。</div>
+
+<h2 id="risks"><span class="anchor">6</span>已知风险与限制</h2>
+<ol>
+  <li>⚠️ <strong>DES 默认 ECB 且 IV 不生效</strong>。为保证既有密文可解默认模式未改动；建议优先使用 AES。</li>
+  <li>⚠️ <strong>JWT 硬编码默认签名串 <code>TOOLS&amp;DH$*001</code></strong>，未显式传参会使用它签发/校验令牌——生产必须显式传入。</li>
+  <li>⚠️ <code>AesHelper</code> 等基于静态配置（<code>load</code>）工作，一份 JVM 只有一份激活配置；多组密钥请使用 <code>load(keyPair, name)</code> 分组机制或显式传参重载。</li>
+  <li>TODO：RSA 分段加密对超长明文的分段边界尚未做跨 Provider 互操作验证。</li>
+</ol>
+
+<h2 id="faq"><span class="anchor">7</span>常见问题</h2>
+<h3>配置了 tools.encrypt.* 但调用 AesHelper.encode 报空指针 / 未初始化？</h3>
+<p>确认三件事：启动类上有 <code>@EnableToolsEncrypt</code>；对应算法 <code>enabled: true</code>；<code>secret-key</code> 已配置。三者缺一，该算法不会被装配。另注意 starter jar 内附的 application.yml 仅为示例，Spring Boot 不会加载依赖 jar 中的该文件。</p>
+<h3>加解密报 BadPaddingException 或解出乱码？</h3>
+<p>两端 <code>algorithm-mode</code>、密钥、IV 必须完全一致。常见错误：一端 AES/CBC/PKCS5Padding 另一端默认模式；IV 不是 16 字节；DES 两端密钥字节数不同。</p>
+<h3>AES 报 InvalidKeyException: Key length not 128/192/256 bits？</h3>
+<p><code>secret-key</code> 是 Hex 字符串，解码后必须为 16/24/32 字节。检查是否误填了明文字符串或长度不足的 Hex。</p>
+<h3>DES 报 InvalidKeyException？</h3>
+<p>DES 密钥 UTF-8 编码后必须<strong>恰好 8 字节</strong>——例如 <code>BeYourself</code>（10 字节）就是非法密钥。</p>
+<h3>多环境密钥不同怎么办？</h3>
+<p>按 Spring Profile 放置不同 <code>application-{profile}.yml</code>，或使用分组 + <code>load(keyPair, name)</code> 运行期切换。</p>
+
+<h2 id="testing"><span class="anchor">8</span>测试与构建验证</h2>
+<p>模块测试为冒烟测试套件，覆盖 encrypt 全部公开方法（JUnit 4）。根 <code>pom.xml</code> 默认 <code>skipTests=true</code>（只编译不执行），执行测试：</p>
+<pre><code>mvn -B -DskipTests=false -pl encrypt -am test     <span class="cmt"># encrypt 模块</span>
+mvn -B -DskipTests=false test                     <span class="cmt"># 全仓库</span></code></pre>
+
+<h2 id="security"><span class="anchor">9</span>安全问题报告</h2>
+<p>发现安全问题请<strong>不要公开提交 Issue</strong>：在 Gitee Issue 发布不含技术细节的最小标题并注明 Security，或通过 Gitee 私信联系维护者 <a href="https://gitee.com/sander-o">sander-o</a>。完整策略见仓库根目录 <a href="../SECURITY.md">SECURITY.md</a>。</p>
+
+<footer>
+  tools · encrypt 操作文档 · 对应版本 1.0.6.7-d01 ·
+  本文档为自包含 HTML（无外部依赖），可直接在浏览器打开、离线查阅或打印。
+  配套文档：<a href="../README.md">README</a> ·
+  <a href="../encrypt/README.md">encrypt 模块文档</a> ·
+  <a href="../tools-spring-boot-starter/encrypt-spring-boot-starter/README.md">starter 文档</a> ·
+  <a href="../CHANGELOG.md">CHANGELOG</a> ·
+  <a href="../SECURITY.md">SECURITY</a>
+</footer>
+
+</body>
+</html>
