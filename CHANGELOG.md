@@ -35,6 +35,7 @@
 
 - Gitee 在线文档生成失败修复：根 POM 此前在 `<repositories>` / `<pluginRepositories>` 中硬编码阿里云镜像，Gitee 构建环境无法解析 `maven.aliyun.com`（Unknown host），导致 `git-commit-id-plugin` 等插件下载失败、文档构建中断。已移除 POM 内全部仓库声明（发布型库的 POM 不应把区域镜像强加给下游），默认走 Maven Central，需要镜像加速的环境在自身 `settings.xml` 配置（README 已补说明）。全模块 `mvn javadoc:javadoc` 已本地验证通过。
 - Gitee 文档生成二次失败修复：Gitee 构建环境的内网镜像（`maven.local/repository/central`）缺失第三方插件 `git-commit-id-plugin`（Apache 官方插件均可用）。排查确认 `git.properties` 产物在代码库中零消费，已将该插件移出默认构建、收入可选 profile `-Pgit-info`（保留 failOnNoGitDirectory=false），文档与常规构建不再解析该第三方构件。
+- Gitee 文档生成三次失败修复：Gitee 内网镜像缺失 2015 年代老版本插件的传递依赖（`maven-shared-utils:0.7`、`plexus-compiler:2.5` 等，镜像按热度缓存、老古董构件缺失）。构建插件升级至当代主流版本（必然存在于任何缓存镜像）：`maven-compiler-plugin 3.3 → 3.8.1`、`maven-surefire-plugin 2.5 → 3.2.5`、`maven-javadoc-plugin 2.9.1 → 3.2.0`、`maven-source-plugin 3.0.1 → 3.2.1`。JDK 8 / Maven 兼容性与全部构建行为已在本地验证（全量测试 + package 生命周期含 sources/javadoc jar）。
 
 - `SymmetricalUtils.decode` 解密输出此前使用 JVM 默认 charset，在非 UTF-8 平台（如中文 Windows GBK）上含中文的明文 round-trip 乱码；现与加密侧对称，统一 UTF-8。
 - `MD5Utils.encode(String)`、`ShaUtils.encode`、`SignatureUtils` 签名/验签的原文取字节由 JVM 默认 charset 统一改为 UTF-8（非 ASCII 输入的摘要/签名值会与旧版不同；ASCII 输入不受影响）。
