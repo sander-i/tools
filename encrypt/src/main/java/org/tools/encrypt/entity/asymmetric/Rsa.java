@@ -42,7 +42,7 @@ public class Rsa extends KeyPair {
     /**
      * 验签算法
      */
-    public String signAlgorithm = "MD5withRSA";
+    public String signAlgorithm = "SHA256withRSA";
 
     /**
      * 密钥位数

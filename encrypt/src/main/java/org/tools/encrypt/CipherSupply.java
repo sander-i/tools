@@ -4,7 +4,7 @@ package org.tools.encrypt;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
-import org.tools.encrypt.exception.CipherSupplyExcepiton;
+import org.tools.encrypt.exception.CipherSupplyException;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
@@ -98,9 +98,10 @@ public class CipherSupply extends CipherSupplyAbst {
             case OAEPWithSHA__256AndMGF1Padding: {
                 cipher.init(mode, secretKey,
                         new OAEPParameterSpec(AlgorithmEnum.SHA256.getAlgorithm(), "MGF1", MGF1ParameterSpec.SHA256, PSource.PSpecified.DEFAULT));
+                break;
             }
             default:
-                throw new CipherSupplyExcepiton(String.format("Encrypt mode %s did not find the corresponding initialization scheme!", algorithmMode.getAlgorithmMode()));
+                throw new CipherSupplyException(String.format("Encrypt mode %s did not find the corresponding initialization scheme!", algorithmMode.getAlgorithmMode()));
         }
     }
 

@@ -7,7 +7,7 @@ import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.Idea;
 import org.tools.encrypt.entity.symmetrical.IdeaProperties;
 import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
-import org.tools.encrypt.symmetrical.aes.AesKeyGenerator;
+import org.tools.encrypt.symmetrical.SymmetricalUtils;
 
 import javax.crypto.SecretKey;
 import java.security.InvalidKeyException;
@@ -16,6 +16,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
+ * IDEA 对称加解密工具。
+ *
+ * <p>算法模式为 {@code IDEA} 或 {@code IDEA/ECB/ISO10126Padding}，依赖 BouncyCastle Provider
+ * （由 {@link org.tools.encrypt.CipherSupply} 自动注册）。{@code load(KeyPair,...)} 路径的密钥为
+ * Hex 字符串（与 {@link IdeaKeyGenerator#getSecretKeyStr} 输出对称，32 个 Hex 字符 = 128 位）；
+ * 明文按 UTF-8 编码，密文为 Base64。</p>
+ *
+ * <p>线程安全：{@code load} 与 {@code encode}/{@code decode} 并发不安全（静态全局配置）；
+ * 多次 {@code encode}/{@code decode} 之间线程安全。</p>
+ *
  * @author sander
  **/
 public class IdeaHelper {
@@ -26,18 +36,18 @@ public class IdeaHelper {
     @Getter
     private static IdeaProperties properties = new IdeaProperties();
 
-    private static void init(Idea aes, KeyPair keyPair) {
+    private static void init(Idea idea, KeyPair keyPair) {
         if (BaseUtils.isEmpty(keyPair.getKeyBits())) {
-            keyPair.setKeyBits(aes.getKeyBits());
+            keyPair.setKeyBits(idea.getKeyBits());
         }
         if (BaseUtils.isEmpty(keyPair.getAlgorithm())) {
-            keyPair.setAlgorithm(aes.getAlgorithm());
+            keyPair.setAlgorithm(idea.getAlgorithm());
         }
         if (BaseUtils.isEmpty(keyPair.getAlgorithmMode())) {
-            keyPair.setAlgorithmMode(aes.getAlgorithmMode());
+            keyPair.setAlgorithmMode(idea.getAlgorithmMode());
         }
         if (BaseUtils.isEmpty(keyPair.getSignAlgorithm())) {
-            keyPair.setSignAlgorithm(aes.getSignAlgorithm());
+            keyPair.setSignAlgorithm(idea.getSignAlgorithm());
         }
     }
 
@@ -71,7 +81,7 @@ public class IdeaHelper {
         }
         IdeaProperties properties = new IdeaProperties();
         properties.setSecretKeyStr(keyPair.getSecretKey());
-        SecretKey secretKey = AesKeyGenerator.getSecretKey(keyPair.getAlgorithm(), keyPair.getSecretKey());
+        SecretKey secretKey = IdeaKeyGenerator.getSecretKey(keyPair.getAlgorithm(), keyPair.getSecretKey());
         properties.setSecretKey(secretKey);
         properties.setAlgorithm(keyPair.getAlgorithm());
         properties.setAlgorithmMode(keyPair.getAlgorithmMode());
@@ -94,7 +104,7 @@ public class IdeaHelper {
     }
 
     public static String encode(String secretKey, String raw) throws IdeaException {
-        SecretKey key = AesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
+        SecretKey key = IdeaKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
         return IdeaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, raw);
     }
 
@@ -107,7 +117,7 @@ public class IdeaHelper {
     }
 
     public static String decode(String secretKey, String wrought) throws IdeaException {
-        SecretKey key = AesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
+        SecretKey key = IdeaKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
         return IdeaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, wrought);
     }
 

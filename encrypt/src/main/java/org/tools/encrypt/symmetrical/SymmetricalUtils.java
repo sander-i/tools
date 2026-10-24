@@ -15,9 +15,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 /**
- * <p>
- * description
- * </p>
+ * 对称加解密统一入口。
+ *
+ * <p>编码约定：明文与解密输出均使用 <b>UTF-8</b>（{@link #encryptBefore} / {@link #decryptAfter}），
+ * 密文为标准 Base64。加解密两端 JVM 需使用相同字符集约定（本类已固定为 UTF-8）。</p>
+ *
+ * <p>线程安全：encode/decode 每次调用新建 Cipher，可并发使用。</p>
  *
  * @author sander 2024/04/14
  */
@@ -57,11 +60,15 @@ public class SymmetricalUtils {
     /**
      * 解密后处理
      *
+     * <p>与 {@link #encryptBefore(String)} 对称，固定使用 UTF-8。
+     * 此前使用 JVM 默认 charset，在非 UTF-8 平台（如中文 Windows GBK）上会导致含
+     * 非 ASCII 字符的明文 round-trip 乱码，已修复。</p>
+     *
      * @param process 待处理
      * @return String
      */
     protected static String decryptAfter(byte[] process) {
-        return new String(process);
+        return new String(process, StandardCharsets.UTF_8);
     }
 
     /**

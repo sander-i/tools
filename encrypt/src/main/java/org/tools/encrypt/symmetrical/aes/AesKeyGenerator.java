@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * des密钥生成工具
+ * AES密钥生成工具
  *
  * @author sander
  * @version 1.0

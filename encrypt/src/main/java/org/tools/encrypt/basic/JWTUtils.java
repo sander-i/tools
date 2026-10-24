@@ -12,6 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * JWT 工具（基于 auth0 java-jwt，签名算法固定 HS256 / HMAC256）。
+ *
+ * <p>线程安全：无共享可变状态，可并发使用。</p>
+ *
+ * <p><b>安全提示</b>：类内存在默认签名串 {@code TOOLS&DH$*001}（静态字段 {@code sign}，经 Lombok 生成的
+ * setter 可改），未显式传入签名串的调用将使用该默认值，仅适用于演示。生产环境请始终使用带 {@code sign}
+ * 参数的重载，并通过配置中心 / 环境变量注入强随机密钥。</p>
+ *
  * @author sander
  * @version 1.0
  */

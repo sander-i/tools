@@ -26,7 +26,9 @@ public class RsaProperties extends EncryptProperties {
          * OAEPWithSHA-256AndMGF1Padding
          */
         setAlgorithmMode(AlgorithmModeEnum.RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING.getAlgorithmMode());
-        setSignAlgorithm(SignAlgorithmEnum.SHA3_256_WITH_RSA.getSignAlgorithm());
+        // 默认 SHA256withRSA：JDK 8 默认 Provider（SunRsaSign）不支持 SHA3-256withRSA，
+        // 旧默认值在纯 JDK 8 环境装载即抛 NoSuchAlgorithmException
+        setSignAlgorithm(SignAlgorithmEnum.SHA256_WITH_RSA.getSignAlgorithm());
         /*
          * 密钥位数
          * 512
@@ -35,6 +37,16 @@ public class RsaProperties extends EncryptProperties {
          * 4096
          */
         setKeyBits(2048);
+        recalcMaxBlocks();
+    }
+
+    /**
+     * 按当前 algorithmMode 与 keyBits 重算最大加解密块大小。
+     *
+     * <p>修改 {@code algorithmMode} 或 {@code keyBits} 后需要调用本方法同步块大小，
+     * 否则分段加解密边界与密钥规格不匹配。</p>
+     */
+    public void recalcMaxBlocks() {
         switch (AlgorithmModeEnum.enumName(algorithmMode)) {
             case RSA_ECB_NO_PADDING: {
                 setMaxEncryptBlock((keyBits / 8) - 11);

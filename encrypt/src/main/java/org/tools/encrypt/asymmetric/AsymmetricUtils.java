@@ -59,11 +59,15 @@ public class AsymmetricUtils {
     /**
      * 解密后处理
      *
+     * <p>与 {@link #encryptBefore(String)} 对称，固定使用 UTF-8。
+     * 此前使用 JVM 默认 charset，在非 UTF-8 平台（如中文 Windows GBK）上会导致含
+     * 非 ASCII 字符的明文 round-trip 乱码，已修复。</p>
+     *
      * @param process 待处理
      * @return String
      */
     protected static String decryptAfter(byte[] process) {
-        return new String(process);
+        return new String(process, StandardCharsets.UTF_8);
     }
 
     /**

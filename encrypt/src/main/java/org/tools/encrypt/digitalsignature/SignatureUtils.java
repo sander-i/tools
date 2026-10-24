@@ -10,16 +10,23 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
 
 /**
+ * 数字签名通用工具（RSA / DSA 等 JCA Signature 体系的统一入口）。
+ *
+ * <p>签名值与原文均固定使用 UTF-8 取字节（此前使用 JVM 默认 charset，跨平台签名结果不一致，已修复），
+ * 签名输出为标准 Base64。</p>
+ *
+ * <p>线程安全：每次 {@code sign}/{@code verify} 调用都使用独立的 {@link Signature} 实例
+ * （此前共享静态实例，并发调用会互相污染签名状态，已修复）。需要复用实例的高频场景
+ * 可自行持有 {@link Signature} 调用对应重载。</p>
+ *
  * @author sander
  * @version 1.0
  */
 @Slf4j
 public class SignatureUtils {
-
-    protected static Signature signature;
 
     /**
      * 签名
@@ -32,9 +39,7 @@ public class SignatureUtils {
      */
     public static String sign(String signAlgorithm, PrivateKey privateKey, String wrought) throws DigitalSignatureException {
         try {
-            if (Objects.isNull(signature) || !Objects.equals(signAlgorithm, signature.getAlgorithm())) {
-                signature = Signature.getInstance(signAlgorithm);
-            }
+            Signature signature = Signature.getInstance(signAlgorithm);
             signature.initSign(privateKey);
             return sign(signature, wrought);
         } catch (DigitalSignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
@@ -55,9 +60,7 @@ public class SignatureUtils {
      */
     public static boolean verify(String signAlgorithm, PublicKey publicKey, String wrought, String sign) throws DigitalSignatureException {
         try {
-            if (Objects.isNull(signature) || !Objects.equals(signAlgorithm, signature.getAlgorithm())) {
-                signature = Signature.getInstance(signAlgorithm);
-            }
+            Signature signature = Signature.getInstance(signAlgorithm);
             signature.initVerify(publicKey);
             return verify(signature, wrought, sign);
         } catch (DigitalSignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
@@ -77,7 +80,7 @@ public class SignatureUtils {
     public static String sign(Signature signature, String wrought) throws DigitalSignatureException {
         String signText;
         try {
-            signature.update(wrought.getBytes());
+            signature.update(wrought.getBytes(StandardCharsets.UTF_8));
             // 签名
             signText = new String(Base64.encodeBase64(signature.sign()));
         } catch (Exception e) {
@@ -98,7 +101,7 @@ public class SignatureUtils {
      */
     public static boolean verify(Signature signature, String wrought, String sign) throws DigitalSignatureException {
         try {
-            signature.update(wrought.getBytes());
+            signature.update(wrought.getBytes(StandardCharsets.UTF_8));
             // 验签
             return signature.verify(Base64.decodeBase64(sign.getBytes()));
         } catch (Exception e) {

@@ -99,7 +99,7 @@ public class EncryptAutoConfiguration {
         try {
             AesHelper.load(encrypt.getSymmetrical().getAes());
         } catch (EncryptException e) {
-            log.error("EncryptAutoConfiguration des error", e);
+            log.error("EncryptAutoConfiguration aes error", e);
         }
         return AesHelper.getProperties();
     }

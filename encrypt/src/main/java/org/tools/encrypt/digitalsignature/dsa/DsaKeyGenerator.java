@@ -155,7 +155,8 @@ public class DsaKeyGenerator {
     /**
      * 获取公钥
      *
-     * @param algorithm 算法
+     * @param algorithm <b>密钥算法名</b>（DSA），用于 KeyFactory；请勿传签名算法名（如 SHA256withDSA），
+     *                  否则 KeyFactory 解析失败抛 NoSuchAlgorithmException
      * @param publicKey 公钥字符串
      * @return 公钥对象
      * @throws NoSuchAlgorithmException 算法不存在或不支持异常
@@ -171,7 +172,7 @@ public class DsaKeyGenerator {
     /**
      * 获取私钥
      *
-     * @param algorithm  算法
+     * @param algorithm  <b>密钥算法名</b>（DSA），用于 KeyFactory；请勿传签名算法名
      * @param privateKey 私钥字符串
      * @return 私钥对象
      * @throws NoSuchAlgorithmException 算法不存在或不支持异常
@@ -209,10 +210,10 @@ public class DsaKeyGenerator {
 
         if (BaseUtils.isEmpty(properties.getPublicKeyStr(), properties.getPrivateKeyStr()) ||
                 BaseUtils.isEmpty(properties.getPublicKey(), properties.getPrivateKey())) {
-            properties.setPublicKey(RsaKeyGenerator.getPublicKey());
-            properties.setPrivateKey(RsaKeyGenerator.getPrivateKey());
-            properties.setPublicKeyStr(RsaKeyGenerator.getPublicKeyStr(properties.getPublicKey()));
-            properties.setPrivateKeyStr(RsaKeyGenerator.getPrivateKeyStr(properties.getPrivateKey()));
+            properties.setPublicKey(DsaKeyGenerator.getPublicKey());
+            properties.setPrivateKey(DsaKeyGenerator.getPrivateKey());
+            properties.setPublicKeyStr(DsaKeyGenerator.getPublicKeyStr(properties.getPublicKey()));
+            properties.setPrivateKeyStr(DsaKeyGenerator.getPrivateKeyStr(properties.getPrivateKey()));
         }
         return properties;
     }

@@ -2,7 +2,6 @@ package org.tools.encrypt.symmetrical.idea;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
 import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 import org.tools.encrypt.symmetrical.CipherSymmetrical;
 import org.tools.encrypt.symmetrical.SymmetricalUtils;
@@ -15,8 +14,14 @@ import javax.crypto.SecretKey;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
+ * IDEA 加解密底层入口。
+ *
+ * <p>编码处理与 {@link SymmetricalUtils} 一致：明文 / 解密输出均为 UTF-8，密文为标准 JDK Base64
+ * （此前使用 commons-codec 的宽容 Base64 解码，非法字符不报错，已对齐为 JDK 严格实现）。</p>
+ *
  * @author sander
  **/
 @Slf4j
@@ -27,24 +32,22 @@ public class IdeaUtils extends SymmetricalUtils {
 
     /**
      * 加密后处理
-     * import org.apache.commons.codec.binary.Base64;
      *
      * @param todo 待处理
      * @return String
      */
     protected static String encryptAfter(byte[] todo) {
-        return Base64.encodeBase64String(todo);
+        return Base64.getEncoder().encodeToString(todo);
     }
 
     /**
      * 解密前处理
-     * import org.apache.commons.codec.binary.Base64;
      *
      * @param todo 待处理
      * @return byte[]
      */
     protected static byte[] decryptBefore(String todo) {
-        return Base64.decodeBase64(todo);
+        return Base64.getDecoder().decode(todo);
     }
 
     /**
@@ -96,7 +99,7 @@ public class IdeaUtils extends SymmetricalUtils {
                     .actuator(algorithm, algorithmMode, secretKey, null, Cipher.DECRYPT_MODE, before, 0);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                 BadPaddingException | InvalidAlgorithmParameterException e) {
-            log.error("decode error! algorithm {}, algorithmMode {}, secretKey {}, mode Cipher.ENCRYPT_MODE , before {}", algorithm, algorithmMode, secretKey, before);
+            log.error("decode error! algorithm {}, algorithmMode {}, secretKey {}, mode Cipher.DECRYPT_MODE , before {}", algorithm, algorithmMode, secretKey, before);
             throw new IdeaException(e);
         }
 

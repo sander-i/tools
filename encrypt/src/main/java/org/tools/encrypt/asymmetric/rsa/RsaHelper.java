@@ -19,12 +19,17 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
-import java.util.Objects;
 
 /**
- * <p>
- * description
- * </p>
+ * RSA 非对称加解密与签名工具。
+ *
+ * <p>默认加密模式为 {@code RSA/ECB/OAEPWithSHA-256AndMGF1Padding}（BouncyCastle Provider），
+ * 默认签名算法为 {@code SHA3-256withRSA}，默认密钥 2048 位。
+ * 公钥/私钥为 Base64(X.509/PKCS#8) 字符串；单块明文上限 {@code (keyBits/8) - 66} 字节（OAEP），
+ * 超长明文按 {@code maxEncryptBlock} 自动分段。</p>
+ *
+ * <p>线程安全：{@code encode}/{@code decode}/{@code sign}/{@code verify} 每次调用
+ * 均使用独立实例，可并发调用（此前 {@code sign}/{@code verify} 共享静态 Signature，已修复）。</p>
  *
  * @author sander 2024/03/30
  */
@@ -36,10 +41,6 @@ public class RsaHelper {
 
     @Getter
     private static RsaProperties properties = new RsaProperties();
-
-    protected static Signature signature;
-    protected static Cipher publicCipher;
-    protected static Cipher privateCipher;
 
     private static void init(Rsa rsa, KeyPair keyPair) {
         if (BaseUtils.isEmpty(keyPair.getKeyBits())) {
@@ -65,7 +66,7 @@ public class RsaHelper {
         }
         Rsa rsa = (Rsa) keyPair;
         if (!rsa.getEnabled()) {
-            throw new RsaException("Aes enable: false");
+            throw new RsaException("RSA enable: false");
         }
         if (rsa.getGroupEnabled()) {
             List<KeyPair> groupList = rsa.getGroup();
@@ -90,6 +91,26 @@ public class RsaHelper {
         properties.setPublicKey(RsaKeyGenerator.getPublicKey(keyPair.getPublicKey()));
         properties.setPrivateKey(RsaKeyGenerator.getPrivateKey(keyPair.getPrivateKey()));
         properties.setIvParameter(keyPair.getIvParameter());
+        // 显式传入的配置（算法/模式/签名算法/密钥位数）覆盖默认值；此前被忽略，导致
+        // KeyPair/Rsa 上设置的 signAlgorithm 等不生效。块大小随位数/模式联动重算。
+        boolean recalc = false;
+        if (BaseUtils.isNotEmpty(keyPair.getAlgorithm())) {
+            properties.setAlgorithm(keyPair.getAlgorithm());
+        }
+        if (BaseUtils.isNotEmpty(keyPair.getAlgorithmMode())) {
+            properties.setAlgorithmMode(keyPair.getAlgorithmMode());
+            recalc = true;
+        }
+        if (BaseUtils.isNotEmpty(keyPair.getSignAlgorithm())) {
+            properties.setSignAlgorithm(keyPair.getSignAlgorithm());
+        }
+        if (keyPair.getKeyBits() > 0) {
+            properties.setKeyBits(keyPair.getKeyBits());
+            recalc = true;
+        }
+        if (recalc) {
+            properties.recalcMaxBlocks();
+        }
         load(properties);
     }
 
@@ -101,20 +122,10 @@ public class RsaHelper {
             throw new EncryptException("publicKey|privateKey 不能为空！");
         }
         RsaHelper.properties = properties;
-        if (BaseUtils.isNull(signature) ||
-                // 签名算法必须与配置文件一致
-                !Objects.equals(signature.getAlgorithm(), properties.getSignAlgorithm())) {
-            signature = Signature.getInstance(properties.getSignAlgorithm());
-        }
-
-        if (BaseUtils.isNull(publicCipher, privateCipher) ||
-                // 公私钥算法必须一致
-                !Objects.equals(publicCipher.getAlgorithm(), privateCipher.getAlgorithm()) ||
-                // 密钥算法与配置文件必须一致
-                !Objects.equals(publicCipher.getAlgorithm(), properties.getSignAlgorithm())) {
-            publicCipher = Cipher.getInstance(properties.getAlgorithmMode());
-            privateCipher = Cipher.getInstance(properties.getAlgorithmMode());
-        }
+        // 预检签名算法 / 加密模式可用性（fail-fast）；SignatureUtils 与 AsymmetricUtils
+        // 每次调用都会创建独立实例，这里不保留共享对象
+        Signature.getInstance(properties.getSignAlgorithm());
+        Cipher.getInstance(properties.getAlgorithmMode());
     }
 
     public static String encode(String raw) throws RsaException {

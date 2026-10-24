@@ -37,9 +37,14 @@ public class DesProperties extends EncryptProperties {
     }
 
     /**
-     * 密钥长度固定8bit
+     * 无密钥对象时的兜底处理：按 DES 密钥约定（UTF-8 原文，恰好 8 字节）从
+     * {@code secretKeyStr} 构造 {@code secretKey}。
+     *
+     * <p>适用场景：调用方只有字符串密钥（如 yml 配置）时，先调用本方法再交给
+     * {@code DesHelper.load(DesProperties)} 装载；{@code DesHelper.load} 在
+     * {@code secretKey} 为空且 {@code secretKeyStr} 非空时会自动调用本方法。</p>
      */
-    protected void setDesKeyFixedLength() {
+    public void setDesKeyFixedLength() {
         byte[] secretKeyBytes = secretKeyStr.getBytes(StandardCharsets.UTF_8);
         this.secretKey = new SecretKeySpec(secretKeyBytes, algorithm);
     }

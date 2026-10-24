@@ -54,6 +54,9 @@ public class RsaKeyGenerator {
      * @throws RsaException RSA加解密异常
      */
     private static void init() throws RsaException {
+        // properties 依赖默认配置（算法/密钥位数），此前未初始化时 getKeyPair() 等
+        // 入口直接 NPE，仅当其他方法先触发 initProperties() 才侥幸可用
+        initProperties();
         if (BaseUtils.isNull(keyPairGenerator, keyPair)) {
             // 线程安全
             synchronized (LOCK) {

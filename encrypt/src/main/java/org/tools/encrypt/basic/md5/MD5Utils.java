@@ -8,9 +8,19 @@ import org.tools.encrypt.basic.BasicUtils;
 import org.tools.encrypt.exception.EncryptException;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * MD5 摘要工具。
+ *
+ * <p>输出默认为大写十六进制；{@link #encode(String)} 固定按 UTF-8 取字节
+ * （此前使用 JVM 默认 charset，跨平台结果不一致，已修复）。
+ * {@link #encode(String, boolean)} 的小写路径使用 BigInteger 转换，可能丢失前导零。
+ * MD5 不具备抗碰撞性，仅用于数据指纹等非安全场景。</p>
+ *
+ * <p>线程安全：每次 encode 新建 MessageDigest，可并发使用。</p>
+ *
  * @author sander
  * @version 1.0
  */
@@ -73,12 +83,12 @@ public class MD5Utils {
     }
 
     /**
-     * @param raw 原字符串
+     * @param raw 原字符串，固定按 UTF-8 取字节
      * @return 密文
      * @throws EncryptException 加密异常
      */
     public static String encode(String raw) throws EncryptException {
-        return encode(raw.getBytes(), false);
+        return encode(raw.getBytes(StandardCharsets.UTF_8), false);
     }
 
     /**

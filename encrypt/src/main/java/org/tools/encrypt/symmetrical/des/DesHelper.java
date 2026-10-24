@@ -15,9 +15,13 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
- * <p>
- * description
- * </p>
+ * DES 对称加解密工具。
+ *
+ * <p>默认算法模式为 {@code DES}（即 JCA 默认的 {@code DES/ECB/PKCS5Padding}，此时 IV 被忽略）；
+ * 密钥为原始字符串，按 UTF-8 取字节后必须恰好 8 字节。明文按 UTF-8 编码，密文为 Base64。</p>
+ *
+ * <p>线程安全：{@code load} 与 {@code encode}/{@code decode} 并发不安全（静态全局配置）；
+ * 多次 {@code encode}/{@code decode} 之间线程安全（每次调用新建 Cipher）。</p>
  *
  * @author sander 2024/04/05
  */
@@ -86,6 +90,12 @@ public class DesHelper {
     public static void load(DesProperties properties) throws DesException {
         if (BaseUtils.isEmpty(properties)) {
             throw new DesException("properties 不能为空！");
+        }
+        if (BaseUtils.isEmpty(properties.getSecretKey())) {
+            // 仅提供字符串密钥时，按 DES 约定（UTF-8 原文，8 字节）构造密钥对象
+            if (BaseUtils.isNotEmpty(properties.getSecretKeyStr())) {
+                properties.setDesKeyFixedLength();
+            }
         }
         if (BaseUtils.isEmpty(properties.getSecretKey())) {
             throw new DesException("secretKey 不能为空！");

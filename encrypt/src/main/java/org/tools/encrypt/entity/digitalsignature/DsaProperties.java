@@ -16,7 +16,9 @@ public class DsaProperties extends EncryptProperties {
 
     {
         setAlgorithm(AlgorithmEnum.DSA.getAlgorithm());
-        setAlgorithmMode(SignAlgorithmEnum.SHA256_WITH_DSA.getSignAlgorithm());
+        // 默认签名算法此前被误设到 algorithmMode 字段，signAlgorithm 为 null，
+        // 导致 DsaHelper.load 时 Signature.getInstance(null) 抛 NPE，已修正
+        setSignAlgorithm(SignAlgorithmEnum.SHA256_WITH_DSA.getSignAlgorithm());
         /*
          * 密钥位数
          * 512
