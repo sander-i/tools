@@ -5,7 +5,7 @@
 
     <groupId>io.gitee.sander-o</groupId>
     <artifactId>tools</artifactId>
-    <version>1.0.6.6</version>
+    <version>1.0.6.7-d01</version>
 
     <packaging>pom</packaging>
 
@@ -75,7 +75,7 @@
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-        <central-publishing-maven-plugin.version>0.4.0</central-publishing-maven-plugin.version>
+        <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
 
@@ -120,6 +120,17 @@
                 <groupId>io.gitee.sander-o</groupId>
                 <artifactId>fortify</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <!-- 固定 com.aliyun:tea 的版本。
+                 alidns20150109、tea-openapi、darabonba-env 的 POM 里都写的是版本范围 [1.0.3, 2.0.0)，
+                 版本范围每次构建都必须拉取 maven-metadata.xml，而私服 metadata 里带了
+                 1.2.3-log-SNAPSHOT，范围解析会命中这个快照，于是反复请求它。
+                 在这里用 dependencyManagement 固定为确定版本，才能彻底避免范围解析。 -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>tea</artifactId>
+                <version>1.4.2</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
@@ -313,9 +324,8 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <executable>F:/Program Files (x86)/GnuPG/bin/gpg.exe</executable>
-                        <keyname>0BF26B60D6EECB9A</keyname>
-                        <passphraseServerId>gpg.passphrase</passphraseServerId>
+                        <executable>C:/Program Files/Git/usr/bin/gpg.exe</executable>
+                        <keyname>F8EEA10AA6FAB4BE14948C97A4915B1CAF3B8074</keyname>
                         <gpgArguments>
                             <arg>--batch</arg>
                             <arg>--pinentry-mode</arg>
@@ -346,7 +356,7 @@
                     <publishingServerId>central</publishingServerId>
                     <tokenAuth>true</tokenAuth>
                     <!-- 自动发布 https://central.sonatype.com/artifact/io.gitee.sander-o/tools -->
-                    <autoPublish>true</autoPublish>
+                    <autoPublish>false</autoPublish>
                 </configuration>
             </plugin>
             <!-- 签名插件 -->
@@ -355,20 +365,17 @@
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>${maven-gpg-plugin.version}</version>
                 <configuration>
-                    <executable>F:/Program Files (x86)/GnuPG/bin/gpg.exe</executable>
-                    <homedir>${user.home}/AppData/Roaming/gnupg</homedir>
-                    <passphraseServerId>gpg.passphrase</passphraseServerId>
-                    <useAgent>false</useAgent>
+                    <executable>C:/Program Files/Git/usr/bin/gpg.exe</executable>
                     <!-- 强制使用完整指纹 -->
-                    <keyname>7B643951F17084DFA4095E130BF26B60D6EECB9A</keyname>
+                    <keyname>F8EEA10AA6FAB4BE14948C97A4915B1CAF3B8074</keyname>
                     <gpgArguments>
+                        <arg>--homedir</arg>
+                        <arg>/c/Users/Administrator/.gnupg</arg>
                         <arg>--batch</arg>
                         <arg>--armor</arg>
                         <arg>--detach-sign</arg>
                         <arg>--pinentry-mode</arg>
                         <arg>loopback</arg>
-                        <arg>--passphrase-fd</arg>
-                        <arg>0</arg>
                     </gpgArguments>
                 </configuration>
             </plugin>
