@@ -8,6 +8,8 @@
 
 ### Added
 
+- 文档导航新增 Gitee 在线 API 文档入口（https://apidoc.gitee.com/sander-o/tools），同步更新中英文 README 与 HTML 操作文档。
+- 全项目公开类/方法 Javadoc 补全：扫描 bedrock / encrypt / fortify / starter 全部公开方法，为缺失描述的 182 个公开方法（响应构建工厂、分页、HTTP 工具、日期时区、加密 Helper 重载、枚举查找、过滤器、Excel 填充、自动配置 Bean 等）补充中文 Javadoc；含块注释内示例代码的扫描排除与"注释位于注解之上"的规范修正。无任何行为变更。
 - 新增 `docs/operations-guide.html`：自包含 HTML 操作文档（无外部依赖），含目录导航、能力矩阵、安全边界表、各能力可复制示例、Spring Boot 5 分钟接入指引、FAQ 与安全问题报告渠道；可克隆仓库后用浏览器直接打开，亦支持离线分发与打印（含打印样式）。中英文 README 均已接入入口链接。
 - 中英文 README 优化：中文 README 新增"操作文档（HTML）"章节与文档导航链接；英文 README（`README.en.md`）整体重写，与中文版定位对齐（encrypt 旗舰、坐标与示例、文档链接、贡献流程），移除 `Latest Version` 占位符与 Gitee 模板段落。
 - 新增 `encrypt/README.md`：能力矩阵、安全边界表、各能力最小示例。

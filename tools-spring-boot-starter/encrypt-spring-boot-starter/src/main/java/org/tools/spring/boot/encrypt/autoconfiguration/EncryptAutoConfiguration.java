@@ -58,6 +58,7 @@ public class EncryptAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(type = "rsaTemplate")
+    /** RSA 配置 Bean：装载 RsaHelper 并返回激活配置 */
     @ConditionalOnProperty(prefix = "tools.encrypt.asymmetric.rsa", value = "enabled", havingValue = "true")
     public RsaProperties rsa() {
         final String checkEncrypt = checkEncrypt(false, AlgorithmEnum.RSA);
@@ -74,6 +75,7 @@ public class EncryptAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(type = "desTemplate")
+    /** DES 配置 Bean：装载 DesHelper 并返回激活配置 */
     @ConditionalOnProperty(prefix = "tools.encrypt.symmetrical.des", value = "enabled", havingValue = "true")
     public DesProperties des() {
         final String checkEncrypt = checkEncrypt(true, AlgorithmEnum.DES);
@@ -90,6 +92,7 @@ public class EncryptAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(type = "aesTemplate")
+    /** AES 配置 Bean：装载 AesHelper 并返回激活配置 */
     @ConditionalOnProperty(prefix = "tools.encrypt.symmetrical.aes", value = "enabled", havingValue = "true")
     public AesProperties aes() {
         final String checkEncrypt = checkEncrypt(true, AlgorithmEnum.AES);
@@ -106,6 +109,7 @@ public class EncryptAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(type = "ideaTemplate")
+    /** IDEA 配置 Bean：装载 IdeaHelper 并返回激活配置 */
     @ConditionalOnProperty(prefix = "tools.encrypt.symmetrical.idea", value = "enabled", havingValue = "true")
     public IdeaProperties idea() {
         final String checkEncrypt = checkEncrypt(true, AlgorithmEnum.IDEA);

@@ -19,6 +19,7 @@ public class SimilarityResult {
     private Map<String, Double> individualSimilarities;
     private double overallSimilarity;
 
+    /** 输出相似度结果摘要字符串 */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -26,10 +26,12 @@ public class CipherSymmetrical extends CipherAbst {
     private CipherSymmetrical() {
     }
 
+    /** 获取单例 */
     public static CipherSymmetrical getInstance() {
         return INSTANCE;
     }
 
+    /** 执行对称加解密（单块处理，返回整段结果） */
     @Override
     public byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff, int maxBlock)
             throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
@@ -43,6 +45,7 @@ public class CipherSymmetrical extends CipherAbst {
         return cipher.doFinal(stuff);
     }
 
+    /** 分段处理（对称算法当前未启用分段，返回 null） */
     @Override
     protected ByteArrayOutputStream subLevel(byte[] stuff, Cipher cipher, int maxBlock) {
         return null;

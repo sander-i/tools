@@ -2,7 +2,7 @@
 
 一个经过验证、可按需引入的 Java 加密库（含配套工具）：对称 / 非对称加密、摘要、签名、JWT 开箱即用，也可通过 Spring Boot Starter 一键接入；基础工具（bedrock）与增强能力（fortify）作为配套模块按需引入，不会被强加进你的依赖树。
 
-> **文档导航**：[📖 操作文档（HTML 版）](#操作文档html)（能力矩阵、安全边界、完整示例，可在浏览器中直接查阅） · [encrypt 模块文档](encrypt/README.md) · [encrypt-spring-boot-starter 5 分钟接入](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md) · [安全策略](SECURITY.md) · [变更记录](CHANGELOG.md) · [English](README.en.md)
+> **文档导航**：[📖 操作文档（HTML 版）](#操作文档html)（能力矩阵、安全边界、完整示例，可在浏览器中直接查阅） · [📚 在线 API 文档](https://apidoc.gitee.com/sander-o/tools)（Gitee 自动生成的 Javadoc） · [encrypt 模块文档](encrypt/README.md) · [encrypt-spring-boot-starter 5 分钟接入](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md) · [安全策略](SECURITY.md) · [变更记录](CHANGELOG.md) · [English](README.en.md)
 
 ## 📖 操作文档（HTML）
 

@@ -19,6 +19,7 @@ public enum DateRangeType {
 
     public final int value;
 
+    /** 与整数值比较是否相等 */
     public boolean equals(int value) {
         return this.value == value;
     }

@@ -30,11 +30,13 @@ public class BodyReaderRequestFilter implements Filter {
 
     }
 
+    /** 将请求包装为可重复读后放行过滤链 */
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws ServletException, IOException {
         filterChain.doFilter(new BodyReaderRequestWrapper((HttpServletRequest) req), res);
     }
 
+    /** 过滤器销毁（无资源需要释放） */
     @Override
     public void destroy() {
 

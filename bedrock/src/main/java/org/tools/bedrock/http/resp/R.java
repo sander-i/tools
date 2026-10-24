@@ -27,34 +27,42 @@ public class R<T> extends RR {
         this.data = data;
     }
 
+    /** 构建无数据的成功响应（RR 视图） */
     public static RR ok() {
         return new RR();
     }
 
+    /** 构建无数据的失败响应（RR 视图） */
     public static RR fail() {
         return new RR();
     }
 
+    /** 构建携带数据的成功响应 */
     public static <T> R<T> ok(T data) {
         return new R<>(true, RS.OK, null, data);
     }
 
+    /** 构建携带错误信息的失败响应 */
     public static <T> R<T> fail(String message) {
         return new R<>(false, RS.FAIL, message, null);
     }
 
+    /** 构建携带数据的失败响应 */
     public static <T> R<T> fail(T data) {
         return new R<>(false, RS.FAIL, null, data);
     }
 
+    /** 按状态枚举与消息构建 RR 响应 */
     public static RR build(S s, String message) {
         return new RR(true, s.getCode(), s.getMsg(), message);
     }
 
+    /** 按状态枚举与数据构建响应 */
     public static <T> R<T> build(S s, T data) {
         return new R<>(true, s, null, data);
     }
 
+    /** 按状态枚举、消息与数据构建响应 */
     public static <T> R<T> build(S s, String message, T data) {
         return new R<>(true, s, message, data);
     }

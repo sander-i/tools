@@ -57,6 +57,7 @@ public class RsaHelper {
         }
     }
 
+    /** 按分组名装载 RSA 配置（实体需为 Rsa，缺省字段由顶层配置补齐） */
     public static void load(KeyPair keyPair, String name) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new RsaException("keyPair 不能为空！");
@@ -81,6 +82,7 @@ public class RsaHelper {
         load(keyPair);
     }
 
+    /** 装载 KeyPair / Rsa 实体配置（显式设置的算法、模式、签名算法、密钥位数生效并联动重算分块） */
     public static void load(KeyPair keyPair) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new EncryptException("keyPair 不能为空！");
@@ -114,6 +116,7 @@ public class RsaHelper {
         load(properties);
     }
 
+    /** 装载 RSA 配置，并预检签名算法与加密模式可用性 */
     public static void load(RsaProperties properties) throws EncryptException, NoSuchAlgorithmException, NoSuchPaddingException {
         if (BaseUtils.isEmpty(properties)) {
             throw new EncryptException("properties 不能为空！");
@@ -128,14 +131,17 @@ public class RsaHelper {
         Cipher.getInstance(properties.getAlgorithmMode());
     }
 
+    /** 使用全局激活配置加密（公钥加密，返回 Base64 密文） */
     public static String encode(String raw) throws RsaException {
         return AsymmetricUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getPublicKey(), properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
     }
 
+    /** 使用全局激活配置解密（私钥解密） */
     public static String decode(String wrought) throws RsaException {
         return AsymmetricUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getPrivateKey(), properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
     }
 
+    /** 使用指定 Base64(X.509) 公钥字符串加密 */
     public static String encode(String publicKey, String raw) throws RsaException {
         try {
             return encode(RsaKeyGenerator.getPublicKey(publicKey), raw);
@@ -145,6 +151,7 @@ public class RsaHelper {
         }
     }
 
+    /** 使用指定 Base64(PKCS#8) 私钥字符串解密 */
     public static String decode(String privateKey, String wrought) throws EncryptException {
         try {
             return decode(RsaKeyGenerator.getPrivateKey(privateKey), wrought);
@@ -154,22 +161,27 @@ public class RsaHelper {
         }
     }
 
+    /** 使用指定公钥对象加密 */
     public static String encode(PublicKey publicKey, String raw) throws RsaException {
         return AsymmetricUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), publicKey, properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
     }
 
+    /** 使用指定私钥对象解密 */
     public static String decode(PrivateKey privateKey, String wrought) throws RsaException {
         return AsymmetricUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), privateKey, properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
     }
 
+    /** 使用全局激活配置签名（默认 SHA256withRSA） */
     public static String sign(String wrought) throws RsaException {
         return SignatureUtils.sign(properties.getSignAlgorithm(), properties.getPrivateKey(), wrought);
     }
 
+    /** 使用全局激活配置验签 */
     public static boolean verify(String wrought, String sign) throws RsaException {
         return SignatureUtils.verify(properties.getSignAlgorithm(), properties.getPublicKey(), wrought, sign);
     }
 
+    /** 使用指定 Base64(PKCS#8) 私钥字符串签名 */
     public static String sign(String privateKey, String wrought) throws RsaException {
         try {
             return sign(RsaKeyGenerator.getPrivateKey(privateKey), wrought);
@@ -179,6 +191,7 @@ public class RsaHelper {
         }
     }
 
+    /** 使用指定 Base64(X.509) 公钥字符串验签 */
     public static boolean verify(String publicKey, String wrought, String sign) throws RsaException {
         try {
             return verify(RsaKeyGenerator.getPublicKey(publicKey), wrought, sign);
@@ -188,10 +201,12 @@ public class RsaHelper {
         }
     }
 
+    /** 使用指定私钥对象签名 */
     public static String sign(PrivateKey privateKey, String wrought) throws RsaException {
         return SignatureUtils.sign(properties.getSignAlgorithm(), privateKey, wrought);
     }
 
+    /** 使用指定公钥对象验签 */
     public static boolean verify(PublicKey publicKey, String wrought, String sign) throws RsaException {
         return SignatureUtils.verify(properties.getSignAlgorithm(), publicKey, wrought, sign);
     }

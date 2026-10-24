@@ -37,29 +37,35 @@ public class BodyReaderRequestWrapper extends HttpServletRequestWrapper {
         body = bodyBuf.toString();
     }
 
+    /** 返回基于缓存请求体的字符流（支持重复读） */
     @Override
     public BufferedReader getReader() {
         return new BufferedReader(new InputStreamReader(this.getInputStream()));
     }
 
+    /** 返回基于缓存请求体的字节流（支持重复读） */
     @Override
     public ServletInputStream getInputStream() {
         final ByteArrayInputStream byteArrayIns = new ByteArrayInputStream(body.getBytes());
         return new ServletInputStream() {
+            /** 流是否读取完毕 */
             @Override
             public boolean isFinished() {
                 return false;
             }
 
+            /** 流是否就绪 */
             @Override
             public boolean isReady() {
                 return false;
             }
 
+            /** 注册异步读监听（非异步场景不适用，忽略） */
             @Override
             public void setReadListener(ReadListener readListener) {
             }
 
+            /** 从缓存的请求体中读取一个字节 */
             @Override
             public int read() {
                 return byteArrayIns.read();

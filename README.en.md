@@ -2,7 +2,7 @@
 
 A verified, adopt-on-demand Java cryptography library (with companion utilities): symmetric / asymmetric encryption, digests, signatures and JWT out of the box, or one-step integration via a Spring Boot Starter. `bedrock` (basic utilities) and `fortify` (enhancements) are optional companion modules and are never forced into your dependency tree.
 
-> **Documentation**: [📖 Operations Guide (HTML)](docs/operations-guide.html) · [encrypt module](encrypt/README.md) · [encrypt-spring-boot-starter quick start](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md) · [Security policy](SECURITY.md) · [Changelog](CHANGELOG.md) · [中文文档](README.md)
+> **Documentation**: [📖 Operations Guide (HTML)](docs/operations-guide.html) · [📚 Online API docs](https://apidoc.gitee.com/sander-o/tools) (Javadoc hosted on Gitee) · [encrypt module](encrypt/README.md) · [encrypt-spring-boot-starter quick start](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md) · [Security policy](SECURITY.md) · [Changelog](CHANGELOG.md) · [中文文档](README.md)
 
 ## 📖 Operations Guide (HTML)
 

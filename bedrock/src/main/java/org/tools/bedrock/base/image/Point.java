@@ -17,6 +17,7 @@ public class Point {
     private int x;
     private int y;
 
+    /** 坐标相等判断：x、y 均相同视为相等 */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -25,6 +26,7 @@ public class Point {
         return x == point.x && y == point.y;
     }
 
+    /** 由 x、y 计算坐标哈希值 */
     @Override
     public int hashCode() {
         return 31 * x + y;

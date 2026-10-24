@@ -24,6 +24,7 @@ public class OnEncryptPropertiesCondition implements Condition {
      */
     private static final String PREFIX = "tools.encrypt.";
 
+    /** 自动装配条件判断：tools.encrypt.* 存在任一配置时通过 */
     @Override
     public boolean matches(@NonNull ConditionContext context, @NonNull AnnotatedTypeMetadata metadata) {
         Environment env = context.getEnvironment();

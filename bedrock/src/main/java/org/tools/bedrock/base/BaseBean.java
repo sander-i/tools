@@ -40,6 +40,7 @@ public class BaseBean {
     private String updatedBy;
     private Date updatedTime;
 
+    /** 输出 id、pid 等字段信息的字符串 */
     @Override
     public String toString() {
         return "id='" + id + '\'' +

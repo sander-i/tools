@@ -60,10 +60,12 @@ public enum AlgorithmModeEnum {
 
     private final String algorithmMode;
 
+    /** 与算法模式字符串比较 */
     public boolean equals(String algorithmMode) {
         return this.algorithmMode.equals(algorithmMode);
     }
 
+    /** 按算法模式名查找枚举（不存在时抛 NoSuchElementException） */
     public static AlgorithmModeEnum enumName(String algorithmMode) {
         return Arrays.stream(AlgorithmModeEnum.values())
                 .filter(algorithmModeEnum -> algorithmModeEnum.equals(algorithmMode))

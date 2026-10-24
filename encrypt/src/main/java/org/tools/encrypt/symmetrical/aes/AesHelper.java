@@ -51,6 +51,7 @@ public class AesHelper {
         }
     }
 
+    /** 按分组名装载 AES 配置（实体需为 Aes，缺省字段由顶层配置补齐） */
     public static void load(KeyPair keyPair, String name) throws AesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new AesException("keyPair 不能为空！");
@@ -75,6 +76,7 @@ public class AesHelper {
         load(keyPair);
     }
 
+    /** 装载 KeyPair 实体配置（Hex 密钥，缺省字段取默认值） */
     public static void load(KeyPair keyPair) throws AesException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new AesException("keyPair 不能为空！");
@@ -90,6 +92,7 @@ public class AesHelper {
         load(properties);
     }
 
+    /** 装载 AES 配置（properties 与密钥不能为空） */
     public static void load(AesProperties properties) throws AesException {
         if (BaseUtils.isEmpty(properties)) {
             throw new AesException("properties 不能为空！");

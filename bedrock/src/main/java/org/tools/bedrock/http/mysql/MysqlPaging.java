@@ -15,6 +15,7 @@ import org.tools.bedrock.http.Paging;
 public class MysqlPaging<T> extends Paging<T> {
     private static final long serialVersionUID = -6457640146548312421L;
 
+    /** MySQL 分页结束记录行号 */
     public Integer getEndRecord() {
         Integer totalCount = getTotalCount();
         Integer endRecord = getPageSize();
@@ -22,6 +23,7 @@ public class MysqlPaging<T> extends Paging<T> {
         return endRecord;
     }
 
+    /** 初始化 MySQL LIMIT 分页参数 */
     @Override
     public void initPaging(Integer currentPage, Integer pageSize, Integer totalCount) {
         setPageSize(pageSize);

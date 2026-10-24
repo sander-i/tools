@@ -35,6 +35,7 @@ public class DsaHelper {
     @Getter
     private static DsaProperties properties;
 
+    /** 装载 KeyPair 实体配置（按 Base64 字符串解析公私钥对象） */
     public static void load(KeyPair keyPair) throws EncryptException, NoSuchAlgorithmException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new EncryptException("keyPair 不能为空！");
@@ -54,6 +55,7 @@ public class DsaHelper {
         load(properties);
     }
 
+    /** 装载 DSA 配置，并预检签名算法可用性 */
     public static void load(DsaProperties properties) throws EncryptException, NoSuchAlgorithmException {
         if (BaseUtils.isEmpty(properties)) {
             throw new EncryptException("properties 不能为空！");
@@ -66,14 +68,17 @@ public class DsaHelper {
         Signature.getInstance(properties.getSignAlgorithm());
     }
 
+    /** 使用全局激活配置签名 */
     public static String sign(String wrought) throws EncryptException {
         return SignatureUtils.sign(properties.getSignAlgorithm(), properties.getPrivateKey(), wrought);
     }
 
+    /** 使用全局激活配置验签 */
     public static boolean verify(String wrought, String sign) throws EncryptException {
         return SignatureUtils.verify(properties.getSignAlgorithm(), properties.getPublicKey(), wrought, sign);
     }
 
+    /** 使用指定 Base64(PKCS#8) 私钥字符串签名 */
     public static String sign(String privateKey, String wrought) throws EncryptException {
         String signText;
         try {
@@ -86,6 +91,7 @@ public class DsaHelper {
         return signText;
     }
 
+    /** 使用指定 Base64(X.509) 公钥字符串验签 */
     public static boolean verify(String publicKey, String wrought, String sign) throws EncryptException {
         try {
             // 同 sign：KeyFactory 需要密钥算法名 DSA
@@ -96,10 +102,12 @@ public class DsaHelper {
         }
     }
 
+    /** 使用指定私钥对象签名 */
     public static String sign(PrivateKey privateKey, String wrought) throws EncryptException {
         return SignatureUtils.sign(properties.getSignAlgorithm(), privateKey, wrought);
     }
 
+    /** 使用指定公钥对象验签 */
     public static boolean verify(PublicKey publicKey, String wrought, String sign) throws EncryptException {
         return SignatureUtils.verify(properties.getSignAlgorithm(), publicKey, wrought, sign);
     }

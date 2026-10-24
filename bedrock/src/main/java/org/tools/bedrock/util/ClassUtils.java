@@ -430,6 +430,7 @@ public class ClassUtils {
         return pd.getWriteMethod();
     }
 
+    /** 读取对象指定属性的值 */
     public static <T> Object getProperty(T t, String fieldName) {
         Class<?> aClass = t.getClass();
         try {
@@ -441,6 +442,7 @@ public class ClassUtils {
         return null;
     }
 
+    /** 写入对象指定属性的值，返回是否成功 */
     public static <T> Boolean setProperty(T t, String fieldName, Object fieldValue) {
         Class<?> aClass = t.getClass();
         try {
@@ -511,6 +513,7 @@ public class ClassUtils {
         return fieldName;
     }
 
+    /** 获取类自身声明且具备标准属性访问器的字段（跳过 static 与 serialVersionUID） */
     public static <O> Field[] fetchFields(Class<O> clz) {
         Map<String, Field> fieldMap = new HashMap<>();
         fetchAllFields(clz.getDeclaredFields(), clz, fieldMap);
@@ -535,11 +538,13 @@ public class ClassUtils {
         return superSize;
     }
 
+    /** 将字段数组按属性名收集进 fieldMap（跳过 static 与 serialVersionUID 字段） */
     public static void fetchAllFields(Field[] fields, Class<?> clz, Map<String, Field> fieldMap) {
         Arrays.stream(fields)
                 .forEach(field -> fetchField(field, clz, fieldMap));
     }
 
+    /** 收集单个字段：解析属性名并登记，static 与 serialVersionUID 跳过 */
     public static void fetchField(Field field, Class<?> clz, Map<String, Field> fieldMap) {
         String fieldName = handleBooleanType(field);
         // 属性修饰符
@@ -579,6 +584,7 @@ public class ClassUtils {
         return fieldName;
     }
 
+    /** 获取类自身声明且具备标准属性访问器的字段数组 */
     public static <O> Field[] fetchAllFields(Class<O> clz) {
         Map<String, Field> fieldMap = new HashMap<>();
 

@@ -27,10 +27,12 @@ public class CipherAsymmetric extends CipherAbst {
     private CipherAsymmetric() {
     }
 
+    /** 获取单例 */
     public static CipherAsymmetric getInstance() {
         return INSTANCE;
     }
 
+    /** 执行非对称加解密（超长数据按 maxBlock 分段处理） */
     @Override
     public byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff, int maxBlock)
             throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException {

@@ -44,6 +44,7 @@ public abstract class Paging<T> implements Serializable {
      */
     private List<T> data;
 
+    /** 初始化分页参数（当前页 / 每页大小 / 总记录数），由各数据库方言子类实现 */
     public abstract void initPaging(Integer currentPage, Integer pageSize, Integer totalCount);
 
 }

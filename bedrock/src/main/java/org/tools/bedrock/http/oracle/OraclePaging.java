@@ -8,6 +8,7 @@ import org.tools.bedrock.http.Paging;
  */
 public class OraclePaging<T> extends Paging<T> {
 
+    /** Oracle 分页结束记录行号 */
     public Integer getEndRecord() {
         Integer totalCount = getTotalCount();
         Integer endRecord = (getStartRecord() + getPageSize());
@@ -15,6 +16,7 @@ public class OraclePaging<T> extends Paging<T> {
         return endRecord;
     }
 
+    /** 初始化 Oracle ROWNUM 分页参数 */
     @Override
     public void initPaging(Integer currentPage, Integer pageSize, Integer totalCount) {
         setPageSize(pageSize);
@@ -30,6 +32,7 @@ public class OraclePaging<T> extends Paging<T> {
         setStartRecord((currentPage - 1) * pageSize);
     }
 
+    /** 演示 Oracle 分页参数计算的示例入口 */
     public static void main(String[] args) {
         OraclePaging oraclePaging = new OraclePaging();
         oraclePaging.initPaging(3, 33, 100);

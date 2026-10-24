@@ -24,10 +24,12 @@ public enum SignAlgorithmEnum {
 
     private final String signAlgorithm;
 
+    /** 与签名算法字符串比较 */
     public boolean equals(String signAlgorithm) {
         return this.signAlgorithm.equals(signAlgorithm);
     }
 
+    /** 按签名算法名查找枚举（不存在时抛 NoSuchElementException） */
     public static SignAlgorithmEnum enumName(String signAlgorithm) {
         return Arrays.stream(SignAlgorithmEnum.values())
                 .filter(algorithmModeEnum -> algorithmModeEnum.equals(signAlgorithm))

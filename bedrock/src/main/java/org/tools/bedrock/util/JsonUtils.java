@@ -14,6 +14,7 @@ import java.util.Set;
 @Deprecated
 public class JsonUtils {
 
+    /** List 转 JSON 数组字符串（空列表返回 null） */
     public static String listToJSON(List<?> list) {
         if (BaseUtils.isEmpty(list)) return null;
         StringBuilder result = new StringBuilder(SpecialSymbolConst.LEFT_BRACKET);
@@ -34,6 +35,7 @@ public class JsonUtils {
         return result.toString();
     }
 
+    /** Map 转 JSON 对象字符串（空 Map 返回 null） */
     public static String mapToJSON(Map<?, ?> map) {
         if (BaseUtils.isEmpty(map)) return null;
         StringBuilder result = new StringBuilder(SpecialSymbolConst.LEFT_BRACE);

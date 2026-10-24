@@ -30,11 +30,13 @@ public class AliyunDdnsUtils {
     private static final String DOMAIN_RECORD_DUPLICATE = "DomainRecordDuplicate";
     private static final String CODE = "Code";
 
+    /** 按凭证与 endpoint 创建阿里云 DNS 客户端 */
     public static com.aliyun.alidns20150109.Client createClient(String accessKeyId, String accessKeySecret, String endpoint) throws Exception {
         Config config = new Config().setAccessKeyId(accessKeyId).setAccessKeySecret(accessKeySecret).setEndpoint(endpoint);
         return new com.aliyun.alidns20150109.Client(config);
     }
 
+    /** 按配置对象创建阿里云 DNS 客户端 */
     public static com.aliyun.alidns20150109.Client createClient(AliyunDdnsConfig aliyunDdnsConfig) throws Exception {
         Config config = new Config().setAccessKeyId(aliyunDdnsConfig.getAccessKeyId()).setAccessKeySecret(aliyunDdnsConfig.getAccessKeySecret()).setEndpoint(aliyunDdnsConfig.getEndpoint());
         return new com.aliyun.alidns20150109.Client(config);

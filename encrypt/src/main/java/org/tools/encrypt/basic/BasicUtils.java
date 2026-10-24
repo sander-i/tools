@@ -12,6 +12,7 @@ public class BasicUtils {
     private BasicUtils() {
     }
 
+    /** 计算指定算法的消息摘要（JCA MessageDigest） */
     public static byte[] digest(String algorithm, byte[] raw) throws NoSuchAlgorithmException {
         return MessageDigest.getInstance(algorithm).digest(raw);
     }

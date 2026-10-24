@@ -38,6 +38,7 @@ public class ImageSimilarityResult {
                 featureVectorSimilarity * 0.10);
     }
 
+    /** 输出图像相似度结果摘要字符串 */
     @Override
     public String toString() {
         return String.format(

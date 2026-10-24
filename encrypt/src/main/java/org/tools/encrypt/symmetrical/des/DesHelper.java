@@ -48,6 +48,7 @@ public class DesHelper {
         }
     }
 
+    /** 按分组名装载 DES 配置（实体需为 Des，缺省字段由顶层配置补齐） */
     public static void load(KeyPair keyPair, String name) throws DesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new DesException("keyPair 不能为空！");
@@ -72,6 +73,7 @@ public class DesHelper {
         load(keyPair);
     }
 
+    /** 装载 KeyPair 实体配置（密钥为原始字符串，UTF-8 编码后恰好 8 字节） */
     public static void load(KeyPair keyPair) throws DesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new DesException("keyPair 不能为空！");
@@ -87,6 +89,7 @@ public class DesHelper {
         load(properties);
     }
 
+    /** 装载 DES 配置（仅有字符串密钥时自动按 UTF-8 原文构造 SecretKey） */
     public static void load(DesProperties properties) throws DesException {
         if (BaseUtils.isEmpty(properties)) {
             throw new DesException("properties 不能为空！");
@@ -103,30 +106,36 @@ public class DesHelper {
         DesHelper.properties = properties;
     }
 
+    /** 使用全局激活配置加密 */
     public static String encode(String raw) throws DesException {
         return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), properties.getIvParameter(), raw);
     }
 
+    /** 使用指定字符串密钥加密（UTF-8 原文，须恰好 8 字节） */
     public static String encode(String secretKey, String raw) throws DesException {
         SecretKey key;
         key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
         return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), raw);
     }
 
+    /** 使用指定密钥对象加密 */
     public static String encode(SecretKey secretKey, String raw) throws DesException {
         return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), raw);
     }
 
+    /** 使用全局激活配置解密 */
     public static String decode(String wrought) throws DesException {
         return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), properties.getIvParameter(), wrought);
     }
 
+    /** 使用指定字符串密钥解密 */
     public static String decode(String secretKey, String wrought) throws DesException {
         SecretKey key;
         key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
         return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), wrought);
     }
 
+    /** 使用指定密钥对象解密 */
     public static String decode(SecretKey secretKey, String wrought) throws DesException {
         return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), wrought);
     }

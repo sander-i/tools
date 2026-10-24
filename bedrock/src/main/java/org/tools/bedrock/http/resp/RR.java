@@ -26,14 +26,17 @@ public class RR implements Serializable {
     private String msg;
     private String message;
 
+    /** 构建无数据的成功响应 */
     public static RR ok() {
         return new RR(true, RS.OK.getCode(), RS.OK.getMsg(), null);
     }
 
+    /** 构建无数据的失败响应 */
     public static RR fail() {
         return new RR(true, RS.FAIL.getCode(), RS.FAIL.getMsg(), null);
     }
 
+    /** 按状态枚举构建 RR 响应 */
     public static RR build(S s) {
         return new RR(true, s.getCode(), s.getMsg(), null);
     }

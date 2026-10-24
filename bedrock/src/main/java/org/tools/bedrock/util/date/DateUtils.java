@@ -77,6 +77,7 @@ public class DateUtils {
         format4 = new ThreadSafeSimpleDateFormat(YMD_PATTERN);
     }
 
+    /** 按指定模式格式化日期 */
     public static String format(Date date, String pattern) {
         if (BaseUtils.isEmpty(date)) {
             return null;

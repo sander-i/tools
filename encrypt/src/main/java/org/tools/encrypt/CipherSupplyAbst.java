@@ -18,6 +18,7 @@ import java.security.NoSuchProviderException;
  **/
 public abstract class CipherSupplyAbst {
 
+    /** 按算法模式注册所需 Provider */
     public abstract void initSupport(AlgorithmModeEnum algorithmMode);
 
     /**
@@ -38,8 +39,10 @@ public abstract class CipherSupplyAbst {
         return cipher;
     }
 
+    /** 创建指定算法模式的 Cipher 实例 */
     public abstract Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException;
 
+    /** 按算法模式初始化 Cipher */
     public abstract void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode) throws InvalidKeyException, InvalidAlgorithmParameterException;
 
 }

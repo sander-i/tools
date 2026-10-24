@@ -47,6 +47,7 @@ public class BaseBean implements Serializable {
     private String updatedBy;
     private LocalDateTime updatedTime;
 
+    /** 输出 id、pid 等字段信息的字符串 */
     @Override
     public String toString() {
         return "id='" + id + '\'' +

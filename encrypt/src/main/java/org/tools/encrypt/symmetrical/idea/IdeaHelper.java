@@ -51,6 +51,7 @@ public class IdeaHelper {
         }
     }
 
+    /** 按分组名装载 IDEA 配置（实体需为 Idea，缺省字段由顶层配置补齐） */
     public static void load(KeyPair keyPair, String name) throws IdeaException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new IdeaException("keyPair 不能为空！");
@@ -75,6 +76,7 @@ public class IdeaHelper {
         load(keyPair);
     }
 
+    /** 装载 KeyPair 实体配置（Hex 密钥，缺省字段取默认值） */
     public static void load(KeyPair keyPair) throws IdeaException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new IdeaException("keyPair 不能为空！");
@@ -89,6 +91,7 @@ public class IdeaHelper {
         load(properties);
     }
 
+    /** 装载 IDEA 配置（properties 与密钥不能为空） */
     public static void load(IdeaProperties properties) throws IdeaException {
         if (BaseUtils.isEmpty(properties)) {
             throw new IdeaException("properties 不能为空！");
@@ -99,28 +102,34 @@ public class IdeaHelper {
         IdeaHelper.properties = properties;
     }
 
+    /** 使用全局激活配置加密 */
     public static String encode(String raw) throws IdeaException {
         return IdeaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), raw);
     }
 
+    /** 使用指定 Hex 密钥字符串加密 */
     public static String encode(String secretKey, String raw) throws IdeaException {
         SecretKey key = IdeaKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
         return IdeaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, raw);
     }
 
+    /** 使用指定密钥对象加密 */
     public static String encode(SecretKey secretKey, String raw) throws IdeaException {
         return IdeaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, raw);
     }
 
+    /** 使用全局激活配置解密 */
     public static String decode(String wrought) throws IdeaException {
         return IdeaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), wrought);
     }
 
+    /** 使用指定 Hex 密钥字符串解密 */
     public static String decode(String secretKey, String wrought) throws IdeaException {
         SecretKey key = IdeaKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
         return IdeaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, wrought);
     }
 
+    /** 使用指定密钥对象解密 */
     public static String decode(SecretKey secretKey, String wrought) throws IdeaException {
         return IdeaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, wrought);
     }

@@ -32,10 +32,12 @@ public class CipherSupply extends CipherSupplyAbst {
     private CipherSupply() {
     }
 
+    /** 获取单例 */
     public static CipherSupply getInstance() {
         return INSTANCE;
     }
 
+    /** 按算法模式注册所需 Provider（IDEA / RSA-OAEP 需 BouncyCastle） */
     @Override
     public void initSupport(AlgorithmModeEnum algorithmMode) {
         switch (algorithmMode) {
@@ -50,6 +52,7 @@ public class CipherSupply extends CipherSupplyAbst {
         }
     }
 
+    /** 创建指定算法模式的 Cipher 实例（OAEP 模式经 BC Provider 创建） */
     @Override
     public Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException {
         Cipher cipher;
@@ -66,6 +69,7 @@ public class CipherSupply extends CipherSupplyAbst {
         return cipher;
     }
 
+    /** 按算法模式初始化 Cipher（处理 IV、随机源与 OAEP 参数；未支持的模式抛 CipherSupplyException） */
     @Override
     public void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode)
             throws InvalidKeyException, InvalidAlgorithmParameterException {
