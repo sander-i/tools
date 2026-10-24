@@ -404,6 +404,8 @@
                 </executions>
                 <configuration>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <!-- 无 .git 目录的构建环境（如在线文档生成导出的源码包）不失败，仅跳过 -->
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -495,30 +497,13 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>aliyun</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>aliyun-plugin</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
+    <!--
+      不在 POM 中声明任何仓库：
+      1. 发布型库的 POM 会被下游继承，硬编码区域镜像（如 aliyun）会强加给所有使用方，
+         且部分构建环境（例如 Gitee 在线文档生成）无法解析 maven.aliyun.com，导致插件下载失败；
+      2. 默认走 Maven Central；需要镜像加速的构建环境请在自己的 settings.xml 中配置 <mirrors>
+         （本地开发者示例见 README「常见问题/镜像加速」）。
+    -->
 
     <profiles>
         <!--        <profile>-->

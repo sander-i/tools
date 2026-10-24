@@ -33,6 +33,8 @@
 
 ### Fixed
 
+- Gitee 在线文档生成失败修复：根 POM 此前在 `<repositories>` / `<pluginRepositories>` 中硬编码阿里云镜像，Gitee 构建环境无法解析 `maven.aliyun.com`（Unknown host），导致 `git-commit-id-plugin` 等插件下载失败、文档构建中断。已移除 POM 内全部仓库声明（发布型库的 POM 不应把区域镜像强加给下游），默认走 Maven Central，需要镜像加速的环境在自身 `settings.xml` 配置（README 已补说明）；同时为 `git-commit-id-plugin` 增加 `failOnNoGitDirectory=false`，无 `.git` 目录的文档构建环境不再失败。全模块 `mvn javadoc:javadoc` 已本地验证通过。
+
 - `SymmetricalUtils.decode` 解密输出此前使用 JVM 默认 charset，在非 UTF-8 平台（如中文 Windows GBK）上含中文的明文 round-trip 乱码；现与加密侧对称，统一 UTF-8。
 - `MD5Utils.encode(String)`、`ShaUtils.encode`、`SignatureUtils` 签名/验签的原文取字节由 JVM 默认 charset 统一改为 UTF-8（非 ASCII 输入的摘要/签名值会与旧版不同；ASCII 输入不受影响）。
 - `RsaProperties` 默认签名算法由 `SHA3-256withRSA` 改为 `SHA256withRSA`：前者在 JDK 8 默认 Provider（SunRsaSign）不可用，默认配置在纯 JDK 8 环境装载即失败。

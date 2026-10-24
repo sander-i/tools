@@ -97,6 +97,19 @@ tools
 
 ## 安装教程（全量引入）
 
+> **本地构建与镜像加速**：项目 POM 不声明任何仓库（避免把区域镜像强加给下游使用方，也让 CI / 在线文档构建环境按自身网络解析依赖）。本地构建如需镜像加速，请在**你自己的** `~/.m2/settings.xml` 中配置 `<mirrors>`，例如：
+>
+> ```xml
+> <mirrors>
+>     <mirror>
+>         <id>aliyunmaven</id>
+>         <mirrorOf>central</mirrorOf>
+>         <name>aliyun public</name>
+>         <url>https://maven.aliyun.com/repository/public</url>
+>     </mirror>
+> </mirrors>
+> ```
+
 如需一次性引入全部模块，可在自己的 `dependencyManagement` 中导入 BOM 后按需声明依赖：
 
 ```xml
