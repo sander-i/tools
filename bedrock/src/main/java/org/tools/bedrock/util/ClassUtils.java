@@ -8,6 +8,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,6 +50,11 @@ public class ClassUtils {
      * set方法
      */
     public static final String SET_METHOD_TYPE = "set";
+
+    /**
+     * serialVersionUID 业内通用序列化ID
+     */
+    public static final String SERIAL_VERSION_UID = "serialVersionUID";
 
     /**
      * 是java基础类
@@ -530,19 +536,30 @@ public class ClassUtils {
     }
 
     public static void fetchAllFields(Field[] fields, Class<?> clz, Map<String, Field> fieldMap) {
-        for (Field field : fields) {
-            try {
-                fetchField(field, clz, fieldMap);
-            } catch (IntrospectionException e) {
-                log.info(e.getLocalizedMessage(), e);
-            }
-        }
+        Arrays.stream(fields)
+                .forEach(field -> fetchField(field, clz, fieldMap));
     }
 
-    public static void fetchField(Field field, Class<?> clz, Map<String, Field> fieldMap) throws IntrospectionException {
+    public static void fetchField(Field field, Class<?> clz, Map<String, Field> fieldMap) {
         String fieldName = handleBooleanType(field);
-        new PropertyDescriptor(fieldName, clz);
-        fieldMap.put(fieldName, field);
+        // 属性修饰符
+        int modifiers = field.getModifiers();
+
+        if (SERIAL_VERSION_UID.equals(fieldName)) {
+            return;
+        }
+
+        // PropertyDescriptor 不支持 static 属性
+        if (Modifier.isStatic(modifiers)) {
+            return;
+        }
+
+        try {
+            new PropertyDescriptor(fieldName, clz);
+            fieldMap.put(fieldName, field);
+        } catch (IntrospectionException e) {
+            log.warn(e.getLocalizedMessage(), e);
+        }
     }
 
     /**

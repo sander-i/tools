@@ -93,7 +93,7 @@ public class CopyUtil {
                 // 设置属性值
                 ClassUtils.setProperty(target, fieldName, sourceValue);
             } catch (Exception e) {
-                log.info(e.getLocalizedMessage(), e);
+                log.warn(e.getLocalizedMessage(), e);
             }
         }
     }

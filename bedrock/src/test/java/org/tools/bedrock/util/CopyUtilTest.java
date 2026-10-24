@@ -13,6 +13,8 @@ public class CopyUtilTest {
 
     // 测试用的源对象类
     static class SourceEntity {
+        private final String id = "1";
+        private static final long serialVersionUID = 7384353707304966067L;
         private String name;
         private int age;
         private boolean active;
@@ -77,6 +79,10 @@ public class CopyUtilTest {
 
         public void setInner(InnerEntity inner) {
             this.inner = inner;
+        }
+
+        public String getId() {
+            return id;
         }
     }
 
