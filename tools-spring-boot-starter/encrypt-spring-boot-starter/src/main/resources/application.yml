@@ -17,28 +17,30 @@ tools:
     symmetrical:
       aes:
         enabled: true
-        secret-key: "BeYourself"
+        # AES 密钥为 Hex 字符串：32/48/64 个 Hex 字符对应 AES-128/192/256
+        secret-key: "a1887f3ff2cd45e6b0a91c79f21e35d8"
+        iv-parameter: "0123456789abcdef"
         group-enabled: true
         group:
           - name: pwd
-            secret-key: "BeYourself"
+            secret-key: "f2cd45e6b0a91c79f21e35d8a1887f3f"
+            iv-parameter: "abcdef0123456789"
           - name: id-card
-            secret-key: "BeYourself"
+            secret-key: "11223344556677889900aabbccddeeff"
+            iv-parameter: "1122334455667788"
       des:
         enabled: true
-        secret-key: "BeYourself"
+        # DES 密钥为原始字符串，UTF-8 编码后必须恰好 8 字节；默认模式 DES 即 ECB/PKCS5Padding，IV 不生效
+        secret-key: "BeYour18"
         group-enabled: true
         group:
           - name: pwd
-            key-bits: 128
-            iv-parameter: "4641541685412341"
-            secret-key: "BeYourself"
+            secret-key: "BeYour18"
           - name: id-card
-            secret-key: "BeYourself"
-          - name: id-card
-            secret-key: "BeYourself"
+            secret-key: "12345678"
       idea:
         enabled: true
+        # IDEA 密钥经 Hex 解码：32 个 Hex 字符 = 128 位
         secret-key: "a0879d74c02a9ebcde4dc7ac3c3c28f7"
         group-enabled: true
         group:

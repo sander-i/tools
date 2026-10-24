@@ -59,6 +59,8 @@
         <copyright>2024</copyright>
         <spring.application.name>tools</spring.application.name>
         <java.version>1.8</java.version>
+        <!-- 默认跳过单元测试（只编译）；CI 或本地验证时用 -DskipTests=false 打开 -->
+        <skipTests>true</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!--    maven-compiler-plugin    -->
@@ -420,8 +422,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <!-- 不执行单元测试，但会编译测试类，并在target/test-classes目录下生成相应的class -->
-                    <skipTests>true</skipTests>
+                    <!-- 不执行单元测试，但会编译测试类，并在target/test-classes目录下生成相应的class
+                         通过 -DskipTests=false 可临时执行测试（CI 使用），默认行为不变 -->
+                    <skipTests>${skipTests}</skipTests>
                 </configuration>
             </plugin>
             <plugin>
@@ -503,31 +506,11 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>ailuoli</id>
-            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>aliyun-plugin</id>
             <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>ailuoli-plugin</id>
-            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -546,54 +529,6 @@
         <!--                &lt;!&ndash;                <gpg.passphrase>***REMOVED***</gpg.passphrase>&ndash;&gt;-->
         <!--            </properties>-->
         <!--        </profile>-->
-        <!--        <profile>-->
-        <!--            <id>dev</id>-->
-        <!--            <properties>-->
-        <!--                <repository-id>ailuoli-dev-releases</repository-id>-->
-        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-releases/</repository-url>-->
-        <!--                <snapshot-id>ailuoli-dev-snapshots</snapshot-id>-->
-        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-dev-snapshots/</snapshot-url>-->
-        <!--            </properties>-->
-        <!--        </profile>-->
-        <!--        <profile>-->
-        <!--            <id>sit</id>-->
-        <!--            <properties>-->
-        <!--                <repository-id>ailuoli-sit-releases</repository-id>-->
-        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-releases/</repository-url>-->
-        <!--                <snapshot-id>ailuoli-sit-snapshots</snapshot-id>-->
-        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-sit-snapshots/</snapshot-url>-->
-        <!--            </properties>-->
-        <!--        </profile>-->
-        <!--        <profile>-->
-        <!--            <id>uat</id>-->
-        <!--            <properties>-->
-        <!--                <repository-id>ailuoli-uat-releases</repository-id>-->
-        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-releases/</repository-url>-->
-        <!--                <snapshot-id>ailuoli-uat-snapshots</snapshot-id>-->
-        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-uat-snapshots/</snapshot-url>-->
-        <!--            </properties>-->
-        <!--        </profile>-->
-        <!--        <profile>-->
-        <!--            <id>pre</id>-->
-        <!--            <properties>-->
-        <!--                <repository-id>ailuoli-pre-releases</repository-id>-->
-        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-releases/</repository-url>-->
-        <!--                <snapshot-id>ailuoli-pre-snapshots</snapshot-id>-->
-        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-pre-snapshots/</snapshot-url>-->
-        <!--            </properties>-->
-        <!--        </profile>-->
-        <!--        <profile>-->
-        <!--            <id>pro</id>-->
-        <!--            <activation>-->
-        <!--                <activeByDefault>true</activeByDefault>-->
-        <!--            </activation>-->
-        <!--            <properties>-->
-        <!--                <repository-id>ailuoli-releases</repository-id>-->
-        <!--                <repository-url>http://ailuoli.com.cn:17993/repository/ailuoli-releases/</repository-url>-->
-        <!--                <snapshot-id>ailuoli-snapshots</snapshot-id>-->
-        <!--                <snapshot-url>http://ailuoli.com.cn:17993/repository/ailuoli-snapshots/</snapshot-url>-->
-        <!--            </properties>-->
-        <!--        </profile>-->
     </profiles>
 
     <distributionManagement>
@@ -605,14 +540,6 @@
             <id>ossrh</id>
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </snapshotRepository>
-        <!--        <repository>-->
-        <!--            <id>${repository-id}</id>-->
-        <!--            <url>${repository-url}</url>-->
-        <!--        </repository>-->
-        <!--        <snapshotRepository>-->
-        <!--            <id>${snapshot-id}</id>-->
-        <!--            <url>${snapshot-url}</url>-->
-        <!--        </snapshotRepository>-->
     </distributionManagement>
 
 </project>
