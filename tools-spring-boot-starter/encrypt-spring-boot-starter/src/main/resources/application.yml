@@ -30,6 +30,10 @@ tools:
         group-enabled: true
         group:
           - name: pwd
+            key-bits: 128
+            iv-parameter: "4641541685412341"
+            secret-key: "BeYourself"
+          - name: id-card
             secret-key: "BeYourself"
           - name: id-card
             secret-key: "BeYourself"

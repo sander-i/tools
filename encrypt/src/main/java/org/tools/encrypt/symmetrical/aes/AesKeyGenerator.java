@@ -1,6 +1,7 @@
 package org.tools.encrypt.symmetrical.aes;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.EncryptKeyGenerator;
@@ -94,7 +95,13 @@ public class AesKeyGenerator {
      * @return 密钥对象
      */
     public static SecretKey getSecretKey(String algorithm, String secretKey) {
-        byte[] secretKeyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        byte[] secretKeyBytes;
+        try {
+            secretKeyBytes = Hex.decodeHex(secretKey.toCharArray());
+        } catch (DecoderException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(e);
+        }
         return new SecretKeySpec(secretKeyBytes, algorithm);
     }
 
