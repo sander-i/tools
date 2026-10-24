@@ -77,7 +77,7 @@ public class AliyunDdnsUtilsTest {
         when(mockBody.getDomainRecords()).thenReturn(mockDomainRecords);
         when(mockDomainRecords.getRecord()).thenReturn(java.util.Collections.emptyList());
 
-        List<Record> records = AliyunDdnsUtils.readDomainRecords(config, TEST_DOMAIN_NAME, TEST_RECORD_TYPE);
+        List<Record> records = AliyunDdnsUtils.readDomainRecords(config, mockClient, TEST_DOMAIN_NAME, TEST_RECORD_TYPE);
 
         assertNotNull("返回的记录列表不应为null", records);
         assertTrue("记录列表应为空", records.isEmpty());
@@ -100,7 +100,7 @@ public class AliyunDdnsUtilsTest {
         when(mockBody.getDomainRecords()).thenReturn(mockDomainRecords);
         when(mockDomainRecords.getRecord()).thenReturn(java.util.Collections.emptyList());
 
-        List<Record> records = AliyunDdnsUtils.readDomainRecords(config, TEST_DOMAIN_NAME, null);
+        List<Record> records = AliyunDdnsUtils.readDomainRecords(config, mockClient, TEST_DOMAIN_NAME, null);
 
         assertNotNull("返回的记录列表不应为null", records);
         assertTrue("记录列表应为空", records.isEmpty());
@@ -126,7 +126,7 @@ public class AliyunDdnsUtilsTest {
         when(mockClient.updateDomainRecordWithOptions(any(UpdateDomainRecordRequest.class), any()))
             .thenReturn(mockResponse);
 
-        Record updatedRecord = AliyunDdnsUtils.updateDomainRecord(config, testRecord);
+        Record updatedRecord = AliyunDdnsUtils.updateDomainRecord(config, mockClient, testRecord);
 
         assertNotNull("返回的记录不应为null", updatedRecord);
         assertSame("应返回相同的记录对象", testRecord, updatedRecord);
@@ -162,7 +162,7 @@ public class AliyunDdnsUtilsTest {
         when(mockClient.updateDomainRecordWithOptions(any(UpdateDomainRecordRequest.class), any()))
             .thenReturn(mockResponse);
 
-        List<Record> updatedRecords = AliyunDdnsUtils.updateDomainRecordBatch(config, records);
+        List<Record> updatedRecords = AliyunDdnsUtils.updateDomainRecordBatch(config, mockClient, records);
 
         assertNotNull("返回的记录列表不应为null", updatedRecords);
         assertEquals("应返回两个记录", 2, updatedRecords.size());
@@ -200,7 +200,7 @@ public class AliyunDdnsUtilsTest {
             .thenThrow(new TeaException(java.util.Collections.singletonMap("message", "模拟API错误"))); // 第二次调用抛出异常
 
         try {
-            AliyunDdnsUtils.updateDomainRecordBatch(config, records);
+            AliyunDdnsUtils.updateDomainRecordBatch(config, mockClient, records);
             fail("应抛出异常");
         } catch (Exception e) {
             // 陴期会捕获到异常
@@ -218,7 +218,7 @@ public class AliyunDdnsUtilsTest {
             .thenThrow(new TeaException(java.util.Collections.singletonMap("message", "模拟API错误")));
 
         try {
-            AliyunDdnsUtils.readDomainRecords(config, TEST_DOMAIN_NAME, TEST_RECORD_TYPE);
+            AliyunDdnsUtils.readDomainRecords(config, mockClient, TEST_DOMAIN_NAME, TEST_RECORD_TYPE);
             fail("应抛出异常");
         } catch (Exception e) {
             // 陴期会捕获到异常
@@ -241,7 +241,7 @@ public class AliyunDdnsUtilsTest {
             .thenThrow(new TeaException(java.util.Collections.singletonMap("message", "模拟API错误")));
 
         try {
-            AliyunDdnsUtils.updateDomainRecord(config, testRecord);
+            AliyunDdnsUtils.updateDomainRecord(config, mockClient, testRecord);
             fail("应抛出异常");
         } catch (Exception e) {
             // 陴期会捕获到异常

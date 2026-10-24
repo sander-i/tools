@@ -50,7 +50,20 @@ public class AliyunDdnsUtils {
      * @throws Exception 异常
      */
     public static List<Record> readDomainRecords(AliyunDdnsConfig aliyunDdnsConfig, String domainName, String type) throws Exception {
-        com.aliyun.alidns20150109.Client client = createClient(aliyunDdnsConfig);
+        return readDomainRecords(aliyunDdnsConfig, createClient(aliyunDdnsConfig), domainName, type);
+    }
+
+    /**
+     * 读取域记录（使用调用方提供的 Client，便于测试与复用连接）
+     *
+     * @param aliyunDdnsConfig 阿里云ddns配置
+     * @param client           阿里云 DNS 客户端
+     * @param domainName       域名
+     * @param type             域名前缀
+     * @return 域记录
+     * @throws Exception 异常
+     */
+    public static List<Record> readDomainRecords(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109.Client client, String domainName, String type) throws Exception {
         DescribeDomainRecordsRequest describeDomainRecordsRequest = new DescribeDomainRecordsRequest()
                 .setDomainName(domainName);
         if (BaseUtils.isNotEmpty(type)) {
@@ -75,8 +88,19 @@ public class AliyunDdnsUtils {
      * @throws Exception 异常
      */
     public static Record updateDomainRecord(AliyunDdnsConfig aliyunDdnsConfig, Record newRecord) throws Exception {
-        com.aliyun.alidns20150109.Client client = createClient(aliyunDdnsConfig);
+        return updateDomainRecord(aliyunDdnsConfig, createClient(aliyunDdnsConfig), newRecord);
+    }
 
+    /**
+     * 更新域记录（使用调用方提供的 Client，便于测试与复用连接）
+     *
+     * @param aliyunDdnsConfig 阿里云ddns配置
+     * @param client           阿里云 DNS 客户端
+     * @param newRecord        新域记录
+     * @return 域记录
+     * @throws Exception 异常
+     */
+    public static Record updateDomainRecord(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109.Client client, Record newRecord) throws Exception {
         UpdateDomainRecordRequest updateDomainRecordRequest = new UpdateDomainRecordRequest()
                 //记录RecordId
                 .setRecordId(newRecord.getRecordId())
@@ -102,12 +126,25 @@ public class AliyunDdnsUtils {
      * @throws Exception 异常
      */
     public static List<Record> updateDomainRecordBatch(AliyunDdnsConfig aliyunDdnsConfig, List<Record> newRecords) throws Exception {
+        return updateDomainRecordBatch(aliyunDdnsConfig, createClient(aliyunDdnsConfig), newRecords);
+    }
+
+    /**
+     * 更新域记录（使用调用方提供的 Client，整个批次复用同一连接）
+     *
+     * @param aliyunDdnsConfig 阿里云ddns配置
+     * @param client           阿里云 DNS 客户端
+     * @param newRecords       新域记录
+     * @return 域记录
+     * @throws Exception 异常
+     */
+    public static List<Record> updateDomainRecordBatch(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109.Client client, List<Record> newRecords) throws Exception {
         List<Record> succeedList = new ArrayList<>();
         StringBuilder error = new StringBuilder();
 
         newRecords.forEach(r -> {
             try {
-                succeedList.add(updateDomainRecord(aliyunDdnsConfig, r));
+                succeedList.add(updateDomainRecord(aliyunDdnsConfig, client, r));
             } catch (Exception e) {
                 error.append(e.getMessage()).append("\n");
             }
