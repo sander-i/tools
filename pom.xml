@@ -390,24 +390,6 @@
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
-            <!--git的版本信息-->
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>${git-commit-id-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <!-- 无 .git 目录的构建环境（如在线文档生成导出的源码包）不失败，仅跳过 -->
-                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -506,14 +488,34 @@
     -->
 
     <profiles>
-        <!--        <profile>-->
-        <!--            <id>ossrh</id>-->
-        <!--            <properties>-->
-        <!--                <gpg.executable>sander-o</gpg.executable>-->
-        <!--                <passphrase></passphrase>-->
-        <!--                &lt;!&ndash;                <gpg.passphrase>***REMOVED***</gpg.passphrase>&ndash;&gt;-->
-        <!--            </properties>-->
-        <!--        </profile>-->
+        <!--
+          git 版本信息（可选，默认关闭）：生成 git.properties。
+          项目代码不消费该产物，且部分受限构建环境（如 Gitee 在线文档生成的内网镜像）
+          拉不到该第三方插件，故移出默认构建。需要时以 -Pgit-info 启用。
+        -->
+        <profile>
+            <id>git-info</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>pl.project13.maven</groupId>
+                        <artifactId>git-commit-id-plugin</artifactId>
+                        <version>${git-commit-id-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>revision</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                            <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <distributionManagement>
