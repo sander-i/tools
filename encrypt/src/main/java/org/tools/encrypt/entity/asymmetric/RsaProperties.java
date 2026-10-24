@@ -20,7 +20,6 @@ public class RsaProperties extends EncryptProperties {
         /*
          * 算法模式
          * RSA
-         * RSA/ECB/NoPadding
          * ======
          * RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING
          * OAEPWithSHA-256AndMGF1Padding
@@ -48,11 +47,6 @@ public class RsaProperties extends EncryptProperties {
      */
     public void recalcMaxBlocks() {
         switch (AlgorithmModeEnum.enumName(algorithmMode)) {
-            case RSA_ECB_NO_PADDING: {
-                setMaxEncryptBlock((keyBits / 8) - 11);
-                setMaxDecryptBlock(keyBits / 8);
-                break;
-            }
             case RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING: {
                 int hLen = 256 / 8;
                 setMaxEncryptBlock((keyBits / 8) - (2 * hLen) - 2);

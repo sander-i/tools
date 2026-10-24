@@ -35,8 +35,6 @@ public enum AlgorithmModeEnum {
      * RSA
      */
     RSA("RSA"),
-    @Deprecated
-    RSA_ECB_NO_PADDING("RSA/ECB/NoPadding"),
     RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING"),
     OAEPWithSHA__256AndMGF1Padding("OAEPWithSHA-256AndMGF1Padding"),
 

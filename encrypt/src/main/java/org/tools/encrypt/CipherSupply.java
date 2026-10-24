@@ -74,7 +74,6 @@ public class CipherSupply extends CipherSupplyAbst {
     public void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode)
             throws InvalidKeyException, InvalidAlgorithmParameterException {
         switch (algorithmMode) {
-            case RSA_ECB_NO_PADDING:
             case RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING: {
                 cipher.init(mode, secretKey);
                 break;

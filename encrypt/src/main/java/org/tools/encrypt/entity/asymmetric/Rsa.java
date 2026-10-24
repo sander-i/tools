@@ -27,9 +27,7 @@ public class Rsa extends KeyPair {
     /**
      * 算法模式
      * RSA
-     * RSA/None/NoPadding
      * ======
-     * RSA/None/OAEPWITHSHA-256ANDMGF1PADDING
      * RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING
      */
     private String algorithmMode = "RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING";

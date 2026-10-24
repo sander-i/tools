@@ -29,7 +29,7 @@ public class HttpResult<T> implements Serializable {
     /**
      * 返回数据
      */
-    private transient T data;
+    private T data;
 
     private HttpResult() {
     }

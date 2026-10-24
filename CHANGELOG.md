@@ -8,6 +8,7 @@
 
 ### Added
 
+- 新增唯一键工具（bedrock `uniqueid` 包，纯 JDK 实现，基础包不引入任何第三方依赖）：`SnowflakeUtils` 雪花 ID（1+41+10+12 位，时钟回拨等待/拒绝策略，支持 workerId/dataCenterId 反解析）与 `TddlUtils` TDDL 风格字符串主键（17 位毫秒时间戳 + 2 位机器标识 + 3 位序列，共 22 位，同一机器标识共享序列状态）。均附并发唯一性冒烟测试；`uniqueid` 各 package-info 补充包描述。
 - 文档导航新增 Gitee 在线 API 文档入口（https://apidoc.gitee.com/sander-o/tools），同步更新中英文 README 与 HTML 操作文档。
 - 全项目公开类/方法 Javadoc 补全：扫描 bedrock / encrypt / fortify / starter 全部公开方法，为缺失描述的 182 个公开方法（响应构建工厂、分页、HTTP 工具、日期时区、加密 Helper 重载、枚举查找、过滤器、Excel 填充、自动配置 Bean 等）补充中文 Javadoc；含块注释内示例代码的扫描排除与"注释位于注解之上"的规范修正。无任何行为变更。
 - 新增 `docs/operations-guide.html`：自包含 HTML 操作文档（无外部依赖），含目录导航、能力矩阵、安全边界表、各能力可复制示例、Spring Boot 5 分钟接入指引、FAQ 与安全问题报告渠道；可克隆仓库后用浏览器直接打开，亦支持离线分发与打印（含打印样式）。中英文 README 均已接入入口链接。
@@ -33,7 +34,13 @@
 
 - 根 `pom.xml` 移除私有 Nexus 仓库（ailuoli）的 repository / pluginRepository 及相关注释残留。
 
+### Removed
+
+- 移除全部 `@Deprecated` 类与枚举值（引用同步清理，无 breaking 影响确认）：`bedrock/util/JsonUtils`（及其测试，手写 JSON 拼接实现）、`bedrock/http/resp/v2/R`（连同空的 `resp/v2` 包）、`encrypt/CipherUtils`（及其测试，底层执行器已由 `XxxHelper` + `SymmetricalUtils`/`AsymmetricUtils` 覆盖）、`AlgorithmModeEnum.RSA_ECB_NO_PADDING`（弱模式，实体注释同步清理，`RsaProperties.recalcMaxBlocks` 与 `CipherSupply` 对应分支移除）。
+
 ### Fixed
+
+- **http 基础对象规范修复**（含 2 个功能缺陷）：① `RR.fail()` / `R.ok()` / `R.fail()` 此前返回全空或 success=true 的对象（`RR.fail` 传入 `success=true`），已修正；`build(S)` / `R.build(S, ...)` 不再硬编码 `success=true`，按 code 是否匹配 `RS.OK` 推导，并新增 `RR.build(S, boolean)` 显式重载。② `HttpResult.data` / `R.data` 此前标记 `transient`，JDK 序列化会丢失业务数据，已移除。③ 分页计算重复代码上提至 `Paging.initPaging` 基类（子类仅保留方言差异的 `getEndRecord`），`pageSize<=0` 由算术异常改为明确的 `IllegalArgumentException`；删除 `OraclePaging.main()` 演示入口与冗余 `@ToString`。
 
 - Gitee 在线文档生成失败修复：根 POM 此前在 `<repositories>` / `<pluginRepositories>` 中硬编码阿里云镜像，Gitee 构建环境无法解析 `maven.aliyun.com`（Unknown host），导致 `git-commit-id-plugin` 等插件下载失败、文档构建中断。已移除 POM 内全部仓库声明（发布型库的 POM 不应把区域镜像强加给下游），默认走 Maven Central，需要镜像加速的环境在自身 `settings.xml` 配置（README 已补说明）。全模块 `mvn javadoc:javadoc` 已本地验证通过。
 - Gitee 文档生成二次失败修复：Gitee 构建环境的内网镜像（`maven.local/repository/central`）缺失第三方插件 `git-commit-id-plugin`（Apache 官方插件均可用）。排查确认 `git.properties` 产物在代码库中零消费，已将该插件移出默认构建、收入可选 profile `-Pgit-info`（保留 failOnNoGitDirectory=false），文档与常规构建不再解析该第三方构件。

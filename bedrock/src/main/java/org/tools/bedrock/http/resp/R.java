@@ -15,7 +15,7 @@ public class R<T> extends RR {
 
     private static final long serialVersionUID = -3650942902842307882L;
 
-    private transient T data;
+    private T data;
 
     private R(boolean success, String code, String msg, String message, T data) {
         super(success, code, msg, message);
@@ -29,12 +29,12 @@ public class R<T> extends RR {
 
     /** 构建无数据的成功响应（RR 视图） */
     public static RR ok() {
-        return new RR();
+        return RR.ok();
     }
 
     /** 构建无数据的失败响应（RR 视图） */
     public static RR fail() {
-        return new RR();
+        return RR.fail();
     }
 
     /** 构建携带数据的成功响应 */
@@ -52,19 +52,19 @@ public class R<T> extends RR {
         return new R<>(false, RS.FAIL, null, data);
     }
 
-    /** 按状态枚举与消息构建 RR 响应 */
+    /** 按状态枚举与消息构建 RR 响应（code 匹配 RS.OK 时 success=true） */
     public static RR build(S s, String message) {
-        return new RR(true, s.getCode(), s.getMsg(), message);
+        return new RR(RS.OK.getCode().equals(s.getCode()), s.getCode(), s.getMsg(), message);
     }
 
-    /** 按状态枚举与数据构建响应 */
+    /** 按状态枚举与数据构建响应（code 匹配 RS.OK 时 success=true） */
     public static <T> R<T> build(S s, T data) {
-        return new R<>(true, s, null, data);
+        return new R<>(RS.OK.getCode().equals(s.getCode()), s, null, data);
     }
 
-    /** 按状态枚举、消息与数据构建响应 */
+    /** 按状态枚举、消息与数据构建响应（code 匹配 RS.OK 时 success=true） */
     public static <T> R<T> build(S s, String message, T data) {
-        return new R<>(true, s, message, data);
+        return new R<>(RS.OK.getCode().equals(s.getCode()), s, message, data);
     }
 
 }
