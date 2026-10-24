@@ -1,87 +1,98 @@
+# tools — 以 encrypt 为旗舰的 Java 加密工具库
 
+一个经过验证、可按需引入的 Java 加密库（含配套工具）：对称 / 非对称加密、摘要、签名、JWT 开箱即用，也可通过 Spring Boot Starter 一键接入；基础工具（bedrock）与增强能力（fortify）作为配套模块按需引入，不会被强加进你的依赖树。
 
-# tools - 便携工具箱
+> **文档导航**：[encrypt 模块文档](encrypt/README.md)（能力矩阵、安全边界、完整示例） · [encrypt-spring-boot-starter 5 分钟接入](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md) · [安全策略](SECURITY.md) · [变更记录](CHANGELOG.md)
 
-让编码更易！本项目提供经过验证、实用性强的工具类代码，解决网上搜索查找费时费力、难以找到真正可用代码的问题。
+## 快速开始
 
-## 📋 目录
+### 1. 引入 encrypt
 
-- [项目介绍](#项目介绍)
-- [软件架构](#软件架构)
-- [功能特性](#功能特性)
-- [安装教程](#安装教程)
-- [使用说明](#使用说明)
-- [模块详解](#模块详解)
-- [参与贡献](#参与贡献)
-- [许可证](#许可证)
+```xml
+<dependency>
+    <groupId>io.gitee.sander-o</groupId>
+    <artifactId>encrypt</artifactId>
+    <version>1.0.6.7-d01</version>
+</dependency>
+```
 
-## 项目介绍
+> 版本号读取自项目根 `pom.xml`（当前为 `1.0.6.7-d01`，属于开发中版本，发布时可能变化；以 [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools) 上实际可用的版本为准）。
 
-**tools** 是一个综合性的 Java 工具箱项目，致力于为开发者提供经过生产环境验证的实用工具类。项目核心理念是解决以下问题：
-- 网上搜索代码费时费力
-- 难以找到真正可用的代码
-- 复制的代码存在各种问题
+### 2. 三行代码开始使用
 
-## 软件架构
+```java
+// 摘要：MD5（大写十六进制输出）
+String md5 = MD5Utils.encode("password");
+```
+
+更稳妥的最小示例（完整 round-trip）：
+
+```java
+// 生成 128 位随机密钥（Hex 字符串），配置 IV 后加解密
+SecretKey key = AesKeyGenerator.getSecretKey();
+AesProperties props = new AesProperties();
+props.setSecretKey(key);
+props.setIvParameter("0123456789abcdef");
+AesHelper.load(props);
+
+String ciphertext = AesHelper.encode("hello");
+String plaintext  = AesHelper.decode(ciphertext); // "hello"
+```
+
+### 3. Spring Boot 一键接入
+
+```xml
+<dependency>
+    <groupId>io.gitee.sander-o.spring.boot</groupId>
+    <artifactId>encrypt-spring-boot-starter</artifactId>
+    <version>1.0.6.7-d01</version>
+</dependency>
+```
+
+启动类加 `@EnableToolsEncrypt`，在 `application.yml` 中配置 `tools.encrypt.*` 即可，详见 [5 分钟接入](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md)。
+
+## 为什么是 encrypt
+
+- **有测试兜底**：核心加解密路径有单元测试覆盖（运行方式见 [encrypt 模块文档](encrypt/README.md#测试)）。
+- **边界明确**：每个能力的算法 / 模式 / 填充 / 密钥 / IV / 字符集行为都有文档约束，见 [安全边界表](encrypt/README.md#安全边界)。
+- **可按需引入**：只要加密，就只引 `encrypt`；要 Spring Boot 自动装配，加 `encrypt-spring-boot-starter`；`bedrock`、`fortify` 是可选的配套模块，不是前置依赖（仅 `encrypt` 内部依赖 `bedrock` 的少量基础工具，随其自动传递）。
+- **算法覆盖常见场景**：AES / DES / IDEA、RSA、DSA、MD5 / SHA 系列、数字签名、JWT、Base64、CRC32。
+
+## 项目结构
 
 ```
 tools
-├── bedrock           # 基础工具模块
-│   ├── annotations   # 自定义注解
-│   ├── base          # 基础对象和枚举
-│   ├── constant      # 常量定义
-│   ├── database      # 数据库工具
-│   ├── exception     # 异常处理
-│   ├── http          # HTTP相关工具
-│   ├── uniqueid      # 分布式ID生成
-│   └── util          # 通用工具类
-├── encrypt           # 加密与安全模块
-│   ├── asymmetric    # 非对称加密（RSA、DSA等）
-│   ├── basic         # 基础加密（MD5、SHA、JWT等）
-│   ├── digitalsignature # 数字签名
-│   └── symmetrical   # 对称加密（AES、DES、IDEA等）
-├── fortify           # 增强功能模块
-│   ├── ddns          # 动态域名服务
-│   ├── http          # HTTP请求处理
-│   └── util          # 增强工具类
-└── tools-spring-boot-starter
-    └── encrypt-spring-boot-starter  # Spring Boot集成
+├── encrypt           # ★ 旗舰模块：加密与安全（本项目的第一入口）
+│   ├── asymmetric    # 非对称加密（RSA 等）
+│   ├── basic         # 摘要与编码（MD5、SHA、JWT、Base64、CRC32）
+│   ├── digitalsignature # 数字签名（DSA 等）
+│   └── symmetrical   # 对称加密（AES、DES、IDEA 等）
+├── tools-spring-boot-starter
+│   └── encrypt-spring-boot-starter  # Spring Boot 自动装配
+├── bedrock           # 配套模块：基础工具
+└── fortify           # 配套模块：增强能力
 ```
 
-## 功能特性
+## 配套模块
 
-### bedrock 模块
-- **基础对象**：BaseBean、Identity、Address 等常用实体类
-- **常量定义**：数字、字符、特殊符号常量
-- **数据库工具**：MySQL、Oracle、SQL Server 数据库信息获取
-- **HTTP工具**：HttpResult 统一响应、Paging 分页组件
-- **ID生成**：UUID、雪花算法、TDDL分布式ID
-- **工具类**：集合、映射、日期、文件、图像处理等
+以下模块围绕加密 / 基础场景提供扩展能力，按需引入，完整说明见各自文档：
 
-### encrypt 模块
-- **不可逆加密**：MD5、SHA 系列
-- **对称加密**：AES、DES、IDEA
-- **非对称加密**：RSA、DSA、ECDSA
-- **数字签名**：支持多种签名算法
-- **JWT支持**：JSON Web Token 生成与解析
-- **CRC校验**：CRC32 校验码生成
+### bedrock — 基础工具
 
-### fortify 模块
-- **DDNS**：阿里云动态域名服务
-- **HTTP请求**：请求体读取过滤器
-- **JSON工具**：JSON 与对象互转
-- **Excel工具**：Excel 文件生成
-- **图像处理**：图片压缩、格式转换
+坐标：`io.gitee.sander-o:bedrock`（版本同根 `pom.xml`）。包含集合 / 映射 / 日期 / 文件 / 图像等工具类、HTTP 统一响应、雪花 ID 等分布式 ID 生成。`encrypt` 依赖其中的基础工具类，单独使用 `encrypt` 时会自动传递引入。详见 [bedrock/README.md](bedrock/README.md)。
 
-## 安装教程
+### fortify — 增强能力
 
-### Maven 依赖配置
+坐标：`io.gitee.sander-o:fortify`（版本同根 `pom.xml`）。包含 Excel 文件生成（`ExcelUtils` + `ExcelSheet`）、图像压缩处理（`ImageUtils`）、阿里云 DDNS（`AliyunDdnsUtils`）等。详见 [fortify/README.md](fortify/README.md)。
 
-在 `pom.xml` 中添加依赖：
+## 安装教程（全量引入）
+
+如需一次性引入全部模块，可在自己的 `dependencyManagement` 中导入 BOM 后按需声明依赖：
 
 ```xml
 <properties>
-    <tools.version>Latest Version</tools.version>
+    <!-- 以 Maven Central 实际发布的版本为准 -->
+    <tools.version>1.0.6.7-d01</tools.version>
 </properties>
 
 <dependencyManagement>
@@ -97,85 +108,89 @@ tools
 </dependencyManagement>
 
 <dependencies>
-    <!-- 基础工具 -->
-    <dependency>
-        <groupId>io.gitee.sander-o</groupId>
-        <artifactId>bedrock</artifactId>
-    </dependency>
-    <!-- 加密工具 -->
+    <!-- 加密工具（旗舰） -->
     <dependency>
         <groupId>io.gitee.sander-o</groupId>
         <artifactId>encrypt</artifactId>
-    </dependency>
-    <!-- 增强功能 -->
-    <dependency>
-        <groupId>io.gitee.sander-o</groupId>
-        <artifactId>fortify</artifactId>
     </dependency>
     <!-- Spring Boot Starter -->
     <dependency>
         <groupId>io.gitee.sander-o.spring.boot</groupId>
         <artifactId>encrypt-spring-boot-starter</artifactId>
     </dependency>
+    <!-- 基础工具（配套，按需） -->
+    <dependency>
+        <groupId>io.gitee.sander-o</groupId>
+        <artifactId>bedrock</artifactId>
+    </dependency>
+    <!-- 增强功能（配套，按需） -->
+    <dependency>
+        <groupId>io.gitee.sander-o</groupId>
+        <artifactId>fortify</artifactId>
+    </dependency>
 </dependencies>
 ```
 
-## 使用说明
+## 使用示例
 
-### bedrock 使用示例
+### encrypt（详见 [encrypt/README.md](encrypt/README.md)）
 
 ```java
-// 集合工具
-List<String> list = Lists.newArrayList("a", "b", "c");
+// MD5 / SHA 摘要
+String md5 = MD5Utils.encode("password");                       // 大写十六进制；入参为 null 时抛 EncryptException
+String sha256 = ShaUtils.encode("password");                    // 默认 SHA-256，小写十六进制
+
+// Base64（UTF-8）
+String encoded = Base64Utils.encode("Hello World");
+String decoded = Base64Utils.decode(encoded);
+
+// AES（默认 AES/CBC/PKCS5Padding；密钥为 Hex 字符串；IV 需 16 字节）
+SecretKey key = AesKeyGenerator.getSecretKey();                 // 随机 128 位密钥
+AesProperties props = new AesProperties();
+props.setSecretKey(key);
+props.setIvParameter("0123456789abcdef");
+AesHelper.load(props);
+String encrypted = AesHelper.encode("plaintext");
+String decrypted = AesHelper.decode(encrypted);                 // "plaintext"
+
+// RSA（默认 OAEPWithSHA-256AndMGF1Padding；签名默认 SHA3_256withRSA）
+Rsa rsa = new Rsa();                                            // 默认 2048 位
+rsa.setPublicKey("...Base64 公钥...");
+rsa.setPrivateKey("...Base64 私钥...");
+RsaHelper.load(rsa);
+String cipherText = RsaHelper.encode("plaintext");
+String plainText = RsaHelper.decode(cipherText);
+String sign = RsaHelper.sign("plaintext");
+boolean ok = RsaHelper.verify("plaintext", sign);
+
+// JWT（HMAC256；建议始终显式传入签名密钥，避免使用内置默认值）
+Map<String, String> payload = new HashMap<>();
+payload.put("userId", "123");
+String token = JWTUtils.generatorToken(payload, "your-strong-secret");
+Map<String, String> parsed = JWTUtils.parseToken(token, "your-strong-secret");
+```
+
+> 注意：`AesHelper` / `RsaHelper` 等基于静态配置（`load`）工作，进程内共享一份配置；密钥明文请勿硬编码在源码中，密钥来源建议见 [starter 文档](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md)。
+
+### bedrock（配套）
+
+```java
+// 集合 / 映射工具（不含构造器，构造 List 请使用 JDK API）
+List<String> list = Arrays.asList("a", "b", "c");
 boolean empty = Lists.isEmpty(list);
 
-// 映射工具
 Map<String, Object> map = Maps.objToMap(user);
-User user = Maps.mapToObj(map, User.class);
+User user2 = Maps.mapToObj(map, new User());
 
 // 日期工具
 String formatted = DateUtils.format(new Date(), "yyyy-MM-dd");
 Date parsed = DateUtils.strDateFormat("2024-01-01", "yyyy-MM-dd");
-
-// 文件工具
-String content = FileUtil.readFile("path/to/file.txt");
-FileUtil.compressToZip("sourcePath", "targetPath.zip");
-
-// 图像相似度检测
-SimilarityResult result = ImageUtil.calculateFusedSimilarity(image1, image2);
 ```
 
-### encrypt 使用示例
+### fortify（配套）
 
 ```java
-// MD5 加密
-String md5 = MD5Utils.encode("password");
-
-// Base64 编码
-String encoded = Base64Utils.encode("Hello World");
-String decoded = Base64Utils.decode(encoded);
-
-// AES 加密
-String encrypted = AesHelper.encode("secretKey", "plaintext");
-String decrypted = AesHelper.decode("secretKey", encrypted);
-
-// RSA 加密
-String publicKey = RsaKeyGenerator.getPublicKeyStr();
-String privateKey = RsaKeyGenerator.getPrivateKeyStr();
-String sign = RsaHelper.sign(wrought);
-boolean verified = RsaHelper.verify(wrought, sign);
-
-// JWT
-Map<String, String> payload = new HashMap<>();
-payload.put("userId", "123");
-String token = JWTUtils.generatorToken(payload);
-Map<String, String> parsed = JWTUtils.parseToken(token);
-```
-
-### fortify 使用示例
-
-```java
-// Excel 导出
+// Excel 导出（ExcelSheet 位于 bedrock 模块，支持 builder 风格）
 ExcelSheet sheet = ExcelSheet.builder()
     .name("用户列表")
     .headers(Arrays.asList(Arrays.asList("姓名", "年龄")))
@@ -183,105 +198,14 @@ ExcelSheet sheet = ExcelSheet.builder()
     .build();
 ExcelUtils.toFile("output.xlsx", sheet);
 
-// 图像压缩
-byte[] compressed = ImageUtils.compressPicByScale(imageBytes, 0.8f);
-
 // 阿里云 DDNS
-Record record = new Record();
-record.setRR("www");
-record.setValue("192.168.1.1");
-AliyunDdnsUtils.updateDomainRecord(config, record);
+List<Record> records = AliyunDdnsUtils.readDomainRecords(config, "example.com", "A");
 ```
 
-### Spring Boot 集成
+## 参与 / 支持 / 许可
 
-```java
-@SpringBootApplication
-@EnableToolsEncrypt
-public class Application {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
+- 问题与建议请提交 [Gitee Issue](https://gitee.com/sander-o/tools/issues)；安全问题请勿公开提交，见 [SECURITY.md](SECURITY.md)。
+- 项目使用 [MIT](LICENSE) 许可证。
+- 技术支持：可通过 Gitee Issue 与维护者联系。
 
-@RestController
-@RequestMapping("/api/encrypt")
-public class EncryptController {
-    
-    @Autowired
-    private Encrypt encrypt;
-    
-    @PostMapping("/aes/encode")
-    public String aesEncode(@RequestParam("data") String data) throws AesException {
-        return AesHelper.encode(data);
-    }
-}
-```
-
-配置文件 `application.yml`：
-
-```yaml
-tools:
-  encrypt:
-    symmetrical:
-      aes:
-        enabled: true
-        algorithm: AES
-        keyBits: 256
-      des:
-        enabled: true
-    asymmetric:
-      rsa:
-        enabled: true
-        algorithm: RSA
-        keyBits: 2048
-```
-
-## 模块详解
-
-### bedrock 模块
-
-| 包名 | 功能说明 |
-|------|----------|
-| `org.tools.bedrock.annotations` | 自定义注解 |
-| `org.tools.bedrock.base` | 基础实体类和枚举 |
-| `org.tools.bedrock.constant` | 常量定义 |
-| `org.tools.bedrock.database` | 数据库信息获取 |
-| `org.tools.bedrock.exception` | 统一异常处理 |
-| `org.tools.bedrock.http` | HTTP响应和分页 |
-| `org.tools.bedrock.uniqueid` | ID生成器 |
-| `org.tools.bedrock.util` | 核心工具类 |
-
-### encrypt 模块
-
-| 包名 | 功能说明 |
-|------|----------|
-| `org.tools.encrypt.basic` | MD5、SHA、JWT、Base64 |
-| `org.tools.encrypt.symmetrical` | AES、DES、IDEA |
-| `org.tools.encrypt.asymmetric` | RSA、DSA |
-| `org.tools.encrypt.digitalsignature` | 数字签名 |
-
-### fortify 模块
-
-| 包名 | 功能说明 |
-|------|----------|
-| `org.tools.fortify.ddns` | 阿里云DDNS |
-| `org.tools.fortify.http` | HTTP请求处理 |
-| `org.tools.fortify.util` | JSON、Excel、图像 |
-
-## 参与贡献
-
-1. Fork 本仓库
-2. 新建 `feat/${user_name}/${需求}` 分支
-3. 提交代码
-4. 创建 Pull Request 合并到 `develop${年}${月}${日}` 分支
-5. 测试通过后创建 Pull Request 合并到 `release`
-
-## 许可证
-
-本项目采用 MIT 许可证开源。使用者行为与本项目无关，作者不对使用者行为造成的后果承担法律责任。
-
-## 技术支持
-
-- 项目地址：https://gitee.com/sander-o/tools
-- 欢迎通过 Issue 提出建议或优化点
+<!-- TODO(badge): 待确认可用的 CI / 版本徽章后再补充，不使用未经确认的徽章 URL。 -->
