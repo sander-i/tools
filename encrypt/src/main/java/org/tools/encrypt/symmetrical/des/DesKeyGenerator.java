@@ -35,10 +35,6 @@ public class DesKeyGenerator {
      * 锁对象
      */
     private static final Object LOCK = new Object();
-    /**
-     * 密钥生成器
-     */
-    private static KeyGenerator keyGenerator;
 
     /**
      * Des 配置文件
@@ -46,33 +42,23 @@ public class DesKeyGenerator {
     private static DesProperties properties;
 
     /**
-     * 初始化密钥生成器对象
-     */
-    private static void init() throws DesException {
-        if (BaseUtils.isNull(keyGenerator)) {
-            synchronized (LOCK) {
-                try {
-                    if (BaseUtils.isNull(keyGenerator)) {
-                        keyGenerator = EncryptKeyGenerator.getKeyGenerator(AlgorithmEnum.DES.getAlgorithm());
-                        keyGenerator.init(KEY_BITS);
-                    }
-                } catch (NoSuchAlgorithmException e) {
-                    log.error(e.getLocalizedMessage());
-                    throw new DesException(e);
-                }
-            }
-        }
-    }
-
-    /**
-     * 获取密钥对象
+     * 获取密钥对象。
+     *
+     * <p>每次调用创建独立的 KeyGenerator（JCA 生成器非线程安全，
+     * 共享实例并发 {@code init}/{@code generateKey} 会互相污染）。</p>
      *
      * @return SecretKey
      * @throws DesException DES加解密异常
      */
     public static SecretKey getSecretKey() throws DesException {
-        init();
-        return keyGenerator.generateKey();
+        try {
+            KeyGenerator keyGenerator = EncryptKeyGenerator.getKeyGenerator(AlgorithmEnum.DES.getAlgorithm());
+            keyGenerator.init(KEY_BITS);
+            return keyGenerator.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(e);
+        }
     }
 
     /**

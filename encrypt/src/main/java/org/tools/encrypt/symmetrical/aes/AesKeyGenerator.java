@@ -33,14 +33,9 @@ public class AesKeyGenerator {
     private static final int KEY_BITS = 128;
 
     /**
-     * 锁对象
+     * 锁对象（properties 懒加载）
      */
     private static final Object LOCK = new Object();
-
-    /**
-     * 密钥生成器
-     */
-    private static KeyGenerator keyGenerator;
 
     /**
      * Aes 配置文件
@@ -48,33 +43,23 @@ public class AesKeyGenerator {
     private static AesProperties properties;
 
     /**
-     * 初始化密钥生成器对象
-     */
-    private static void init() throws AesException {
-        if (BaseUtils.isNull(keyGenerator)) {
-            synchronized (LOCK) {
-                try {
-                    if (BaseUtils.isNull(keyGenerator)) {
-                        keyGenerator = EncryptKeyGenerator.getKeyGenerator(AlgorithmEnum.AES.getAlgorithm());
-                        keyGenerator.init(KEY_BITS);
-                    }
-                } catch (NoSuchAlgorithmException e) {
-                    log.error(e.getLocalizedMessage());
-                    throw new AesException(e);
-                }
-            }
-        }
-    }
-
-    /**
-     * 获取密钥对象
+     * 获取密钥对象。
+     *
+     * <p>每次调用创建独立的 KeyGenerator（JCA 生成器非线程安全，
+     * 共享实例并发 {@code init}/{@code generateKey} 会互相污染）。</p>
      *
      * @return SecretKey
      * @throws AesException AES加解密异常
      */
     public static SecretKey getSecretKey() throws AesException {
-        init();
-        return keyGenerator.generateKey();
+        try {
+            KeyGenerator keyGenerator = EncryptKeyGenerator.getKeyGenerator(AlgorithmEnum.AES.getAlgorithm());
+            keyGenerator.init(KEY_BITS);
+            return keyGenerator.generateKey();
+        } catch (NoSuchAlgorithmException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(e);
+        }
     }
 
     /**

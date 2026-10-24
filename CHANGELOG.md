@@ -52,6 +52,7 @@
 - `IdeaUtils` 的 Base64 由 commons-codec（宽容解析，非法字符不报错）对齐为 **JDK 严格实现**，与 `SymmetricalUtils` 一致——**行为变更**：非法 Base64 密文现在抛 `IllegalArgumentException`（与 `SymmetricalUtils` / `Base64Utils` 行为一致，未经包装直接抛出）。
 - 类名拼写修正：`CipherSupplyExcepiton` → `CipherSupplyException`（公开类型名，引用方需同步更名）。
 - 预留密钥处理方法的场景落地与清理：`DesProperties.setDesKeyFixedLength()` 升为 public 并接入 `DesHelper.load(DesProperties)`——仅提供字符串密钥（无 `SecretKey` 对象）时自动按 UTF-8 原文构造密钥对象，补冒烟测试；`AesProperties.setAesKeyFixedLength()` 删除（raw 字节语义与 AES 全链路 Hex 密钥约定冲突，且无任何调用方）。
+- `EncryptKeyGenerator` 并发切换算法修复：`getKeyGenerator` / `getKeyPairGenerator` 改为无状态工厂，每次调用返回新生成的实例——此前静态单例缓存的 check-then-act 竞态会导致并发切换算法时拿到错误算法的生成器，且共享的 JCA 生成器被并发 `init` 互相污染配置；同步将 Aes / Des / Idea 三个 KeyGenerator 的 `getSecretKey()` 改为每次调用独立创建生成器（删除静态共享实例与锁外 `generateKey`），整条密钥生成路径线程安全。新增并发切换算法回归测试。
 - 跨算法复制粘贴文案 / 日志修正（无行为变化）：`RsaHelper` 禁用异常消息 "Aes enable: false" → "RSA enable: false"；`AesKeyGenerator` 类注释 "des密钥生成工具"、`AesProperties` 类注释 "des加密配置文件" 与 "密钥长度固定8bit"、`DesProperties` "密钥长度固定8bit"（实为 8 字节）等注释修正；`EncryptAutoConfiguration.aes()` 装载失败日志 "des error" → "aes error"；`IdeaUtils.decode` 日志中的 `ENCRYPT_MODE` → `DECRYPT_MODE`；`IdeaHelper.init` 参数名 `aes` → `idea`。
 
 ### Tests
