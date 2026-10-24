@@ -480,12 +480,25 @@
     </build>
 
     <!--
-      不在 POM 中声明任何仓库：
-      1. 发布型库的 POM 会被下游继承，硬编码区域镜像（如 aliyun）会强加给所有使用方，
-         且部分构建环境（例如 Gitee 在线文档生成）无法解析 maven.aliyun.com，导致插件下载失败；
-      2. 默认走 Maven Central；需要镜像加速的构建环境请在自己的 settings.xml 中配置 <mirrors>
-         （本地开发者示例见 README「常见问题/镜像加速」）。
+      仓库策略：
+      1. 不声明任何远程仓库（区域镜像不应硬编码进发布型 POM），依赖默认走 Maven Central，
+         需要镜像加速的环境在自己的 settings.xml 配置 <mirrors>（示例见 README「安装教程」）；
+      2. 唯一例外：com.aliyun SDK 以标准 Maven 仓库布局随本仓库分发（local-repo/，约 2MB，
+         fortify DDNS 功能的完整依赖闭包）。部分受限构建环境（如 Gitee 在线文档生成的内网镜像）
+         按热度缓存、缺收该组构件，file:// 协议直读仓库文件即可自给自足，不依赖网络。
     -->
+    <repositories>
+        <repository>
+            <id>project-local</id>
+            <url>file://${maven.multiModuleProjectDirectory}/local-repo</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <profiles>
         <!--

@@ -19,6 +19,9 @@
 *.tar.gz
 *.rar
 
+# 随仓库分发的项目内 Maven 仓库（com.aliyun SDK 闭包，供受限构建环境直读）
+!local-repo/**/*.jar
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
