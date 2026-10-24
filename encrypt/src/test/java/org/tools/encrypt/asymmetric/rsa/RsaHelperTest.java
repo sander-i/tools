@@ -1,48 +1,112 @@
 package org.tools.encrypt.asymmetric.rsa;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 import org.tools.encrypt.entity.KeyPair;
+import org.tools.encrypt.entity.asymmetric.RsaProperties;
 import org.tools.encrypt.exception.EncryptException;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 /**
- * <p>
- * description
- * </p>
+ * RsaHelper 冒烟测试
+ * 覆盖全部公开方法：load×3 / encode×3 / decode×3 / sign×3 / verify×3 / getProperties
  *
- * @author sander 2024/03/30
+ * @author sander 2026/10/24
  */
-public class RsaHelperTest extends TestCase {
+public class RsaHelperTest {
 
-    public void testEncode() throws EncryptException {
-//        RsaProperties rsaProperties = new RsaProperties();
-//        rsaProperties.setPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDg+EI8egIBnZI3VqF3rG3bIbGpuA4JQtdXJ3/nYHAtjf07GF3WTyVZwOegqeIG5+ISslGuLe/i9B398x8WymzXCWg0HanqVdL52/tw+hKgOXoEKp8xb1NpmAeLO5l9TO4nYvZDNtKSm5HmSQzrtMjKiRmo/xPK+/2lulzL0LPIvwIDAQAB");
-//        rsaProperties.setPrivateKey("MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOD4Qjx6AgGdkjdWoXesbdshsam4DglC11cnf+dgcC2N/TsYXdZPJVnA56Cp4gbn4hKyUa4t7+L0Hf3zHxbKbNcJaDQdqepV0vnb+3D6EqA5egQqnzFvU2mYB4s7mX1M7idi9kM20pKbkeZJDOu0yMqJGaj/E8r7/aW6XMvQs8i/AgMBAAECgYAJfc/ll0wwX0KE/S2wy+CSpzhErdRBxcUqEyuNSn9RHLV7YcrLuOkdgUsEd0Zm/i+GlGlnzN5bF+uQBErifkXbNG8pv9ChdUIfZcfxwnhTY1s7N7I3D6fU/+IHoHTLcuG5PEC07KcXrDHvrCJKm4jHvBBAjzcanFNXoikMKV0zcQJBAPwFM+1zw8QX2fbFPVHxkcfS8+ekLVDRURAjMGf1ZJNNR3JJlQETA0B9BXIwXSdH0B9nXc+nPcDZ3inVZlVVOgcCQQDkhbQVsmAq/9rtg0aZNwMti2t3KK7zvk7/au1wEne/ibeq3sDJVCFWTaVM0b+L/I4xxprbwe6Xc8cOGtse162JAkEAv1a/5w8WWaH2NTno5XbvxHOwBHWMhih1UDg3PyZ7Nq7ciLO+8jLaLDL/WIPJpdIK/FzBR6/k3a9L0h0X9b+gLwJAHgze84NzVfQzK8x5eihbyJ9u0EqPRwodhUTgWD51dMB9YIDORStE/v5S4FksoRHi+PSu5HsKDuxwnpA1hEbEUQJAbstFSSJmeFoVL1cB2WozrPuXorb/o47AYdj3ERVhhEPZ6iCWQgMZRuYTL0HYzN2ES9H8nv5oF36qM0XExdJ53w==");
-//        RsaKeyGenerator.setProperties(rsaProperties);
-//        System.out.println(rsaProperties);
+    private static final String PLAINTEXT = "RSA smoke 测试文本";
 
+    private static String publicKeyStr() {
+        return RsaKeyGenerator.getPublicKeyStr();
+    }
+
+    private static String privateKeyStr() {
+        return RsaKeyGenerator.getPrivateKeyStr();
+    }
+
+    private static RsaProperties loadGlobal() throws EncryptException, Exception {
+        RsaKeyGenerator.getKeyPair();
+        RsaProperties props = new RsaProperties();
+        props.setPublicKeyStr(publicKeyStr());
+        props.setPrivateKeyStr(privateKeyStr());
+        props.setPublicKey(RsaKeyGenerator.getPublicKey(publicKeyStr()));
+        props.setPrivateKey(RsaKeyGenerator.getPrivateKey(privateKeyStr()));
+        RsaHelper.load(props);
+        return props;
+    }
+
+    @Test
+    public void testLoadKeyPair() throws Exception {
         KeyPair keyPair = new KeyPair();
-        keyPair.setPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDg+EI8egIBnZI3VqF3rG3bIbGpuA4JQtdXJ3/nYHAtjf07GF3WTyVZwOegqeIG5+ISslGuLe/i9B398x8WymzXCWg0HanqVdL52/tw+hKgOXoEKp8xb1NpmAeLO5l9TO4nYvZDNtKSm5HmSQzrtMjKiRmo/xPK+/2lulzL0LPIvwIDAQAB");
-        keyPair.setPrivateKey("MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOD4Qjx6AgGdkjdWoXesbdshsam4DglC11cnf+dgcC2N/TsYXdZPJVnA56Cp4gbn4hKyUa4t7+L0Hf3zHxbKbNcJaDQdqepV0vnb+3D6EqA5egQqnzFvU2mYB4s7mX1M7idi9kM20pKbkeZJDOu0yMqJGaj/E8r7/aW6XMvQs8i/AgMBAAECgYAJfc/ll0wwX0KE/S2wy+CSpzhErdRBxcUqEyuNSn9RHLV7YcrLuOkdgUsEd0Zm/i+GlGlnzN5bF+uQBErifkXbNG8pv9ChdUIfZcfxwnhTY1s7N7I3D6fU/+IHoHTLcuG5PEC07KcXrDHvrCJKm4jHvBBAjzcanFNXoikMKV0zcQJBAPwFM+1zw8QX2fbFPVHxkcfS8+ekLVDRURAjMGf1ZJNNR3JJlQETA0B9BXIwXSdH0B9nXc+nPcDZ3inVZlVVOgcCQQDkhbQVsmAq/9rtg0aZNwMti2t3KK7zvk7/au1wEne/ibeq3sDJVCFWTaVM0b+L/I4xxprbwe6Xc8cOGtse162JAkEAv1a/5w8WWaH2NTno5XbvxHOwBHWMhih1UDg3PyZ7Nq7ciLO+8jLaLDL/WIPJpdIK/FzBR6/k3a9L0h0X9b+gLwJAHgze84NzVfQzK8x5eihbyJ9u0EqPRwodhUTgWD51dMB9YIDORStE/v5S4FksoRHi+PSu5HsKDuxwnpA1hEbEUQJAbstFSSJmeFoVL1cB2WozrPuXorb/o47AYdj3ERVhhEPZ6iCWQgMZRuYTL0HYzN2ES9H8nv5oF36qM0XExdJ53w==");
+        keyPair.setAlgorithm("RSA");
+        keyPair.setAlgorithmMode("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING");
+        keyPair.setSignAlgorithm("SHA256withRSA");
+        keyPair.setKeyBits(2048);
+        keyPair.setPublicKey(publicKeyStr());
+        keyPair.setPrivateKey(privateKeyStr());
+        RsaHelper.load(keyPair);
 
-//        RsaHelper.load(keyPair);
-
-        String raw = "1234567890";
-        final String encode = RsaHelper.encode(keyPair.getPublicKey(), raw);
-        System.out.println("encode: " + encode);
-        final String decode = RsaHelper.decode(keyPair.getPrivateKey(), encode);
-        System.out.println("decode: " + decode);
-        String sign = RsaHelper.sign(keyPair.getPrivateKey(), raw + encode);
-        System.out.println("sign: " + sign);
-        final boolean verify = RsaHelper.verify(keyPair.getPublicKey(), decode + encode, sign);
-        System.out.println("verify: " + verify);
+        // 实体上的配置现会传递到激活属性
+        Assert.assertEquals("SHA256withRSA", RsaHelper.getProperties().getSignAlgorithm());
+        Assert.assertEquals(2048, RsaHelper.getProperties().getKeyBits());
     }
 
-    public void testDecode() {
+    @Test
+    public void testLoadProperties() throws Exception {
+        loadGlobal();
+        Assert.assertNotNull(RsaHelper.getProperties());
+        Assert.assertEquals("RSA", RsaHelper.getProperties().getAlgorithm());
     }
 
-    public void testSign() {
+    @Test
+    public void testEncodeDecodeWithGlobalConfig() throws Exception {
+        loadGlobal();
+        String ciphertext = RsaHelper.encode(PLAINTEXT);
+        Assert.assertNotEquals(PLAINTEXT, ciphertext);
+        Assert.assertEquals(PLAINTEXT, RsaHelper.decode(ciphertext));
     }
 
-    public void testVerify() {
+    @Test
+    public void testEncodeDecodeWithStringKeys() throws Exception {
+        loadGlobal();
+        String ciphertext = RsaHelper.encode(publicKeyStr(), PLAINTEXT);
+        Assert.assertEquals(PLAINTEXT, RsaHelper.decode(privateKeyStr(), ciphertext));
     }
+
+    @Test
+    public void testEncodeDecodeWithKeyObjects() throws Exception {
+        loadGlobal();
+        PublicKey publicKey = RsaKeyGenerator.getPublicKey(publicKeyStr());
+        PrivateKey privateKey = RsaKeyGenerator.getPrivateKey(privateKeyStr());
+        String ciphertext = RsaHelper.encode(publicKey, PLAINTEXT);
+        Assert.assertEquals(PLAINTEXT, RsaHelper.decode(privateKey, ciphertext));
+    }
+
+    @Test
+    public void testSignVerifyWithGlobalConfig() throws Exception {
+        loadGlobal();
+        String sign = RsaHelper.sign(PLAINTEXT);
+        Assert.assertTrue(RsaHelper.verify(PLAINTEXT, sign));
+        Assert.assertFalse(RsaHelper.verify(PLAINTEXT + "tampered", sign));
+    }
+
+    @Test
+    public void testSignVerifyWithStringKeys() throws Exception {
+        loadGlobal();
+        String sign = RsaHelper.sign(privateKeyStr(), PLAINTEXT);
+        Assert.assertTrue(RsaHelper.verify(publicKeyStr(), PLAINTEXT, sign));
+    }
+
+    @Test
+    public void testSignVerifyWithKeyObjects() throws Exception {
+        loadGlobal();
+        PrivateKey privateKey = RsaKeyGenerator.getPrivateKey(privateKeyStr());
+        PublicKey publicKey = RsaKeyGenerator.getPublicKey(publicKeyStr());
+        String sign = RsaHelper.sign(privateKey, PLAINTEXT);
+        Assert.assertTrue(RsaHelper.verify(publicKey, PLAINTEXT, sign));
+    }
+
 }

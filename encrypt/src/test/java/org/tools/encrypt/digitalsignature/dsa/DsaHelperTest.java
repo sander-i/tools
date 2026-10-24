@@ -1,8 +1,8 @@
 package org.tools.encrypt.digitalsignature.dsa;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 import org.tools.encrypt.entity.digitalsignature.DsaProperties;
-import org.tools.encrypt.enums.SignAlgorithmEnum;
 import org.tools.encrypt.exception.EncryptException;
 
 import java.security.KeyPair;
@@ -11,39 +11,70 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
- * <p>
- * description
- * </p>
+ * DsaHelper 冒烟测试
+ * 覆盖全部公开方法：load×2 / sign×3 / verify×3
  *
- * @author sander 2024/04/14
+ * @author sander 2026/10/24
  */
-public class DsaHelperTest extends TestCase {
+public class DsaHelperTest {
 
-    public void testSign() throws EncryptException, NoSuchAlgorithmException {
-        final KeyPair keyPair = DsaKeyGenerator.getKeyPair();
-        final PrivateKey aPrivate = keyPair.getPrivate();
-        final PublicKey aPublic = keyPair.getPublic();
-        DsaProperties properties = new DsaProperties();
-        properties.setSignAlgorithm(SignAlgorithmEnum.SHA256_WITH_DSA.getSignAlgorithm());
-        properties.setPrivateKey(aPrivate);
-        properties.setPublicKey(aPublic);
-        DsaHelper.load(properties);
-        final String sign = DsaHelper.sign(aPrivate, "1234567890");
-        System.out.println("sign: " + sign);
+    private static final String PLAINTEXT = "DSA smoke 测试文本";
+
+    private static DsaProperties loadGlobal() throws EncryptException, NoSuchAlgorithmException {
+        KeyPair keyPair = DsaKeyGenerator.getKeyPair();
+        DsaProperties props = new DsaProperties();
+        props.setSignAlgorithm("SHA256withDSA");
+        props.setPublicKey(keyPair.getPublic());
+        props.setPrivateKey(keyPair.getPrivate());
+        props.setPublicKeyStr(DsaKeyGenerator.getPublicKeyStr(keyPair.getPublic()));
+        props.setPrivateKeyStr(DsaKeyGenerator.getPrivateKeyStr(keyPair.getPrivate()));
+        DsaHelper.load(props);
+        return props;
     }
 
-    public void testVerify() throws EncryptException, NoSuchAlgorithmException {
-        final KeyPair keyPair = DsaKeyGenerator.getKeyPair();
-        final PrivateKey aPrivate = keyPair.getPrivate();
-        final PublicKey aPublic = keyPair.getPublic();
-        DsaProperties properties = new DsaProperties();
-        properties.setSignAlgorithm(SignAlgorithmEnum.SHA256_WITH_DSA.getSignAlgorithm());
-        properties.setPrivateKey(aPrivate);
-        properties.setPublicKey(aPublic);
-        DsaHelper.load(properties);
-        final String sign = DsaHelper.sign(aPrivate, "1234567890");
-        System.out.println("sign: " + sign);
-        final boolean verify = DsaHelper.verify(aPublic, "1234567890", sign);
-        System.out.println("verify: " + verify);
+    @Test
+    public void testLoadKeyPair() throws Exception {
+        KeyPair keyPair = DsaKeyGenerator.getKeyPair();
+        org.tools.encrypt.entity.KeyPair entity = new org.tools.encrypt.entity.KeyPair();
+        entity.setSignAlgorithm("SHA256withDSA");
+        entity.setPublicKey(DsaKeyGenerator.getPublicKeyStr(keyPair.getPublic()));
+        entity.setPrivateKey(DsaKeyGenerator.getPrivateKeyStr(keyPair.getPrivate()));
+        DsaHelper.load(entity);
+
+        Assert.assertNotNull(DsaHelper.getProperties());
     }
+
+    @Test
+    public void testLoadProperties() throws Exception {
+        loadGlobal();
+        Assert.assertNotNull(DsaHelper.getProperties());
+        Assert.assertEquals("SHA256withDSA", DsaHelper.getProperties().getSignAlgorithm());
+    }
+
+    @Test
+    public void testSignVerifyWithGlobalConfig() throws Exception {
+        loadGlobal();
+        String sign = DsaHelper.sign(PLAINTEXT);
+        Assert.assertTrue(DsaHelper.verify(PLAINTEXT, sign));
+        Assert.assertFalse(DsaHelper.verify(PLAINTEXT + "tampered", sign));
+    }
+
+    @Test
+    public void testSignVerifyWithStringKeys() throws Exception {
+        loadGlobal();
+        String privateKeyStr = DsaHelper.getProperties().getPrivateKeyStr();
+        String publicKeyStr = DsaHelper.getProperties().getPublicKeyStr();
+        String sign = DsaHelper.sign(privateKeyStr, PLAINTEXT);
+        Assert.assertTrue(DsaHelper.verify(publicKeyStr, PLAINTEXT, sign));
+    }
+
+    @Test
+    public void testSignVerifyWithKeyObjects() throws Exception {
+        loadGlobal();
+        PrivateKey privateKey = DsaKeyGenerator.getPrivateKey();
+        PublicKey publicKey = DsaKeyGenerator.getPublicKey();
+        String sign = DsaHelper.sign(privateKey, PLAINTEXT);
+        Assert.assertTrue(DsaHelper.verify(publicKey, PLAINTEXT, sign));
+    }
+
 }

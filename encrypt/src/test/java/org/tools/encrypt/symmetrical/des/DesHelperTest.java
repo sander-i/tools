@@ -1,60 +1,132 @@
 package org.tools.encrypt.symmetrical.des;
 
-import junit.framework.TestCase;
-import org.tools.encrypt.entity.symmetrical.DesProperties;
-import org.tools.encrypt.enums.AlgorithmEnum;
-import org.tools.encrypt.enums.AlgorithmModeEnum;
+import org.junit.Assert;
+import org.junit.Test;
 import org.tools.encrypt.entity.KeyPair;
-import org.tools.encrypt.exception.EncryptException;
+import org.tools.encrypt.entity.symmetrical.DesProperties;
+import org.tools.encrypt.exception.symmetrical.SymmetricalException;
+import org.tools.encrypt.exception.symmetrical.des.DesException;
 
+import javax.crypto.SecretKey;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 /**
- * <p>
- * description
- * </p>
+ * DesHelper 冒烟测试
+ * 覆盖全部公开方法：load×3 / encode×3 / decode×3 / getProperties
  *
- * @author sander 2024/03/30
+ * @author sander 2026/10/24
  */
-public class DesHelperTest extends TestCase {
+public class DesHelperTest {
 
-    public void testEncode() throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
-//        final DesProperties properties1 = new DesProperties();
-//        properties1.setSecretKey("1234567890");
-//        DesKeyGenerator.setProperties(properties1);
+    /** starter 样例 application.yml 中的 DES 密钥（8 字节） */
+    private static final String KEY = "BeYour18";
+    private static final String PLAINTEXT = "DES smoke 测试文本";
 
+    private static DesProperties loadGlobal(String key) throws DesException {
+        DesProperties props = new DesProperties();
+        props.setSecretKeyStr(key);
+        props.setSecretKey(DesKeyGenerator.getSecretKey("DES", key));
+        DesHelper.load(props);
+        return props;
+    }
+
+    @Test
+    public void testLoadKeyPair() throws Exception {
         KeyPair keyPair = new KeyPair();
-        keyPair.setAlgorithm(AlgorithmEnum.DES.getAlgorithm());
-        keyPair.setAlgorithmMode(AlgorithmModeEnum.DES.getAlgorithmMode());
-        keyPair.setIvParameter("12345678");
-        keyPair.setSecretKey("12345678");
-
+        keyPair.setAlgorithm("DES");
+        keyPair.setAlgorithmMode("DES");
+        keyPair.setSecretKey(KEY);
         DesHelper.load(keyPair);
 
-        final DesProperties properties = DesHelper.getProperties();
-        final String secretKey = properties.getSecretKeyStr();
-        System.out.println("secretKey: " + secretKey);
-
-        final String encode = DesHelper.encode("66666666");
-        System.out.println("encode: " + encode);
-        final String decode = DesHelper.decode(encode);
-        System.out.println("decode: " + decode);
+        Assert.assertEquals(PLAINTEXT, DesHelper.decode(DesHelper.encode(PLAINTEXT)));
     }
 
-    public void testDecode() {
+    @Test
+    public void testLoadKeyPairNamed() throws Exception {
+        org.tools.encrypt.entity.symmetrical.Des des = new org.tools.encrypt.entity.symmetrical.Des();
+        des.setEnabled(true);
+        des.setGroupEnabled(true);
+        des.setSecretKey(KEY);
+        des.setAlgorithm("DES");
+        des.setAlgorithmMode("DES");
+
+        java.util.List<KeyPair> groupList = new java.util.ArrayList<>();
+        KeyPair idCard = new KeyPair();
+        idCard.setName("id-card");
+        idCard.setSecretKey("12345678");
+        groupList.add(idCard);
+        des.setGroup(groupList);
+
+        // 分组加载：缺省字段由 Des 顶层配置补齐
+        DesHelper.load(des, "id-card");
+
+        String ciphertext = DesHelper.encode(PLAINTEXT);
+        Assert.assertEquals(PLAINTEXT, DesHelper.decode(ciphertext));
+        Assert.assertEquals("12345678", DesHelper.getProperties().getSecretKeyStr());
     }
 
-    public void testTestEncode() {
+    @Test
+    public void testLoadProperties() throws DesException {
+        loadGlobal(KEY);
+        Assert.assertNotNull(DesHelper.getProperties());
     }
 
-    public void testTestEncode1() {
+    /**
+     * 只提供字符串密钥（无 SecretKey 对象）的装载场景：
+     * load(DesProperties) 会自动调用 DesProperties.setDesKeyFixedLength() 按 UTF-8 原文构造密钥。
+     */
+    @Test
+    public void testLoadPropertiesWithStringKeyOnly() throws DesException {
+        DesProperties props = new DesProperties();
+        props.setSecretKeyStr(KEY);
+        DesHelper.load(props);
+
+        Assert.assertNotNull(DesHelper.getProperties().getSecretKey());
+        String ciphertext = DesHelper.encode(PLAINTEXT);
+        Assert.assertEquals(PLAINTEXT, DesHelper.decode(ciphertext));
     }
 
-    public void testTestDecode() {
+    @Test
+    public void testEncodeDecodeWithGlobalConfig() throws DesException {
+        loadGlobal(KEY);
+        String ciphertext = DesHelper.encode(PLAINTEXT);
+        Assert.assertNotEquals(PLAINTEXT, ciphertext);
+        Assert.assertEquals(PLAINTEXT, DesHelper.decode(ciphertext));
     }
 
-    public void testTestDecode1() {
+    @Test
+    public void testEncodeDecodeWithStringKey() throws DesException {
+        loadGlobal(KEY);
+        String ciphertext = DesHelper.encode(KEY, PLAINTEXT);
+        Assert.assertEquals(PLAINTEXT, DesHelper.decode(KEY, ciphertext));
     }
+
+    @Test
+    public void testEncodeDecodeWithSecretKey() throws Exception {
+        loadGlobal(KEY);
+        SecretKey key = DesKeyGenerator.getSecretKey("DES", KEY);
+        String ciphertext = DesHelper.encode(key, PLAINTEXT);
+        Assert.assertEquals(PLAINTEXT, DesHelper.decode(key, ciphertext));
+    }
+
+    /**
+     * 非法长度密钥（"BeYourself" 为 10 字节，DES 要求恰好 8 字节）
+     * 在 Cipher.init 阶段抛 InvalidKeyException（包装为 SymmetricalException）。
+     */
+    @Test
+    public void testInvalidLengthKeyRejected() {
+        DesProperties props = new DesProperties();
+        props.setSecretKeyStr("BeYourself");
+        props.setSecretKey(DesKeyGenerator.getSecretKey("DES", "BeYourself"));
+        DesHelper.load(props);
+
+        try {
+            DesHelper.encode(PLAINTEXT);
+            Assert.fail("10 字节密钥应被拒绝");
+        } catch (SymmetricalException e) {
+            Assert.assertTrue("应包装 InvalidKeyException（密钥长度错误）",
+                    e.getCause() instanceof InvalidKeyException);
+        }
+    }
+
 }
