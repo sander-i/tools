@@ -29,7 +29,29 @@ public class ImageUtilsTest {
 
     private static final String TEST_FILE_PATH = "test.jpg";
     private static final String TEST_URL = "http://example.com/test.jpg";
-    private static final byte[] TEST_IMAGE_BYTES = new byte[]{(byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
+    /**
+     * 真实可解码的 PNG 图片字节（程序生成 100x100 图片）。
+     * 此前是仅含 PNG 魔数的 8 字节伪图片，导致 compress 系列用例全部走异常分支、从未验证压缩功能。
+     */
+    private static final byte[] TEST_IMAGE_BYTES = createTestPng();
+    /** 仅含 PNG 魔数的字节数组，用于验证压缩方法对非法输入的优雅失败 */
+    private static final byte[] INVALID_IMAGE_BYTES = new byte[]{(byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
+
+    private static byte[] createTestPng() {
+        try {
+            BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+            for (int x = 0; x < 100; x++) {
+                for (int y = 0; y < 100; y++) {
+                    image.setRGB(x, y, (x * 31 + y * 17) & 0xFFFFFF);
+                }
+            }
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", output);
+            return output.toByteArray();
+        } catch (IOException e) {
+            throw new IllegalStateException("生成测试 PNG 失败", e);
+        }
+    }
 
     @Before
     public void setUp() {
@@ -138,6 +160,7 @@ public class ImageUtilsTest {
         // 测试按照质量压缩图片功能
         byte[] result = ImageUtils.compressPicByScale(TEST_IMAGE_BYTES, 0.5f);
         assertNotNull("返回的字节数组不应为null", result);
+        assertDecodableImage(result);
     }
 
     @Test
@@ -145,6 +168,7 @@ public class ImageUtilsTest {
         // 测试按照比例压缩图片功能
         byte[] result = ImageUtils.compressPicByScale(TEST_IMAGE_BYTES, 0.5);
         assertNotNull("返回的字节数组不应为null", result);
+        assertDecodableImage(result);
     }
 
     @Test
@@ -152,6 +176,7 @@ public class ImageUtilsTest {
         // 测试按照宽高压缩图片功能
         byte[] result = ImageUtils.compressPicByScale(TEST_IMAGE_BYTES, 100, 100);
         assertNotNull("返回的字节数组不应为null", result);
+        assertDecodableImage(result);
     }
 
     @Test
@@ -159,6 +184,7 @@ public class ImageUtilsTest {
         // 测试按照比例和质量压缩图片功能
         byte[] result = ImageUtils.compressPicByScale(TEST_IMAGE_BYTES, 0.5, 0.8f);
         assertNotNull("返回的字节数组不应为null", result);
+        assertDecodableImage(result);
     }
 
     @Test
@@ -166,6 +192,7 @@ public class ImageUtilsTest {
         // 测试按照宽高和质量压缩图片功能
         byte[] result = ImageUtils.compressPicByScale(TEST_IMAGE_BYTES, 100, 100, 0.8f);
         assertNotNull("返回的字节数组不应为null", result);
+        assertDecodableImage(result);
     }
 
     @Test
@@ -173,6 +200,7 @@ public class ImageUtilsTest {
         // 测试按照宽高、质量、格式压缩图片功能
         byte[] result = ImageUtils.compressPicByScale(TEST_IMAGE_BYTES, 100, 100, 0.8f, "png");
         assertNotNull("返回的字节数组不应为null", result);
+        assertDecodableImage(result);
     }
 
     @Test
@@ -180,6 +208,28 @@ public class ImageUtilsTest {
         // 测试按照比例、质量、格式压缩图片功能
         byte[] result = ImageUtils.compressPicByScale(TEST_IMAGE_BYTES, 0.5, 0.8f, "png");
         assertNotNull("返回的字节数组不应为null", result);
+        assertDecodableImage(result);
+    }
+
+    /**
+     * 非法图片输入（仅 PNG 魔数的 8 字节）应优雅失败：不抛异常、记录错误日志、返回原字节数组。
+     */
+    @Test
+    public void testCompressPicByScaleWithInvalidBytes() {
+        byte[] result = ImageUtils.compressPicByScale(INVALID_IMAGE_BYTES, 0.5);
+        assertArrayEquals("非法输入应原样返回", INVALID_IMAGE_BYTES, result);
+    }
+
+    /**
+     * 压缩结果必须是可被 ImageIO 解码的真实图片——否则压缩路径并未真正执行。
+     */
+    private static void assertDecodableImage(byte[] result) {
+        try {
+            BufferedImage decoded = ImageIO.read(new ByteArrayInputStream(result));
+            assertNotNull("压缩结果应可被 ImageIO 解码", decoded);
+        } catch (IOException e) {
+            fail("压缩结果读取失败: " + e.getMessage());
+        }
     }
 
     @Test

@@ -57,6 +57,7 @@
 ### Tests
 
 - encrypt 模块测试改造为**冒烟测试**套件（遵循仓库"Xxx 冒烟测试"惯例）：覆盖 encrypt 全部公开方法（工具类 / Helper / KeyGenerator / `SymmetricalUtils` / `AsymmetricUtils` / `CipherUtils` / 算法枚举 / `EncryptKeyGenerator`），旧 println 风格无断言用例与临时 round-trip 用例已合并为按类组织的断言式冒烟测试；`SignatureUtilsConcurrencyTest` 作为并发补充保留。
+- 修复 `ImageUtilsTest` 压缩用例无效输入问题：`TEST_IMAGE_BYTES` 原为仅含 PNG 魔数的 8 字节伪图片，导致 6 个 `compressPicByScale` 用例全部走异常分支、从未验证压缩功能；现改为程序生成的真实 PNG，并新增"压缩结果可被 `ImageIO` 解码"断言与"非法输入优雅失败（原样返回）"负向用例。`ImageUtils` 主代码行为正确（非法输入记录错误日志并返回原数组），未改动。
 
 ### Notes
 
