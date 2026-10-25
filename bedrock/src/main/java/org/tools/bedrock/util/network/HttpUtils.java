@@ -31,32 +31,80 @@ public class HttpUtils {
     private HttpUtils() {
     }
 
-    /** POST 请求（Map 请求体） */
+    /**
+     * POST 请求（Map 请求体）
+     *
+     * @param url         请求地址
+     * @param headers     请求标头
+     * @param requestBody 请求正文
+     * @return 响应报文
+     */
     public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestBody) {
         return httpPost(url, headers, null, requestBody);
     }
 
-    /** POST 请求（字符串请求体） */
+    /**
+     * POST 请求（字符串请求体）
+     *
+     * @param url         请求地址
+     * @param headers     请求标头
+     * @param requestBody 请求正文
+     * @return 响应报文
+     */
     public static String httpPost(String url, Map<String, String> headers, String requestBody) {
         return httpPost(url, headers, null, requestBody);
     }
 
-    /** POST 请求（查询参数 + Map 请求体） */
+    /**
+     * POST 请求（查询参数 + Map 请求体）
+     *
+     * @param url          请求地址
+     * @param headers      请求标头
+     * @param requestParam 请求参数
+     * @param requestBody  请求正文
+     * @return 响应报文
+     */
     public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, Map<String, ?> requestBody) {
         return httpPost(url, headers, requestParam, requestBody, HttpConsts.DEFAULT_CHARSET);
     }
 
-    /** POST 请求（查询参数 + 字符串请求体） */
+    /**
+     * POST 请求（查询参数 + 字符串请求体）
+     *
+     * @param url          请求地址
+     * @param headers      请求标头
+     * @param requestParam 请求参数
+     * @param requestBody  请求正文
+     * @return 响应报文
+     */
     public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody) {
         return httpPost(url, headers, requestParam, requestBody, HttpConsts.DEFAULT_CHARSET);
     }
 
-    /** POST 请求（查询参数 + Map 请求体，指定字符集） */
+    /**
+     * POST 请求（查询参数 + Map 请求体，指定字符集）
+     *
+     * @param url          请求地址
+     * @param headers      请求标头
+     * @param requestParam 请求参数
+     * @param requestBody  请求正文
+     * @param charset      响应编码格式
+     * @return 响应报文
+     */
     public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, Map<String, ?> requestBody, String charset) {
         return httpPost(url, headers, requestParam, JsonUtil.mapToJson(requestBody, true), charset);
     }
 
-    /** POST 请求（查询参数 + 字符串请求体，指定字符集） */
+    /**
+     * POST 请求（查询参数 + 字符串请求体，指定字符集）
+     *
+     * @param url          请求地址
+     * @param headers      请求标头
+     * @param requestParam 请求参数
+     * @param requestBody  请求正文
+     * @param charset      响应编码格式
+     * @return 响应报文
+     */
     public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody, String charset) {
         return httpPost(url, HttpConsts.DEFAULT_CONNECT_TIMEOUT, HttpConsts.DEFAULT_READ_TIMEOUT, headers, requestParam, requestBody, charset);
     }
@@ -84,42 +132,100 @@ public class HttpUtils {
         return result;
     }
 
-    /** GET 请求（查询参数） */
+    /**
+     * GET 请求（查询参数）
+     *
+     * @param url          请求地址
+     * @param requestParam 请求参数
+     * @return 响应报文
+     */
     public static String httpGet(String url, Map<String, ?> requestParam) {
         return httpGet(url, requestParam, HttpConsts.DEFAULT_CHARSET);
     }
 
-    /** GET 请求（字符串请求体） */
+    /**
+     * GET 请求（字符串请求体）
+     *
+     * @param url         请求地址
+     * @param requestBody 请求正文
+     * @return 响应报文
+     */
     public static String httpGet(String url, String requestBody) {
         return httpGet(url, requestBody, HttpConsts.DEFAULT_CHARSET);
     }
 
-    /** GET 请求（字符串请求体，指定字符集） */
+    /**
+     * GET 请求（字符串请求体，指定字符集）
+     *
+     * @param url         请求地址
+     * @param requestBody 请求正文
+     * @param charset     响应编码格式
+     * @return 响应报文
+     */
     public static String httpGet(String url, String requestBody, String charset) {
         return httpGet(url, null, requestBody, charset);
     }
 
-    /** GET 请求（查询参数 + 字符串请求体） */
+    /**
+     * GET 请求（查询参数 + 字符串请求体）
+     *
+     * @param url          请求地址
+     * @param requestParam 请求参数
+     * @param requestBody  请求正文
+     * @return 响应报文
+     */
     public static String httpGet(String url, Map<String, ?> requestParam, String requestBody) {
         return httpGet(url, null, requestParam, requestBody);
     }
 
-    /** GET 请求（请求头 + 查询参数） */
+    /**
+     * GET 请求（请求头 + 查询参数）
+     *
+     * @param url          请求地址
+     * @param headers      请求标头
+     * @param requestParam 请求参数
+     * @return 响应报文
+     */
     public static String httpGet(String url, Map<String, String> headers, Map<String, ?> requestParam) {
         return httpGet(url, headers, requestParam, null);
     }
 
-    /** GET 请求（查询参数 + 字符串请求体，指定字符集） */
+    /**
+     * GET 请求（查询参数 + 字符串请求体，指定字符集）
+     *
+     * @param url          请求地址
+     * @param requestParam 请求参数
+     * @param requestBody  请求正文
+     * @param charset      响应编码格式
+     * @return 响应报文
+     */
     public static String httpGet(String url, Map<String, ?> requestParam, String requestBody, String charset) {
         return httpGet(url, null, requestParam, requestBody, charset);
     }
 
-    /** GET 请求（请求头 + 查询参数 + 字符串请求体） */
+    /**
+     * GET 请求（请求头 + 查询参数 + 字符串请求体）
+     *
+     * @param url          请求地址
+     * @param headers      请求标头
+     * @param requestParam 请求参数
+     * @param requestBody  请求正文
+     * @return 响应报文
+     */
     public static String httpGet(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody) {
         return httpGet(url, headers, requestParam, requestBody, HttpConsts.DEFAULT_CHARSET);
     }
 
-    /** GET 请求（请求头 + 查询参数 + 字符串请求体，指定字符集） */
+    /**
+     * GET 请求（请求头 + 查询参数 + 字符串请求体，指定字符集）
+     *
+     * @param url          请求地址
+     * @param headers      请求标头
+     * @param requestParam 请求参数
+     * @param requestBody  请求正文
+     * @param charset      响应编码格式
+     * @return 响应报文
+     */
     public static String httpGet(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody, String charset) {
         return httpGet(url, HttpConsts.DEFAULT_CONNECT_TIMEOUT, HttpConsts.DEFAULT_READ_TIMEOUT, headers, requestParam, requestBody, charset);
     }

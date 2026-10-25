@@ -6,7 +6,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 import org.tools.encrypt.exception.asymmetric.AsymmetricException;
-import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -80,7 +79,7 @@ public class AsymmetricUtils {
      * @param raw             明文
      * @param maxEncryptBlock 最大加密块
      * @return 密文
-     * @throws RsaException 异常
+     * @throws AsymmetricException 异常
      */
     public static String encode(String algorithm, String algorithmMode, PublicKey publicKey, String ivParameter, String raw, int maxEncryptBlock)
             throws AsymmetricException {
@@ -114,7 +113,7 @@ public class AsymmetricUtils {
      * @param wrought         密文
      * @param maxDecryptBlock 最大解密块
      * @return 明文
-     * @throws RsaException 异常
+     * @throws AsymmetricException 异常
      */
     public static String decode(String algorithm, String algorithmMode, PrivateKey privateKey, String ivParameter, String wrought, int maxDecryptBlock)
             throws AsymmetricException {

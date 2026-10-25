@@ -97,7 +97,12 @@ public class ExcelUtils {
         return new byte[0];
     }
 
-    /** 将多个 Sheet 数据依次填充进工作簿 */
+    /**
+     * 将多个 Sheet 数据依次填充进工作簿
+     *
+     * @param workbook    目标工作簿
+     * @param excelSheets Excel 工作表数据
+     */
     public static void fullWorkbook(Workbook workbook, ExcelSheet... excelSheets) {
         for (ExcelSheet excelSheet : excelSheets) {
             Sheet sheet = workbook.createSheet(excelSheet.getName());
@@ -110,14 +115,24 @@ public class ExcelUtils {
         }
     }
 
-    /** 将二维数据填充进 Sheet */
+    /**
+     * 将二维数据填充进 Sheet
+     *
+     * @param sheet   目标工作表
+     * @param fillers 二维数据，每个元素为一行数据
+     */
     public static void fullSheet(Sheet sheet, List<List<String>> fillers) {
         for (int i = 0; i < fillers.size(); i++) {
             fullRow(sheet.createRow(i), fillers.get(i));
         }
     }
 
-    /** 将一行数据填充进 Row */
+    /**
+     * 将一行数据填充进 Row
+     *
+     * @param row    目标行
+     * @param filler 行数据
+     */
     public static void fullRow(Row row, List<String> filler) {
         for (int j = 0; j < filler.size(); j++) {
             row.createCell(j).setCellValue(filler.get(j));

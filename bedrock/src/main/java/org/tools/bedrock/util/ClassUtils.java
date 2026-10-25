@@ -260,7 +260,7 @@ public class ClassUtils {
         Class<?> superCls = newSuperClass(cls);
         Field[] files = superCls.getDeclaredFields();
         Class<?>[] supersCls = newSupersClass(superCls);
-        if (BaseUtils.isNotEmpty(supersCls) && supersCls.length > 0) {
+        if (supersCls != null && supersCls.length > 0) {
             int filesize = files.length;
             List<Field[]> fileList = new ArrayList<>();
             fileList.add(files);
@@ -435,7 +435,14 @@ public class ClassUtils {
         return pd.getWriteMethod();
     }
 
-    /** 读取对象指定属性的值 */
+    /**
+     * 读取对象指定属性的值
+     *
+     * @param t         对象
+     * @param fieldName 属性名称
+     * @param <T>       对象类型
+     * @return 属性值，读取失败返回 null
+     */
     public static <T> Object getProperty(T t, String fieldName) {
         Class<?> aClass = t.getClass();
         try {
@@ -447,7 +454,15 @@ public class ClassUtils {
         return null;
     }
 
-    /** 写入对象指定属性的值，返回是否成功 */
+    /**
+     * 写入对象指定属性的值
+     *
+     * @param t           对象
+     * @param fieldName   属性名称
+     * @param fieldValue  属性值
+     * @param <T>         对象类型
+     * @return 是否写入成功
+     */
     public static <T> Boolean setProperty(T t, String fieldName, Object fieldValue) {
         Class<?> aClass = t.getClass();
         try {
@@ -518,7 +533,15 @@ public class ClassUtils {
         return fieldName;
     }
 
-    /** 获取类自身声明且具备标准属性访问器的字段（跳过 static 与 serialVersionUID） */
+    /**
+     * 获取类自身声明且具备标准属性访问器的字段
+     *
+     * <p>跳过 static 与 serialVersionUID 字段。</p>
+     *
+     * @param clz 类信息
+     * @param <O> 类类型
+     * @return 字段数组
+     */
     public static <O> Field[] fetchFields(Class<O> clz) {
         Map<String, Field> fieldMap = new HashMap<>();
         fetchAllFields(clz.getDeclaredFields(), clz, fieldMap);
@@ -543,13 +566,29 @@ public class ClassUtils {
         return superSize;
     }
 
-    /** 将字段数组按属性名收集进 fieldMap（跳过 static 与 serialVersionUID 字段） */
+    /**
+     * 将字段数组按属性名收集进 fieldMap
+     *
+     * <p>跳过 static 与 serialVersionUID 字段。</p>
+     *
+     * @param fields   字段数组
+     * @param clz      类信息
+     * @param fieldMap 属性名到字段的映射收集容器
+     */
     public static void fetchAllFields(Field[] fields, Class<?> clz, Map<String, Field> fieldMap) {
         Arrays.stream(fields)
                 .forEach(field -> fetchField(field, clz, fieldMap));
     }
 
-    /** 收集单个字段：解析属性名并登记，static 与 serialVersionUID 跳过 */
+    /**
+     * 收集单个字段：解析属性名并登记
+     *
+     * <p>static 与 serialVersionUID 字段跳过。</p>
+     *
+     * @param field    字段
+     * @param clz      类信息
+     * @param fieldMap 属性名到字段的映射收集容器
+     */
     public static void fetchField(Field field, Class<?> clz, Map<String, Field> fieldMap) {
         String fieldName = handleBooleanType(field);
         // 属性修饰符
@@ -590,7 +629,13 @@ public class ClassUtils {
         return fieldName;
     }
 
-    /** 获取类自身声明且具备标准属性访问器的字段数组 */
+    /**
+     * 获取类自身声明且具备标准属性访问器的字段数组
+     *
+     * @param clz 类信息
+     * @param <O> 类类型
+     * @return 字段数组（含各级父类）
+     */
     public static <O> Field[] fetchAllFields(Class<O> clz) {
         Map<String, Field> fieldMap = new HashMap<>();
 

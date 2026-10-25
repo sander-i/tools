@@ -89,7 +89,13 @@ public class DateUtils {
         format4 = new ThreadSafeSimpleDateFormat(YMD_PATTERN);
     }
 
-    /** 按指定模式格式化日期 */
+    /**
+     * 按指定模式格式化日期
+     *
+     * @param date    日期
+     * @param pattern 格式模式
+     * @return 格式化后的字符串，date 为空返回 null
+     */
     public static String format(Date date, String pattern) {
         if (BaseUtils.isEmpty(date)) {
             return null;

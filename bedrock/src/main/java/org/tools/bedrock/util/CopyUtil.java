@@ -121,6 +121,9 @@ public class CopyUtil {
     /**
      * 处理复杂对象（List、Map、Set、普通对象）
      *
+     * <p>反射复制的目标值元素类型运行期不可知，instanceof 已确认集合外层类型，
+     * 元素泛型由被复制对象自身保证，故未检查转换为有意行为。</p>
+     *
      * @param sourceValue      源值
      * @param targetValue      目标值
      * @param current          是否只处理当前类
@@ -130,6 +133,7 @@ public class CopyUtil {
      * @throws InstantiationException 实例化异常
      * @throws IllegalAccessException 非法访问异常
      */
+    @SuppressWarnings("unchecked")
     private static Object handleComplexObject(Object sourceValue, Object targetValue, boolean current, boolean typeSame, String... ignoreProperties)
             throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         // 如果是List类型，需要特殊处理

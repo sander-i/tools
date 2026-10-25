@@ -37,42 +37,95 @@ public class R<T extends Serializable> extends RR {
         this.data = data;
     }
 
-    /** 构建无数据的成功响应（RR 视图） */
+    /**
+     * 构建无数据的成功响应（RR 视图）
+     *
+     * @return 成功响应对象
+     */
     public static RR ok() {
         return RR.ok();
     }
 
-    /** 构建无数据的失败响应（RR 视图） */
+    /**
+     * 构建无数据的失败响应（RR 视图）
+     *
+     * @return 失败响应对象
+     */
     public static RR fail() {
         return RR.fail();
     }
 
-    /** 构建携带数据的成功响应 */
+    /**
+     * 构建携带数据的成功响应
+     *
+     * @param data 返回数据
+     * @param <T>  数据类型
+     * @return 成功响应对象
+     */
     public static <T extends Serializable> R<T> ok(T data) {
         return new R<>(true, RS.OK, null, data);
     }
 
-    /** 构建携带错误信息的失败响应 */
+    /**
+     * 构建携带错误信息的失败响应
+     *
+     * @param message 错误信息
+     * @param <T>     数据类型
+     * @return 失败响应对象
+     */
     public static <T extends Serializable> R<T> fail(String message) {
         return new R<>(false, RS.FAIL, message, null);
     }
 
-    /** 构建携带数据的失败响应 */
+    /**
+     * 构建携带数据的失败响应
+     *
+     * @param data 返回数据
+     * @param <T>  数据类型
+     * @return 失败响应对象
+     */
     public static <T extends Serializable> R<T> fail(T data) {
         return new R<>(false, RS.FAIL, null, data);
     }
 
-    /** 按状态枚举与消息构建 RR 响应（code 匹配 RS.OK 时 success=true；message 为空时回退状态定义的标准提示） */
+    /**
+     * 按状态枚举与消息构建 RR 响应
+     *
+     * <p>code 匹配 {@link RS#OK} 时 success=true；message 为空时回退状态定义的标准提示。</p>
+     *
+     * @param s       状态定义
+     * @param message 响应信息
+     * @return RR 响应对象
+     */
     public static RR build(S s, String message) {
         return new RR(RS.OK.getCode().equals(s.getCode()), s.getCode(), message != null ? message : s.getMsg());
     }
 
-    /** 按状态枚举与数据构建响应（code 匹配 RS.OK 时 success=true） */
+    /**
+     * 按状态枚举与数据构建响应
+     *
+     * <p>code 匹配 {@link RS#OK} 时 success=true。</p>
+     *
+     * @param s    状态定义
+     * @param data 返回数据
+     * @param <T>  数据类型
+     * @return 响应对象
+     */
     public static <T extends Serializable> R<T> build(S s, T data) {
         return new R<>(RS.OK.getCode().equals(s.getCode()), s, null, data);
     }
 
-    /** 按状态枚举、消息与数据构建响应（code 匹配 RS.OK 时 success=true） */
+    /**
+     * 按状态枚举、消息与数据构建响应
+     *
+     * <p>code 匹配 {@link RS#OK} 时 success=true。</p>
+     *
+     * @param s       状态定义
+     * @param message 响应信息
+     * @param data    返回数据
+     * @param <T>     数据类型
+     * @return 响应对象
+     */
     public static <T extends Serializable> R<T> build(S s, String message, T data) {
         return new R<>(RS.OK.getCode().equals(s.getCode()), s, message, data);
     }

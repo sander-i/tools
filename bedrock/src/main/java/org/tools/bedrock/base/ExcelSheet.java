@@ -2,6 +2,7 @@ package org.tools.bedrock.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,11 +30,13 @@ public class ExcelSheet {
     /**
      * 表头（外层为行、内层为列，支持多行复合表头）
      */
+    @Default
     private List<List<String>> headers = new ArrayList<>();
 
     /**
      * 内容（外层为行、内层为列）
      */
+    @Default
     private List<List<String>> contents = new ArrayList<>();
 
 }

@@ -43,7 +43,12 @@ public class MD5Utils {
         }
     }
 
-    /** 装载 MD5 配置（properties 为 null 时抛 EncryptException） */
+    /**
+     * 装载 MD5 配置（properties 为 null 时抛 EncryptException）
+     *
+     * @param properties MD5 配置
+     * @throws EncryptException 配置为空时抛出
+     */
     public static void load(MD5Properties properties) throws EncryptException {
         if (BaseUtils.isEmpty(properties)) {
             throw new EncryptException("properties 不能为空！");

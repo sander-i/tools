@@ -51,14 +51,24 @@ public class DateConvert {
         return LocalDate.ofEpochDay(date.getTime() / 1000 / 60 / 60 / 24);
     }
 
-    /** Date 转 Calendar */
+    /**
+     * Date 转 Calendar
+     *
+     * @param date 日期
+     * @return Calendar
+     */
     public static Calendar toCalendar(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar;
     }
 
-    /** 批量 Date 转 Calendar */
+    /**
+     * 批量 Date 转 Calendar
+     *
+     * @param dates 日期数组
+     * @return Calendar 数组
+     */
     public static Calendar[] toCalendar(Date... dates) {
         Calendar[] calendars = new Calendar[dates.length];
 

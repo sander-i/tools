@@ -18,7 +18,11 @@ import java.security.NoSuchProviderException;
  **/
 public abstract class CipherSupplyAbst {
 
-    /** 按算法模式注册所需 Provider */
+    /**
+     * 按算法模式注册所需 Provider
+     *
+     * @param algorithmMode 算法模式
+     */
     public abstract void initSupport(AlgorithmModeEnum algorithmMode);
 
     /**
@@ -39,10 +43,29 @@ public abstract class CipherSupplyAbst {
         return cipher;
     }
 
-    /** 创建指定算法模式的 Cipher 实例 */
+    /**
+     * 创建指定算法模式的 Cipher 实例
+     *
+     * @param algorithmMode 算法模式
+     * @return Cipher 实例
+     * @throws NoSuchPaddingException   填充方式不可用时抛出
+     * @throws NoSuchAlgorithmException 算法不可用时抛出
+     * @throws NoSuchProviderException  Provider 不可用时抛出
+     */
     public abstract Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException;
 
-    /** 按算法模式初始化 Cipher */
+    /**
+     * 按算法模式初始化 Cipher
+     *
+     * @param cipher        Cipher 实例
+     * @param algorithm     加密算法
+     * @param algorithmMode 算法模式
+     * @param secretKey     密钥
+     * @param ivParameter   初始向量
+     * @param mode          加解密模式（Cipher.ENCRYPT_MODE / DECRYPT_MODE）
+     * @throws InvalidKeyException                密钥非法时抛出
+     * @throws InvalidAlgorithmParameterException 算法参数非法时抛出
+     */
     public abstract void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode) throws InvalidKeyException, InvalidAlgorithmParameterException;
 
 }

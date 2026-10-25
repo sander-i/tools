@@ -59,12 +59,22 @@ public enum AlgorithmEnum {
 
     private final String algorithm;
 
-    /** 与算法名字符串比较 */
+    /**
+     * 与算法名字符串比较
+     *
+     * @param algorithm 待比较的算法名
+     * @return 相等返回 true，否则返回 false
+     */
     public boolean equals(String algorithm) {
         return this.algorithm.equals(algorithm);
     }
 
-    /** 按算法名查找枚举（不存在时抛 NoSuchElementException） */
+    /**
+     * 按算法名查找枚举（不存在时抛 NoSuchElementException）
+     *
+     * @param algorithm 算法名
+     * @return 匹配的枚举
+     */
     public static AlgorithmEnum enumName(String algorithm) {
         return Arrays.stream(AlgorithmEnum.values())
                 .filter(algorithmEnum -> algorithmEnum.equals(algorithm))

@@ -2,7 +2,6 @@ package org.tools.encrypt.digitalsignature;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 
 import java.security.InvalidKeyException;
@@ -35,7 +34,7 @@ public class SignatureUtils {
      * @param privateKey    私钥
      * @param wrought       明文
      * @return 签名
-     * @throws RsaException 异常
+     * @throws DigitalSignatureException 异常
      */
     public static String sign(String signAlgorithm, PrivateKey privateKey, String wrought) throws DigitalSignatureException {
         try {
@@ -56,7 +55,7 @@ public class SignatureUtils {
      * @param wrought       明文
      * @param sign          签名
      * @return 是否验签通过
-     * @throws RsaException 异常
+     * @throws DigitalSignatureException 异常
      */
     public static boolean verify(String signAlgorithm, PublicKey publicKey, String wrought, String sign) throws DigitalSignatureException {
         try {

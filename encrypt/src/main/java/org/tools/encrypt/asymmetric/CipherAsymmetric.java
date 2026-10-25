@@ -27,12 +27,34 @@ public class CipherAsymmetric extends CipherAbst {
     private CipherAsymmetric() {
     }
 
-    /** 获取单例 */
+    /**
+     * 获取单例
+     *
+     * @return CipherAsymmetric 单例
+     */
     public static CipherAsymmetric getInstance() {
         return INSTANCE;
     }
 
-    /** 执行非对称加解密（超长数据按 maxBlock 分段处理） */
+    /**
+     * 执行非对称加解密（超长数据按 maxBlock 分段处理）
+     *
+     * @param algorithm     加密算法名
+     * @param algorithmMode 算法模式名
+     * @param secretKey     密钥
+     * @param ivParameter   初始向量
+     * @param mode          加解密模式（Cipher.ENCRYPT_MODE / DECRYPT_MODE）
+     * @param stuff         待处理的字节数据
+     * @param maxBlock      单块最大字节数
+     * @return 处理后的字节数据
+     * @throws IllegalBlockSizeException          块大小非法时抛出
+     * @throws BadPaddingException                填充错误时抛出
+     * @throws InvalidAlgorithmParameterException 算法参数非法时抛出
+     * @throws NoSuchPaddingException             填充方式不可用时抛出
+     * @throws NoSuchAlgorithmException           算法不可用时抛出
+     * @throws InvalidKeyException                密钥非法时抛出
+     * @throws IOException                        分段输出流操作失败时抛出
+     */
     @Override
     public byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff, int maxBlock)
             throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException {

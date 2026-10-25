@@ -32,12 +32,20 @@ public class CipherSupply extends CipherSupplyAbst {
     private CipherSupply() {
     }
 
-    /** 获取单例 */
+    /**
+     * 获取单例
+     *
+     * @return CipherSupply 单例
+     */
     public static CipherSupply getInstance() {
         return INSTANCE;
     }
 
-    /** 按算法模式注册所需 Provider（IDEA / RSA-OAEP 需 BouncyCastle） */
+    /**
+     * 按算法模式注册所需 Provider（IDEA / RSA-OAEP 需 BouncyCastle）
+     *
+     * @param algorithmMode 算法模式
+     */
     @Override
     public void initSupport(AlgorithmModeEnum algorithmMode) {
         switch (algorithmMode) {
@@ -52,7 +60,15 @@ public class CipherSupply extends CipherSupplyAbst {
         }
     }
 
-    /** 创建指定算法模式的 Cipher 实例（OAEP 模式经 BC Provider 创建） */
+    /**
+     * 创建指定算法模式的 Cipher 实例（OAEP 模式经 BC Provider 创建）
+     *
+     * @param algorithmMode 算法模式
+     * @return Cipher 实例
+     * @throws NoSuchPaddingException   填充方式不可用时抛出
+     * @throws NoSuchAlgorithmException 算法不可用时抛出
+     * @throws NoSuchProviderException  Provider 不可用时抛出
+     */
     @Override
     public Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException {
         Cipher cipher;
@@ -69,7 +85,18 @@ public class CipherSupply extends CipherSupplyAbst {
         return cipher;
     }
 
-    /** 按算法模式初始化 Cipher（处理 IV、随机源与 OAEP 参数；未支持的模式抛 CipherSupplyException） */
+    /**
+     * 按算法模式初始化 Cipher（处理 IV、随机源与 OAEP 参数；未支持的模式抛 CipherSupplyException）
+     *
+     * @param cipher        Cipher 实例
+     * @param algorithm     加密算法
+     * @param algorithmMode 算法模式
+     * @param secretKey     密钥
+     * @param ivParameter   初始向量
+     * @param mode          加解密模式（Cipher.ENCRYPT_MODE / DECRYPT_MODE）
+     * @throws InvalidKeyException                密钥非法时抛出
+     * @throws InvalidAlgorithmParameterException 算法参数（IV/OAEP 等）非法时抛出
+     */
     @Override
     public void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode)
             throws InvalidKeyException, InvalidAlgorithmParameterException {

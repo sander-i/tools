@@ -51,12 +51,20 @@ public class RR implements Serializable {
         this.message = message;
     }
 
-    /** 构建无数据的成功响应 */
+    /**
+     * 构建无数据的成功响应
+     *
+     * @return 成功响应对象
+     */
     public static RR ok() {
         return new RR(true, RS.OK.getCode(), RS.OK.getMsg());
     }
 
-    /** 构建无数据的失败响应（success=false） */
+    /**
+     * 构建无数据的失败响应（success=false）
+     *
+     * @return 失败响应对象
+     */
     public static RR fail() {
         return new RR(false, RS.FAIL.getCode(), RS.FAIL.getMsg());
     }

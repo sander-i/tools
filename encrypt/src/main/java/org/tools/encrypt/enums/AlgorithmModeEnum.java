@@ -68,12 +68,22 @@ public enum AlgorithmModeEnum {
 
     private final String algorithmMode;
 
-    /** 与算法模式字符串比较 */
+    /**
+     * 与算法模式字符串比较
+     *
+     * @param algorithmMode 待比较的算法模式名
+     * @return 相等返回 true，否则返回 false
+     */
     public boolean equals(String algorithmMode) {
         return this.algorithmMode.equals(algorithmMode);
     }
 
-    /** 按算法模式名查找枚举（不存在时抛 NoSuchElementException） */
+    /**
+     * 按算法模式名查找枚举（不存在时抛 NoSuchElementException）
+     *
+     * @param algorithmMode 算法模式名
+     * @return 匹配的枚举
+     */
     public static AlgorithmModeEnum enumName(String algorithmMode) {
         return Arrays.stream(AlgorithmModeEnum.values())
                 .filter(algorithmModeEnum -> algorithmModeEnum.equals(algorithmMode))

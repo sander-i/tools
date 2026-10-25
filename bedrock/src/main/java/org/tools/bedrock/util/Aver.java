@@ -442,14 +442,24 @@ public class Aver {
         isFalse(expression, "Expression must be false");
     }
 
-    /** 断言为假：expression 为 true 时抛出断言异常 */
+    /**
+     * 断言为假：expression 为 true 时抛出断言异常
+     *
+     * @param expression 待检查表达式
+     * @param message    异常信息
+     */
     public static void assertFalse(boolean expression, String message) {
         if (expression) {
             throw new IllegalArgumentException(message);
         }
     }
 
-    /** 断言为真：expression 为 false 时抛出断言异常 */
+    /**
+     * 断言为真：expression 为 false 时抛出断言异常
+     *
+     * @param expression 待检查表达式
+     * @param message    异常信息
+     */
     public static void assertTrue(boolean expression, String message) {
         if (!expression) {
             throw new IllegalArgumentException(message);

@@ -23,7 +23,12 @@ public enum DateRangeType {
 
     public final int value;
 
-    /** 与整数值比较是否相等 */
+    /**
+     * 与整数值比较是否相等
+     *
+     * @param value 整数值
+     * @return 是否相等
+     */
     public boolean equals(int value) {
         return this.value == value;
     }
