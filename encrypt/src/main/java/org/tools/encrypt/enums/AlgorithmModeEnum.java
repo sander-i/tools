@@ -19,35 +19,45 @@ public enum AlgorithmModeEnum {
      * SHA
      */
     SHA("SHA"),
+
     SHA1("SHA-1"),
+
     SHA256("SHA-256"),
+
     SHA384("SHA-384"),
+
     SHA512("SHA-512"),
 
     /**
      * DES
      */
     DES("DES"),
+
     DES_ECB_NO_PADDING("DES/ECB/NoPadding"),
+
     DES_EDE_CBC_PKCS5Padding("DESede/CBC/PKCS5Padding"),
 
     /**
      * RSA
      */
     RSA("RSA"),
+
     RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING"),
+
     OAEPWithSHA__256AndMGF1Padding("OAEPWithSHA-256AndMGF1Padding"),
 
     /**
      * AES
      */
     AES("AES"),
+
     AES_CBC_PKCS5PADDING("AES/CBC/PKCS5Padding"),
 
     /**
      * IDEA
      */
     IDEA("IDEA"),
+
     IDEA_ECB_ISO10126Padding("IDEA/ECB/ISO10126Padding"),
 
     /**

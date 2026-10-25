@@ -12,9 +12,13 @@ import lombok.RequiredArgsConstructor;
 public enum DateRangeType {
 
     DATE(1),
+
     LOCAL_DATE_TIME(2),
+
     LOCAL_DATE(3),
+
     LOCAL_TIME(4),
+
     TIMESTAMP(5);
 
     public final int value;

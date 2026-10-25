@@ -19,22 +19,27 @@ public class Schemata {
      * 目录名称
      */
     private String catalogName;
+
     /**
      * 架构名称
      */
     private String schemaName;
+
     /**
      * 默认字符集名称
      */
     private String defaultCharacterSetName;
+
     /**
      * 默认排序规则名称
      */
     private String defaultCollationName;
+
     /**
      * sql路径
      */
     private String sqlPath;
+
     /**
      * 默认加密
      */

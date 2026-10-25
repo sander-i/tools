@@ -17,6 +17,7 @@ public class Base64Utils {
     }
 
     protected static final Base64.Decoder decoder = Base64.getDecoder();
+
     protected static final Base64.Encoder encoder = Base64.getEncoder();
 
     /**

@@ -1,7 +1,6 @@
 package org.tools.bedrock.util.date;
 
 import lombok.extern.slf4j.Slf4j;
-import org.tools.bedrock.base.DateType;
 import org.tools.bedrock.base.TimeSeason;
 import org.tools.bedrock.util.BaseUtils;
 
@@ -26,47 +25,60 @@ public class DateUtils {
      * 年-月-日 时:分:秒 毫秒
      */
     public static final String YMD_HMS_S_PATTERN = "yyyy-MM-dd HH:mm:ss SSS";
+
     /**
      * 年-月-日 时:分:秒
      */
     public static final String YMD_HMS_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
     /**
      * 年-月-日 时:分
      */
     public static final String YMD_HM_PATTERN = "yyyy-MM-dd HH:mm";
+
     /**
      * 年-月-日 时
      */
     public static final String YMD_H_PATTERN = "yyyy-MM-dd HH";
+
     /**
      * 年-月-日
      */
     public static final String Y_M_D_PATTERN = "yyyy-MM-dd";
+
     /**
      * 年月日
      */
     public static final String YMD_PATTERN = "yyyyMMdd";
+
     /**
      * 时:分:秒 毫秒
      */
     public static final String HMS_S_PATTERN = "HH:mm:ss SSS";
+
     /**
      * 时:分:秒
      */
     public static final String HMS_PATTERN = "HH:mm:ss";
+
     /**
      * 时:分
      */
     public static final String HM_PATTERN = "HH:mm";
+
     /**
      * 时
      */
     public static final String H_PATTERN = "HH";
 
     private static final DateFormat format;
+
     private static final DateFormat format1;
+
     private static final DateFormat format2;
+
     private static final DateFormat format3;
+
     private static final DateFormat format4;
 
     static {
@@ -334,59 +346,13 @@ public class DateUtils {
      * 根据类型对日期进行加|减处理
      *
      * @param source 源日期
-     * @param type   日期类型
+     * @param type   Calendar 日期字段常量（如 {@link Calendar#DAY_OF_MONTH}、{@link Calendar#HOUR_OF_DAY}）
      * @param val    值
      * @return 加|减后的日期
      */
-    public static Date addDate(Date source, DateType type, int val) {
+    public static Date addDate(Date source, int type, int val) {
         Calendar calendar = DateConvert.toCalendar(source);
-        switch (type) {
-            case YEAR:
-                calendar.add(Calendar.YEAR, val);
-                break;
-            case MONTH:
-                calendar.add(Calendar.MONTH, val);
-                break;
-            case WEEK_OF_YEAR:
-                calendar.add(Calendar.WEEK_OF_YEAR, val);
-                break;
-            case WEEK_OF_MONTH:
-                calendar.add(Calendar.WEEK_OF_MONTH, val);
-                break;
-            case DATE:
-                calendar.add(Calendar.DATE, val);
-                break;
-            case DAY_OF_MONTH:
-                calendar.add(Calendar.DAY_OF_MONTH, val);
-                break;
-            case DAY_OF_YEAR:
-                calendar.add(Calendar.DAY_OF_YEAR, val);
-                break;
-            case DAY_OF_WEEK:
-                calendar.add(Calendar.DAY_OF_WEEK, val);
-                break;
-            case DAY_OF_WEEK_IN_MONTH:
-                calendar.add(Calendar.DAY_OF_WEEK_IN_MONTH, val);
-                break;
-            case HOUR:
-                calendar.add(Calendar.HOUR, val);
-                break;
-            case HOUR_OF_DAY:
-                calendar.add(Calendar.HOUR_OF_DAY, val);
-                break;
-            case MINUTE:
-                calendar.add(Calendar.MINUTE, val);
-                break;
-            case SECOND:
-                calendar.add(Calendar.SECOND, val);
-                break;
-            case MILLISECOND:
-                calendar.add(Calendar.MILLISECOND, val);
-                break;
-            default:
-                throw new IllegalArgumentException("DateType type is illegal");
-        }
-
+        calendar.add(type, val);
         return calendar.getTime();
     }
 
@@ -401,14 +367,15 @@ public class DateUtils {
     }
 
     /**
-     * 获取时区：夏令时、冬令时
+     * 获取时区当前时令：夏令时生效返回 {@link TimeSeason#SUMMER_TIME}，
+     * 否则返回 {@link TimeSeason#STANDARD_TIME}；
+     * {@link TimeSeason#WINTER_TIME} 预留给冬令时场景，本方法不返回。
      *
      * @param timeZone 时区
-     * @return 令时
+     * @return 当前时令
      */
     public static TimeSeason getSeasonDiffer(TimeZone timeZone) {
-        // 获取时区：夏令时、冬令时
-        return TimeSeason.STANDARD_TIME;
+        return timeZone.inDaylightTime(new Date()) ? TimeSeason.SUMMER_TIME : TimeSeason.STANDARD_TIME;
     }
 
     /**

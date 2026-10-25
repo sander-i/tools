@@ -14,18 +14,22 @@ import java.io.Serializable;
 public class HttpResult<T> implements Serializable {
 
     private static final long serialVersionUID = -955286493494332572L;
+
     /**
      * 响应编码
      */
     private Integer code;
+
     /**
      * 响应状态
      */
     private String status;
+
     /**
      * 响应信息
      */
     private String msg;
+
     /**
      * 返回数据
      */

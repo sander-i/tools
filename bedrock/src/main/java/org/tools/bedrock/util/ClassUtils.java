@@ -33,19 +33,24 @@ public class ClassUtils {
      * java基础数据类型
      */
     protected static final String[] BASE_TYPE = {"byte", "short", "int", "long", "float", "double", "boolean", "char"};
+
     protected static final String[] PACK_TYPE = {"Byte", "BitSieve", "Short", "Integer", "BigInteger", "Long", "Float", "Double", "BigDecimal", "Boolean", "Char"};
+
     /**
      * list类型
      */
     public static final String LIST_TYPE = "list";
+
     /**
      * map类型
      */
     public static final String MAP_TYPE = "map";
+
     /**
      * get方法
      */
     public static final String GET_METHOD_TYPE = "get";
+
     /**
      * set方法
      */
@@ -563,7 +568,8 @@ public class ClassUtils {
             new PropertyDescriptor(fieldName, clz);
             fieldMap.put(fieldName, field);
         } catch (IntrospectionException e) {
-            log.warn(e.getLocalizedMessage(), e);
+            // 缺标准 getter/setter 的字段（如 final 只读属性）按设计跳过，属预期分支，不打堆栈
+            log.debug("skip non-bean property: {}.{}", clz.getName(), fieldName);
         }
     }
 

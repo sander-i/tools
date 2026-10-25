@@ -10,7 +10,9 @@ import lombok.Data;
 public class AliyunDdnsConfig {
 
     private String accessKeyId;
+
     private String accessKeySecret;
+
     private String endpoint = "alidns.cn-shanghai.aliyuncs.com";
 
 }

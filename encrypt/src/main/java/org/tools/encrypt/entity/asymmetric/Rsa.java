@@ -2,7 +2,6 @@ package org.tools.encrypt.entity.asymmetric;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.tools.encrypt.entity.KeyPair;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@ConfigurationProperties(prefix = "tools.encrypt.asymmetric.rsa")
 public class Rsa extends KeyPair {
 
     /**

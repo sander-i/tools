@@ -1,8 +1,6 @@
 package org.tools.encrypt;
 
 
-import org.springframework.util.Assert;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -28,10 +26,18 @@ public abstract class CipherAbst {
      * @param stuff         待处理数据
      */
     protected void actuatorCheck(String algorithm, String algorithmMode, Key secretKey, byte[] stuff) {
-        Assert.notNull(algorithm, "The encryption algorithm cannot be null！");
-        Assert.notNull(algorithmMode, "The encryption algorithm mode cannot be null！");
-        Assert.notNull(secretKey, "The key cannot be null！");
-        Assert.notNull(stuff, "The data to be processed cannot be null！");
+        if (algorithm == null) {
+            throw new IllegalArgumentException("The encryption algorithm cannot be null！");
+        }
+        if (algorithmMode == null) {
+            throw new IllegalArgumentException("The encryption algorithm mode cannot be null！");
+        }
+        if (secretKey == null) {
+            throw new IllegalArgumentException("The key cannot be null！");
+        }
+        if (stuff == null) {
+            throw new IllegalArgumentException("The data to be processed cannot be null！");
+        }
     }
 
     /**

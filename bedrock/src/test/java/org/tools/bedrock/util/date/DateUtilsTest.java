@@ -1,11 +1,11 @@
 package org.tools.bedrock.util.date;
 
 import org.junit.Test;
-import org.tools.bedrock.base.DateType;
 import org.tools.bedrock.base.TimeSeason;
 import org.tools.bedrock.util.Aver;
 
 import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -101,16 +101,20 @@ public class DateUtilsTest {
     @Test
     public void addDate() {
         Date source = DateUtils.strDateFormat("2023-10-08 00:00:00");
-        Date target = DateUtils.addDate(source, DateType.DAY_OF_MONTH, 1);
+        Date target = DateUtils.addDate(source, Calendar.DAY_OF_MONTH, 1);
         Aver.assertEquals(DateUtils.dateFormatStr(target, DateUtils.YMD_HMS_PATTERN), "2023-10-09 00:00:00");
     }
 
     @Test
     public void hasSeasonDiffer() {
-        boolean a = DateUtils.hasSeasonDiffer(TimeZone.getTimeZone("Asia/Shanghai"));
-        boolean b = DateUtils.hasSeasonDiffer(TimeZone.getTimeZone("Europe/London"));
-        Aver.isFalse(a, "上海时区没有夏令时");
-        Aver.isTrue(b, "伦敦时区有夏令时");
+        // 上海不实行夏令时，任何时刻都应返回 false
+        Aver.isFalse(DateUtils.hasSeasonDiffer(TimeZone.getTimeZone("Asia/Shanghai")), "上海时区没有夏令时");
+
+        // 伦敦实行夏令时；hasSeasonDiffer 判定的是"当前时刻"是否处于夏令时，
+        // 结果随运行日期变化（10 月最后一个周日后至次年 3 月为 false），与 JDK 判定一致即可
+        TimeZone london = TimeZone.getTimeZone("Europe/London");
+        Aver.isTrue(london.useDaylightTime(), "伦敦时区实行夏令时");
+        Aver.equals(london.inDaylightTime(new Date()), DateUtils.hasSeasonDiffer(london), "伦敦时区夏令时判定应与 JDK 一致");
     }
 
     @Test

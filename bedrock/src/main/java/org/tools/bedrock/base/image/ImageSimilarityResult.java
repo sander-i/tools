@@ -14,12 +14,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ImageSimilarityResult {
+
+    /** 直方图相似度 */
     private double histogramSimilarity;
+
+    /** SSIM（结构相似性）相似度 */
     private double ssimSimilarity;
+
+    /** 平均哈希相似度 */
     private double avgHashSimilarity;
+
+    /** 感知哈希相似度 */
     private double pHashSimilarity;
+
+    /** 差异哈希相似度 */
     private double dHashSimilarity;
+
+    /** 特征匹配相似度 */
     private double featureMatchingSimilarity;
+
+    /** 特征向量相似度 */
     private double featureVectorSimilarity;
 
     /**

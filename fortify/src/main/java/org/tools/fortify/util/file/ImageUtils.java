@@ -36,6 +36,7 @@ public class ImageUtils {
      * request 请求方式
      */
     private static final String REQUEST_METHOD = "GET";
+
     /**
      * 3000/ms
      */

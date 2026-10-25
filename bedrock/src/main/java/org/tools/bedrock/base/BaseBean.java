@@ -4,9 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
+ * 通用实体基类。
+ *
+ * <p>沉淀数据表实体的公共字段：主键与业务标识（id/pid/bid/sfid/uuid）、
+ * 排序与状态（sort/state）、备注与审计字段（creator/createdAt 等）。
+ * 审计时间采用 {@link Timestamp}：承载的是与时区无关的时间戳 instant，
+ * 存储/传输无需关心时区转换，且与 JDBC TIMESTAMP 类型原生互转。
+ * 需要 JDK 序列化的场景使用 {@link org.tools.bedrock.base.serializable.BaseBean}。</p>
+ *
  * @author sander
  * @version 1.0
  */
@@ -15,45 +23,64 @@ import java.util.Date;
 @Data
 public class BaseBean {
 
-    private Long id;
     /**
-     * 父id
-     * parent
+     * 主键 id
+     */
+    private Long id;
+
+    /**
+     * 父节点 id（树形结构场景）
      */
     private Long pid;
+
     /**
-     * 业务id
-     * business
+     * 业务 id
      */
     private String bid;
+
     /**
-     * 雪花id
-     * snowflake
+     * 雪花 id
      */
     private String sfid;
-    private String uuid;
-    private Long sort;
-    private Byte state;
-    private String remark;
-    private String createdBy;
-    private Date createdTime;
-    private String updatedBy;
-    private Date updatedTime;
 
-    /** 输出 id、pid 等字段信息的字符串 */
-    @Override
-    public String toString() {
-        return "id='" + id + '\'' +
-                ", pid='" + pid + '\'' +
-                ", bid='" + bid + '\'' +
-                ", sfid='" + sfid + '\'' +
-                ", uuid='" + uuid + '\'' +
-                ", sort='" + sort + '\'' +
-                ", state=" + state +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdTime=" + createdTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedTime=" + updatedTime;
-    }
+    /**
+     * uuid
+     */
+    private String uuid;
+
+    /**
+     * 排序号，小值在前
+     */
+    private Long sort;
+
+    /**
+     * 状态位，语义由业务定义
+     */
+    private Byte state;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 创建人
+     */
+    private String creator;
+
+    /**
+     * 创建时间（时间戳，与时区无关）
+     */
+    private Timestamp createdAt;
+
+    /**
+     * 更新人
+     */
+    private String updater;
+
+    /**
+     * 更新时间（时间戳，与时区无关）
+     */
+    private Timestamp updatedAt;
 
 }

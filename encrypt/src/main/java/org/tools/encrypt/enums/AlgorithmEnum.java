@@ -19,15 +19,20 @@ public enum AlgorithmEnum {
      * SHA
      */
     SHA("SHA"),
+
     SHA1("SHA-1"),
+
     SHA256("SHA-256"),
+
     SHA384("SHA-384"),
+
     SHA512("SHA-512"),
 
     /**
      * DES
      */
     DES("DES"),
+
     DES_EDE("DESede"),
 
     /**
@@ -39,6 +44,7 @@ public enum AlgorithmEnum {
      * AES
      */
     AES("AES"),
+
     /**
      * IDEA
      */
@@ -48,6 +54,7 @@ public enum AlgorithmEnum {
      * DSA
      */
     DSA("DSA"),
+
     ;
 
     private final String algorithm;

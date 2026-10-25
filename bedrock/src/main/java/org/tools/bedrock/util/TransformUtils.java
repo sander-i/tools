@@ -57,7 +57,8 @@ public class TransformUtils {
         try {
             return str.getBytes(charset);
         } catch (UnsupportedEncodingException e) {
-            log.error("字符串转字节数组", e);
+            // 非法字符集属调用方输入错误，降 WARN 不占用 ERROR 告警
+            log.warn("字符串转字节数组失败: 不支持的字符集 [{}]", charset, e);
         }
         return Constants.EMPTY_BYTE_ARRAY;
     }

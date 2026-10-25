@@ -23,6 +23,7 @@ public class ShaUtils {
     }
 
     private static final int BINARY = 0xff;
+
     private static final char FILL = '0';
 
     private static String byteToHex(byte[] byteArray) {

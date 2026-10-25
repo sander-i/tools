@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * 分页基类：承载分页参数与结果，{@link #initPaging} 提供通用的分页计算（当前页越界裁剪、
- * 总页数、起始记录行号），数据库方言差异（如 {@link mysql.MysqlPaging} 的 LIMIT、
- * {@link oracle.OraclePaging} 的 ROWNUM 结束行号）由子类扩展。
+ * 总页数、起始记录行号），数据库方言差异（如 {@link org.tools.bedrock.http.mysql.MysqlPaging} 的 LIMIT、
+ * {@link org.tools.bedrock.http.oracle.OraclePaging} 的 ROWNUM 结束行号）由子类扩展。
  *
  * @author sander
  * @version 1.0
@@ -17,30 +17,37 @@ import java.util.List;
 public abstract class Paging<T> implements Serializable {
 
     private static final long serialVersionUID = -1130734574933924097L;
+
     /**
      * 当前页码
      */
     private Integer currentPage;
+
     /**
      * 每页大小
      */
     private Integer pageSize;
+
     /**
      * 总页数
      */
     private Integer totalPage;
+
     /**
      * 开始记录
      */
     private Integer startRecord;
+
     /**
      * 总记录数
      */
     private Integer totalCount;
+
     /**
      * 参数
      */
     private T param;
+
     /**
      * 结果列表
      */

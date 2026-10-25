@@ -5,14 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.asymmetric.rsa.RsaHelper;
 import org.tools.encrypt.entity.Encrypt;
-import org.tools.encrypt.entity.EncryptScanPackage;
 import org.tools.encrypt.entity.asymmetric.Asymmetric;
 import org.tools.encrypt.entity.asymmetric.Rsa;
 import org.tools.encrypt.entity.asymmetric.RsaProperties;
@@ -28,13 +27,17 @@ import org.tools.encrypt.exception.EncryptException;
 import org.tools.encrypt.symmetrical.aes.AesHelper;
 import org.tools.encrypt.symmetrical.des.DesHelper;
 import org.tools.encrypt.symmetrical.idea.IdeaHelper;
+import org.tools.spring.boot.encrypt.EncryptProperties;
 import org.tools.spring.boot.encrypt.OnEncryptPropertiesCondition;
 
 import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Objects;
+import java.util.Properties;
 
 /**
  * 自动配置类
@@ -46,11 +49,14 @@ import java.util.Objects;
 @Configuration
 @ConditionalOnClass({Encrypt.class})
 @Conditional(OnEncryptPropertiesCondition.class)
-@ConfigurationPropertiesScan(basePackages = EncryptScanPackage.ENTITY)
+@EnableConfigurationProperties(EncryptProperties.class)
 @RequiredArgsConstructor
 public class EncryptAutoConfiguration {
 
     private final Encrypt encrypt;
+
+    /** 工具版本号：构建期由 Maven resource filtering 注入（META-INF/tools-version.properties） */
+    private static final String VERSION = loadVersion();
 
     static {
         printWelcome();
@@ -189,6 +195,26 @@ public class EncryptAutoConfiguration {
         return "";
     }
 
+    /**
+     * 加载工具版本号：读取构建期经 Maven filtering 注入的 META-INF/tools-version.properties
+     * （定界符为 @project.version@，仓库根 POM 的 resources 插件未启用 ${} 定界符）；
+     * 资源缺失或占位符未被替换（如未经 Maven 构建的裸 classpath）时降级为 unknown。
+     *
+     * @return 版本号字符串
+     */
+    private static String loadVersion() {
+        final Properties properties = new Properties();
+        try (InputStream in = EncryptAutoConfiguration.class.getResourceAsStream("/META-INF/tools-version.properties")) {
+            if (in != null) {
+                properties.load(in);
+            }
+        } catch (IOException e) {
+            // 读取失败降级为 unknown
+        }
+        final String version = properties.getProperty("version");
+        return version == null || version.contains("project.version") ? "unknown" : version;
+    }
+
     private static void printWelcome() {
         final String[] banner = {
                 "\n" +
@@ -197,13 +223,12 @@ public class EncryptAutoConfiguration {
                         "   | |/ _ \\ / _ \\| / __|\n" +
                         "   | | (_) | (_) | \\__ \\\n" +
                         "   |_|\\___/ \\___/|_|___/\n" +
-                        "               1.0.6.5-d01\n" +
+                        String.format("%27s%n", VERSION) +
                         "\n"
         };
 
         String fullBanner = String.join("\n", banner);
         System.out.print(fullBanner);
-//        System.out.print("\033[32m" + " :: Tools :: " + "\033[0m" + "\n\n");
     }
 
 }

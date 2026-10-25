@@ -220,10 +220,12 @@ public enum HttpEnum {
      * 错误码
      */
     private final Integer code;
+
     /**
      * 响应状态
      */
     private final String status;
+
     /**
      * 提示信息
      */

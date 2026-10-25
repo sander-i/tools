@@ -28,6 +28,7 @@ public class AliyunDdnsUtils {
     }
 
     private static final String DOMAIN_RECORD_DUPLICATE = "DomainRecordDuplicate";
+
     private static final String CODE = "Code";
 
     /** 按凭证与 endpoint 创建阿里云 DNS 客户端 */

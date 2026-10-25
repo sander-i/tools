@@ -14,7 +14,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Point {
+
+    /** x 坐标 */
     private int x;
+
+    /** y 坐标 */
     private int y;
 
     /** 坐标相等判断：x、y 均相同视为相等 */
