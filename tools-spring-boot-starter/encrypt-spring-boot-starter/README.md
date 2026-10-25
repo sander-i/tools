@@ -2,7 +2,7 @@
 
 `encrypt-spring-boot-starter` 为 [encrypt 模块](../../../encrypt/README.md) 提供 Spring Boot 自动装配：在 `application.yml` 中配置 `tools.encrypt.*`，启动时自动完成 AES / DES / IDEA / RSA 的密钥装载（`XxxHelper.load(...)`），业务代码直接调用 `AesHelper`、`RsaHelper` 等静态工具类即可。
 
-- 坐标：`io.gitee.sander-o.spring.boot:encrypt-spring-boot-starter`（版本随根 `pom.xml`，当前 `1.0.6.7-d01`）
+- 坐标：`io.gitee.sander-o.spring.boot:encrypt-spring-boot-starter`（版本随根 `pom.xml`，当前 `2.0.0`）
 - 适配：Spring Boot 2.7.x（同时通过 `spring.factories` 与 `AutoConfiguration.imports` 注册，2.7 均可加载）
 - Java：1.8+
 
@@ -14,15 +14,17 @@
 <dependency>
     <groupId>io.gitee.sander-o.spring.boot</groupId>
     <artifactId>encrypt-spring-boot-starter</artifactId>
-    <version>1.0.6.7-d01</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
-### 第 2 步：启用自动装配
+### 第 2 步：（可选）显式启用
+
+自动装配默认开启：只要 classpath 引入本 starter 且存在任意 `tools.encrypt.*` 配置，`EncryptAutoConfiguration` 即生效，**启动类无需任何注解**。若希望在代码上显式声明启用，可加 `@EnableToolsEncrypt`：
 
 ```java
 @SpringBootApplication
-@EnableToolsEncrypt
+@EnableToolsEncrypt   // 可选：显式导入自动配置，效果与默认自动装配相同
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -125,7 +127,7 @@ AesHelper.load(aes, "phone"); // 激活 phone 分组
 | `idea` | `IdeaProperties` | `tools.encrypt.symmetrical.idea.enabled=true` |
 
 - 所有 Bean 均带 `@ConditionalOnMissingBean`，可自行声明同类型 Bean 覆盖默认装配。
-- `@EnableToolsEncrypt` 负责启用属性扫描（`tools.encrypt` 前缀绑定到 `Encrypt` 实体）。
+- 配置绑定由 starter 的 `EncryptProperties`（继承 encrypt 的 `Encrypt` 实体树，`@ConfigurationProperties("tools.encrypt")`）完成；`encrypt` 模块本身不依赖 Spring。`@EnableToolsEncrypt` 为可选的显式 `@Import`，自动装配不依赖它。
 - 不配置某个算法的 `enabled=true`，该算法的 Bean 与 `load` 都不会发生，对应 Helper 处于未装载状态（调用其 `encode/decode` 会抛出空指针或未初始化异常）。
 
 ## 密钥来源建议
@@ -143,7 +145,7 @@ AesHelper.load(aes, "phone"); // 激活 phone 分组
 
 ## 从配置层面避免不安全组合
 
-**当前限制 / TODO**（截至 `1.0.6.7-d01`）：
+**当前限制 / TODO**（截至 `2.0.0`）：
 
 - starter **不会**拒绝不安全组合：DES 默认 `DES` 模式即 ECB、IV 不生效；AES 未配置 IV 时 CBC 模式会在运行期才报错。starter 目前没有启动期校验拦截这些组合 —— TODO：计划在 `EncryptAutoConfiguration` 增加启动期校验（拒绝 DES/ECB 与过短密钥），在此之前请参照 [encrypt 安全边界表](../../../encrypt/README.md#安全边界) 自查配置。
 - 配置中的 `key-bits` 不会改变 `secret-key` 的实际长度（密钥长度由 Hex 解码后的字节数决定），两者不一致时以 `secret-key` 为准。
@@ -151,7 +153,7 @@ AesHelper.load(aes, "phone"); // 激活 phone 分组
 ## 常见问题
 
 **Q：配置了 `tools.encrypt.*` 但调用 `AesHelper.encode` 报空指针 / 未初始化？**
-确认三件事：启动类上有 `@EnableToolsEncrypt`；对应算法 `enabled: true`；`secret-key` 已配置。三者缺一，该算法不会被装配。另注意：本 starter 打包内附的 `application.yml` 仅为配置示例，Spring Boot 不会加载依赖 jar 中的该文件，请把配置写在**你自己的** `application.yml` 里。
+确认两件事：对应算法 `enabled: true`；`secret-key` 已配置。任一缺失该算法不会被装配（`@EnableToolsEncrypt` 并非必需）。配置请写在**你自己的** `application.yml` 里——2.0.0 起 starter 不再打包任何 `application.yml`（旧版本打包的示例配置会被 Spring Boot 从依赖 jar 加载，存在用演示密钥意外激活加密的风险，已移除）。
 
 **Q：加解密报 `BadPaddingException` 或解出乱码？**
 两端 `algorithm-mode`、密钥、IV 必须完全一致。最常见的错误：一端用 AES/CBC/PKCS5Padding、另一端默认模式；或 IV 长度不是 16 字节；或 DES 两端密钥字节数不同。

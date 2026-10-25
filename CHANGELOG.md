@@ -2,13 +2,18 @@
 
 本项目所有对外可见的变更记录于此。格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。
 
-## [Unreleased]
+## [2.0.0] - 2026-10-25
 
-> 对应开发版本 `1.0.6.7-d01`（根 `pom.xml`）。以下为该版本尚未发布前累计的实际改动；发布时会替换为正式版本号。
+> **本版本为破坏性变更版本（2.0）**：HTTP 响应体结构与错误码重构、基础对象字段更名与类型调整、民族编码对齐国标、encrypt 移除 Spring 依赖。升级前请先阅读文末"迁移指引"。
 
 ### Added
 
 - **JDK 多版本支持（8 / 17 / 21）**：产物统一保持 Java 8 字节码（class major 52），最低运行环境 JDK 8；CI 验证矩阵扩展为 temurin 8/17/21 三腿全量构建 + 单元测试（此前仅 JDK 8）。中英文 README 新增「JDK 版本支持」章节（模块 × 字节码目标 × 验证版本矩阵、Spring 5.3.39 于 JDK 21 的支持说明）。新增自动激活 profile `jdk9-cross-compile`（构建 JDK ≥ 9 时设 `maven.compiler.release=8`）：交叉编译静态禁止误用 JDK 9+ API（如 `String.isBlank`、`List.of`），保证任何环境构建的产物均可运行于 Java 8；JDK 8 上构建不激活，维持 `source/target=1.8` 既有路径。已本地验证 JDK 8 与 corretto 17 全量测试通过、产物字节码均为 major 52、profile 按 JDK 正确激活/不激活（JDK 21 由 CI 矩阵覆盖）。
+- **HTTP 统一响应体新增字段**：`RR` 增加 `timestamp`（epoch 毫秒，构造时自动填充）与 `traceId`（链路追踪 ID，调用方按需注入）。
+- **starter 配置绑定承接与测试固化**：新增 `EncryptProperties`（继承 encrypt 的 `Encrypt` 实体树，持有 `@ConfigurationProperties("tools.encrypt")`）；新增 `EncryptPropertiesBindingTest`（Binder 绑定冒烟）与 `EncryptAutoConfigurationSmokeTest`（有配置自动装配 / 无配置零装配的启用契约测试）。
+- **starter 启动 banner 版本号动态注入**：`printWelcome` 不再写死版本号，改为读取 `META-INF/tools-version.properties`（构建期经 Maven filtering 注入 `@project.version@`），后续升版本只需改根 POM。
+- 新增 `BaseBeanSmokeTest`（字段访问器、toString 回归、serializable 版 JDK round-trip 含 Timestamp 纳秒断言）；`RSerializationSmokeTest` 扩充 message 合并语义与 timestamp 断言。
+- 全仓库代码风格统一：类字段块之间、枚举常量之间统一空行分隔。
 - 新增唯一键工具（bedrock `uniqueid` 包，纯 JDK 实现，基础包不引入任何第三方依赖）：`SnowflakeUtils` 雪花 ID（1+41+10+12 位，时钟回拨等待/拒绝策略，支持 workerId/dataCenterId 反解析）与 `TddlUtils` TDDL 风格字符串主键（17 位毫秒时间戳 + 2 位机器标识 + 3 位序列，共 22 位，同一机器标识共享序列状态）。均附并发唯一性冒烟测试；`uniqueid` 各 package-info 补充包描述。
 - 文档导航新增 Gitee 在线 API 文档入口（https://apidoc.gitee.com/sander-o/tools），同步更新中英文 README 与 HTML 操作文档。
 - 全项目公开类/方法 Javadoc 补全：扫描 bedrock / encrypt / fortify / starter 全部公开方法，为缺失描述的 182 个公开方法（响应构建工厂、分页、HTTP 工具、日期时区、加密 Helper 重载、枚举查找、过滤器、Excel 填充、自动配置 Bean 等）补充中文 Javadoc；含块注释内示例代码的扫描排除与"注释位于注解之上"的规范修正。无任何行为变更。
@@ -25,6 +30,19 @@
 
 ### Changed
 
+- **依赖漏洞修复升级**（全部保持 JDK 8 兼容）：logback `1.1.7→1.2.13`（CVE-2017-5929 / CVE-2021-42550 / CVE-2023-6378）、slf4j `1.7.21→1.7.36`（1.7 线终版）、BouncyCastle `bcprov-jdk15on 1.70 → bcprov-jdk18on 1.78.1`（CVE-2023-33201 / CVE-2024-29857 / CVE-2024-30171 / CVE-2024-30172；1.71 起构件更名 jdk18on、包名不变，加密代码零改动），并**排除 aliyun SDK 传递的 jdk15on 1.65**（openapiutil 经 alidns20150109 与 tea-openapi 两条路径引入，统一排除后由 jdk18on 1.78.1 提供同包名类）、java-jwt `4.3.0→4.4.0`（传递的 jackson-databind 由存在 CVE-2022-42003/42004 的 2.13.3 升至安全版本）、spring-boot-dependencies `2.7.1→2.7.18`（2.7 线终版，修复 spring-framework / tomcat / jackson 多项传递 CVE）、POI `5.2.2→5.2.5`（5.2 线安全终版）。
+- **logback 不再向下游传递（optional）**：CVE-2024-12798 / CVE-2024-12801 的官方修复版 logback 1.5.14 要求 Java 11，JDK 8 的 1.2 线（止于 1.2.13）无修复版。本库代码零直接引用 logback（全部经 slf4j），故 logback-core / logback-classic 标记 `<optional>`——发布构件不再携带日志后端，由消费方选择自己的（已修复）版本；本仓库自身编译与测试仍使用 1.2.13。**升级提示**：下游若依赖本库传递获得 logback，升级后需自行声明日志后端。
+- **fortify 依赖面收敛**（漏洞排查发现的两处无谓暴露）：① `spring-context` 依赖移除——全模块（含测试）零 `org.springframework` 引用，纯历史残留，连带清掉传递的 spring-core/aop/beans/expression；② `tomcat-embed-core`（9.0.83，存在 CVE-2024-50379/56337、CVE-2025-24813 等）移除——BodyReader 系列 Filter/Wrapper 仅使用 `javax.servlet` API，改以规范方式声明 `jakarta.servlet:jakarta.servlet-api:4.0.4`（provided，版本随 Boot BOM，运行期由消费方容器提供），不再把整个 Tomcat 传递给下游。
+- **spring-framework 传递版本 5.3.31 → 5.3.39**（5.3 线终版）：starter 经 spring-boot 2.7.18 传递的 spring-core/context 升至已修复版本。实现方式为在 Boot BOM **之前**导入 `spring-framework-bom:5.3.39`——BOM import 场景下属性覆盖（`<spring-framework.version>`）不生效，那是 starter-parent 继承机制专属。
+- **fastjson `1.2.83 → fastjson2 `2.0.53`**（fortify 模块）：fastjson 1.x 已 EOL，整体迁移至 fastjson2。代码适配：import 由 `com.alibaba.fastjson` 切换为 `com.alibaba.fastjson2`；`JSONUtils.jsonToObj(String, Object)` 中 fastjson1 独有的 `JSONObject.getInnerMap()` 改为直接使用 JSONObject 本身（fastjson2 的 JSONObject 已继承 LinkedHashMap）。**公开 API 类型变更**：`JSONUtils` 对外返回的 `JSONObject` 由 fastjson 类型切换为 fastjson2 类型。
+- **【破坏性】HTTP 统一响应体重构（bedrock `http/resp`）**：`msg` 与 `message` 双字段合并为单一 `message`（自定义提示非空则覆盖、为空回退状态定义标准提示）；`RS` 错误码对齐阿里巴巴《Java 开发手册》五字符规范——`OK("0")` 保留为唯一成功码，原 `1001-1007` 数字码全部废弃（`FAIL→B0001`、`ARGUMENT_ILLEGAL→A0400`、`ARGUMENT_ABSENCE→A0410`、`NO_PERMISSION→A0301`、`DATA_DUPLICATE→C0341`、`GET_LOCK_ERROR→B0900` 自定义扩展），新增 `CLIENT_ERROR A0001`、`THIRD_PARTY_ERROR C0001`、`NOT_LOGIN A0200`、`LOGIN_EXPIRED A0230`、`RATE_LIMIT A0501`、`SERVICE_TIMEOUT B0100`、`DB_ERROR C0300`；`RR` 新增 protected 三参构造供子类使用。
+- **【破坏性】base 基础对象规范化**：`Nation` 民族编码对齐 GB/T 3304（01 汉 … 56 基诺，与身份证民族字段同源；旧编码 = 新编码 − 1、汉族由 56 改为 1；拼写修正 `SALTAR→DONGXIANG`、`GINO→JINUO`）；`Sex` 删除同值重复条目 `MAN`/`GIRL`；`BaseBean` 审计字段更名 `createdBy→creator`、`createdTime→createdAt`、`updatedBy→updater`、`updatedTime→updatedAt`，时间类型统一为 `java.sql.Timestamp`（与时区无关、JDBC 原生互转），删除丢失 `remark` 的手写 `toString` 交给 Lombok；`Identity.birth` 由 `Date` 改为 `LocalDate`；serializable 孪生包同步。
+- **【破坏性】`DateType` 枚举删除**：其常量与 `java.util.Calendar` 完全一致属冗余中间层，`DateUtils.addDate` 签名改为 `(Date source, int type, int val)` 直接收 Calendar 字段常量（顺带修复 `AM_PM` 原先无 switch 分支必抛异常的问题）。
+- **【破坏性】encrypt / encrypt-spring-boot-starter 职责边界整改**：`encrypt` 移除 `spring-boot-autoconfigure` 依赖（`dependency:tree` 零 Spring，非 Spring 项目可干净引入）；7 个实体类（`Encrypt`/`Asymmetric`/`Rsa`/`Symmetrical`/`Des`/`Aes`/`Idea`）移除 `@ConfigurationProperties` 回归纯 POJO；`CipherAbst` 的 `org.springframework.util.Assert` 换为 JDK `IllegalArgumentException` 校验（异常类型不变）；starter 侧以 `EncryptProperties` 承接配置绑定（`@ConfigurationPropertiesScan` 改为 `@EnableConfigurationProperties`）；**starter 不再打包 `application.yml`**（旧版 jar 内的演示密钥配置会被 Spring Boot 从依赖 jar 加载，无自配的应用将被演示密钥意外激活加密；样例移至 `src/test/resources`）；删除冒名 `spring.boot.autoconfigure` 的手工 `MANIFEST.MF`、空的 `spring-autoconfigure-metadata.properties` 与空 `{}` 的手工 `spring-configuration-metadata.json`（均由构建期处理器生成正式版本）、零引用的 `EncryptScanPackage`。
+- 启用契约明确：引入 starter + 存在任意 `tools.encrypt.*` 配置即自动装配（启动类零注解）；`@EnableToolsEncrypt` 为可选显式 `@Import`，无配置时加了注解也不装配。
+- `ClassUtils.fetchField` 对缺 getter/setter 字段（如 final 只读属性）的预期跳过由 WARN+堆栈 降为单行 debug；`TransformUtils.strToByte` 非法字符集由 ERROR 降为 WARN（均为日志观测面调整，无行为变化）。
+- `DateUtils.getSeasonDiffer` 由恒返 `STANDARD_TIME` 的桩实现改为按 `inDaylightTime` 实时判定；对应测试由日期敏感断言改为规则断言。
+- `SimilarityResult.toString` 增加 `individualSimilarities` 判空；serializable/`Address` 内部类 `Area`/`County` 由 private 改 public（getter 暴露私有类型无法引用）；修复 `Paging` 与 serializable/`Identity` 的 Javadoc 坏链接（javadoc 打包校验通过）。
 - 项目叙事调整：根 README 从"综合工具箱"改为"以 encrypt 为旗舰的 Java 加密库（含配套工具）"，`bedrock`、`fortify` 降级为配套模块。
 - **AES 密钥解析行为变更（未发布版本内的变更）**：`AesKeyGenerator.getSecretKey(String, String)` 由"密钥字符串直接取 UTF-8 字节"改为"按 Hex 解码"，与 `getSecretKeyStr` 的 Hex 输出对应。在此前开发版本中使用明文 AES 密钥的调用方升级后需改用 Hex 密钥。
 - `ClassUtils.fetchField`：跳过 `static` 字段与 `serialVersionUID`（此前静态字段会导致 `PropertyDescriptor` 构造失败被吞日志），属性复制行为更稳定。
@@ -34,6 +52,7 @@
 
 ### Removed
 
+- 移除 `RS.SUCCESS("1000")`（命名成功语义但 `build` 只认 `RS.OK`，行为矛盾）与 `RS.ERROR`（语义被 `FAIL/B0001` 覆盖）；移除 `Sex` 重复条目 `MAN`/`GIRL`；移除 `DateType` 枚举；移除 `EncryptScanPackage`、starter 手工 `MANIFEST.MF`、空 metadata 文件与 jar 内 `application.yml`（详见 Changed）。
 - 根 `pom.xml` 移除私有 Nexus 仓库（ailuoli）的 repository / pluginRepository 及相关注释残留。
 
 ### Removed
@@ -80,5 +99,12 @@
 
 ### Notes
 
-- 本版本无公开 API 签名变更；上述 AES 密钥解析行为变更仅影响未发布的开发版本之间的升级。
+- **迁移指引（破坏性变更对照）**：
+  - 错误码：`1001→B0001`、`1003→A0410`、`1004→A0400`、`1005→C0341`、`1006→A0301`、`1007→B0900`；`SUCCESS(1000)`、`ERROR(1002)` 已删除。前端/调用方按旧码对接的需同步映射表。
+  - 响应体：JSON 中不再有 `msg` 字段，统一读 `message`；新增 `timestamp`/`traceId` 字段（多余字段前端可忽略）。
+  - `BaseBean` 子类：审计字段 getter/setter 相应更名（如 `getCreatedBy()→getCreator()`）；老版本序列化流与新类不兼容（serialVersionUID 已更新）。
+  - `Nation`：旧码 = 新码 − 1（汉族 56→1），按旧码持久化的数据需迁移。
+  - `DateUtils.addDate`：`DateType.X` 改传 `Calendar.X`。
+  - encrypt 下游：不再传递 Spring 依赖；曾自行扫描 `org.tools.encrypt.entity` 或注入实体 bean 的，改注入 starter 的 `EncryptProperties`。
+  - starter 下游：必须在自己的 `application.yml` 显式配置 `tools.encrypt.*`（不再能"继承"starter 内置演示配置——那本就是事故行为）。
 - 文档中的已知安全限制（DES 默认 ECB、JWT 默认签名串等）以 [encrypt/README.md 安全边界表](encrypt/README.md#安全边界) 为准，行为修改将另行记录。

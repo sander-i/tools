@@ -22,11 +22,11 @@
 <dependency>
     <groupId>io.gitee.sander-o</groupId>
     <artifactId>encrypt</artifactId>
-    <version>1.0.6.7-d01</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
-> 版本号读取自项目根 `pom.xml`（当前为 `1.0.6.7-d01`，属于开发中版本，发布时可能变化；以 [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools) 上实际可用的版本为准）。
+> 版本号读取自项目根 `pom.xml`（当前为 `2.0.0`，属于开发中版本，发布时可能变化；以 [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools) 上实际可用的版本为准）。
 
 ### 2. 三行代码开始使用
 
@@ -55,11 +55,13 @@ String plaintext  = AesHelper.decode(ciphertext); // "hello"
 <dependency>
     <groupId>io.gitee.sander-o.spring.boot</groupId>
     <artifactId>encrypt-spring-boot-starter</artifactId>
-    <version>1.0.6.7-d01</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
-启动类加 `@EnableToolsEncrypt`，在 `application.yml` 中配置 `tools.encrypt.*` 即可，详见 [5 分钟接入](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md)。
+启动类**无需任何注解**，在 `application.yml` 中配置 `tools.encrypt.*` 即自动生效；`@EnableToolsEncrypt` 为可选的显式启用方式。详见 [5 分钟接入](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md)。
+
+> **升级提示**：`2.0.0` 为破坏性变更版本（HTTP 响应体结构与错误码、基础对象字段名、民族编码、encrypt 依赖 Spring 移除等），升级前请查阅 [CHANGELOG 2.0.0 迁移说明](CHANGELOG.md)。
 
 ## 为什么是 encrypt
 
@@ -97,19 +99,30 @@ tools
 
 ## JDK 版本支持
 
-所有模块统一以 **Java 8 字节码**（class major 52）发布，最低运行环境 **JDK 8**；在 JDK 8 / 17 / 21 三个版本上完成构建与全量单元测试验证（CI 矩阵）。
+所有模块统一以 **Java 8 字节码**（class major 52）发布，最低运行环境 **JDK 8**，在 8 / 17 / 21 上均可直接运行（低版本字节码在新 JDK 上的向前兼容由 JVM 规范保证）。多版本验证方式与当前状态：
 
-| 模块 | 字节码目标 | 验证过的 JDK | 说明 |
-|---|---|---|---|
-| bedrock | Java 8 | 8 / 17 / 21 | 纯 JDK 实现，无版本敏感依赖 |
-| encrypt | Java 8 | 8 / 17 / 21 | BouncyCastle 1.78.1（multi-release jar，官方支持 8~21） |
-| fortify | Java 8 | 8 / 17 / 21 | fastjson2 / 阿里云 SDK / POI 均兼容 17/21 |
-| encrypt-spring-boot-starter | Java 8 | 8 / 17 / 21 | Spring Boot 2.7.18 + Spring 5.3.39（5.3.30 起官方支持 JDK 21） |
+| 验证途径 | JDK | 状态 |
+|---|---|---|
+| 本地冒烟测试（全量单元测试，含各模块冒烟用例） | Oracle JDK 1.8.0_121、Amazon Corretto 17.0.14 | ✅ 已执行，全部通过；产物字节码抽查均为 major 52 |
+| CI 矩阵（temurin） | 8 / 17 / 21 | `.github/workflows/ci.yml` 草案（仓库托管于 Gitee，落地其流水线时按对应语法转换，核心命令一致） |
 
-构建侧的多版本保护：在 JDK 9+ 上构建时会自动启用交叉编译（`jdk9-cross-compile` profile，`maven.compiler.release=8`），静态禁止误用 JDK 9+ API，保证任何环境构建出的产物都可运行在 Java 8；JDK 8 上构建则维持 `source/target=1.8` 既有路径。验证命令与 CI 一致：
+| 模块 | 字节码目标 | 说明 |
+|---|---|---|
+| bedrock | Java 8 | 纯 JDK 实现，无版本敏感依赖 |
+| encrypt | Java 8 | BouncyCastle 1.78.1（multi-release jar，官方支持 8~21） |
+| fortify | Java 8 | fastjson2 / 阿里云 SDK / POI 均兼容 17/21 |
+| encrypt-spring-boot-starter | Java 8 | Spring Boot 2.7.18 + Spring 5.3.39（5.3.30 起官方支持 JDK 21） |
+
+构建侧的多版本保护：在 JDK 9+ 上构建时会自动启用交叉编译（`jdk9-cross-compile` profile，`maven.compiler.release=8`），静态禁止误用 JDK 9+ API，保证任何环境构建出的产物都可运行在 Java 8；JDK 8 上构建则维持 `source/target=1.8` 既有路径。
+
+冒烟测试执行（与 CI 同一命令；根 POM 默认 `skipTests=true`，须显式开启）：
 
 ```bash
-mvn -B -DskipTests=false test
+# 当前 JDK 执行
+mvn -B -DskipTests=false clean test
+
+# 指定其它已安装 JDK 执行（Git Bash / Linux 写法）
+JAVA_HOME=/path/to/jdk17 PATH=/path/to/jdk17/bin:$PATH mvn -B -DskipTests=false clean test
 ```
 
 ## 安装教程（全量引入）
@@ -132,7 +145,7 @@ mvn -B -DskipTests=false test
 ```xml
 <properties>
     <!-- 以 Maven Central 实际发布的版本为准 -->
-    <tools.version>1.0.6.7-d01</tools.version>
+    <tools.version>2.0.0</tools.version>
 </properties>
 
 <dependencyManagement>

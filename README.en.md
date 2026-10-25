@@ -22,11 +22,11 @@ A self-contained operations guide (no external dependencies) covering the capabi
 <dependency>
     <groupId>io.gitee.sander-o</groupId>
     <artifactId>encrypt</artifactId>
-    <version>1.0.6.7-d01</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
-> The version is read from the root `pom.xml` (currently `1.0.6.7-d01`, a development version that may change before release; use the version actually published on [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools)).
+> The version is read from the root `pom.xml` (currently `2.0.0`, a development version that may change before release; use the version actually published on [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools)).
 
 ### 2. Three lines of code
 
@@ -49,11 +49,13 @@ String ciphertext = AesHelper.encode("hello");
 <dependency>
     <groupId>io.gitee.sander-o.spring.boot</groupId>
     <artifactId>encrypt-spring-boot-starter</artifactId>
-    <version>1.0.6.7-d01</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
-Annotate your application with `@EnableToolsEncrypt` and configure `tools.encrypt.*` in `application.yml`. See the [5-minute guide](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md).
+No annotation required — configure `tools.encrypt.*` in `application.yml` and the auto-configuration takes effect; `@EnableToolsEncrypt` is an optional explicit switch. See the [5-minute guide](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md).
+
+> **Upgrade note**: `2.0.0` is a breaking release (HTTP response structure & error codes, base object field renames, nation codes, `encrypt` no longer depends on Spring, etc.) — check the [CHANGELOG](CHANGELOG.md) migration notes before upgrading.
 
 ## Why `encrypt`
 
@@ -84,19 +86,30 @@ tools
 
 ## JDK Support
 
-All modules are published as **Java 8 bytecode** (class major 52) with a minimum runtime of **JDK 8**; build and full unit tests are verified on JDK 8 / 17 / 21 via the CI matrix.
+All modules are published as **Java 8 bytecode** (class major 52) with a minimum runtime of **JDK 8**, so they run as-is on JDK 8 / 17 / 21 (forward compatibility of older bytecode on newer JVMs is guaranteed by the JVM specification). How each version is verified, and the current status:
 
-| Module | Bytecode target | Verified JDKs | Notes |
-|---|---|---|---|
-| bedrock | Java 8 | 8 / 17 / 21 | Pure JDK implementation |
-| encrypt | Java 8 | 8 / 17 / 21 | BouncyCastle 1.78.1 (multi-release jar, supports 8–21) |
-| fortify | Java 8 | 8 / 17 / 21 | fastjson2 / Alibaba Cloud SDK / POI all work on 17/21 |
-| encrypt-spring-boot-starter | Java 8 | 8 / 17 / 21 | Spring Boot 2.7.18 + Spring 5.3.39 (JDK 21 officially supported since Spring 5.3.30) |
+| Verification path | JDK | Status |
+|---|---|---|
+| Local smoke run (full unit-test suite, all module smoke cases included) | Oracle JDK 1.8.0_121, Amazon Corretto 17.0.14 | ✅ Executed, all green; artifact bytecode spot-checked as major 52 |
+| CI matrix (temurin) | 8 / 17 / 21 | `.github/workflows/ci.yml` draft (repo hosted on Gitee; adapt syntax when porting to its pipeline — the core commands stay the same) |
 
-Cross-compile guard: building on JDK 9+ automatically activates the `jdk9-cross-compile` profile (`maven.compiler.release=8`), which statically prevents accidental use of JDK 9+ APIs so artifacts built on any JDK still run on Java 8; on JDK 8 the build keeps the existing `source/target=1.8` path. Verify locally with the same command CI uses:
+| Module | Bytecode target | Notes |
+|---|---|---|
+| bedrock | Java 8 | Pure JDK implementation |
+| encrypt | Java 8 | BouncyCastle 1.78.1 (multi-release jar, supports 8–21) |
+| fortify | Java 8 | fastjson2 / Alibaba Cloud SDK / POI all work on 17/21 |
+| encrypt-spring-boot-starter | Java 8 | Spring Boot 2.7.18 + Spring 5.3.39 (JDK 21 officially supported since Spring 5.3.30) |
+
+Cross-compile guard: building on JDK 9+ automatically activates the `jdk9-cross-compile` profile (`maven.compiler.release=8`), which statically prevents accidental use of JDK 9+ APIs so artifacts built on any JDK still run on Java 8; on JDK 8 the build keeps the existing `source/target=1.8` path.
+
+Running the smoke tests (same command CI uses; the root POM defaults to `skipTests=true`, so it must be enabled explicitly):
 
 ```bash
-mvn -B -DskipTests=false test
+# Run with the current JDK
+mvn -B -DskipTests=false clean test
+
+# Run with another installed JDK (Git Bash / Linux syntax)
+JAVA_HOME=/path/to/jdk17 PATH=/path/to/jdk17/bin:$PATH mvn -B -DskipTests=false clean test
 ```
 
 ## Installation (all modules)
@@ -106,7 +119,7 @@ To pull in every module, import the BOM and declare what you need:
 ```xml
 <properties>
     <!-- Use the version actually published on Maven Central -->
-    <tools.version>1.0.6.7-d01</tools.version>
+    <tools.version>2.0.0</tools.version>
 </properties>
 
 <dependencyManagement>
