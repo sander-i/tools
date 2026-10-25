@@ -82,6 +82,23 @@ tools
 - **bedrock** — `io.gitee.sander-o:bedrock`: collection / map / date / file / image utilities, unified HTTP response, distributed IDs. `encrypt` depends on a few of its basic utilities, which are pulled in transitively. See [bedrock/README.md](bedrock/README.md).
 - **fortify** — `io.gitee.sander-o:fortify`: Excel generation (`ExcelUtils` + `ExcelSheet`), image compression (`ImageUtils`), Alibaba Cloud DDNS (`AliyunDdnsUtils`) and more. See [fortify/README.md](fortify/README.md).
 
+## JDK Support
+
+All modules are published as **Java 8 bytecode** (class major 52) with a minimum runtime of **JDK 8**; build and full unit tests are verified on JDK 8 / 17 / 21 via the CI matrix.
+
+| Module | Bytecode target | Verified JDKs | Notes |
+|---|---|---|---|
+| bedrock | Java 8 | 8 / 17 / 21 | Pure JDK implementation |
+| encrypt | Java 8 | 8 / 17 / 21 | BouncyCastle 1.78.1 (multi-release jar, supports 8–21) |
+| fortify | Java 8 | 8 / 17 / 21 | fastjson2 / Alibaba Cloud SDK / POI all work on 17/21 |
+| encrypt-spring-boot-starter | Java 8 | 8 / 17 / 21 | Spring Boot 2.7.18 + Spring 5.3.39 (JDK 21 officially supported since Spring 5.3.30) |
+
+Cross-compile guard: building on JDK 9+ automatically activates the `jdk9-cross-compile` profile (`maven.compiler.release=8`), which statically prevents accidental use of JDK 9+ APIs so artifacts built on any JDK still run on Java 8; on JDK 8 the build keeps the existing `source/target=1.8` path. Verify locally with the same command CI uses:
+
+```bash
+mvn -B -DskipTests=false test
+```
+
 ## Installation (all modules)
 
 To pull in every module, import the BOM and declare what you need:

@@ -8,6 +8,7 @@
 
 ### Added
 
+- **JDK 多版本支持（8 / 17 / 21）**：产物统一保持 Java 8 字节码（class major 52），最低运行环境 JDK 8；CI 验证矩阵扩展为 temurin 8/17/21 三腿全量构建 + 单元测试（此前仅 JDK 8）。中英文 README 新增「JDK 版本支持」章节（模块 × 字节码目标 × 验证版本矩阵、Spring 5.3.39 于 JDK 21 的支持说明）。新增自动激活 profile `jdk9-cross-compile`（构建 JDK ≥ 9 时设 `maven.compiler.release=8`）：交叉编译静态禁止误用 JDK 9+ API（如 `String.isBlank`、`List.of`），保证任何环境构建的产物均可运行于 Java 8；JDK 8 上构建不激活，维持 `source/target=1.8` 既有路径。已本地验证 JDK 8 与 corretto 17 全量测试通过、产物字节码均为 major 52、profile 按 JDK 正确激活/不激活（JDK 21 由 CI 矩阵覆盖）。
 - 新增唯一键工具（bedrock `uniqueid` 包，纯 JDK 实现，基础包不引入任何第三方依赖）：`SnowflakeUtils` 雪花 ID（1+41+10+12 位，时钟回拨等待/拒绝策略，支持 workerId/dataCenterId 反解析）与 `TddlUtils` TDDL 风格字符串主键（17 位毫秒时间戳 + 2 位机器标识 + 3 位序列，共 22 位，同一机器标识共享序列状态）。均附并发唯一性冒烟测试；`uniqueid` 各 package-info 补充包描述。
 - 文档导航新增 Gitee 在线 API 文档入口（https://apidoc.gitee.com/sander-o/tools），同步更新中英文 README 与 HTML 操作文档。
 - 全项目公开类/方法 Javadoc 补全：扫描 bedrock / encrypt / fortify / starter 全部公开方法，为缺失描述的 182 个公开方法（响应构建工厂、分页、HTTP 工具、日期时区、加密 Helper 重载、枚举查找、过滤器、Excel 填充、自动配置 Bean 等）补充中文 Javadoc；含块注释内示例代码的扫描排除与"注释位于注解之上"的规范修正。无任何行为变更。
@@ -29,6 +30,7 @@
 - `ClassUtils.fetchField`：跳过 `static` 字段与 `serialVersionUID`（此前静态字段会导致 `PropertyDescriptor` 构造失败被吞日志），属性复制行为更稳定。
 - 构建：父 POM 固定 `com.aliyun:tea` 版本为 1.4.2，避免版本范围解析；`central-publishing-maven-plugin` 升级至 0.7.0；`autoPublish` 改为 false；GPG 签名配置调整。
 - 构建：surefire 的 `skipTests` 由硬编码 `true` 改为属性引用（默认值仍为 `true`，行为不变），支持 `-DskipTests=false` 临时执行测试（CI 使用）。
+- 构建：为支持 JDK 17/21 构建与测试，升级构建链——lombok 1.18.24 → 1.18.34（1.18.30 起才支持 JDK 21 注解处理）、mockito 3.12.4 → 4.11.0（仍要求 Java 8，完整支持 17/21；主代码无直接 mockito 用法变更）、byte-buddy 1.11.22 → 1.14.9（主代码零直接引用，仅测试链消费）、maven-compiler-plugin 3.8.1 → 3.13.0。JDK 8 上全量测试经升级后验证通过。
 
 ### Removed
 

@@ -95,6 +95,23 @@ tools
 
 坐标：`io.gitee.sander-o:fortify`（版本同根 `pom.xml`）。包含 Excel 文件生成（`ExcelUtils` + `ExcelSheet`）、图像压缩处理（`ImageUtils`）、阿里云 DDNS（`AliyunDdnsUtils`）等。详见 [fortify/README.md](fortify/README.md)。
 
+## JDK 版本支持
+
+所有模块统一以 **Java 8 字节码**（class major 52）发布，最低运行环境 **JDK 8**；在 JDK 8 / 17 / 21 三个版本上完成构建与全量单元测试验证（CI 矩阵）。
+
+| 模块 | 字节码目标 | 验证过的 JDK | 说明 |
+|---|---|---|---|
+| bedrock | Java 8 | 8 / 17 / 21 | 纯 JDK 实现，无版本敏感依赖 |
+| encrypt | Java 8 | 8 / 17 / 21 | BouncyCastle 1.78.1（multi-release jar，官方支持 8~21） |
+| fortify | Java 8 | 8 / 17 / 21 | fastjson2 / 阿里云 SDK / POI 均兼容 17/21 |
+| encrypt-spring-boot-starter | Java 8 | 8 / 17 / 21 | Spring Boot 2.7.18 + Spring 5.3.39（5.3.30 起官方支持 JDK 21） |
+
+构建侧的多版本保护：在 JDK 9+ 上构建时会自动启用交叉编译（`jdk9-cross-compile` profile，`maven.compiler.release=8`），静态禁止误用 JDK 9+ API，保证任何环境构建出的产物都可运行在 Java 8；JDK 8 上构建则维持 `source/target=1.8` 既有路径。验证命令与 CI 一致：
+
+```bash
+mvn -B -DskipTests=false test
+```
+
 ## 安装教程（全量引入）
 
 > **本地构建与镜像加速**：项目 POM 不声明远程仓库（避免把区域镜像强加给下游使用方，也让 CI / 在线文档构建环境按自身网络解析依赖）；唯一例外是 `local-repo/`——com.aliyun SDK 依赖闭包以标准 Maven 仓库布局随仓库分发（file:// 直读，供受限构建环境使用），常规环境无感知。本地构建如需镜像加速，请在**你自己的** `~/.m2/settings.xml` 中配置 `<mirrors>`，例如：

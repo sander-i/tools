@@ -8,6 +8,10 @@
 #
 # 注意：根 pom.xml 默认 skipTests=true（只编译不执行），因此所有测试命令
 # 必须显式携带 -DskipTests=false。
+#
+# JDK 矩阵：产物字节码目标为 Java 8（JDK 9+ 上构建时由 jdk9-cross-compile
+# profile 自动加 --release 8 交叉编译保护）；8/17/21 三腿全量编译并执行测试，
+# 兼容性以最低支持版本 8 的真实运行为准，17/21 验证模块化系统与新版 JDK 行为。
 name: ci
 
 on:
@@ -19,14 +23,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [ '8', '17', '21' ]
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 8
+      - name: Set up JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '8'
+          java-version: ${{ matrix.java-version }}
           cache: maven
 
       # 默认构建（与发布流程一致，跳过测试执行）

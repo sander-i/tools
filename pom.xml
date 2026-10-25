@@ -73,7 +73,7 @@
         <git-commit-id-plugin.version>2.1.15</git-commit-id-plugin.version>
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
@@ -88,7 +88,8 @@
         <spring-cloud.varsion>2021.0.6</spring-cloud.varsion>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <!-- log4j.dependencies -->
-        <lombk.version>1.18.24</lombk.version>
+        <!-- 1.18.30 起支持 JDK 21 注解处理；1.18.34 覆盖 JDK 8~22 -->
+        <lombk.version>1.18.34</lombk.version>
         <!-- 1.7.36 为 1.7 线终版，与 logback 1.2.x 搭配 -->
         <slf4j.version>1.7.36</slf4j.version>
         <!-- 1.1.7 存在 CVE-2017-5929 / CVE-2021-42550 / CVE-2023-6378，1.2.13 为 1.2 线安全终版 -->
@@ -100,13 +101,15 @@
         <commons-codec.version>1.15</commons-codec.version>
         <!-- 4.4.0 传递依赖 jackson-databind 2.15.2（4.3.0 的 2.13.3 存在 CVE-2022-42003/42004） -->
         <java-jwt.version>4.4.0</java-jwt.version>
-        <byte-buddy.version>1.11.22</byte-buddy.version>
+        <!-- 1.14.9 起完整识别 Java 21 字节码（mockito 测试链需要；主代码无直接引用） -->
+        <byte-buddy.version>1.14.9</byte-buddy.version>
         <aspectjrt.version>1.9.4</aspectjrt.version>
         <aspectjweaver.version>1.9.7</aspectjweaver.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
         <!-- 5.2 线安全终版 -->
         <poi.version>5.2.5</poi.version>
-        <mockito.version>3.12.4</mockito.version>
+        <!-- 4.x 仍要求 Java 8 且完整支持 JDK 17/21（3.x 的 byte-buddy 在 21 上无法运行） -->
+        <mockito.version>4.11.0</mockito.version>
     </properties>
 
     <dependencyManagement>
@@ -549,6 +552,22 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <!--
+          JDK 9+ 交叉编译保护（自动激活，按构建所用 JDK 触发）：
+          以 release=8 编译，静态禁止误用 JDK 9+ API（如 String.isBlank、List.of），
+          保证任何环境构建出的产物字节码与 API 引用都兼容 Java 8。
+          JDK 8 上构建时本 profile 不激活（javac 8 不支持 release 参数），维持 source/target 既有路径。
+          release 生效时 maven-compiler-plugin 自动忽略 source/target，其余配置不受影响。
+        -->
+        <profile>
+            <id>jdk9-cross-compile</id>
+            <activation>
+                <jdk>[9,)</jdk>
+            </activation>
+            <properties>
+                <maven.compiler.release>8</maven.compiler.release>
+            </properties>
         </profile>
     </profiles>
 
