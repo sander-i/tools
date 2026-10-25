@@ -83,23 +83,29 @@
 
         <!-- framework.dependencies -->
         <!-- spring.dependencies -->
-        <spring-boot-starter.version>2.7.1</spring-boot-starter.version>
+        <!-- 2.7.18 为 2.7 线终版：修复传递依赖多项 CVE（spring-framework/tomcat/jackson） -->
+        <spring-boot-starter.version>2.7.18</spring-boot-starter.version>
         <spring-cloud.varsion>2021.0.6</spring-cloud.varsion>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <!-- log4j.dependencies -->
         <lombk.version>1.18.24</lombk.version>
-        <slf4j.version>1.7.21</slf4j.version>
-        <logback.version>1.1.7</logback.version>
+        <!-- 1.7.36 为 1.7 线终版，与 logback 1.2.x 搭配 -->
+        <slf4j.version>1.7.36</slf4j.version>
+        <!-- 1.1.7 存在 CVE-2017-5929 / CVE-2021-42550 / CVE-2023-6378，1.2.13 为 1.2 线安全终版 -->
+        <logback.version>1.2.13</logback.version>
 
         <!--    module.dependency    -->
-        <fastjson.version>1.2.83</fastjson.version>
+        <!-- fastjson 1.x 已 EOL，迁移至 fastjson2（JDK8 兼容） -->
+        <fastjson2.version>2.0.53</fastjson2.version>
         <commons-codec.version>1.15</commons-codec.version>
-        <java-jwt.version>4.3.0</java-jwt.version>
+        <!-- 4.4.0 传递依赖 jackson-databind 2.15.2（4.3.0 的 2.13.3 存在 CVE-2022-42003/42004） -->
+        <java-jwt.version>4.4.0</java-jwt.version>
         <byte-buddy.version>1.11.22</byte-buddy.version>
         <aspectjrt.version>1.9.4</aspectjrt.version>
         <aspectjweaver.version>1.9.7</aspectjweaver.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
-        <poi.version>5.2.2</poi.version>
+        <!-- 5.2 线安全终版 -->
+        <poi.version>5.2.5</poi.version>
         <mockito.version>3.12.4</mockito.version>
     </properties>
 
@@ -135,6 +141,16 @@
                 <version>1.4.2</version>
             </dependency>
 
+            <!-- spring-framework 升至 5.3 线终版 5.3.39（Boot BOM 自带 5.3.31）：
+                 注意 BOM import 方式下属性覆盖不生效（那是 starter-parent 继承的机制），
+                 须在 Boot BOM 之前显式导入更高优先级的 spring-framework-bom（dependencyManagement 先声明者优先） -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>5.3.39</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -187,11 +203,11 @@
                 <version>${logback.version}</version>
             </dependency>
 
-            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
                 <optional>true</optional>
             </dependency>
             <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
@@ -279,13 +295,18 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
+        <!-- 日志后端不向下游传递：CVE-2024-12798/12801 的官方修复版 logback 1.5.14 要求 Java 11，
+             JDK 8 的 1.2 线无修复版；作为库应由消费方选择自己的（已修复）logback 版本。
+             本仓库自身编译与测试仍使用 1.2.13（optional 仅阻断传递，不影响本仓库 classpath） -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- JUnit 4 测试框架 -->

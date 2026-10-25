@@ -1,6 +1,6 @@
 package org.tools.fortify.util;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import org.junit.Test;
 
 import java.util.ArrayList;

@@ -42,11 +42,13 @@
             <artifactId>java-jwt</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on -->
+        <!-- jdk15on 1.70 存在 CVE-2023-33201 / CVE-2024-29857 / CVE-2024-30171 / CVE-2024-30172；
+             1.71 起构件更名为 jdk18on（JDK8+，包名不变），1.78.1 为修复版 -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.70</version>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.78.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -1,7 +1,7 @@
 package org.tools.fortify.ddns;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.alidns20150109.models.DescribeDomainRecordsRequest;
 import com.aliyun.alidns20150109.models.DescribeDomainRecordsResponse;
 import com.aliyun.alidns20150109.models.UpdateDomainRecordRequest;
