@@ -59,3 +59,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 本地 Agent 工具状态（含绝对路径/会话 ID，勿提交） ###
+.omc/
+.zcode/
