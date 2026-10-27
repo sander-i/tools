@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ImageSimilarityResult {
-
     /** 直方图相似度 */
     private double histogramSimilarity;
 

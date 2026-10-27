@@ -1,6 +1,5 @@
 package org.tools.example.bedrock.util;
 
-
 import org.tools.bedrock.base.Address;
 import org.tools.bedrock.util.BaseUtils;
 
@@ -10,11 +9,10 @@ import org.tools.bedrock.util.BaseUtils;
  * </p>
  *
  * @author sander 2024/05/02
+ * @since 1.0.6.1
  */
 public class ExampleBaseUtils {
-
     public static void main(String[] args) {
-
         String str = "Hello, World!";
 
         Address address = null;
@@ -27,7 +25,5 @@ public class ExampleBaseUtils {
         if(BaseUtils.isEmptyObj(address)){
             System.out.println("address is empty");
         }
-
     }
-
 }

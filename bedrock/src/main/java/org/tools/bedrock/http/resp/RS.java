@@ -17,11 +17,11 @@ import lombok.RequiredArgsConstructor;
  *
  * @author sander 2024/02/12
  * @version 2.0
+ * @since 1.0.6.3
  */
 @Getter
 @RequiredArgsConstructor
 public enum RS implements S {
-
     /** 成功：build 系列方法据此判定 success=true */
     OK("0", "成功"),
 
@@ -77,5 +77,4 @@ public enum RS implements S {
     private final String code;
 
     private final String msg;
-
 }

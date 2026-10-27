@@ -1,6 +1,5 @@
 package org.tools.encrypt.asymmetric;
 
-
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 import org.tools.encrypt.CipherAbst;
@@ -10,6 +9,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -18,10 +18,12 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * 非对称 Cipher 实现：按算法与模式创建 Cipher 并分块处理数据。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 public class CipherAsymmetric extends CipherAbst {
-
     private static final CipherAsymmetric INSTANCE = new CipherAsymmetric();
 
     private CipherAsymmetric() {
@@ -56,13 +58,16 @@ public class CipherAsymmetric extends CipherAbst {
      * @throws IOException                        分段输出流操作失败时抛出
      */
     @Override
-    public byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff, int maxBlock)
-            throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException {
+    public byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode,
+            byte[] stuff, int maxBlock)
+            throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException,
+                    NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException {
         actuatorCheck(algorithm, algorithmMode, secretKey, stuff);
         // Cipher对象实际完成解密操作
         AlgorithmEnum algorithmEnum = AlgorithmEnum.enumName(algorithm);
         AlgorithmModeEnum algorithmModeEnum = AlgorithmModeEnum.enumName(algorithmMode);
-        Cipher cipher = CipherSupply.getInstance().prepCipher(algorithmEnum, algorithmModeEnum, secretKey, ivParameter, mode);
+        Cipher cipher = CipherSupply.getInstance().prepCipher(algorithmEnum, algorithmModeEnum, secretKey, ivParameter,
+                mode);
         // 对数据分段加密
         ByteArrayOutputStream out = subLevel(stuff, cipher, maxBlock);
         byte[] execute = out.toByteArray();
@@ -103,5 +108,4 @@ public class CipherAsymmetric extends CipherAbst {
         }
         return baos;
     }
-
 }

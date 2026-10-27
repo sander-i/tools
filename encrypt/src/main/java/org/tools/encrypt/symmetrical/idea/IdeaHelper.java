@@ -1,15 +1,15 @@
 package org.tools.encrypt.symmetrical.idea;
 
-
 import lombok.Getter;
+
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.Idea;
 import org.tools.encrypt.entity.symmetrical.IdeaProperties;
 import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
-import org.tools.encrypt.symmetrical.SymmetricalUtils;
 
 import javax.crypto.SecretKey;
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -27,9 +27,9 @@ import java.util.List;
  * 多次 {@code encode}/{@code decode} 之间线程安全。</p>
  *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 public class IdeaHelper {
-
     private IdeaHelper() {
     }
 
@@ -61,7 +61,8 @@ public class IdeaHelper {
      * @throws InvalidKeySpecException  密钥规格非法时抛出
      * @throws InvalidKeyException      密钥非法时抛出
      */
-    public static void load(KeyPair keyPair, String name) throws IdeaException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+    public static void load(KeyPair keyPair, String name) throws IdeaException, NoSuchAlgorithmException,
+            InvalidKeySpecException, InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new IdeaException("keyPair 不能为空！");
         }
@@ -129,7 +130,8 @@ public class IdeaHelper {
      * @throws IdeaException 密钥/模式非法或 JCE 操作失败时抛出
      */
     public static String encode(String raw) throws IdeaException {
-        return IdeaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), raw);
+        return IdeaUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(),
+                raw);
     }
 
     /**
@@ -165,7 +167,8 @@ public class IdeaHelper {
      * @throws IdeaException 密文/密钥非法或解密失败时抛出
      */
     public static String decode(String wrought) throws IdeaException {
-        return IdeaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), wrought);
+        return IdeaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(),
+                wrought);
     }
 
     /**
@@ -192,5 +195,4 @@ public class IdeaHelper {
     public static String decode(SecretKey secretKey, String wrought) throws IdeaException {
         return IdeaUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, wrought);
     }
-
 }

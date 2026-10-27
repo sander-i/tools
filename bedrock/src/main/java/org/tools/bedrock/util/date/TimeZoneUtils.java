@@ -8,12 +8,14 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
+ * 时区转换工具：字符串/Date 在源时区与目标时区间互转，并提供 UTC 转换。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Slf4j
 public class TimeZoneUtils {
-
     private TimeZoneUtils() {
     }
 
@@ -26,7 +28,8 @@ public class TimeZoneUtils {
      * @param targetTimeZone 目标时区
      * @return 目标时区日期字符串，解析失败返回 null
      */
-    public static String covertTimeZoneStr(String sourceDate, String pattern, String sourceTimeZone, String targetTimeZone) {
+    public static String covertTimeZoneStr(String sourceDate, String pattern, String sourceTimeZone,
+            String targetTimeZone) {
         ThreadSafeSimpleDateFormat format = new ThreadSafeSimpleDateFormat(pattern);
         format.setTimeZone(TimeZone.getTimeZone(sourceTimeZone));
         Date utc;
@@ -135,5 +138,4 @@ public class TimeZoneUtils {
     public static Date covertTimeZoneUTC(Date source, String pattern, String sourceTimeZone) {
         return covertTimeZone(source, pattern, sourceTimeZone, "UTC");
     }
-
 }

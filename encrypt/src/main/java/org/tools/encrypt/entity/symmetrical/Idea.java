@@ -1,8 +1,8 @@
 package org.tools.encrypt.entity.symmetrical;
 
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
@@ -10,12 +10,14 @@ import org.tools.encrypt.enums.AlgorithmModeEnum;
 import java.util.List;
 
 /**
+ * IDEA 对称加密配置实体。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Idea extends KeyPair {
-
     /**
      * 是否启用
      */
@@ -51,5 +53,4 @@ public class Idea extends KeyPair {
      * 分组
      */
     private List<KeyPair> group;
-
 }

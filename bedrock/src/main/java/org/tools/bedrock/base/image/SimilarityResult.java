@@ -11,12 +11,12 @@ import java.util.Map;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class SimilarityResult {
-
     /**
      * 各算法维度的独立相似度（key 为算法名）
      */
@@ -38,7 +38,8 @@ public class SimilarityResult {
         sb.append("  Individual Similarities:\n");
         if (individualSimilarities != null) {
             for (Map.Entry<String, Double> entry : individualSimilarities.entrySet()) {
-                sb.append("    ").append(entry.getKey()).append(": ").append(String.format("%.4f", entry.getValue())).append("\n");
+                sb.append("    ").append(entry.getKey()).append(": ").append(String.format("%.4f", entry.getValue()))
+                        .append("\n");
             }
         }
         sb.append("}");

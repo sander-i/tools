@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * HTTP 状态码枚举：状态码、英文状态短语与中文说明。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Getter
 @AllArgsConstructor
 public enum HttpEnum {
-
     /**
      * 继续
      */
@@ -19,7 +21,8 @@ public enum HttpEnum {
     /**
      * 切换协议
      */
-    SWITCHING(101, "Switching Protocols", "切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议"),
+    SWITCHING(101, "Switching Protocols",
+            "切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议"),
 
     /**
      * 请求成功
@@ -39,17 +42,20 @@ public enum HttpEnum {
     /**
      * 非授权信息。请求成功
      */
-    NON_AUTHORITATIVE(203, "Non-Authoritative Information", "非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本"),
+    NON_AUTHORITATIVE(203, "Non-Authoritative Information",
+            "非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本"),
 
     /**
      * 无内容
      */
-    NO_CONTENT(204, "No Content", "无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档"),
+    NO_CONTENT(204, "No Content",
+            "无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档"),
 
     /**
      * 重置内容
      */
-    RESET_CONTENT(205, "Reset Content", "重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域"),
+    RESET_CONTENT(205, "Reset Content",
+            "重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域"),
 
     /**
      * 部分内容
@@ -59,12 +65,15 @@ public enum HttpEnum {
     /**
      * 多种选择
      */
-    MULTIPLE_CHOICES(300, "Multiple Choices", "多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择"),
+    MULTIPLE_CHOICES(300, "Multiple Choices",
+            "多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择"),
 
     /**
      * 永久移动
      */
-    MOVED_PERMANENTLY(301, "Moved Permanently", "永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替"),
+    MOVED_PERMANENTLY(301, "Moved Permanently",
+            "永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新U"
+                    + "RI。今后任何新的请求都应使用新的URI代替"),
 
     /**
      * 临时移动
@@ -79,7 +88,9 @@ public enum HttpEnum {
     /**
      * 未修改
      */
-    NOT_MODIFIED(304, "Not Modified", "未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源"),
+    NOT_MODIFIED(304, "Not Modified",
+            "未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访"
+                    + "问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源"),
 
     /**
      * 使用代理
@@ -119,7 +130,9 @@ public enum HttpEnum {
     /**
      * 未找到
      */
-    NOT_FOUND(404, "Not Found", "服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置\"您所请求的资源无法找到\"的个性页面"),
+    NOT_FOUND(404, "Not Found",
+            "服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置\"您所请求的"
+                    + "资源无法找到\"的个性页面"),
 
     /**
      * 方法不允许
@@ -149,7 +162,9 @@ public enum HttpEnum {
     /**
      * 踪迹难寻
      */
-    GONE(410, "Gone", "客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置"),
+    GONE(410, "Gone",
+            "客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，"
+                    + "网站设计人员可通过301代码指定资源的新位置"),
 
     /**
      * 长度要求
@@ -164,7 +179,9 @@ public enum HttpEnum {
     /**
      * 请求的实体过大
      */
-    REQUEST_ENTITY_TOO_LARGE(413, "Request Entity Too Large", "由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息"),
+    REQUEST_ENTITY_TOO_LARGE(413, "Request Entity Too Large",
+            "由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会"
+                    + "关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息"),
 
     /**
      * 请求的URI过长
@@ -204,7 +221,8 @@ public enum HttpEnum {
     /**
      * 服务无效
      */
-    SERVICE_UNAVAILABLE(503, "Service Unavailable", "由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中"),
+    SERVICE_UNAVAILABLE(503, "Service Unavailable",
+            "由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中"),
 
     /**
      * 网关超时
@@ -230,5 +248,4 @@ public enum HttpEnum {
      * 提示信息
      */
     private final String msg;
-
 }

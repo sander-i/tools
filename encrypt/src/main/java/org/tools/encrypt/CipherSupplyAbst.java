@@ -1,12 +1,13 @@
 package org.tools.encrypt;
 
-
 import lombok.SneakyThrows;
+
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
+
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -14,10 +15,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 /**
+ * Cipher 供给抽象基类：定义 initSupport、initCipher 与 prepCipher 骨架。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 public abstract class CipherSupplyAbst {
-
     /**
      * 按算法模式注册所需 Provider
      *
@@ -36,7 +39,8 @@ public abstract class CipherSupplyAbst {
      * @return javax.crypto.Cipher
      */
     @SneakyThrows
-    public Cipher prepCipher(AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode) {
+    public Cipher prepCipher(AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey,
+            String ivParameter, int mode) {
         initSupport(algorithmMode);
         Cipher cipher = getInstanceCipher(algorithmMode);
         initCipher(cipher, algorithm, algorithmMode, secretKey, ivParameter, mode);
@@ -52,7 +56,8 @@ public abstract class CipherSupplyAbst {
      * @throws NoSuchAlgorithmException 算法不可用时抛出
      * @throws NoSuchProviderException  Provider 不可用时抛出
      */
-    public abstract Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException;
+    public abstract Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode)
+            throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException;
 
     /**
      * 按算法模式初始化 Cipher
@@ -66,6 +71,7 @@ public abstract class CipherSupplyAbst {
      * @throws InvalidKeyException                密钥非法时抛出
      * @throws InvalidAlgorithmParameterException 算法参数非法时抛出
      */
-    public abstract void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode) throws InvalidKeyException, InvalidAlgorithmParameterException;
-
+    public abstract void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode,
+            Key secretKey, String ivParameter, int mode)
+            throws InvalidKeyException, InvalidAlgorithmParameterException;
 }

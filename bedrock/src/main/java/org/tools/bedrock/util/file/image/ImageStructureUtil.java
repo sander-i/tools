@@ -1,6 +1,7 @@
 package org.tools.bedrock.util.file.image;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,9 +12,9 @@ import java.io.IOException;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class ImageStructureUtil {
-
     /**
      * 计算两张图片的结构相似度(SSIM)
      *

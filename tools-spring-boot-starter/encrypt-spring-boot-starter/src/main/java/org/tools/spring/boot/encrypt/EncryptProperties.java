@@ -11,8 +11,8 @@ import org.tools.encrypt.entity.Encrypt;
  * 非 Spring 项目可直接复用其 POJO 与工具方法。</p>
  *
  * @author sander
+ * @since 2.0.0
  */
 @ConfigurationProperties(prefix = "tools.encrypt")
 public class EncryptProperties extends Encrypt {
-
 }

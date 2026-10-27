@@ -6,9 +6,9 @@ import org.tools.bedrock.base.image.SimilarityResult;
 import org.tools.bedrock.util.file.FileUtil;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -20,9 +20,9 @@ import static org.junit.Assert.*;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class ImageUtilTest {
-
     private static final String TEST_RESOURCE_IMAGE_PATH = "static";
 
     @Test

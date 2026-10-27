@@ -17,13 +17,13 @@ import java.io.Serializable;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Address implements Serializable {
-
     private static final long serialVersionUID = 3283872528783904171L;
 
     /**
@@ -58,6 +58,7 @@ public class Address implements Serializable {
 
     /**
      * 城市区级地址：区-街道-门牌
+     * @since 1.0.0
      */
     @Builder
     @NoArgsConstructor
@@ -65,7 +66,6 @@ public class Address implements Serializable {
     @Data
     @Accessors(chain = true)
     public static class Area implements Serializable {
-
         private static final long serialVersionUID = 2082499026810332599L;
 
         /**
@@ -82,11 +82,11 @@ public class Address implements Serializable {
          * 房屋编号
          */
         private String houseNum;
-
     }
 
     /**
      * 县级地址：县-乡-村-组-门牌
+     * @since 1.0.0
      */
     @Builder
     @NoArgsConstructor
@@ -94,7 +94,6 @@ public class Address implements Serializable {
     @Data
     @Accessors(chain = true)
     public static class County implements Serializable {
-
         private static final long serialVersionUID = 4647403445576367083L;
 
         /**
@@ -121,7 +120,5 @@ public class Address implements Serializable {
          * 房屋编号
          */
         private String houseNum;
-
     }
-
 }

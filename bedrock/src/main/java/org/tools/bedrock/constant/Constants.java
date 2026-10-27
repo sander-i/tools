@@ -1,11 +1,12 @@
 package org.tools.bedrock.constant;
-
 /**
+ * 基础常量定义：数字、空数组、字符集等通用常量。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 public class Constants {
-
     private Constants() {
     }
 
@@ -40,7 +41,6 @@ public class Constants {
      * 最大字节数组
      */
     public static final byte[] MAXIMUM_BYTE_ARRAY = new byte[1024];
-
 
     public static final short NEGATIVE_ONE_S = -1;
 
@@ -198,5 +198,4 @@ public class Constants {
      * PageBean.DEFAULT_PAGE_SIZE
      */
     public static final int DEFAULT_PAGE_SIZE = 100;
-
 }

@@ -1,6 +1,7 @@
 package org.tools.fortify.util;
 
 import com.alibaba.fastjson2.JSONObject;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -20,9 +21,10 @@ import static org.junit.Assert.assertTrue;
 /**
  * JSONUtils 冒烟测试
  * 测试基本的JSON转换功能
+ * @author sander
+ * @since 1.0.6.6
  */
 public class JSONUtilsTest {
-
     // 测试用的简单POJO类
     public static class Person {
         private String name;
@@ -120,8 +122,9 @@ public class JSONUtilsTest {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof Person)) return false;
             Person person = (Person) o;
+            if (getClass() != person.getClass()) return false;
             return age == person.age &&
                     active == person.active &&
                     Objects.equals(name, person.name) &&
@@ -172,8 +175,9 @@ public class JSONUtilsTest {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof Address)) return false;
             Address address = (Address) o;
+            if (getClass() != address.getClass()) return false;
             return Objects.equals(street, address.street) &&
                     Objects.equals(city, address.city);
         }
@@ -376,8 +380,8 @@ public class JSONUtilsTest {
         assertEquals("hobbies属性应保持一致", original.getHobbies(), person.getHobbies());
         assertEquals("attributes属性应保持一致", original.getAttributes(), person.getAttributes());
         assertEquals("notes属性应保持一致", original.getNotes().toString(), person.getNotes().toString());
-        assertEquals("description属性应保持一致", original.getDescription().toString(), person.getDescription().toString());
+        assertEquals("description属性应保持一致", original.getDescription().toString(), person.getDescription()
+                .toString());
         assertEquals("address属性应保持一致", original.getAddress(), person.getAddress());
     }
-
 }

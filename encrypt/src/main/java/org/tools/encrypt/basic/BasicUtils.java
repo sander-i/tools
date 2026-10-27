@@ -4,11 +4,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * 基础摘要工具：按算法名计算消息摘要。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.1
  */
 public class BasicUtils {
-
     private BasicUtils() {
     }
 
@@ -23,5 +25,4 @@ public class BasicUtils {
     public static byte[] digest(String algorithm, byte[] raw) throws NoSuchAlgorithmException {
         return MessageDigest.getInstance(algorithm).digest(raw);
     }
-
 }

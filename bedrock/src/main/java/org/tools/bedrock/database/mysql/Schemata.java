@@ -7,14 +7,16 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
+ * MySQL information_schema.SCHEMATA 表字段名常量。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Schemata {
-
     /**
      * 目录名称
      */
@@ -49,5 +51,4 @@ public class Schemata {
      * 表
      */
     private List<Tables> tables;
-
 }

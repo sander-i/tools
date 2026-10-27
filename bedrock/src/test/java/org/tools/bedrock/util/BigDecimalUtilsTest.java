@@ -5,8 +5,13 @@ import org.junit.Assert;
 
 import java.math.BigDecimal;
 
+/**
+ * BigDecimalUtilsTest 单元测试
+ *
+ * @author sander
+ * @since 1.0.6.6
+ */
 public class BigDecimalUtilsTest {
-
     @Test
     public void testAdd() {
         // 测试基本加法运算

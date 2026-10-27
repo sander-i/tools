@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,16 +22,15 @@ import java.util.Map;
  * 参数的重载，并通过配置中心 / 环境变量注入强随机密钥。</p>
  *
  * @author sander
- * @version 1.0
+ * @since 1.0.0
  */
 public class JWTUtils {
-
-    private JWTUtils() {
-    }
-
     @Getter
     @Setter
     private static String sign = "TOOLS&DH$*001";
+
+    private JWTUtils() {
+    }
 
     /**
      * 生成token
@@ -107,5 +107,4 @@ public class JWTUtils {
         verify.getClaims().forEach((k, v) -> map.put(k, v.asString()));
         return map;
     }
-
 }

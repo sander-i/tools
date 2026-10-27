@@ -6,6 +6,7 @@ import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -13,9 +14,9 @@ import java.nio.charset.StandardCharsets;
  * 覆盖全部公开方法：encode / decode（显式传参，不依赖全局配置）
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class IdeaUtilsTest {
-
     private static final String ALGORITHM = "IDEA";
     private static final String MODE = "IDEA/ECB/ISO10126Padding";
     private static final SecretKey KEY =
@@ -37,5 +38,4 @@ public class IdeaUtilsTest {
     public void testDecodeInvalidBase64Rejected() {
         IdeaUtils.decode(ALGORITHM, MODE, KEY, "!!非法Base64!!");
     }
-
 }

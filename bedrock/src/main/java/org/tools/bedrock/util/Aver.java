@@ -7,9 +7,9 @@ import java.util.Objects;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class Aver {
-
     private Aver() {
     }
 
@@ -465,5 +465,4 @@ public class Aver {
             throw new IllegalArgumentException(message);
         }
     }
-
 }

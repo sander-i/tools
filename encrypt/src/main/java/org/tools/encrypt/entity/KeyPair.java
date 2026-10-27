@@ -8,10 +8,10 @@ import lombok.Data;
  * </p>
  *
  * @author sander 2024/03/15
+ * @since 1.0.6.1
  */
 @Data
 public class KeyPair {
-
     /**
      * 名称
      */
@@ -70,5 +70,4 @@ public class KeyPair {
      * 密钥
      */
     private String secretKey;
-
 }

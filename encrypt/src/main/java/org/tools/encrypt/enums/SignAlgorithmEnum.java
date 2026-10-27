@@ -11,11 +11,11 @@ import java.util.Arrays;
  * </p>
  *
  * @author sander 2024/04/14
+ * @since 1.0.6.6
  */
 @Getter
 @RequiredArgsConstructor
 public enum SignAlgorithmEnum {
-
     MD5_WITH_RSA("MD5withRSA"),
 
     SHA256_WITH_RSA("SHA256withRSA"),
@@ -50,5 +50,4 @@ public enum SignAlgorithmEnum {
                 .findFirst()
                 .get();
     }
-
 }

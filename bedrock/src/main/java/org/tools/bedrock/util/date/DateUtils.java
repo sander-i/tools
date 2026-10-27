@@ -1,10 +1,10 @@
 package org.tools.bedrock.util.date;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.base.TimeSeason;
 import org.tools.bedrock.util.BaseUtils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -12,12 +12,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
+ * 日期工具：格式化、解析、同周/同月/同年判断与生日推算。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Slf4j
 public class DateUtils {
-
     private DateUtils() {
     }
 
@@ -70,24 +72,6 @@ public class DateUtils {
      * 时
      */
     public static final String H_PATTERN = "HH";
-
-    private static final DateFormat format;
-
-    private static final DateFormat format1;
-
-    private static final DateFormat format2;
-
-    private static final DateFormat format3;
-
-    private static final DateFormat format4;
-
-    static {
-        format = new ThreadSafeSimpleDateFormat(YMD_HMS_S_PATTERN);
-        format1 = new ThreadSafeSimpleDateFormat(YMD_HMS_PATTERN);
-        format2 = new ThreadSafeSimpleDateFormat(YMD_HM_PATTERN);
-        format3 = new ThreadSafeSimpleDateFormat(YMD_H_PATTERN);
-        format4 = new ThreadSafeSimpleDateFormat(YMD_PATTERN);
-    }
 
     /**
      * 按指定模式格式化日期
@@ -551,5 +535,4 @@ public class DateUtils {
 
         return dates;
     }
-
 }

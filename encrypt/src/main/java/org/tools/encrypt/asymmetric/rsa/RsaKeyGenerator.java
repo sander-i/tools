@@ -1,6 +1,7 @@
 package org.tools.encrypt.asymmetric.rsa;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.binary.Base64;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.EncryptKeyGenerator;
@@ -19,15 +20,14 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 /**
+ * RSA 密钥生成工具：密钥对生成、公私钥字符串与对象互转。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Slf4j
 public class RsaKeyGenerator {
-
-    private RsaKeyGenerator() {
-    }
-
     /**
      * 锁对象
      */
@@ -47,6 +47,9 @@ public class RsaKeyGenerator {
      * 密钥对
      */
     private static KeyPair keyPair;
+
+    private RsaKeyGenerator() {
+    }
 
     /**
      * 初始化密钥生成器对象
@@ -212,5 +215,4 @@ public class RsaKeyGenerator {
         }
         return properties;
     }
-
 }

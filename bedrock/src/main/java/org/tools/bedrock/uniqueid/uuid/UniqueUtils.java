@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * UUID 唯一标识工具：生成字符串或 StringBuilder 形式的唯一值。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 public class UniqueUtils {
-
     /**
      * 获取uuid
      *
@@ -111,5 +113,4 @@ public class UniqueUtils {
     private StringBuilder uuidFormat(StringBuilder uuid) {
         return new StringBuilder(uuid.toString().replace("-", ""));
     }
-
 }

@@ -24,9 +24,9 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author sander
  * @version 1.0
+ * @since 2.0.0
  */
 public class TddlUtils {
-
     /**
      * 时间戳部分格式：yyyyMMddHHmmssSSS（17 位，毫秒精度）
      */
@@ -74,7 +74,8 @@ public class TddlUtils {
             new java.util.concurrent.ConcurrentHashMap<>();
 
     private TddlUtils(String machine) {
-        if (machine == null || machine.length() != MACHINE_BITS || !machine.chars().allMatch(c -> c >= '0' && c <= '9')) {
+        if (machine == null || machine.length() != MACHINE_BITS || !machine.chars().allMatch(c -> c >= '0' &&
+                c <= '9')) {
             throw new IllegalArgumentException("machine 必须是 " + MACHINE_BITS + " 位数字字符串: " + machine);
         }
         this.machine = machine;
@@ -87,7 +88,8 @@ public class TddlUtils {
      * @return 生成器实例
      */
     public static TddlUtils of(String machine) {
-        if (machine == null || machine.length() != MACHINE_BITS || !machine.chars().allMatch(c -> c >= '0' && c <= '9')) {
+        if (machine == null || machine.length() != MACHINE_BITS || !machine.chars().allMatch(c -> c >= '0' &&
+                c <= '9')) {
             throw new IllegalArgumentException("machine 必须是 " + MACHINE_BITS + " 位数字字符串: " + machine);
         }
         return INSTANCES.computeIfAbsent(machine, TddlUtils::new);
@@ -203,16 +205,17 @@ public class TddlUtils {
             seq = 1;
         }
 
-        String timestamp = LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(millis), java.time.ZoneId.systemDefault())
+        String timestamp = LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(millis), java.time.ZoneId
+                .systemDefault())
                 .format(TIMESTAMP_FORMAT);
         return timestamp + machine + String.format("%03d", seq);
     }
 
     /**
      * 默认实例持有者（机器标识 "00"）
+     * @since 2.0.0
      */
     private static class DefaultHolder {
         private static final TddlUtils INSTANCE = new TddlUtils(DEFAULT_MACHINE);
     }
-
 }

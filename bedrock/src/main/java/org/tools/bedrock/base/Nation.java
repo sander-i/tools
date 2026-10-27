@@ -13,11 +13,11 @@ import lombok.Getter;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Getter
 @AllArgsConstructor
 public enum Nation {
-
     /**
      * 汉族
      */
@@ -302,5 +302,4 @@ public enum Nation {
      * 民族代码（GB/T 3304）
      */
     private final int nation;
-
 }

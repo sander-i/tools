@@ -16,9 +16,9 @@ import java.util.Map;
  * 无配置不装配"的启用契约（不依赖 Boot 应用上下文，直接以注解上下文驱动）。
  *
  * @author sander 2026/10/25
+ * @since 2.0.0
  */
 public class EncryptAutoConfigurationSmokeTest {
-
     private AnnotationConfigApplicationContext buildContext(Map<String, Object> props) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         context.getEnvironment().getPropertySources().addFirst(new MapPropertySource("test", props));
@@ -52,5 +52,4 @@ public class EncryptAutoConfigurationSmokeTest {
                     context.getBeansOfType(AesProperties.class).isEmpty());
         }
     }
-
 }

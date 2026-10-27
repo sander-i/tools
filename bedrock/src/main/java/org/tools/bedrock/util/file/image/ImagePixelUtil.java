@@ -8,9 +8,9 @@ import java.awt.image.BufferedImage;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class ImagePixelUtil {
-
     /**
      * 将图片转换为二值图
      *

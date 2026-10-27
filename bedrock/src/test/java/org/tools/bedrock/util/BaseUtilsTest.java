@@ -11,14 +11,12 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 /**
- * <p>
- * description
- * </p>
+ * BaseUtils 单元测试
  *
  * @author sander 2024/04/20
+ * @since 1.0.6.2
  */
 public class BaseUtilsTest {
-
     @Test
     public void testIsNull() {
         Address address = new Address();

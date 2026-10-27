@@ -10,8 +10,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+/**
+ * DateUtilsTest 单元测试
+ *
+ * @author sander
+ * @since 1.0.4
+ */
 public class DateUtilsTest {
-
     @Test
     public void format() {
     }
@@ -114,7 +119,8 @@ public class DateUtilsTest {
         // 结果随运行日期变化（10 月最后一个周日后至次年 3 月为 false），与 JDK 判定一致即可
         TimeZone london = TimeZone.getTimeZone("Europe/London");
         Aver.isTrue(london.useDaylightTime(), "伦敦时区实行夏令时");
-        Aver.equals(london.inDaylightTime(new Date()), DateUtils.hasSeasonDiffer(london), "伦敦时区夏令时判定应与 JDK 一致");
+        Aver.equals(london.inDaylightTime(new Date()), DateUtils.hasSeasonDiffer(london),
+                "伦敦时区夏令时判定应与 JDK 一致");
     }
 
     @Test

@@ -11,9 +11,9 @@ import static org.junit.Assert.assertEquals;
  * </p>
  *
  * @author sander 2024/08/04
+ * @since 1.0.6.5
  */
 public class FeatureUtilTest {
-
     @Test
     public void testFeatureToggle() {
         R<String> r = R.ok("pro");
@@ -29,5 +29,4 @@ public class FeatureUtilTest {
         final R<String> result1 = FeatureUtil.featureToggle(() -> r, () -> r2, toggle);
         assertEquals("sandbox", result1.getData());
     }
-
 }

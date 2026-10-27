@@ -12,6 +12,7 @@ import java.time.LocalDate;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @EqualsAndHashCode(callSuper = true)
 @Builder
@@ -19,7 +20,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 public class Identity extends BaseBean {
-
     /**
      * 姓名
      */
@@ -59,5 +59,4 @@ public class Identity extends BaseBean {
      * 有效期限
      */
     private ExpiryDate expirationDate;
-
 }

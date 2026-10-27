@@ -1,6 +1,7 @@
 package org.tools.bedrock.util.network;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.constant.v2.SpecialSymbolConst;
 import org.tools.bedrock.http.HttpConsts;
 import org.tools.bedrock.util.BaseUtils;
@@ -22,12 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * HTTP 请求工具：基于 HttpURLConnection 的 GET/POST，支持头、参数、Body 与超时。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Slf4j
 public class HttpUtils {
-
     private HttpUtils() {
     }
 
@@ -64,7 +67,8 @@ public class HttpUtils {
      * @param requestBody  请求正文
      * @return 响应报文
      */
-    public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, Map<String, ?> requestBody) {
+    public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, Map<String,
+            ?> requestBody) {
         return httpPost(url, headers, requestParam, requestBody, HttpConsts.DEFAULT_CHARSET);
     }
 
@@ -77,7 +81,8 @@ public class HttpUtils {
      * @param requestBody  请求正文
      * @return 响应报文
      */
-    public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody) {
+    public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam,
+            String requestBody) {
         return httpPost(url, headers, requestParam, requestBody, HttpConsts.DEFAULT_CHARSET);
     }
 
@@ -91,7 +96,8 @@ public class HttpUtils {
      * @param charset      响应编码格式
      * @return 响应报文
      */
-    public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, Map<String, ?> requestBody, String charset) {
+    public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, Map<String,
+            ?> requestBody, String charset) {
         return httpPost(url, headers, requestParam, JsonUtil.mapToJson(requestBody, true), charset);
     }
 
@@ -105,8 +111,10 @@ public class HttpUtils {
      * @param charset      响应编码格式
      * @return 响应报文
      */
-    public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody, String charset) {
-        return httpPost(url, HttpConsts.DEFAULT_CONNECT_TIMEOUT, HttpConsts.DEFAULT_READ_TIMEOUT, headers, requestParam, requestBody, charset);
+    public static String httpPost(String url, Map<String, String> headers, Map<String, ?> requestParam,
+            String requestBody, String charset) {
+        return httpPost(url, HttpConsts.DEFAULT_CONNECT_TIMEOUT, HttpConsts.DEFAULT_READ_TIMEOUT, headers, requestParam,
+                requestBody, charset);
     }
 
     /**
@@ -121,7 +129,8 @@ public class HttpUtils {
      * @param charset        响应编码格式
      * @return 响应报文
      */
-    public static String httpPost(String url, int connectTimeout, int readTimeout, Map<String, String> headers, Map<String, ?> requestParam, String requestBody, String charset) {
+    public static String httpPost(String url, int connectTimeout, int readTimeout, Map<String, String> headers,
+            Map<String, ?> requestParam, String requestBody, String charset) {
         String result = null;
         url = setRequestParam(url, requestParam);
         try {
@@ -212,7 +221,8 @@ public class HttpUtils {
      * @param requestBody  请求正文
      * @return 响应报文
      */
-    public static String httpGet(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody) {
+    public static String httpGet(String url, Map<String, String> headers, Map<String, ?> requestParam,
+            String requestBody) {
         return httpGet(url, headers, requestParam, requestBody, HttpConsts.DEFAULT_CHARSET);
     }
 
@@ -226,8 +236,10 @@ public class HttpUtils {
      * @param charset      响应编码格式
      * @return 响应报文
      */
-    public static String httpGet(String url, Map<String, String> headers, Map<String, ?> requestParam, String requestBody, String charset) {
-        return httpGet(url, HttpConsts.DEFAULT_CONNECT_TIMEOUT, HttpConsts.DEFAULT_READ_TIMEOUT, headers, requestParam, requestBody, charset);
+    public static String httpGet(String url, Map<String, String> headers, Map<String, ?> requestParam,
+            String requestBody, String charset) {
+        return httpGet(url, HttpConsts.DEFAULT_CONNECT_TIMEOUT, HttpConsts.DEFAULT_READ_TIMEOUT, headers, requestParam,
+                requestBody, charset);
     }
 
     /**
@@ -242,7 +254,8 @@ public class HttpUtils {
      * @param charset        响应编码格式
      * @return 响应报文
      */
-    public static String httpGet(String url, int connectTimeout, int readTimeout, Map<String, String> headers, Map<String, ?> requestParam, String requestBody, String charset) {
+    public static String httpGet(String url, int connectTimeout, int readTimeout, Map<String, String> headers,
+            Map<String, ?> requestParam, String requestBody, String charset) {
         String result = null;
         url = setRequestParam(url, requestParam);
         try {
@@ -266,7 +279,8 @@ public class HttpUtils {
      * @return 响应报文
      * @throws IOException http 请求异常
      */
-    public static String httpRequest(String url, int connectTimeout, int readTimeout, String requestMethod, Map<String, String> headers, String requestBody, String charset) throws IOException {
+    public static String httpRequest(String url, int connectTimeout, int readTimeout, String requestMethod, Map<String,
+            String> headers, String requestBody, String charset) throws IOException {
         HttpURLConnection httpConn = getHttpURLConnection(url, connectTimeout, readTimeout, requestMethod, headers);
 
         httpConn.connect();
@@ -287,7 +301,8 @@ public class HttpUtils {
      * @return url 连接
      * @throws IOException url 连接异常
      */
-    public static URLConnection getURLConnection(String uri, int connectTimeout, int readTimeout, Map<String, String> headers) throws IOException {
+    public static URLConnection getURLConnection(String uri, int connectTimeout, int readTimeout, Map<String,
+            String> headers) throws IOException {
         URL url = new URL(uri);
         URLConnection urlConn = url.openConnection();
         urlConn.setConnectTimeout(connectTimeout);
@@ -308,7 +323,8 @@ public class HttpUtils {
      * @return http 连接
      * @throws IOException http 连接异常
      */
-    public static HttpURLConnection getHttpURLConnection(String url, int connectTimeout, int readTimeout, String requestMethod, Map<String, String> headers) throws IOException {
+    public static HttpURLConnection getHttpURLConnection(String url, int connectTimeout, int readTimeout,
+            String requestMethod, Map<String, String> headers) throws IOException {
         HttpURLConnection httpUrlConn = (HttpURLConnection) getURLConnection(url, connectTimeout, readTimeout, headers);
 
         httpUrlConn.setRequestMethod(requestMethod);
@@ -420,19 +436,23 @@ public class HttpUtils {
     public static void httpResponse(HttpURLConnection httpConn, StringBuilder result) throws IOException {
         result.append(SpecialSymbolConst.LEFT_BRACE);
         // "code"
-        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append("code").append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
+        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append("code").append(SpecialSymbolConst
+                .DOUBLE_QUOTATION_MARK);
         // :
         result.append(SpecialSymbolConst.COLON);
         // "httpConn.getResponseCode()"
-        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(httpConn.getResponseCode()).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
+        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(httpConn.getResponseCode()).append(
+                SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
         // ,
         result.append(SpecialSymbolConst.SEMICOLON);
         // "message"
-        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append("message").append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
+        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append("message").append(SpecialSymbolConst
+                .DOUBLE_QUOTATION_MARK);
         // :
         result.append(SpecialSymbolConst.COLON);
         // "httpConn.getResponseMessage()"
-        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(httpConn.getResponseMessage()).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
+        result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(httpConn.getResponseMessage()).append(
+                SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
         result.append(SpecialSymbolConst.RIGHT_BRACE);
     }
 
@@ -463,5 +483,4 @@ public class HttpUtils {
         }
         input.close();
     }
-
 }

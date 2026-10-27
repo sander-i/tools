@@ -8,11 +8,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * 日期类型转换工具：Date、LocalDate、LocalTime、Calendar 与 Duration 互转。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.4
  */
 public class DateConvert {
-
     private DateConvert() {
     }
 
@@ -78,5 +80,4 @@ public class DateConvert {
 
         return calendars;
     }
-
 }

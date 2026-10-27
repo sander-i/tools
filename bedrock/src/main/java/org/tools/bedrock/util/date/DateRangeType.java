@@ -4,13 +4,15 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * 日期区间类型枚举：DATE、LOCAL_DATE_TIME、LOCAL_DATE、LOCAL_TIME、TIMESTAMP。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.4
  */
 @Getter
 @RequiredArgsConstructor
 public enum DateRangeType {
-
     DATE(1),
 
     LOCAL_DATE_TIME(2),
@@ -32,5 +34,4 @@ public enum DateRangeType {
     public boolean equals(int value) {
         return this.value == value;
     }
-
 }

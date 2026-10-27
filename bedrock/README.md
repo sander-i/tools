@@ -10,7 +10,7 @@
 <dependency>
     <groupId>io.gitee.sander-o</groupId>
     <artifactId>bedrock</artifactId>
-    <version>1.0.6.7-d01</version> <!-- 以根 pom.xml / Maven Central 为准 -->
+    <version>2.0.0</version> <!-- 以根 pom.xml / Maven Central 为准 -->
 </dependency>
 ```
 

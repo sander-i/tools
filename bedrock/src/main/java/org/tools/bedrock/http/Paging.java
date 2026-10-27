@@ -12,10 +12,10 @@ import java.util.List;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Data
 public abstract class Paging<T> implements Serializable {
-
     private static final long serialVersionUID = -1130734574933924097L;
 
     /**
@@ -76,5 +76,4 @@ public abstract class Paging<T> implements Serializable {
 
         setStartRecord((currentPage - 1) * pageSize);
     }
-
 }

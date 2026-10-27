@@ -14,9 +14,9 @@ import java.security.PublicKey;
  * 覆盖全部公开方法：load×3 / encode×3 / decode×3 / sign×3 / verify×3 / getProperties
  *
  * @author sander 2026/10/24
+ * @since 1.0.6.1
  */
 public class RsaHelperTest {
-
     private static final String PLAINTEXT = "RSA smoke 测试文本";
 
     private static String publicKeyStr() {
@@ -108,5 +108,4 @@ public class RsaHelperTest {
         String sign = RsaHelper.sign(privateKey, PLAINTEXT);
         Assert.assertTrue(RsaHelper.verify(publicKey, PLAINTEXT, sign));
     }
-
 }

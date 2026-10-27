@@ -9,8 +9,13 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
+/**
+ * AssertTest 单元测试
+ *
+ * @author sander
+ * @since 1.0.6.6
+ */
 public class AssertTest {
-
     @Test
     public void testAssertSmoke() {
         // 冒烟测试：验证 Assert 类的基本功能

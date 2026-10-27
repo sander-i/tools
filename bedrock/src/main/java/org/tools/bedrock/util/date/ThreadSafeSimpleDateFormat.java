@@ -7,8 +7,11 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
+ * 线程安全 SimpleDateFormat：ThreadLocal 持有实例，format/parse 并发安全。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 public class ThreadSafeSimpleDateFormat extends ThreadSafeDateFormat {
     private static final long serialVersionUID = -6344863844634215860L;
@@ -106,5 +109,4 @@ public class ThreadSafeSimpleDateFormat extends ThreadSafeDateFormat {
     public Object clone() {
         return threadLocal.get().clone();
     }
-
 }

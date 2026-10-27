@@ -14,13 +14,13 @@ import java.util.Date;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ExpiryDate implements Serializable {
-
     private static final long serialVersionUID = 7502769832110568563L;
 
     /**
@@ -32,5 +32,4 @@ public class ExpiryDate implements Serializable {
      * 结束日期
      */
     private Date endDate;
-
 }

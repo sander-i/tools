@@ -13,9 +13,9 @@ import java.security.PublicKey;
  * 覆盖全部公开方法：encode / decode（显式传参，不依赖全局配置）
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class AsymmetricUtilsTest {
-
     private static final String ALGORITHM = "RSA";
     private static final String MODE = "RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING";
     private static final String PLAINTEXT = "AsymmetricUtils smoke 测试文本";
@@ -31,7 +31,7 @@ public class AsymmetricUtilsTest {
 
         String ciphertext = AsymmetricUtils.encode(ALGORITHM, MODE, publicKey, null, PLAINTEXT, MAX_ENCRYPT_BLOCK);
         Assert.assertNotEquals(PLAINTEXT, ciphertext);
-        Assert.assertEquals(PLAINTEXT, AsymmetricUtils.decode(ALGORITHM, MODE, privateKey, null, ciphertext, MAX_DECRYPT_BLOCK));
+        Assert.assertEquals(PLAINTEXT, AsymmetricUtils.decode(ALGORITHM, MODE, privateKey, null, ciphertext,
+                MAX_DECRYPT_BLOCK));
     }
-
 }

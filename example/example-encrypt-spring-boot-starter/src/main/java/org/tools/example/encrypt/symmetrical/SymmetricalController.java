@@ -1,6 +1,7 @@
 package org.tools.example.encrypt.symmetrical;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,17 +21,18 @@ import java.security.spec.InvalidKeySpecException;
  * </p>
  *
  * @author sander 2024/04/27
+ * @since 1.0.6.1
  */
 @Slf4j
 @RestController
 @RequestMapping("/symmetrical")
 public class SymmetricalController {
-
     @Autowired
     private Encrypt encrypt;
 
     @RequestMapping("des/load")
-    public String desLoad() throws DesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+    public String desLoad() throws DesException, NoSuchAlgorithmException, InvalidKeySpecException,
+            InvalidKeyException {
         DesHelper.load(encrypt.getSymmetrical().getDes());
 //        final Encrypt encrypt = tools.getEncrypt();
 //        final Symmetrical symmetrical = encrypt.getSymmetrical();
@@ -46,5 +48,4 @@ public class SymmetricalController {
     public String desDecode(@RequestParam("encode") String encode) throws DesException {
         return DesHelper.decode(encode);
     }
-
 }

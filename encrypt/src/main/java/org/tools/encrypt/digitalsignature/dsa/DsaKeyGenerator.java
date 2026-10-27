@@ -3,10 +3,10 @@ package org.tools.encrypt.digitalsignature.dsa;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.binary.Base64;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.EncryptKeyGenerator;
-import org.tools.encrypt.asymmetric.rsa.RsaKeyGenerator;
 import org.tools.encrypt.entity.digitalsignature.DsaProperties;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.exception.EncryptException;
@@ -23,15 +23,13 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 /**
+ * DSA 密钥生成工具
+ *
  * @author sander
- * @version 1.0
+ * @since 1.0.0
  */
 @Slf4j
 public class DsaKeyGenerator {
-
-    private DsaKeyGenerator() {
-    }
-
     /**
      * 锁对象
      */
@@ -60,8 +58,13 @@ public class DsaKeyGenerator {
      */
     private static KeyPair keyPair;
 
+    private DsaKeyGenerator() {
+    }
+
     /**
      * 初始化密钥生成器对象
+     *
+     * @throws DigitalSignatureException 签名异常
      */
     private static void init() throws DigitalSignatureException {
         if (BaseUtils.isNull(keyPairGenerator, keyPair)) {
@@ -162,7 +165,8 @@ public class DsaKeyGenerator {
      * @throws NoSuchAlgorithmException 算法不存在或不支持异常
      * @throws InvalidKeySpecException  无效的密钥规范异常
      */
-    public static PublicKey getPublicKey(String algorithm, String publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PublicKey getPublicKey(String algorithm, String publicKey) throws NoSuchAlgorithmException,
+            InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
         byte[] decodedKey = Base64.decodeBase64(publicKey.getBytes());
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
@@ -178,7 +182,8 @@ public class DsaKeyGenerator {
      * @throws NoSuchAlgorithmException 算法不存在或不支持异常
      * @throws InvalidKeySpecException  无效的密钥规范异常
      */
-    public static PrivateKey getPrivateKey(String algorithm, String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PrivateKey getPrivateKey(String algorithm, String privateKey) throws NoSuchAlgorithmException,
+            InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
         byte[] decodedKey = Base64.decodeBase64(privateKey.getBytes());
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
@@ -217,5 +222,4 @@ public class DsaKeyGenerator {
         }
         return properties;
     }
-
 }

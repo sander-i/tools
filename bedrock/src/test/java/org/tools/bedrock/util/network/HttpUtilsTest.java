@@ -9,9 +9,10 @@ import java.util.Map;
 /**
  * HttpUtils 冒烟测试
  * 测试基本的 HTTP GET 和 POST 请求功能
+ * @author sander
+ * @since 1.0.6.6
  */
 public class HttpUtilsTest {
-
     @Test
     public void testHttpGet() {
         // 测试基本的 HTTP GET 请求

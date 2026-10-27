@@ -16,9 +16,9 @@ import java.util.concurrent.Executors;
  * 覆盖公开方法：of / next()（实例）/ nextId（静态便捷入口、long/String 机器标识）/ 批量 + 并发唯一性
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class TddlUtilsTest {
-
     @Test
     public void testNextIdInstance() {
         TddlUtils tddl = TddlUtils.of("01");
@@ -78,6 +78,8 @@ public class TddlUtilsTest {
 
     /**
      * 并发唯一性：同实例多线程取号（synchronized 保证序列正确），全局无重复。
+      *
+      * @throws Exception 执行过程中出现异常
      */
     @Test
     public void testConcurrentUniqueSameInstance() throws Exception {
@@ -110,5 +112,4 @@ public class TddlUtilsTest {
 
         Assert.assertEquals("并发取号应全局唯一", threads * perThread, all.size());
     }
-
 }

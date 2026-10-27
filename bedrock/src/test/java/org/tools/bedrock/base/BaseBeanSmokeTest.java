@@ -14,9 +14,9 @@ import java.sql.Timestamp;
  * 审计字段重命名（creator/updater/createdAt/updatedAt）后的访问器与 JDK 序列化 round-trip。
  *
  * @author sander 2026/10/25
+ * @since 2.0.0
  */
 public class BaseBeanSmokeTest {
-
     /** base.BaseBean：全参构造、重命名后的访问器、toString 覆盖 remark（回归：手写 toString 丢字段缺陷） */
     @Test
     public void baseBeanAccessorsAndToString() {
@@ -38,7 +38,11 @@ public class BaseBeanSmokeTest {
         Assert.assertTrue("toString 应包含重命名后的 createdAt 字段", str.contains("createdAt="));
     }
 
-    /** serializable.BaseBean：JDK 序列化 round-trip，审计字段（含 Timestamp 纳秒）完整保留 */
+    /**
+     * serializable.BaseBean：JDK 序列化 round-trip，审计字段（含 Timestamp 纳秒）完整保留
+     *
+     * @throws Exception 执行过程中出现异常
+     */
     @Test
     public void serializableBaseBeanRoundTrip() throws Exception {
         Timestamp createdAt = Timestamp.valueOf("2026-10-25 10:00:00.123456789");
@@ -49,7 +53,8 @@ public class BaseBeanSmokeTest {
                         "备注", "creator-a", createdAt, "updater-b", updatedAt);
 
         byte[] bytes;
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(
+                bos)) {
             oos.writeObject(bean);
             bytes = bos.toByteArray();
         }
@@ -64,5 +69,4 @@ public class BaseBeanSmokeTest {
             Assert.assertEquals("备注", back.getRemark());
         }
     }
-
 }

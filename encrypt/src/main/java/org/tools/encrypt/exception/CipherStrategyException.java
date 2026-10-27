@@ -1,13 +1,14 @@
 package org.tools.encrypt.exception;
 
-
 import org.tools.bedrock.exception.ErrorEnum;
 
 /**
+ * Cipher 策略异常。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 public class CipherStrategyException extends EncryptException {
-
     private static final long serialVersionUID = 2433406435391534274L;
 
     public CipherStrategyException() {
@@ -28,5 +29,4 @@ public class CipherStrategyException extends EncryptException {
     public CipherStrategyException(ErrorEnum error, Exception exception) {
         super(error, exception);
     }
-
 }

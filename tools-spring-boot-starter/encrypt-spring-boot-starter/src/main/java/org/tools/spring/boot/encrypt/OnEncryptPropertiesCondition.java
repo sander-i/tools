@@ -1,7 +1,7 @@
 package org.tools.spring.boot.encrypt;
 
-
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.AbstractEnvironment;
@@ -15,10 +15,10 @@ import org.springframework.lang.NonNull;
  * 判断是否存在加密配置
  *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 @Slf4j
 public class OnEncryptPropertiesCondition implements Condition {
-
     /**
      * 加密配置前缀
      */
@@ -43,5 +43,4 @@ public class OnEncryptPropertiesCondition implements Condition {
 
         return false;
     }
-
 }

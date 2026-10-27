@@ -12,11 +12,11 @@ import lombok.Getter;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Getter
 @AllArgsConstructor
 public enum Sex {
-
     /**
      * 男
      */
@@ -28,5 +28,4 @@ public enum Sex {
     F('0');
 
     private final char sex;
-
 }

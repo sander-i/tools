@@ -3,7 +3,6 @@ package org.tools.encrypt.asymmetric.rsa;
 import org.junit.Assert;
 import org.junit.Test;
 import org.tools.encrypt.entity.asymmetric.RsaProperties;
-import org.tools.encrypt.exception.EncryptException;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -14,9 +13,9 @@ import java.security.PublicKey;
  * getPrivateKeyStr×2 / getPublicKey(String) / getPrivateKey(String)
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class RsaKeyGeneratorTest {
-
     @Test
     public void testGetKeyPair() throws Exception {
         java.security.KeyPair keyPair = RsaKeyGenerator.getKeyPair();
@@ -78,5 +77,4 @@ public class RsaKeyGeneratorTest {
         Assert.assertNotNull(properties.getPublicKeyStr());
         Assert.assertNotNull(properties.getPrivateKeyStr());
     }
-
 }

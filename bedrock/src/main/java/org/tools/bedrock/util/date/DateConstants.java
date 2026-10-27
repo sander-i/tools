@@ -1,11 +1,12 @@
 package org.tools.bedrock.util.date;
-
 /**
+ * 日期常量：常用日期格式、季节与星期常量。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 public class DateConstants {
-
     private DateConstants() {
     }
 
@@ -103,5 +104,4 @@ public class DateConstants {
      * 年-月-日 时 时区
      */
     public static final String YMD_H_Z_PATTERN = "yyyy-MM-dd HH z";
-
 }

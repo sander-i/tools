@@ -12,9 +12,9 @@ import javax.crypto.SecretKey;
  * 覆盖全部公开方法：getSecretKey / getSecretKeyStr / getSecretKey(String,String) / getProperties
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class AesKeyGeneratorTest {
-
     @Test
     public void testGetSecretKey() throws AesException {
         SecretKey key = AesKeyGenerator.getSecretKey();
@@ -43,5 +43,4 @@ public class AesKeyGeneratorTest {
         Assert.assertNotNull(properties.getSecretKey());
         Assert.assertNotNull(properties.getSecretKeyStr());
     }
-
 }

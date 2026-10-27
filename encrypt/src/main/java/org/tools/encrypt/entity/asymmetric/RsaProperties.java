@@ -2,19 +2,22 @@ package org.tools.encrypt.entity.asymmetric;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import org.tools.encrypt.entity.EncryptProperties;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 import org.tools.encrypt.enums.SignAlgorithmEnum;
 
 /**
+ * RsaProperties。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RsaProperties extends EncryptProperties {
-
     {
         setAlgorithm(AlgorithmEnum.RSA.getAlgorithm());
         /*
@@ -64,5 +67,4 @@ public class RsaProperties extends EncryptProperties {
                 break;
         }
     }
-
 }

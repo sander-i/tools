@@ -13,15 +13,16 @@ import java.util.HashMap;
  * R / RR 序列化冒烟测试（JDK ObjectOutputStream round-trip）
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class RSerializationSmokeTest {
-
     @Test
     public void rRoundTrip() throws Exception {
         R<String> r = R.ok("data-value");
 
         byte[] bytes;
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(
+                bos)) {
             oos.writeObject(r);
             bytes = bos.toByteArray();
         }
@@ -43,7 +44,8 @@ public class RSerializationSmokeTest {
         R<java.util.HashMap<String, String>> r = R.ok(data);
 
         byte[] bytes;
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(
+                bos)) {
             oos.writeObject(r);
             bytes = bos.toByteArray();
         }
@@ -60,12 +62,15 @@ public class RSerializationSmokeTest {
         Assert.assertFalse("fail() 的 success 应为 false", fail.isSuccess());
 
         byte[] bytes;
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(
+                bos)) {
             oos.writeObject(fail);
             bytes = bos.toByteArray();
         }
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes))) {
-            RR back = (RR) ois.readObject();
+            Object obj = ois.readObject();
+            Assert.assertTrue("反序列化对象应为 RR 类型", obj instanceof RR);
+            RR back = (RR) obj;
             Assert.assertFalse(back.isSuccess());
             Assert.assertEquals(RS.FAIL.getCode(), back.getCode());
         }
@@ -86,15 +91,16 @@ public class RSerializationSmokeTest {
         org.tools.bedrock.http.HttpResult<String> result = org.tools.bedrock.http.HttpResult.success("payload");
 
         byte[] bytes;
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(
+                bos)) {
             oos.writeObject(result);
             bytes = bos.toByteArray();
         }
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes))) {
             @SuppressWarnings("unchecked")
-            org.tools.bedrock.http.HttpResult<String> back = (org.tools.bedrock.http.HttpResult<String>) ois.readObject();
+            org.tools.bedrock.http.HttpResult<String> back = (org.tools.bedrock.http.HttpResult<String>) ois.readObject(
+                    );
             Assert.assertEquals("payload", back.getData());
         }
     }
-
 }

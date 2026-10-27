@@ -13,12 +13,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * Map 便捷工具：判空、对象与 Map 互转、Map 合并。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Slf4j
 public class Maps {
-
     private Maps() {
     }
 
@@ -68,7 +70,8 @@ public class Maps {
             /* java基础类 */
             Object value = ClassUtils.getProperty(source, fieldName);
             /* 非java基础类 */
-            if (BaseUtils.isNotEmpty(value) && !(fieldType.contains("java") || ClassUtils.isBaseClass(fieldType) || value instanceof Comparable)) {
+            if (BaseUtils.isNotEmpty(value) && !(fieldType.contains("java") || ClassUtils.isBaseClass(fieldType) ||
+                    value instanceof Comparable)) {
                 value = objToMap(value);
             }
             map.put(fieldName, value);
@@ -92,10 +95,12 @@ public class Maps {
 
         Class<?> clz = target.getClass();
         // 获取所有属性
-        Field[] declaredFields = ClassUtils.roverMethodNotFoundDeclaredFields(ClassUtils.getAllDeclaredFields(clz), clz);
+        Field[] declaredFields = ClassUtils.roverMethodNotFoundDeclaredFields(ClassUtils.getAllDeclaredFields(clz),
+                clz);
 
         Set<Map.Entry<String, Object>> sources = sourceMap.entrySet();
-        sources = sources.stream().filter(source -> BaseUtils.isNotEmpty(source.getValue())).collect(Collectors.toSet());
+        sources = sources.stream().filter(source -> BaseUtils.isNotEmpty(source.getValue()))
+                .collect(Collectors.toSet());
 
         sources.forEach(source -> {
             String sourceKey = source.getKey();
@@ -136,7 +141,8 @@ public class Maps {
 
         try {
             return mapToObj(sourceMap, target.getDeclaredConstructor().newInstance());
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                InvocationTargetException e) {
             log.error(e.getLocalizedMessage(), e);
         }
         return null;
@@ -166,18 +172,14 @@ public class Maps {
             String sourceKey = source.getKey();
 
             for (Map.Entry<String, String> relation : relations.entrySet()) {
-
                 String sourceName = relation.getKey();
                 String targetName = relation.getValue();
 
                 if (sourceKey.equals(sourceName)) {
-
                     for (Field oldField : declaredFields) {
-
                         String fieldName = oldField.getName();
 
                         if (targetName.equals(fieldName)) {
-
                             Object entityMapValue = source.getValue();
 
                             ClassUtils.setProperty(target, fieldName, entityMapValue);
@@ -199,7 +201,8 @@ public class Maps {
      * @param <T>                目标对象泛型
      * @return 目标
      */
-    public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relations, T target, boolean precedenceRelation) {
+    public static <T> T mapToObj(Map<String, Object> sourceMap, Map<String, String> relations, T target,
+            boolean precedenceRelation) {
         if (BaseUtils.isEmpty(sourceMap) || target == null) {
             return target;
         }
@@ -238,7 +241,8 @@ public class Maps {
             try {
                 ClassUtils.setProperty(target, targetName, entityMapValue);
             } catch (IllegalArgumentException e) {
-                log.error("设置属性值失败 - 类型不匹配，字段: {}, 值: {}, 错误: {}", targetName, entityMapValue, e.getMessage(), e);
+                log.error("设置属性值失败 - 类型不匹配，字段: {}, 值: {}, 错误: {}", targetName, entityMapValue, e
+                        .getMessage(), e);
             } catch (Exception e) {
                 log.error("设置属性值失败 - 其他异常，字段: {}, 错误: {}", targetName, e.getMessage(), e);
             }
@@ -263,7 +267,8 @@ public class Maps {
 
         try {
             return mapToObj(sourceMap, relations, target.getDeclaredConstructor().newInstance());
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                InvocationTargetException e) {
             log.error(e.getLocalizedMessage(), e);
         }
         return null;
@@ -338,5 +343,4 @@ public class Maps {
 
         return source;
     }
-
 }

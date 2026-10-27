@@ -8,25 +8,23 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.FileImageOutputStream;
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URL;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
  * ImageUtils 冒烟测试
  * 测试基本的图片处理功能
+ * @author sander
+ * @since 1.0.6.6
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ImageUtilsTest {
-
     private static final String TEST_FILE_PATH = "test.jpg";
     private static final String TEST_URL = "http://example.com/test.jpg";
     /**
@@ -242,6 +240,7 @@ public class ImageUtilsTest {
 
     /**
      * 测试辅助类，用于访问ImageUtils的私有方法
+     * @since 1.0.6.6
      */
     static class ImageUtilsTestHelper {
         static byte[] invokeReadInputStream(Object stream) {
@@ -258,7 +257,8 @@ public class ImageUtilsTest {
         static void invokeCloseStream(String errorMsg, HttpURLConnection httpConn, InputStream input) {
             try {
                 // 使用反射调用私有方法
-                java.lang.reflect.Method method = ImageUtils.class.getDeclaredMethod("closeStream", String.class, HttpURLConnection.class, InputStream.class);
+                java.lang.reflect.Method method = ImageUtils.class.getDeclaredMethod("closeStream", String.class,
+                        HttpURLConnection.class, InputStream.class);
                 method.setAccessible(true);
                 method.invoke(null, errorMsg, httpConn, input);
             } catch (Exception e) {

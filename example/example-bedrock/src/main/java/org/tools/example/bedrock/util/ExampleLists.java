@@ -11,9 +11,9 @@ import java.util.List;
  * </p>
  *
  * @author sander 2024/04/27
+ * @since 1.0.6.1
  */
 public class ExampleLists {
-
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();
         list.add("a");
@@ -28,5 +28,4 @@ public class ExampleLists {
         System.out.println(list);
         System.out.println(b);
     }
-
 }

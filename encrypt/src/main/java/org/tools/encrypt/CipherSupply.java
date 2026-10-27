@@ -1,6 +1,5 @@
 package org.tools.encrypt;
 
-
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
@@ -12,6 +11,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -23,10 +23,12 @@ import java.security.Security;
 import java.security.spec.MGF1ParameterSpec;
 
 /**
+ * Cipher 供给实现类：按算法模式初始化并缓存 Cipher 实例。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 public class CipherSupply extends CipherSupplyAbst {
-
     private static final CipherSupply INSTANCE = new CipherSupply();
 
     private CipherSupply() {
@@ -70,11 +72,13 @@ public class CipherSupply extends CipherSupplyAbst {
      * @throws NoSuchProviderException  Provider 不可用时抛出
      */
     @Override
-    public Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException {
+    public Cipher getInstanceCipher(AlgorithmModeEnum algorithmMode)
+            throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException {
         Cipher cipher;
         switch (algorithmMode) {
             case OAEPWithSHA__256AndMGF1Padding: {
-                cipher = Cipher.getInstance(AlgorithmModeEnum.RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING.getAlgorithmMode(), "BC");
+                cipher = Cipher.getInstance(
+                        AlgorithmModeEnum.RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING.getAlgorithmMode(), "BC");
                 break;
             }
             default: {
@@ -98,7 +102,8 @@ public class CipherSupply extends CipherSupplyAbst {
      * @throws InvalidAlgorithmParameterException 算法参数（IV/OAEP 等）非法时抛出
      */
     @Override
-    public void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey, String ivParameter, int mode)
+    public void initCipher(Cipher cipher, AlgorithmEnum algorithm, AlgorithmModeEnum algorithmMode, Key secretKey,
+            String ivParameter, int mode)
             throws InvalidKeyException, InvalidAlgorithmParameterException {
         switch (algorithmMode) {
             case RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING: {
@@ -127,12 +132,14 @@ public class CipherSupply extends CipherSupplyAbst {
             }
             case OAEPWithSHA__256AndMGF1Padding: {
                 cipher.init(mode, secretKey,
-                        new OAEPParameterSpec(AlgorithmEnum.SHA256.getAlgorithm(), "MGF1", MGF1ParameterSpec.SHA256, PSource.PSpecified.DEFAULT));
+                        new OAEPParameterSpec(AlgorithmEnum.SHA256.getAlgorithm(), "MGF1", MGF1ParameterSpec.SHA256,
+                                PSource.PSpecified.DEFAULT));
                 break;
             }
             default:
-                throw new CipherSupplyException(String.format("Encrypt mode %s did not find the corresponding initialization scheme!", algorithmMode.getAlgorithmMode()));
+                throw new CipherSupplyException(String.format(
+                        "Encrypt mode %s did not find the corresponding initialization scheme!",
+                        algorithmMode.getAlgorithmMode()));
         }
     }
-
 }

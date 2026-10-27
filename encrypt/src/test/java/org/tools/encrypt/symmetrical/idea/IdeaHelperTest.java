@@ -8,6 +8,7 @@ import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -15,9 +16,9 @@ import java.nio.charset.StandardCharsets;
  * 覆盖全部公开方法：load×3 / encode×3 / decode×3 / getProperties
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class IdeaHelperTest {
-
     /** 32 个 Hex 字符 = 16 字节 = 128 位 IDEA 密钥（load(KeyPair) 路径经 Hex 解码） */
     private static final String HEX_KEY = "b1d58f20dfe96a6659ad818370500e66";
     private static final String RAW_KEY = "0123456789abcdef";
@@ -72,5 +73,4 @@ public class IdeaHelperTest {
         String ciphertext = IdeaHelper.encode(key, PLAINTEXT);
         Assert.assertEquals(PLAINTEXT, IdeaHelper.decode(key, ciphertext));
     }
-
 }

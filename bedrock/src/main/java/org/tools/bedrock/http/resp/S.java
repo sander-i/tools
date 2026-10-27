@@ -1,5 +1,4 @@
 package org.tools.bedrock.http.resp;
-
 /**
  * 响应状态定义契约。
  *
@@ -9,11 +8,10 @@ package org.tools.bedrock.http.resp;
  *
  * @author sander 2024/02/12
  * @version 2.0
+ * @since 1.0.6.3
  */
 public interface S {
-
     String getCode();
 
     String getMsg();
-
 }

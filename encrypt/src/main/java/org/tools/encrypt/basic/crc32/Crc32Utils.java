@@ -10,9 +10,9 @@ import java.util.zip.CRC32;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.1
  */
 public class Crc32Utils {
-
     private Crc32Utils() {
     }
 
@@ -27,5 +27,4 @@ public class Crc32Utils {
         crc32.update(raw);
         return crc32.getValue();
     }
-
 }

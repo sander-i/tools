@@ -7,7 +7,9 @@ import com.aliyun.alidns20150109.models.DescribeDomainRecordsResponse;
 import com.aliyun.alidns20150109.models.UpdateDomainRecordRequest;
 import com.aliyun.teaopenapi.models.Config;
 import com.aliyun.teautil.models.RuntimeOptions;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.fortify.ddns.aliyun.AliyunDdnsConfig;
 import org.tools.fortify.ddns.aliyun.Record;
@@ -20,10 +22,10 @@ import java.util.List;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.2
  */
 @Slf4j
 public class AliyunDdnsUtils {
-
     private AliyunDdnsUtils() {
     }
 
@@ -40,8 +42,12 @@ public class AliyunDdnsUtils {
      * @return 阿里云 DNS 客户端
      * @throws Exception 创建客户端失败时抛出
      */
-    public static com.aliyun.alidns20150109.Client createClient(String accessKeyId, String accessKeySecret, String endpoint) throws Exception {
-        Config config = new Config().setAccessKeyId(accessKeyId).setAccessKeySecret(accessKeySecret).setEndpoint(endpoint);
+    public static com.aliyun.alidns20150109.Client createClient(String accessKeyId, String accessKeySecret,
+            String endpoint)
+            throws Exception {
+        Config config = new Config().setAccessKeyId(accessKeyId)
+                .setAccessKeySecret(accessKeySecret)
+                .setEndpoint(endpoint);
         return new com.aliyun.alidns20150109.Client(config);
     }
 
@@ -53,7 +59,9 @@ public class AliyunDdnsUtils {
      * @throws Exception 创建客户端失败时抛出
      */
     public static com.aliyun.alidns20150109.Client createClient(AliyunDdnsConfig aliyunDdnsConfig) throws Exception {
-        Config config = new Config().setAccessKeyId(aliyunDdnsConfig.getAccessKeyId()).setAccessKeySecret(aliyunDdnsConfig.getAccessKeySecret()).setEndpoint(aliyunDdnsConfig.getEndpoint());
+        Config config = new Config().setAccessKeyId(aliyunDdnsConfig.getAccessKeyId())
+                .setAccessKeySecret(aliyunDdnsConfig.getAccessKeySecret())
+                .setEndpoint(aliyunDdnsConfig.getEndpoint());
         return new com.aliyun.alidns20150109.Client(config);
     }
 
@@ -66,7 +74,8 @@ public class AliyunDdnsUtils {
      * @return 域记录
      * @throws Exception 异常
      */
-    public static List<Record> readDomainRecords(AliyunDdnsConfig aliyunDdnsConfig, String domainName, String type) throws Exception {
+    public static List<Record> readDomainRecords(AliyunDdnsConfig aliyunDdnsConfig, String domainName, String type)
+            throws Exception {
         return readDomainRecords(aliyunDdnsConfig, createClient(aliyunDdnsConfig), domainName, type);
     }
 
@@ -80,13 +89,16 @@ public class AliyunDdnsUtils {
      * @return 域记录
      * @throws Exception 异常
      */
-    public static List<Record> readDomainRecords(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109.Client client, String domainName, String type) throws Exception {
+    public static List<Record> readDomainRecords(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109
+            .Client client,
+                                                 String domainName, String type) throws Exception {
         DescribeDomainRecordsRequest describeDomainRecordsRequest = new DescribeDomainRecordsRequest()
                 .setDomainName(domainName);
         if (BaseUtils.isNotEmpty(type)) {
             describeDomainRecordsRequest.setType(type);
         }
-        DescribeDomainRecordsResponse describeDomainRecordsResponse = client.describeDomainRecords(describeDomainRecordsRequest);
+        DescribeDomainRecordsResponse describeDomainRecordsResponse =
+                client.describeDomainRecords(describeDomainRecordsRequest);
 
         List<Record> recordList = new ArrayList<>();
         // 数据量过多会有性能问题
@@ -117,7 +129,8 @@ public class AliyunDdnsUtils {
      * @return 域记录
      * @throws Exception 异常
      */
-    public static Record updateDomainRecord(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109.Client client, Record newRecord) throws Exception {
+    public static Record updateDomainRecord(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109.Client client,
+                                            Record newRecord) throws Exception {
         UpdateDomainRecordRequest updateDomainRecordRequest = new UpdateDomainRecordRequest()
                 //记录RecordId
                 .setRecordId(newRecord.getRecordId())
@@ -142,7 +155,8 @@ public class AliyunDdnsUtils {
      * @return 域记录
      * @throws Exception 异常
      */
-    public static List<Record> updateDomainRecordBatch(AliyunDdnsConfig aliyunDdnsConfig, List<Record> newRecords) throws Exception {
+    public static List<Record> updateDomainRecordBatch(AliyunDdnsConfig aliyunDdnsConfig, List<Record> newRecords)
+            throws Exception {
         return updateDomainRecordBatch(aliyunDdnsConfig, createClient(aliyunDdnsConfig), newRecords);
     }
 
@@ -155,7 +169,9 @@ public class AliyunDdnsUtils {
      * @return 域记录
      * @throws Exception 异常
      */
-    public static List<Record> updateDomainRecordBatch(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109.Client client, List<Record> newRecords) throws Exception {
+    public static List<Record> updateDomainRecordBatch(AliyunDdnsConfig aliyunDdnsConfig, com.aliyun.alidns20150109
+            .Client client,
+                                                       List<Record> newRecords) throws Exception {
         List<Record> succeedList = new ArrayList<>();
         StringBuilder error = new StringBuilder();
 
@@ -173,5 +189,4 @@ public class AliyunDdnsUtils {
         }
         return succeedList;
     }
-
 }

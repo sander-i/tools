@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 基础判空工具：对象、集合、Map、数组的 null 与空判断。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Slf4j
 public class BaseUtils {
-
     private BaseUtils() {
     }
 
@@ -349,5 +351,4 @@ public class BaseUtils {
         }
         return true;
     }
-
 }

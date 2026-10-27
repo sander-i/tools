@@ -1,6 +1,7 @@
 package org.tools.encrypt.symmetrical.des;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.EncryptKeyGenerator;
@@ -11,6 +12,7 @@ import org.tools.encrypt.exception.symmetrical.des.DesException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
@@ -19,13 +21,10 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Slf4j
 public class DesKeyGenerator {
-
-    private DesKeyGenerator() {
-    }
-
     /**
      * 密钥位数
      */
@@ -40,6 +39,9 @@ public class DesKeyGenerator {
      * Des 配置文件
      */
     private static DesProperties properties;
+
+    private DesKeyGenerator() {
+    }
 
     /**
      * 获取密钥对象。
@@ -111,5 +113,4 @@ public class DesKeyGenerator {
         }
         return properties;
     }
-
 }

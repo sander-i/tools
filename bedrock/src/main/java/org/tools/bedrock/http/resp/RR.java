@@ -3,6 +3,7 @@ package org.tools.bedrock.http.resp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import org.tools.bedrock.annotations.Inherit;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ import java.io.Serializable;
  *
  * @author sander 2024/08/03
  * @version 2.0
+ * @since 1.0.0
  */
 @Data
 @NoArgsConstructor
@@ -89,5 +91,4 @@ public class RR implements Serializable {
     public static RR build(S s, boolean success) {
         return new RR(success, s.getCode(), s.getMsg());
     }
-
 }

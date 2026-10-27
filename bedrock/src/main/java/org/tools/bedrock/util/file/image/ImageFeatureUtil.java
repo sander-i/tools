@@ -3,6 +3,7 @@ package org.tools.bedrock.util.file.image;
 import org.tools.bedrock.base.image.Point;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,9 +18,9 @@ import java.util.Map;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class ImageFeatureUtil {
-
     /**
      * 提取图片的主要颜色特征
      *
@@ -664,7 +665,6 @@ public class ImageFeatureUtil {
         return distance;
     }
 
-
     /**
      * 提取图像的特征向量（简化实现）
      *
@@ -746,5 +746,4 @@ public class ImageFeatureUtil {
         BufferedImage image2 = ImageIO.read(new File(imagePath2));
         return calculateFeatureVectorSimilarity(image1, image2);
     }
-
 }

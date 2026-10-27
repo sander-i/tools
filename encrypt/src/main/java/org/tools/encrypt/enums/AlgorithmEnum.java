@@ -6,13 +6,15 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
+ * 算法枚举：摘要、对称、非对称与签名算法名及其匹配方法。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 @Getter
 @AllArgsConstructor
 public enum AlgorithmEnum {
-
     MD5("MD5"),
 
     /**
@@ -81,5 +83,4 @@ public enum AlgorithmEnum {
                 .findFirst()
                 .get();
     }
-
 }

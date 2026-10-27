@@ -9,9 +9,9 @@ import org.tools.encrypt.exception.EncryptException;
  * 覆盖全部公开方法：load / encode×4（含属性读写）
  *
  * @author sander 2026/10/24
+ * @since 1.0.6.1
  */
 public class MD5UtilsTest {
-
     private static final String RAW = "666";
     /** RFC 1321 经典向量：MD5("abc") */
     private static final String MD5_ABC = "900150983CD24FB0D6963F7D28E17F72";
@@ -55,5 +55,4 @@ public class MD5UtilsTest {
     public void testLoadNullRejected() throws EncryptException {
         MD5Utils.load(null);
     }
-
 }

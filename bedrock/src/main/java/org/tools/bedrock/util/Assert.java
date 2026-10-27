@@ -1,16 +1,17 @@
 package org.tools.bedrock.util;
 
-
 import org.tools.bedrock.exception.BusinessException;
 
 import java.util.List;
 import java.util.Map;
 
 /**
+ * 断言工具：参数校验失败时抛出异常
+ *
  * @author sander
- **/
+ * @since 1.0.6.5
+ */
 public class Assert {
-
     private Assert() {
     }
 
@@ -22,6 +23,7 @@ public class Assert {
      * @param params   参数
      * @param <T>      泛型
      * @return boolean
+     * @throws IllegalArgumentException obj 为 null 时抛出
      */
     public static <T> T isNotNull(T obj, String errorMsg, Object... params) throws IllegalArgumentException {
         if (BaseUtils.isNull(obj)) {
@@ -34,6 +36,8 @@ public class Assert {
      * 对象非 null
      *
      * @param obj 对象
+     * @throws BusinessException obj 为 null 时抛出（注意：与 {@link #isNotNull(Object, String, Object...)}
+     *                           抛出的 {@link IllegalArgumentException} 不同）
      */
     public static void isNotNull(Object obj) {
         if (BaseUtils.isNull(obj)) {
@@ -80,5 +84,4 @@ public class Assert {
     public static boolean isNotEmpty(Object obj) {
         return obj != null && !obj.toString().trim().isEmpty();
     }
-
 }

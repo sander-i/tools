@@ -11,14 +11,16 @@ import java.time.LocalTime;
 import java.util.Date;
 
 /**
+ * 日期区间对象：区间起止与区间类型封装。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.4
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class DateRange {
-
     Date startDate;
     Date endDate;
 
@@ -33,5 +35,4 @@ public class DateRange {
 
     Timestamp startTimestamp;
     Timestamp endTimestamp;
-
 }

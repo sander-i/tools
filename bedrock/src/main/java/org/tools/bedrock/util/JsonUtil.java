@@ -7,11 +7,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * 轻量 JSON 序列化工具：List/Map 转 JSON 字符串，不依赖第三方库。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class JsonUtil {
-
     /**
      * list集合转json
      *
@@ -67,7 +69,8 @@ public class JsonUtil {
             } else if (o instanceof Map) {
                 result.append(mapToJson((Map<?, ?>) o, skipNull));
             } else {
-                result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(o).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
+                result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(o).append(SpecialSymbolConst
+                        .DOUBLE_QUOTATION_MARK);
             }
             if (size++ < list.size()) {
                 result.append(SpecialSymbolConst.SEMICOLON);
@@ -112,7 +115,8 @@ public class JsonUtil {
                 continue;
             }
 
-            result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(key).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(SpecialSymbolConst.COLON);
+            result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(key).append(SpecialSymbolConst
+                    .DOUBLE_QUOTATION_MARK).append(SpecialSymbolConst.COLON);
             if (val instanceof List) {
                 valList = (List<?>) val;
                 result.append(listToJson(valList, skipNull));
@@ -123,11 +127,13 @@ public class JsonUtil {
                 Object[] array = (Object[]) val;
                 result.append(SpecialSymbolConst.LEFT_BRACKET);
                 for (Object o : array) {
-                    result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(o).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
+                    result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(o).append(SpecialSymbolConst
+                            .DOUBLE_QUOTATION_MARK);
                 }
                 result.append(SpecialSymbolConst.RIGHT_BRACKET);
             } else {
-                result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(val).append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK);
+                result.append(SpecialSymbolConst.DOUBLE_QUOTATION_MARK).append(val).append(SpecialSymbolConst
+                        .DOUBLE_QUOTATION_MARK);
             }
             if (size++ < map.size()) {
                 result.append(SpecialSymbolConst.SEMICOLON);
@@ -136,6 +142,4 @@ public class JsonUtil {
         result.append(SpecialSymbolConst.RIGHT_BRACE);
         return result.toString();
     }
-
-
 }

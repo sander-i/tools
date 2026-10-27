@@ -17,12 +17,12 @@ import java.sql.Timestamp;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class BaseBean {
-
     /**
      * 主键 id
      */
@@ -82,5 +82,4 @@ public class BaseBean {
      * 更新时间（时间戳，与时区无关）
      */
     private Timestamp updatedAt;
-
 }

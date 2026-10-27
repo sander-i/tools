@@ -16,9 +16,9 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.1
  */
 public class ShaUtils {
-
     private ShaUtils() {
     }
 
@@ -63,5 +63,4 @@ public class ShaUtils {
         byte[] digest = BasicUtils.digest(algorithm, raw.getBytes(StandardCharsets.UTF_8));
         return byteToHex(digest);
     }
-
 }

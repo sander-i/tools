@@ -26,9 +26,9 @@ import java.util.zip.ZipOutputStream;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class FileUtil {
-
     /**
      * 读取resources目录下文件内容为字符串
      *
@@ -217,7 +217,11 @@ public class FileUtil {
      */
     public static void copyDirectory(Path sourceDir, Path targetDir) throws IOException {
         Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() {
-            /** 目录访问前置处理：登记目录 */
+            /**
+             * 目录访问前置处理：登记目录
+             *
+             * @throws IOException IO 读写失败时抛出
+             */
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 Path targetPath = targetDir.resolve(sourceDir.relativize(dir));
@@ -227,7 +231,11 @@ public class FileUtil {
                 return FileVisitResult.CONTINUE;
             }
 
-            /** 文件访问处理：累加文件大小 */
+            /**
+             * 文件访问处理：累加文件大小
+             *
+             * @throws IOException IO 读写失败时抛出
+             */
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Path targetPath = targetDir.resolve(sourceDir.relativize(file));

@@ -6,7 +6,7 @@
 
 **不适用场景**：全盘磁盘加密、TLS/SSL、需要抗量子攻击的场景。
 
-- 坐标：`io.gitee.sander-o:encrypt`（版本见根 [pom.xml](../pom.xml)，当前 `1.0.6.7-d01`）
+- 坐标：`io.gitee.sander-o:encrypt`（版本见根 [pom.xml](../pom.xml)，当前 `2.0.0`）
 - Spring Boot 用户请直接使用 [encrypt-spring-boot-starter](../tools-spring-boot-starter/encrypt-spring-boot-starter/README.md)
 - 安全问题请勿公开提交，见 [SECURITY.md](../SECURITY.md)
 
@@ -53,7 +53,7 @@
 3. ⚠️ `AesHelper` 等基于静态 `properties` 的设计意味着一份 JVM 内只有一份激活配置；多组密钥请使用 `load(KeyPair, name)` 的分组机制，或直接使用 `XxxKeyGenerator` + `SymmetricalUtils` 显式传参。
 4. TODO：RSA 分段加密对超长明文的分段边界在部分 Provider 下与标准实现存在差异，尚未做互操作矩阵验证。
 
-> 已修复项（`1.0.6.7-d01` 开发线）：解密输出字符集（此前用 JVM 默认 charset 导致 GBK 平台乱码）已统一为 UTF-8；MD5/SHA/签名原文取字节同样统一为 UTF-8；`RsaProperties` 默认签名算法由 JDK 8 不支持的 `SHA3-256withRSA` 改为 `SHA256withRSA`；`RSA` 实体配置（算法/模式/签名算法/密钥位数）此前在 `load(KeyPair)` 时被忽略，现已生效并联动重算分块大小；`OAEPWithSHA-256AndMGF1Padding` 分支缺失 `break` 导致该模式不可用已修复；DSA 字符串密钥重载向 `KeyFactory` 误传签名算法名已修复；`DsaProperties` 默认签名算法误设到 `algorithmMode` 字段已修正；CRC32 共享静态实例（非线程安全）已改为每次调用独立实例；`SignatureUtils` 签名/验签（含 RsaHelper/DsaHelper 路径）由共享静态 `Signature` 改为每次调用独立实例（并发安全）；`Base64Utils.encode(String)` 与 `AsymmetricUtils.decryptAfter` 的平台 charset 问题（GBM/GBK 平台乱码）统一为 UTF-8；`DsaHelper.load(KeyPair)` 此前不解析密钥对象、必然抛"publicKey|privateKey 不能为空"已修复；`RsaKeyGenerator.getKeyPair()` 等入口未初始化默认配置时 NPE 已修复；starter 样例 yml 的 DES 密钥修正为 8 字节（"BeYour18"）并验证 round-trip；`DsaKeyGenerator.getDsaProperties()` 误用 `RsaKeyGenerator` 向 DSA 配置填充 RSA 密钥已改为 DSA 密钥生成；`IdeaHelper` 密钥解析误调 `AesKeyGenerator` 已改用 `IdeaKeyGenerator`（其 String 重载密钥语义随之由 UTF-8 原文对齐为 Hex）；`RsaHelper` 的 "Aes enable: false" 等跨算法复制粘贴文案/日志已修正。详见 [CHANGELOG](../CHANGELOG.md)。
+> 已修复项（`2.0.0`）：解密输出字符集（此前用 JVM 默认 charset 导致 GBK 平台乱码）已统一为 UTF-8；MD5/SHA/签名原文取字节同样统一为 UTF-8；`RsaProperties` 默认签名算法由 JDK 8 不支持的 `SHA3-256withRSA` 改为 `SHA256withRSA`；`RSA` 实体配置（算法/模式/签名算法/密钥位数）此前在 `load(KeyPair)` 时被忽略，现已生效并联动重算分块大小；`OAEPWithSHA-256AndMGF1Padding` 分支缺失 `break` 导致该模式不可用已修复；DSA 字符串密钥重载向 `KeyFactory` 误传签名算法名已修复；`DsaProperties` 默认签名算法误设到 `algorithmMode` 字段已修正；CRC32 共享静态实例（非线程安全）已改为每次调用独立实例；`SignatureUtils` 签名/验签（含 RsaHelper/DsaHelper 路径）由共享静态 `Signature` 改为每次调用独立实例（并发安全）；`Base64Utils.encode(String)` 与 `AsymmetricUtils.decryptAfter` 的平台 charset 问题（GBM/GBK 平台乱码）统一为 UTF-8；`DsaHelper.load(KeyPair)` 此前不解析密钥对象、必然抛"publicKey|privateKey 不能为空"已修复；`RsaKeyGenerator.getKeyPair()` 等入口未初始化默认配置时 NPE 已修复；starter 样例 yml 的 DES 密钥修正为 8 字节（"BeYour18"）并验证 round-trip；`DsaKeyGenerator.getDsaProperties()` 误用 `RsaKeyGenerator` 向 DSA 配置填充 RSA 密钥已改为 DSA 密钥生成；`IdeaHelper` 密钥解析误调 `AesKeyGenerator` 已改用 `IdeaKeyGenerator`（其 String 重载密钥语义随之由 UTF-8 原文对齐为 Hex）；`RsaHelper` 的 "Aes enable: false" 等跨算法复制粘贴文案/日志已修正。详见 [CHANGELOG](../CHANGELOG.md)。
 
 ## 最小示例
 

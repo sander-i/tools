@@ -4,11 +4,13 @@ import org.tools.bedrock.exception.ErrorEnum;
 import org.tools.encrypt.exception.EncryptException;
 
 /**
+ * 对称加解密异常。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 public class SymmetricalException extends EncryptException {
-
     private static final long serialVersionUID = 6591125072110387210L;
 
     public SymmetricalException() {
@@ -29,5 +31,4 @@ public class SymmetricalException extends EncryptException {
     public SymmetricalException(ErrorEnum error, Exception exception) {
         super(error, exception);
     }
-
 }

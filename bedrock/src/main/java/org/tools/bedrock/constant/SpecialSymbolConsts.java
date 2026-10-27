@@ -1,13 +1,14 @@
 package org.tools.bedrock.constant;
-
 /**
+ * 特殊符号常量（旧版）；枚举形式的新定义见 constant.v2.SpecialSymbolConst。
+ *
  * @author sander
  * @version 1.0
  * @see org.tools.bedrock.constant.v2.SpecialSymbolConst
  * @deprecated 根据开发规范调整对象信息
+ * @since 1.0.0
  */
 public class SpecialSymbolConsts {
-
     private SpecialSymbolConsts() {
     }
 
@@ -195,5 +196,4 @@ public class SpecialSymbolConsts {
      * 冒号
      */
     public static final String COLON = ":";
-
 }

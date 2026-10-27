@@ -23,9 +23,9 @@ import java.util.List;
  *
  * @author sander
  * @version 1.0
+ * @since 2.0.0
  */
 public class SnowflakeUtils {
-
     /**
      * 自定义纪元：2020-01-01T00:00:00Z（毫秒），时间戳部分以此为起点
      */
@@ -106,7 +106,8 @@ public class SnowflakeUtils {
             throw new IllegalArgumentException("workerId 必须在 [0, " + MAX_WORKER_ID + "] 内: " + workerId);
         }
         if (dataCenterId < 0 || dataCenterId > MAX_DATA_CENTER_ID) {
-            throw new IllegalArgumentException("dataCenterId 必须在 [0, " + MAX_DATA_CENTER_ID + "] 内: " + dataCenterId);
+            throw new IllegalArgumentException("dataCenterId 必须在 [0, " + MAX_DATA_CENTER_ID + "] 内: "
+                    + dataCenterId);
         }
         this.workerId = workerId;
         this.dataCenterId = dataCenterId;
@@ -144,7 +145,8 @@ public class SnowflakeUtils {
         if (timestamp < lastTimestamp) {
             long backward = lastTimestamp - timestamp;
             if (backward > MAX_BACKWARD_MS) {
-                throw new IllegalStateException("时钟回拨 " + backward + "ms，超过允许阈值 " + MAX_BACKWARD_MS + "ms，拒绝生成 ID");
+                throw new IllegalStateException("时钟回拨 " + backward + "ms，超过允许阈值 "
+                        + MAX_BACKWARD_MS + "ms，拒绝生成 ID");
             }
             // 回拨幅度小，等待追平
             timestamp = waitUntil(lastTimestamp);
@@ -244,9 +246,9 @@ public class SnowflakeUtils {
 
     /**
      * 默认实例持有者（workerId=0，dataCenterId=0）
+     * @since 2.0.0
      */
     private static class DefaultHolder {
         private static final SnowflakeUtils INSTANCE = new SnowflakeUtils(0L, 0L);
     }
-
 }

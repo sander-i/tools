@@ -1,6 +1,7 @@
 package org.tools.encrypt.basic;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,9 +14,9 @@ import java.util.Map;
  * 覆盖全部公开方法：generatorToken×4 / parseToken×2 / sign 读写
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class JWTUtilsTest {
-
     private static final String SECRET = "jwt-smoke-test-secret";
 
     private static Map<String, String> payload() {
@@ -100,5 +101,4 @@ public class JWTUtilsTest {
         String token = JWTUtils.generatorToken(payload(), SECRET);
         JWTUtils.parseToken(token, "wrong-secret");
     }
-
 }

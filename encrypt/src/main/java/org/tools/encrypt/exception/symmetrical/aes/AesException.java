@@ -9,9 +9,9 @@ import org.tools.encrypt.exception.symmetrical.SymmetricalException;
  * </p>
  *
  * @author sander 2024/04/14
+ * @since 1.0.6.1
  */
 public class AesException extends SymmetricalException {
-
     private static final long serialVersionUID = 4154342030411918114L;
 
     public AesException() {
@@ -32,5 +32,4 @@ public class AesException extends SymmetricalException {
     public AesException(ErrorEnum error, Exception exception) {
         super(error, exception);
     }
-
 }

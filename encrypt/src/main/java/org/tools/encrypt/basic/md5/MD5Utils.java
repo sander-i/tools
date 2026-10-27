@@ -3,6 +3,7 @@ package org.tools.encrypt.basic.md5;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.basic.BasicUtils;
 import org.tools.encrypt.exception.EncryptException;
@@ -23,19 +24,19 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.1
  */
 @Slf4j
 public class MD5Utils {
-
-    private MD5Utils() {
-    }
-
     /**
      * md5配置
      */
     @Getter
     @Setter
     private static MD5Properties properties;
+
+    private MD5Utils() {
+    }
 
     private static void init() {
         if (BaseUtils.isEmpty(properties)) {
@@ -107,7 +108,7 @@ public class MD5Utils {
         if (BaseUtils.isEmpty(raw)) {
             return "";
         }
-        return encode(raw.getBytes(), isLower);
+        return encode(raw.getBytes(StandardCharsets.UTF_8), isLower);
     }
 
     /**
@@ -140,5 +141,4 @@ public class MD5Utils {
         }
         return isLower ? byteToHex(bytes) : byteArrayToHex(bytes);
     }
-
 }

@@ -12,11 +12,11 @@ import lombok.Getter;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.4
  */
 @Getter
 @AllArgsConstructor
 public enum TimeSeason {
-
     /**
      * 标准时
      */
@@ -33,5 +33,4 @@ public enum TimeSeason {
     WINTER_TIME(2);
 
     private final int value;
-
 }

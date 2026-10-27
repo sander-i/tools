@@ -22,9 +22,9 @@ import java.util.concurrent.TimeUnit;
  * 现每次调用使用独立实例，本用例在多线程混合两种签名算法的场景下验证正确性。</p>
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class SignatureUtilsConcurrencyTest {
-
     private static final String PLAINTEXT = "concurrent signature test";
     private static final int THREADS = 8;
     private static final int ITERATIONS = 40;
@@ -80,5 +80,4 @@ public class SignatureUtilsConcurrencyTest {
         Assert.assertTrue(SignatureUtils.verify("SHA256withRSA", keyPair.getPublic(), PLAINTEXT, sign));
         Assert.assertFalse(SignatureUtils.verify("SHA256withRSA", keyPair.getPublic(), PLAINTEXT + "x", sign));
     }
-
 }

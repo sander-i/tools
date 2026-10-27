@@ -14,9 +14,10 @@ import static org.junit.Assert.assertTrue;
 /**
  * Lists 冒烟测试
  * 测试基本的List操作功能
+ * @author sander
+ * @since 1.0.6.6
  */
 public class ListsTest {
-
     @Test
     public void testIsEmpty() {
         // 测试isEmpty方法

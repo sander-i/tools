@@ -15,13 +15,13 @@ import java.util.List;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.1
  */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ExcelSheet {
-
     /**
      * sheet 名称
      */
@@ -38,5 +38,4 @@ public class ExcelSheet {
      */
     @Default
     private List<List<String>> contents = new ArrayList<>();
-
 }

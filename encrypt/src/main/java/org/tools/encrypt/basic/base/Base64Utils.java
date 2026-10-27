@@ -9,16 +9,15 @@ import java.util.Base64;
  * <p>线程安全：无共享可变状态，可并发使用。</p>
  *
  * @author sander
- * @version 1.0
+ * @since 1.0.6.1
  */
 public class Base64Utils {
-
     private Base64Utils() {
     }
 
-    protected static final Base64.Decoder decoder = Base64.getDecoder();
+    protected static final Base64.Decoder DECODER = Base64.getDecoder();
 
-    protected static final Base64.Encoder encoder = Base64.getEncoder();
+    protected static final Base64.Encoder ENCODER = Base64.getEncoder();
 
     /**
      * Base64 编码。
@@ -27,7 +26,7 @@ public class Base64Utils {
      * @return Base64 字符串
      */
     public static String encode(byte[] raw) {
-        return encoder.encodeToString(raw);
+        return ENCODER.encodeToString(raw);
     }
 
     /**
@@ -48,7 +47,6 @@ public class Base64Utils {
      * @return 按 UTF-8 还原的原文字符串
      */
     public static String decode(String wrought) {
-        return new String(decoder.decode(wrought), StandardCharsets.UTF_8);
+        return new String(DECODER.decode(wrought), StandardCharsets.UTF_8);
     }
-
 }

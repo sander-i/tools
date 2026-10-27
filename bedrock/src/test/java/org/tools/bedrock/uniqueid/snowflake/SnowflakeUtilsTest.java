@@ -3,7 +3,6 @@ package org.tools.bedrock.uniqueid.snowflake;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,9 +16,9 @@ import java.util.concurrent.Executors;
  * 覆盖公开方法：of / next()（实例）/ nextId（静态便捷入口）/ parse 系列反解析 + 并发唯一性
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class SnowflakeUtilsTest {
-
     @Test
     public void testNextIdInstance() {
         SnowflakeUtils snowflake = SnowflakeUtils.of(1L, 1L);
@@ -67,6 +66,8 @@ public class SnowflakeUtilsTest {
 
     /**
      * 并发唯一性：多线程多实例（不同 workerId）取号，全局无重复。
+      *
+      * @throws Exception 执行过程中出现异常
      */
     @Test
     public void testConcurrentUnique() throws Exception {
@@ -99,5 +100,4 @@ public class SnowflakeUtilsTest {
 
         Assert.assertEquals("并发取号应全局唯一", threads * perThread, all.size());
     }
-
 }

@@ -1,6 +1,7 @@
 package org.tools.bedrock.util;
 
 import junit.framework.TestCase;
+
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -8,8 +9,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ClassUtilsTest 单元测试
+ *
+ * @author sander
+ * @since 1.0.3
+ */
 public class ClassUtilsTest extends TestCase {
-
     // 测试用的示例类
     static class TestEntity {
         private String name;

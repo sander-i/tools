@@ -9,5 +9,6 @@
  * {@link org.tools.bedrock.base.image}。</p>
  *
  * @author sander
+ * @since 1.0.4
  */
 package org.tools.bedrock.base;

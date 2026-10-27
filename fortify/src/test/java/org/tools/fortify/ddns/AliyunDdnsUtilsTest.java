@@ -7,6 +7,7 @@ import com.aliyun.alidns20150109.models.DescribeDomainRecordsResponseBody;
 import com.aliyun.alidns20150109.models.UpdateDomainRecordRequest;
 import com.aliyun.alidns20150109.models.UpdateDomainRecordResponse;
 import com.aliyun.tea.TeaException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,10 +26,11 @@ import static org.mockito.Mockito.*;
 /**
  * AliyunDdnsUtils 冒烟测试
  * 测试阿里云DDNS工具类的基本功能
+ * @author sander
+ * @since 1.0.6.6
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AliyunDdnsUtilsTest {
-
     @Mock
     private Client mockClient;
 
@@ -77,7 +79,8 @@ public class AliyunDdnsUtilsTest {
         when(mockBody.getDomainRecords()).thenReturn(mockDomainRecords);
         when(mockDomainRecords.getRecord()).thenReturn(java.util.Collections.emptyList());
 
-        List<Record> records = AliyunDdnsUtils.readDomainRecords(config, mockClient, TEST_DOMAIN_NAME, TEST_RECORD_TYPE);
+        List<Record> records = AliyunDdnsUtils.readDomainRecords(config, mockClient, TEST_DOMAIN_NAME,
+                TEST_RECORD_TYPE);
 
         assertNotNull("返回的记录列表不应为null", records);
         assertTrue("记录列表应为空", records.isEmpty());
@@ -197,7 +200,8 @@ public class AliyunDdnsUtilsTest {
 
         when(mockClient.updateDomainRecordWithOptions(any(UpdateDomainRecordRequest.class), any()))
             .thenReturn(mockResponse) // 第一次调用返回成功
-            .thenThrow(new TeaException(java.util.Collections.singletonMap("message", "模拟API错误"))); // 第二次调用抛出异常
+            .thenThrow(new TeaException(java.util.Collections.singletonMap("message", "模拟API错误")));
+                    // 第二次调用抛出异常
 
         try {
             AliyunDdnsUtils.updateDomainRecordBatch(config, mockClient, records);

@@ -12,13 +12,13 @@ import java.util.Date;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ExpiryDate {
-
     /**
      * 开始日期
      */
@@ -28,5 +28,4 @@ public class ExpiryDate {
      * 结束日期
      */
     private Date endDate;
-
 }

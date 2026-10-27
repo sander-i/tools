@@ -13,12 +13,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 对象属性复制工具：支持忽略字段、类型校验与集合/Map 递归复制。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Slf4j
 public class CopyUtil {
-
     private CopyUtil() {
     }
 
@@ -45,7 +47,8 @@ public class CopyUtil {
      *                         注意：如果字段名相同但类型不同，可能会出现字段复制失败
      *                         </p>
      *                         <p>
-     *                         但是：如果开启了链式调用[@Accessors(chain = true)]相同的字段名，相同的类型，也有可能会出现复制失败，加了链式调用后无法获取get|set方法
+     * 但是：如果开启了链式调用[@Accessors(chain = true)]相同的字段名，相同的类型，也有可能会出现复制失败，加了链式
+     * 调用后无法获取get|set方法
      *                         </p>
      *                         <p>
      *                         因此：如果需要使用该方法进行跨对象属性复制，操作的对象不建议开启链式调用
@@ -54,7 +57,8 @@ public class CopyUtil {
      * @param <S>              源对象泛型
      * @param <T>              目标对象泛型
      */
-    public static <S, T> void copyObj(S source, T target, boolean current, boolean typeSame, String... ignoreProperties) {
+    public static <S, T> void copyObj(S source, T target, boolean current, boolean typeSame,
+            String... ignoreProperties) {
         // 获取class对象
         Class<?> sourceClz = source.getClass();
         // 获取class对象
@@ -105,8 +109,11 @@ public class CopyUtil {
      * @return 实例
      * @throws InstantiationException 实例化异常
      * @throws IllegalAccessException 非法访问异常
+      * @throws NoSuchMethodException 未找到对应方法时抛出
+      * @throws InvocationTargetException 反射调用目标方法抛出异常时包装抛出
      */
-    private static Object createInstance(Class<?> clz) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    private static Object createInstance(Class<?> clz) throws InstantiationException, IllegalAccessException,
+            NoSuchMethodException, InvocationTargetException {
         if (List.class.isAssignableFrom(clz)) {
             return new java.util.ArrayList<>();
         } else if (Map.class.isAssignableFrom(clz)) {
@@ -132,9 +139,12 @@ public class CopyUtil {
      * @return 处理后的值
      * @throws InstantiationException 实例化异常
      * @throws IllegalAccessException 非法访问异常
+      * @throws NoSuchMethodException 未找到对应方法时抛出
+      * @throws InvocationTargetException 反射调用目标方法抛出异常时包装抛出
      */
     @SuppressWarnings("unchecked")
-    private static Object handleComplexObject(Object sourceValue, Object targetValue, boolean current, boolean typeSame, String... ignoreProperties)
+    private static Object handleComplexObject(Object sourceValue, Object targetValue, boolean current, boolean typeSame,
+            String... ignoreProperties)
             throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         // 如果是List类型，需要特殊处理
         if (sourceValue instanceof List && targetValue instanceof List) {
@@ -142,7 +152,8 @@ public class CopyUtil {
         }
         // 如果是Map类型，需要特殊处理
         else if (sourceValue instanceof Map && targetValue instanceof Map) {
-            return handleMap((Map<?, ?>) sourceValue, (Map<Object, Object>) targetValue, current, typeSame, ignoreProperties);
+            return handleMap((Map<?, ?>) sourceValue, (Map<Object, Object>) targetValue, current, typeSame,
+                    ignoreProperties);
         }
         // 如果是Set类型，需要特殊处理
         else if (sourceValue instanceof Set && targetValue instanceof Set) {
@@ -165,8 +176,11 @@ public class CopyUtil {
      * @return 处理后的List
      * @throws InstantiationException 实例化异常
      * @throws IllegalAccessException 非法访问异常
+      * @throws NoSuchMethodException 未找到对应方法时抛出
+      * @throws InvocationTargetException 反射调用目标方法抛出异常时包装抛出
      */
-    private static List<Object> handleList(List<?> sourceList, List<Object> targetList, boolean current, boolean typeSame, String... ignoreProperties)
+    private static List<Object> handleList(List<?> sourceList, List<Object> targetList, boolean current,
+            boolean typeSame, String... ignoreProperties)
             throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         for (Object item : sourceList) {
             targetList.add(copyOrNewInstance(item, current, typeSame, ignoreProperties));
@@ -185,8 +199,11 @@ public class CopyUtil {
      * @return 处理后的Map
      * @throws InstantiationException 实例化异常
      * @throws IllegalAccessException 非法访问异常
+      * @throws NoSuchMethodException 未找到对应方法时抛出
+      * @throws InvocationTargetException 反射调用目标方法抛出异常时包装抛出
      */
-    private static Map<Object, Object> handleMap(Map<?, ?> sourceMap, Map<Object, Object> targetMap, boolean current, boolean typeSame, String... ignoreProperties)
+    private static Map<Object, Object> handleMap(Map<?, ?> sourceMap, Map<Object, Object> targetMap, boolean current,
+            boolean typeSame, String... ignoreProperties)
             throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         for (Map.Entry<?, ?> entry : sourceMap.entrySet()) {
             Object key = entry.getKey();
@@ -207,8 +224,11 @@ public class CopyUtil {
      * @return 处理后的Set
      * @throws InstantiationException 实例化异常
      * @throws IllegalAccessException 非法访问异常
+      * @throws NoSuchMethodException 未找到对应方法时抛出
+      * @throws InvocationTargetException 反射调用目标方法抛出异常时包装抛出
      */
-    private static Set<Object> handleSet(Set<?> sourceSet, Set<Object> targetSet, boolean current, boolean typeSame, String... ignoreProperties)
+    private static Set<Object> handleSet(Set<?> sourceSet, Set<Object> targetSet, boolean current, boolean typeSame,
+            String... ignoreProperties)
             throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         for (Object item : sourceSet) {
             targetSet.add(copyOrNewInstance(item, current, typeSame, ignoreProperties));
@@ -226,6 +246,8 @@ public class CopyUtil {
      * @return 处理后的对象
      * @throws InstantiationException 实例化异常
      * @throws IllegalAccessException 非法访问异常
+      * @throws NoSuchMethodException 未找到对应方法时抛出
+      * @throws InvocationTargetException 反射调用目标方法抛出异常时包装抛出
      */
     private static Object copyOrNewInstance(Object item, boolean current, boolean typeSame, String... ignoreProperties)
             throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
@@ -276,7 +298,8 @@ public class CopyUtil {
         try {
             // 使用反射创建对象
             target = clz.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                InvocationTargetException e) {
             log.error(e.getLocalizedMessage(), e);
             return null;
         }
@@ -298,7 +321,8 @@ public class CopyUtil {
         try {
             // 使用反射创建对象
             target = clz.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                InvocationTargetException e) {
             log.error(e.getLocalizedMessage(), e);
             return null;
         }
@@ -340,7 +364,8 @@ public class CopyUtil {
         try {
             //使用反射创建对象
             target = clz.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                InvocationTargetException e) {
             log.error(e.getLocalizedMessage(), e);
             return null;
         }
@@ -362,7 +387,8 @@ public class CopyUtil {
         try {
             //使用反射创建对象
             target = clz.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                InvocationTargetException e) {
             log.error(e.getLocalizedMessage(), e);
             return null;
         }
@@ -370,5 +396,4 @@ public class CopyUtil {
         copyObj(source, target, true, false, ignoreProperties);
         return target;
     }
-
 }

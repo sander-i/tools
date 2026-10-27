@@ -1,7 +1,7 @@
 package org.tools.encrypt.symmetrical.idea;
 
-
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.DecoderException;
 import org.tools.bedrock.util.BaseUtils;
@@ -13,17 +13,17 @@ import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * IDEA 密钥生成工具：生成或解析密钥并读取配置。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 @Slf4j
 public class IdeaKeyGenerator {
-
-    private IdeaKeyGenerator() {
-    }
-
     /**
      * 密钥位数
      */
@@ -38,6 +38,9 @@ public class IdeaKeyGenerator {
      * Idea 配置文件
      */
     private static IdeaProperties properties;
+
+    private IdeaKeyGenerator() {
+    }
 
     /**
      * 获取密钥对象。
@@ -111,5 +114,4 @@ public class IdeaKeyGenerator {
         }
         return properties;
     }
-
 }

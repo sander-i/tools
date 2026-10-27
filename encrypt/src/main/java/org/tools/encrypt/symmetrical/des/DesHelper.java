@@ -1,6 +1,7 @@
 package org.tools.encrypt.symmetrical.des;
 
 import lombok.Getter;
+
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.Des;
@@ -9,6 +10,7 @@ import org.tools.encrypt.exception.symmetrical.des.DesException;
 import org.tools.encrypt.symmetrical.SymmetricalUtils;
 
 import javax.crypto.SecretKey;
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -24,14 +26,14 @@ import java.util.List;
  * 多次 {@code encode}/{@code decode} 之间线程安全（每次调用新建 Cipher）。</p>
  *
  * @author sander 2024/04/05
+ * @since 1.0.6.1
  */
 public class DesHelper {
+    @Getter
+    private static DesProperties properties;
 
     private DesHelper() {
     }
-
-    @Getter
-    private static DesProperties properties;
 
     private static void init(Des des, KeyPair keyPair) {
         if (BaseUtils.isEmpty(keyPair.getKeyBits())) {
@@ -58,7 +60,8 @@ public class DesHelper {
      * @throws InvalidKeySpecException  密钥规格非法时抛出
      * @throws InvalidKeyException      密钥非法时抛出
      */
-    public static void load(KeyPair keyPair, String name) throws DesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+    public static void load(KeyPair keyPair, String name) throws DesException, NoSuchAlgorithmException,
+            InvalidKeySpecException, InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new DesException("keyPair 不能为空！");
         }
@@ -91,7 +94,8 @@ public class DesHelper {
      * @throws InvalidKeySpecException  密钥规格非法时抛出
      * @throws InvalidKeyException      密钥非法时抛出
      */
-    public static void load(KeyPair keyPair) throws DesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+    public static void load(KeyPair keyPair) throws DesException, NoSuchAlgorithmException, InvalidKeySpecException,
+            InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new DesException("keyPair 不能为空！");
         }
@@ -136,7 +140,8 @@ public class DesHelper {
      * @throws DesException 密钥/模式非法或 JCE 操作失败时抛出
      */
     public static String encode(String raw) throws DesException {
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                .getSecretKey(), properties.getIvParameter(), raw);
     }
 
     /**
@@ -150,7 +155,8 @@ public class DesHelper {
     public static String encode(String secretKey, String raw) throws DesException {
         SecretKey key;
         key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
+                .getIvParameter(), raw);
     }
 
     /**
@@ -162,7 +168,8 @@ public class DesHelper {
      * @throws DesException 密钥非法或加密失败时抛出
      */
     public static String encode(SecretKey secretKey, String raw) throws DesException {
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
+                .getIvParameter(), raw);
     }
 
     /**
@@ -173,7 +180,8 @@ public class DesHelper {
      * @throws DesException 密文/密钥非法或解密失败时抛出
      */
     public static String decode(String wrought) throws DesException {
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                .getSecretKey(), properties.getIvParameter(), wrought);
     }
 
     /**
@@ -187,7 +195,8 @@ public class DesHelper {
     public static String decode(String secretKey, String wrought) throws DesException {
         SecretKey key;
         key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
+                .getIvParameter(), wrought);
     }
 
     /**
@@ -199,7 +208,7 @@ public class DesHelper {
      * @throws DesException 密钥非法或解密失败时抛出
      */
     public static String decode(SecretKey secretKey, String wrought) throws DesException {
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
+                .getIvParameter(), wrought);
     }
-
 }

@@ -1,6 +1,7 @@
 package org.tools.encrypt.digitalsignature;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.binary.Base64;
 import org.tools.encrypt.exception.digitalsignature.DigitalSignatureException;
 
@@ -23,10 +24,10 @@ import java.nio.charset.StandardCharsets;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Slf4j
 public class SignatureUtils {
-
     /**
      * 签名
      *
@@ -36,7 +37,8 @@ public class SignatureUtils {
      * @return 签名
      * @throws DigitalSignatureException 异常
      */
-    public static String sign(String signAlgorithm, PrivateKey privateKey, String wrought) throws DigitalSignatureException {
+    public static String sign(String signAlgorithm, PrivateKey privateKey, String wrought)
+            throws DigitalSignatureException {
         try {
             Signature signature = Signature.getInstance(signAlgorithm);
             signature.initSign(privateKey);
@@ -57,7 +59,8 @@ public class SignatureUtils {
      * @return 是否验签通过
      * @throws DigitalSignatureException 异常
      */
-    public static boolean verify(String signAlgorithm, PublicKey publicKey, String wrought, String sign) throws DigitalSignatureException {
+    public static boolean verify(String signAlgorithm, PublicKey publicKey, String wrought, String sign)
+            throws DigitalSignatureException {
         try {
             Signature signature = Signature.getInstance(signAlgorithm);
             signature.initVerify(publicKey);
@@ -108,5 +111,4 @@ public class SignatureUtils {
             throw new DigitalSignatureException(e);
         }
     }
-
 }

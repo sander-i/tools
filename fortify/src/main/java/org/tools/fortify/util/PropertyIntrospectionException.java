@@ -1,14 +1,13 @@
 package org.tools.fortify.util;
-
-
 /**
  * 属性内省异常类
  * <p>
  * 当在进行属性内省操作时发生错误，会抛出此异常。
  * </p>
+ * @author sander
+ * @since 1.0.6.6
  */
 public class PropertyIntrospectionException extends RuntimeException {
-
     /**
      * 构造一个新的属性内省异常
      *
@@ -18,5 +17,4 @@ public class PropertyIntrospectionException extends RuntimeException {
     public PropertyIntrospectionException(String message, Throwable cause) {
         super(message, cause);
     }
-
 }

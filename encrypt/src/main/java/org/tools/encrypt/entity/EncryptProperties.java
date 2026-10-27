@@ -1,20 +1,23 @@
 package org.tools.encrypt.entity;
 
-
 import lombok.Data;
+
 import org.tools.bedrock.annotations.Inherit;
 
 import javax.crypto.SecretKey;
+
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
+ * 加密配置属性基类：算法、模式、密钥、分块与签名参数。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 @Inherit
 @Data
 public class EncryptProperties {
-
     /**
      * 算法
      */
@@ -79,5 +82,4 @@ public class EncryptProperties {
      * 私钥对象
      */
     protected PrivateKey privateKey;
-
 }

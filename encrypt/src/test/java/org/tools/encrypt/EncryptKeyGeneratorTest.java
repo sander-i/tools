@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.crypto.KeyGenerator;
+
 import java.security.KeyPairGenerator;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.concurrent.TimeUnit;
  * 覆盖全部公开方法：getKeyGenerator / getKeyPairGenerator（含并发切换算法场景）
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class EncryptKeyGeneratorTest {
-
     @Test
     public void testGetKeyGenerator() throws Exception {
         KeyGenerator generator = EncryptKeyGenerator.getKeyGenerator("AES");
@@ -40,6 +41,8 @@ public class EncryptKeyGeneratorTest {
     /**
      * 并发切换算法回归：此前静态单例缓存的 check-then-act 竞态会导致
      * 并发切换算法时拿到错误算法的生成器；现每次调用返回新实例，必须全部正确。
+      *
+      * @throws Exception 执行过程中出现异常
      */
     @Test
     public void testConcurrentAlgorithmSwitching() throws Exception {
@@ -60,7 +63,8 @@ public class EncryptKeyGeneratorTest {
                         KeyGenerator generator = EncryptKeyGenerator.getKeyGenerator(expected);
                         if (!expected.equals(generator.getAlgorithm())) {
                             synchronized (errors) {
-                                errors.add(new AssertionError("期望 " + expected + " 实际 " + generator.getAlgorithm()));
+                                errors.add(new AssertionError("期望 " + expected + " 实际 " + generator.getAlgorithm(
+                                        )));
                             }
                             break;
                         }
@@ -81,5 +85,4 @@ public class EncryptKeyGeneratorTest {
 
         Assert.assertEquals("并发切换算法不应拿到错误算法的生成器: " + errors, 0, errors.size());
     }
-
 }

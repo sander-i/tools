@@ -85,7 +85,7 @@
   <h1>tools · encrypt 操作文档</h1>
   <p>一个经过验证、可按需引入的 Java 加密库（含配套工具）：对称 / 非对称加密、摘要、签名、JWT 开箱即用，也可通过 Spring Boot Starter 一键接入。</p>
   <p class="meta">
-    文档对应版本：<strong>1.0.6.7-d01</strong>（以根 pom.xml 为准） ·
+    文档对应版本：<strong>2.0.0</strong>（以根 pom.xml 为准） ·
     仓库：<a href="https://gitee.com/sander-o/tools" style="color:#fff;">gitee.com/sander-o/tools</a> ·
     许可证：MIT
   </p>
@@ -116,7 +116,7 @@
 <pre><code>&lt;dependency&gt;
     &lt;groupId&gt;io.gitee.sander-o&lt;/groupId&gt;
     &lt;artifactId&gt;encrypt&lt;/artifactId&gt;
-    &lt;version&gt;1.0.6.7-d01&lt;/version&gt;
+    &lt;version&gt;2.0.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 <p>版本号以 <a href="https://central.sonatype.com/artifact/io.gitee.sander-o/tools">Maven Central</a> 实际发布为准。只做加密就只引 <code>encrypt</code>；Spring Boot 自动装配加 <code>encrypt-spring-boot-starter</code>（见 <a href="#springboot">第 5 节</a>）；<code>bedrock</code>、<code>fortify</code> 是可选的配套模块。</p>
 
@@ -282,7 +282,7 @@ String expiring = JWTUtils.generatorToken(payload,
 <pre><code>&lt;dependency&gt;
     &lt;groupId&gt;io.gitee.sander-o.spring.boot&lt;/groupId&gt;
     &lt;artifactId&gt;encrypt-spring-boot-starter&lt;/artifactId&gt;
-    &lt;version&gt;1.0.6.7-d01&lt;/version&gt;
+    &lt;version&gt;2.0.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 
 <h3>第 2 步：启用自动装配</h3>
@@ -385,7 +385,7 @@ mvn -B -DskipTests=false test                     <span class="cmt"># 全仓库<
 <p>发现安全问题请<strong>不要公开提交 Issue</strong>：在 Gitee Issue 发布不含技术细节的最小标题并注明 Security，或通过 Gitee 私信联系维护者 <a href="https://gitee.com/sander-o">sander-o</a>。完整策略见仓库根目录 <a href="../SECURITY.md">SECURITY.md</a>。</p>
 
 <footer>
-  tools · encrypt 操作文档 · 对应版本 1.0.6.7-d01 ·
+  tools · encrypt 操作文档 · 对应版本 2.0.0 ·
   本文档为自包含 HTML（无外部依赖），可直接在浏览器打开、离线查阅或打印。
   配套文档：<a href="../README.md">README</a> ·
   <a href="https://apidoc.gitee.com/sander-o/tools">在线 API 文档（Javadoc）</a> ·

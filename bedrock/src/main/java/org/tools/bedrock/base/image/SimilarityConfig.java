@@ -7,10 +7,10 @@ import lombok.Data;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 @Data
 public class SimilarityConfig {
-
     /**
      * 是否启用像素匹配维度
      */
@@ -80,5 +80,4 @@ public class SimilarityConfig {
      * 特征匹配权重
      */
     private double featureMatchingWeight = 0.1;
-
 }

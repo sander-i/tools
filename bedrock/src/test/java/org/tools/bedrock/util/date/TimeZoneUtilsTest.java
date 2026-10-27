@@ -6,9 +6,13 @@ import java.util.Date;
 
 import static org.junit.Assert.assertNotNull;
 
-
+/**
+ * TimeZoneUtilsTest 单元测试
+ *
+ * @author sander
+ * @since 1.0.6.6
+ */
 public class TimeZoneUtilsTest {
-
     @Test
     public void testTimeZoneUtilsSmoke() {
         // 冒烟测试：验证 TimeZoneUtils 类的基本功能
@@ -27,7 +31,8 @@ public class TimeZoneUtilsTest {
         assertNotNull("Date时区转换结果不应为null", resultDate);
 
         // 测试Date到字符串的时区转换
-        String resultFromDateString = TimeZoneUtils.covertTimeZoneStr(new Date(), pattern, sourceTimeZone, targetTimeZone);
+        String resultFromDateString = TimeZoneUtils.covertTimeZoneStr(new Date(), pattern, sourceTimeZone,
+                targetTimeZone);
         assertNotNull("Date到字符串时区转换结果不应为null", resultFromDateString);
 
         // 测试Date到Date的时区转换

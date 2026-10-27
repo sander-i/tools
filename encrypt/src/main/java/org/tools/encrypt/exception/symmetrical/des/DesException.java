@@ -4,11 +4,13 @@ import org.tools.bedrock.exception.ErrorEnum;
 import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 
 /**
+ * DES 加解密异常。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 public class DesException extends SymmetricalException {
-
     private static final long serialVersionUID = -658506542807550203L;
 
     public DesException() {
@@ -29,5 +31,4 @@ public class DesException extends SymmetricalException {
     public DesException(ErrorEnum error, Exception exception) {
         super(error, exception);
     }
-
 }

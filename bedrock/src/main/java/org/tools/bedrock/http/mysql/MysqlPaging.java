@@ -2,6 +2,7 @@ package org.tools.bedrock.http.mysql;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import org.tools.bedrock.http.Paging;
 
 /**
@@ -9,6 +10,7 @@ import org.tools.bedrock.http.Paging;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -27,5 +29,4 @@ public class MysqlPaging<T> extends Paging<T> {
         endRecord = endRecord.compareTo(totalCount) > 0 ? totalCount : endRecord;
         return endRecord;
     }
-
 }

@@ -8,14 +8,16 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * MySQL information_schema.TABLES 表字段名常量。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Tables {
-
     /**
      * 表目录
      */
@@ -125,5 +127,4 @@ public class Tables {
      * 列
      */
     private List<Columns> columns;
-
 }

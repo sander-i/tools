@@ -8,6 +8,7 @@ import org.tools.encrypt.entity.symmetrical.AesProperties;
 import org.tools.encrypt.exception.symmetrical.aes.AesException;
 
 import javax.crypto.SecretKey;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,9 @@ import java.util.List;
  * 覆盖全部公开方法：load×3 / encode×3 / decode×3 / getProperties
  *
  * @author sander 2026/10/24
+ * @since 1.0.6.1
  */
 public class AesHelperTest {
-
     /** 32 个 Hex 字符 = 16 字节 = AES-128 */
     private static final String HEX_KEY = "000102030405060708090a0b0c0d0e0f";
     private static final String IV = "0123456789abcdef";
@@ -118,6 +119,8 @@ public class AesHelperTest {
 
     /**
      * 字符集回归：解密输出此前使用 JVM 默认 charset，GBK 平台上中文 round-trip 乱码；现已统一 UTF-8。
+     *
+     * @throws AesException 加载密钥或编解码失败时抛出
      */
     @Test
     public void testChineseRoundTripUsesUtf8Consistently() throws AesException {
@@ -125,5 +128,4 @@ public class AesHelperTest {
         String plaintext = "中文明文 round-trip";
         Assert.assertEquals(plaintext, AesHelper.decode(AesHelper.encode(plaintext)));
     }
-
 }

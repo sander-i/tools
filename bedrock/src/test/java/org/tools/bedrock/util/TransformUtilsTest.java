@@ -1,15 +1,18 @@
 package org.tools.bedrock.util;
 
 import org.junit.Test;
+
 import java.nio.charset.StandardCharsets;
+
 import static org.junit.Assert.*;
 
 /**
  * TransformUtils 冒烟测试
  * 测试基本的转换功能
+ * @author sander
+ * @since 1.0.6.6
  */
 public class TransformUtilsTest {
-
     @Test
     public void testStrToChar() {
         // 测试字符串转字符数组

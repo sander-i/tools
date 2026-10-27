@@ -1,11 +1,12 @@
 package org.tools.bedrock.http;
-
 /**
+ * HTTP 常量：默认连接/读取超时、请求头与字符集等。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 public class HttpConsts {
-
     private HttpConsts() {
     }
 
@@ -30,5 +31,4 @@ public class HttpConsts {
     public static final String MSG = "msg";
 
     public static final String DATA = "data";
-
 }

@@ -1,6 +1,7 @@
 package org.tools.bedrock.util.file.image;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,9 +12,9 @@ import java.io.IOException;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class ImageHashUtil {
-
     /**
      * 计算图片的平均哈希值(Average Hash)
      *
@@ -227,7 +228,8 @@ public class ImageHashUtil {
                 hash2 = calculateDifferenceHash(image2);
                 break;
             default:
-                throw new IllegalArgumentException("无效的哈希类型，支持的类型: 1(Average Hash), 2(Perceptual Hash), 3(Difference Hash)");
+                throw new IllegalArgumentException(
+                        "无效的哈希类型，支持的类型: 1(Average Hash), 2(Perceptual Hash), 3(Difference Hash)");
         }
 
         int distance = calculateHammingDistance(hash1, hash2);
@@ -246,7 +248,8 @@ public class ImageHashUtil {
      * @return 相似度值（0-1之间，1表示完全相同）
      * @throws IOException IO异常
      */
-    public static double calculateHashSimilarity(String imagePath1, String imagePath2, int hashType) throws IOException {
+    public static double calculateHashSimilarity(String imagePath1, String imagePath2, int hashType)
+            throws IOException {
         BufferedImage image1 = ImageIO.read(new File(imagePath1));
         BufferedImage image2 = ImageIO.read(new File(imagePath2));
         return calculateHashSimilarity(image1, image2, hashType);

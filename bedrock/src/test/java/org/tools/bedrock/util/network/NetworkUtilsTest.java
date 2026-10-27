@@ -1,15 +1,18 @@
 package org.tools.bedrock.util.network;
 
 import org.junit.Test;
+
 import java.net.UnknownHostException;
+
 import static org.junit.Assert.*;
 
 /**
  * NetworkUtils 冒烟测试
  * 测试网络工具类的基本功能
+ * @author sander
+ * @since 1.0.6.6
  */
 public class NetworkUtilsTest {
-
     @Test
     public void testGetIpv4ByDomain() {
         try {

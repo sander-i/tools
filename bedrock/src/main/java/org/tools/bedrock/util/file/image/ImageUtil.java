@@ -4,6 +4,7 @@ import org.tools.bedrock.base.image.SimilarityConfig;
 import org.tools.bedrock.base.image.SimilarityResult;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,9 +17,9 @@ import java.util.Map;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class ImageUtil {
-
     /**
      * 调整图片大小
      *
@@ -42,7 +43,8 @@ public class ImageUtil {
      * @param config 相似度计算配置
      * @return 相似度结果，包含各项相似度值和加权平均后的总体相似度
      */
-    public static SimilarityResult calculateFusedSimilarity(BufferedImage image1, BufferedImage image2, SimilarityConfig config) {
+    public static SimilarityResult calculateFusedSimilarity(BufferedImage image1, BufferedImage image2,
+            SimilarityConfig config) {
         Map<String, Double> similarities = new HashMap<>();
         double totalWeight = 0.0;
         double weightedSum = 0.0;
@@ -118,7 +120,8 @@ public class ImageUtil {
      * @param config 相似度计算配置
      * @return 哈希相似度映射
      */
-    private static Map<String, Double> calculateHashSimilarities(BufferedImage image1, BufferedImage image2, SimilarityConfig config) {
+    private static Map<String, Double> calculateHashSimilarities(BufferedImage image1, BufferedImage image2,
+            SimilarityConfig config) {
         Map<String, Double> hashSimilarities = new HashMap<>();
 
         // 计算平均哈希相似度
@@ -162,7 +165,8 @@ public class ImageUtil {
      * @return 相似度结果，包含各项相似度值和加权平均后的总体相似度
      * @throws IOException IO异常
      */
-    public static SimilarityResult calculateFusedSimilarity(String imagePath1, String imagePath2, SimilarityConfig config) throws IOException {
+    public static SimilarityResult calculateFusedSimilarity(String imagePath1, String imagePath2,
+            SimilarityConfig config) throws IOException {
         BufferedImage image1 = ImageIO.read(new File(imagePath1));
         BufferedImage image2 = ImageIO.read(new File(imagePath2));
         return calculateFusedSimilarity(image1, image2, config);
@@ -179,5 +183,4 @@ public class ImageUtil {
     public static SimilarityResult calculateFusedSimilarity(String imagePath1, String imagePath2) throws IOException {
         return calculateFusedSimilarity(imagePath1, imagePath2, new SimilarityConfig());
     }
-
 }

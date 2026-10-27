@@ -2,12 +2,14 @@ package org.tools.encrypt.entity.symmetrical;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import org.tools.encrypt.entity.EncryptProperties;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -15,11 +17,11 @@ import java.nio.charset.StandardCharsets;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class DesProperties extends EncryptProperties {
-
     /**
      * DES密钥
      */
@@ -48,5 +50,4 @@ public class DesProperties extends EncryptProperties {
         byte[] secretKeyBytes = secretKeyStr.getBytes(StandardCharsets.UTF_8);
         this.secretKey = new SecretKeySpec(secretKeyBytes, algorithm);
     }
-
 }

@@ -12,9 +12,9 @@ import java.security.Signature;
  * 覆盖全部公开方法：sign×2 / verify×2（并发场景见 SignatureUtilsConcurrencyTest）
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class SignatureUtilsTest {
-
     private static final String PLAINTEXT = "signature smoke 测试文本";
 
     @Test
@@ -37,5 +37,4 @@ public class SignatureUtilsTest {
         verifySignature.initVerify(keyPair.getPublic());
         Assert.assertTrue(SignatureUtils.verify(verifySignature, PLAINTEXT, sign));
     }
-
 }

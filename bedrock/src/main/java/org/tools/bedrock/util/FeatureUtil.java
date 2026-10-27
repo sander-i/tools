@@ -8,9 +8,9 @@ import java.util.function.Supplier;
  * </p>
  *
  * @author sander 2024/08/04
+ * @since 1.0.6.5
  */
 public class FeatureUtil {
-
     /**
      * 特性切换
      *
@@ -23,5 +23,4 @@ public class FeatureUtil {
     public static <T> T featureToggle(Supplier<T> supplier, Supplier<T> returnSupplier, boolean toggle) {
         return toggle ? returnSupplier.get() : supplier.get();
     }
-
 }

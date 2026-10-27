@@ -2,6 +2,7 @@ package org.tools.encrypt.entity.symmetrical;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 import org.tools.encrypt.entity.KeyPair;
@@ -14,11 +15,11 @@ import java.util.List;
  * </p>
  *
  * @author sander 2024/04/21
+ * @since 1.0.6.1
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Aes extends KeyPair {
-
     /**
      * 是否启用
      */
@@ -55,5 +56,4 @@ public class Aes extends KeyPair {
      * 分组
      */
     private List<KeyPair> group;
-
 }

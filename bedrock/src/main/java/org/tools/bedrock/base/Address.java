@@ -15,13 +15,13 @@ import lombok.experimental.Accessors;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Address {
-
     /**
      * 国家
      */
@@ -54,6 +54,7 @@ public class Address {
 
     /**
      * 城市区级地址：区-街道-门牌
+     * @since 1.0.0
      */
     @Builder
     @NoArgsConstructor
@@ -61,7 +62,6 @@ public class Address {
     @Data
     @Accessors(chain = true)
     public static class Area {
-
         /**
          * 区名
          */
@@ -76,11 +76,11 @@ public class Address {
          * 房屋编号
          */
         private String houseNum;
-
     }
 
     /**
      * 县级地址：县-乡-村-组-门牌
+     * @since 1.0.0
      */
     @Builder
     @NoArgsConstructor
@@ -88,7 +88,6 @@ public class Address {
     @Data
     @Accessors(chain = true)
     public static class County {
-
         /**
          * 县名
          */
@@ -113,7 +112,5 @@ public class Address {
          * 房屋编号
          */
         private String houseNum;
-
     }
-
 }

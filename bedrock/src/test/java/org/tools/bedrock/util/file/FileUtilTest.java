@@ -9,8 +9,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import static org.junit.Assert.*;
 
@@ -20,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class FileUtilTest {
-
     private Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
 
     @Test

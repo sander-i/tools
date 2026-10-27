@@ -6,13 +6,15 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
+ * HTTP 统一响应结果封装：success/failed 系列工厂方法与状态码透传。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Data
 @Accessors(chain = true)
 public class HttpResult<T> implements Serializable {
-
     private static final long serialVersionUID = -955286493494332572L;
 
     /**
@@ -259,5 +261,4 @@ public class HttpResult<T> implements Serializable {
     public static <T> HttpResult<T> failed(Integer code, String status, String message, T data) {
         return new HttpResult<T>(code, status, message).setData(data);
     }
-
 }

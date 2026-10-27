@@ -13,9 +13,9 @@ import java.util.Map;
  * tools.encrypt.* 前缀仍能正确绑定到 encrypt 的 POJO 配置树（含嵌套 asymmetric/symmetrical）。
  *
  * @author sander 2026/10/25
+ * @since 2.0.0
  */
 public class EncryptPropertiesBindingTest {
-
     /** tools.encrypt 前缀经 EncryptProperties 绑定到继承的 Encrypt POJO 树 */
     @Test
     public void bindToolsEncryptPrefix() {
@@ -55,5 +55,4 @@ public class EncryptPropertiesBindingTest {
         Assert.assertTrue("des.enabled 应为 true", properties.getSymmetrical().getDes().getEnabled());
         Assert.assertNull("未配置的 aes 节点应为 null", properties.getSymmetrical().getAes());
     }
-
 }

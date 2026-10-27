@@ -1,6 +1,7 @@
 package org.tools.fortify.util.file;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -15,12 +16,14 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
+ * Excel 导出工具：按 ExcelSheet 模型生成工作簿、文件或字节数组。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Slf4j
 public class ExcelUtils {
-
     private ExcelUtils() {
     }
 
@@ -138,5 +141,4 @@ public class ExcelUtils {
             row.createCell(j).setCellValue(filler.get(j));
         }
     }
-
 }

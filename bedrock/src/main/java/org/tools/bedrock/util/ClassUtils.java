@@ -1,6 +1,7 @@
 package org.tools.bedrock.util;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.constant.Constants;
 
 import java.beans.IntrospectionException;
@@ -22,10 +23,10 @@ import java.util.Map;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @Slf4j
 public class ClassUtils {
-
     private ClassUtils() {
     }
 
@@ -34,7 +35,8 @@ public class ClassUtils {
      */
     protected static final String[] BASE_TYPE = {"byte", "short", "int", "long", "float", "double", "boolean", "char"};
 
-    protected static final String[] PACK_TYPE = {"Byte", "BitSieve", "Short", "Integer", "BigInteger", "Long", "Float", "Double", "BigDecimal", "Boolean", "Char"};
+    protected static final String[] PACK_TYPE = {"Byte", "BitSieve", "Short", "Integer", "BigInteger", "Long", "Float",
+            "Double", "BigDecimal", "Boolean", "Char"};
 
     /**
      * list类型
@@ -95,7 +97,6 @@ public class ClassUtils {
         return clazz.isEnum();
     }
 
-
     /**
      * 判断对象是否为原生类型或实现了Comparable接口
      *
@@ -109,7 +110,6 @@ public class ClassUtils {
         // 判断对象是否实现了Comparable接口
         return obj instanceof Comparable;
     }
-
 
     /**
      * 获取当前对象属性class
@@ -224,7 +224,6 @@ public class ClassUtils {
         // 获取当前属性父类的class对象
         return newClass(clsTypeName).getSuperclass();
     }
-
 
     /**
      * 获取当前对象所有属性
@@ -381,7 +380,8 @@ public class ClassUtils {
      * @throws InstantiationException 实例化
      * @throws IllegalAccessException 非法访问
      */
-    public static Object newInstance(String clsTypeName) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public static Object newInstance(String clsTypeName) throws ClassNotFoundException, InstantiationException,
+            IllegalAccessException {
         // 获取当前属性的class对象
         Class<?> fieldClass = newClass(clsTypeName);
         // 对象实列化
@@ -398,7 +398,8 @@ public class ClassUtils {
      * @throws InstantiationException 实例化
      * @throws IllegalAccessException 非法访问
      */
-    public static Object newInstance(String clsTypeName, String lob) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public static Object newInstance(String clsTypeName, String lob) throws ClassNotFoundException,
+            InstantiationException, IllegalAccessException {
         // 获取当前属性的class对象
         Class<?> fieldClass = newClass(clsTypeName, lob);
         // 对象实列化
@@ -769,5 +770,4 @@ public class ClassUtils {
     public static boolean isJavaLangType(Class<?> clazz) {
         return clazz.getName().startsWith("java.lang");
     }
-
 }

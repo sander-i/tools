@@ -6,16 +6,15 @@ import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 
 /**
  * SymmetricalUtils 冒烟测试
  * 覆盖全部公开方法：encode / decode（显式传参，不依赖全局配置）
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class SymmetricalUtilsTest {
-
     private static final String ALGORITHM = "AES";
     private static final String MODE = "AES/CBC/PKCS5Padding";
     private static final SecretKey KEY =
@@ -29,5 +28,4 @@ public class SymmetricalUtilsTest {
         Assert.assertNotEquals(PLAINTEXT, ciphertext);
         Assert.assertEquals(PLAINTEXT, SymmetricalUtils.decode(ALGORITHM, MODE, KEY, IV, ciphertext));
     }
-
 }

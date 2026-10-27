@@ -2,6 +2,7 @@ package org.tools.encrypt.asymmetric.rsa;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.asymmetric.AsymmetricUtils;
 import org.tools.encrypt.digitalsignature.SignatureUtils;
@@ -13,6 +14,7 @@ import org.tools.encrypt.exception.asymmetric.rsa.RsaException;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -24,7 +26,7 @@ import java.util.List;
  * RSA 非对称加解密与签名工具。
  *
  * <p>默认加密模式为 {@code RSA/ECB/OAEPWithSHA-256AndMGF1Padding}（BouncyCastle Provider），
- * 默认签名算法为 {@code SHA3-256withRSA}，默认密钥 2048 位。
+ * 默认签名算法为 {@code SHA256withRSA}，默认密钥 2048 位。
  * 公钥/私钥为 Base64(X.509/PKCS#8) 字符串；单块明文上限 {@code (keyBits/8) - 66} 字节（OAEP），
  * 超长明文按 {@code maxEncryptBlock} 自动分段。</p>
  *
@@ -32,10 +34,10 @@ import java.util.List;
  * 均使用独立实例，可并发调用（此前 {@code sign}/{@code verify} 共享静态 Signature，已修复）。</p>
  *
  * @author sander 2024/03/30
+ * @since 1.0.6.1
  */
 @Slf4j
 public class RsaHelper {
-
     private RsaHelper() {
     }
 
@@ -67,7 +69,8 @@ public class RsaHelper {
      * @throws InvalidKeySpecException  密钥规格非法时抛出
      * @throws NoSuchPaddingException   填充方式不可用时抛出
      */
-    public static void load(KeyPair keyPair, String name) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
+    public static void load(KeyPair keyPair, String name) throws EncryptException, NoSuchAlgorithmException,
+            InvalidKeySpecException, NoSuchPaddingException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new RsaException("keyPair 不能为空！");
         }
@@ -100,7 +103,8 @@ public class RsaHelper {
      * @throws InvalidKeySpecException  密钥规格非法时抛出
      * @throws NoSuchPaddingException   填充方式不可用时抛出
      */
-    public static void load(KeyPair keyPair) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
+    public static void load(KeyPair keyPair) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException,
+            NoSuchPaddingException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new EncryptException("keyPair 不能为空！");
         }
@@ -141,7 +145,8 @@ public class RsaHelper {
      * @throws NoSuchAlgorithmException 签名算法不可用时抛出
      * @throws NoSuchPaddingException   加密模式填充方式不可用时抛出
      */
-    public static void load(RsaProperties properties) throws EncryptException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public static void load(RsaProperties properties) throws EncryptException, NoSuchAlgorithmException,
+            NoSuchPaddingException {
         if (BaseUtils.isEmpty(properties)) {
             throw new EncryptException("properties 不能为空！");
         }
@@ -163,7 +168,8 @@ public class RsaHelper {
      * @throws RsaException 密钥/模式非法或加密失败时抛出
      */
     public static String encode(String raw) throws RsaException {
-        return AsymmetricUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getPublicKey(), properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
+        return AsymmetricUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getPublicKey(
+                ), properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
     }
 
     /**
@@ -174,7 +180,8 @@ public class RsaHelper {
      * @throws RsaException 密钥/模式非法或解密失败时抛出
      */
     public static String decode(String wrought) throws RsaException {
-        return AsymmetricUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getPrivateKey(), properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
+        return AsymmetricUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                .getPrivateKey(), properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
     }
 
     /**
@@ -220,7 +227,8 @@ public class RsaHelper {
      * @throws RsaException 密钥/模式非法或加密失败时抛出
      */
     public static String encode(PublicKey publicKey, String raw) throws RsaException {
-        return AsymmetricUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), publicKey, properties.getIvParameter(), raw, properties.getMaxEncryptBlock());
+        return AsymmetricUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), publicKey, properties
+                .getIvParameter(), raw, properties.getMaxEncryptBlock());
     }
 
     /**
@@ -232,7 +240,8 @@ public class RsaHelper {
      * @throws RsaException 密钥/模式非法或解密失败时抛出
      */
     public static String decode(PrivateKey privateKey, String wrought) throws RsaException {
-        return AsymmetricUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), privateKey, properties.getIvParameter(), wrought, properties.getMaxDecryptBlock());
+        return AsymmetricUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), privateKey, properties
+                .getIvParameter(), wrought, properties.getMaxDecryptBlock());
     }
 
     /** 使用全局激活配置签名（默认 SHA256withRSA）。
@@ -311,5 +320,4 @@ public class RsaHelper {
     public static boolean verify(PublicKey publicKey, String wrought, String sign) throws RsaException {
         return SignatureUtils.verify(properties.getSignAlgorithm(), publicKey, wrought, sign);
     }
-
 }

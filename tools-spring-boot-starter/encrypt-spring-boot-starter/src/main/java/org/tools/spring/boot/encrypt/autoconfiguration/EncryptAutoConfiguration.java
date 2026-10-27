@@ -2,6 +2,7 @@ package org.tools.spring.boot.encrypt.autoconfiguration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -31,6 +32,7 @@ import org.tools.spring.boot.encrypt.EncryptProperties;
 import org.tools.spring.boot.encrypt.OnEncryptPropertiesCondition;
 
 import javax.crypto.NoSuchPaddingException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
@@ -44,6 +46,7 @@ import java.util.Properties;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.1
  */
 @Slf4j
 @Configuration
@@ -52,7 +55,6 @@ import java.util.Properties;
 @EnableConfigurationProperties(EncryptProperties.class)
 @RequiredArgsConstructor
 public class EncryptAutoConfiguration {
-
     private final Encrypt encrypt;
 
     /** 工具版本号：构建期由 Maven resource filtering 注入（META-INF/tools-version.properties） */
@@ -145,7 +147,8 @@ public class EncryptAutoConfiguration {
         }
         final Symmetrical symmetrical = encrypt.getSymmetrical();
         final Asymmetric asymmetric = encrypt.getAsymmetric();
-        log.debug("EncryptAutoConfiguration checkEncrypt isSymmetrical: {}, algorithmEnum: {}", isSymmetrical, algorithmEnum.getAlgorithm());
+        log.debug("EncryptAutoConfiguration checkEncrypt isSymmetrical: {}, algorithmEnum: {}", isSymmetrical,
+                algorithmEnum.getAlgorithm());
         if (isSymmetrical) {
             // 对称加密
             if (Objects.isNull(symmetrical)) {
@@ -204,7 +207,8 @@ public class EncryptAutoConfiguration {
      */
     private static String loadVersion() {
         final Properties properties = new Properties();
-        try (InputStream in = EncryptAutoConfiguration.class.getResourceAsStream("/META-INF/tools-version.properties")) {
+        try (InputStream in = EncryptAutoConfiguration.class.getResourceAsStream(
+                "/META-INF/tools-version.properties")) {
             if (in != null) {
                 properties.load(in);
             }
@@ -230,5 +234,4 @@ public class EncryptAutoConfiguration {
         String fullBanner = String.join("\n", banner);
         System.out.print(fullBanner);
     }
-
 }

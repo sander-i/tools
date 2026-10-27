@@ -1,7 +1,9 @@
 package org.tools.fortify.util.file;
 
 import lombok.extern.slf4j.Slf4j;
+
 import net.coobird.thumbnailator.Thumbnails;
+
 import org.tools.bedrock.constant.Constants;
 import org.tools.bedrock.constant.v2.SpecialSymbolConst;
 import org.tools.bedrock.util.BaseUtils;
@@ -10,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,12 +23,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 /**
  * 图片工具
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Slf4j
 public class ImageUtils {
@@ -104,7 +107,8 @@ public class ImageUtils {
      */
     private static <T> byte[] readInputStream(T stream) {
         InputStream inputStream = stream instanceof InputStream ? (InputStream) stream : null;
-        FileImageInputStream fileInputStream = stream instanceof FileImageInputStream ? (FileImageInputStream) stream : null;
+        FileImageInputStream fileInputStream = stream instanceof FileImageInputStream ? (
+                FileImageInputStream) stream : null;
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         String errorMsg = "读取输入流返回字节数组";
@@ -129,7 +133,6 @@ public class ImageUtils {
         }
         return Constants.EMPTY_BYTE_ARRAY;
     }
-
 
     /**
      * 图片文件转字节数组
@@ -189,7 +192,6 @@ public class ImageUtils {
 
             log.debug("成功将图片文件转换为字节数组，文件: {}, 大小: {} 字节", filePath, buffer.size());
             return buffer.toByteArray();
-
         } catch (IOException e) {
             log.error("读取或转换图片文件失败，路径: {}", filePath, e);
         } catch (Exception e) {
@@ -262,7 +264,6 @@ public class ImageUtils {
 
             ImageIO.write(buffer, formatName(outfilePath), f);
             log.debug("成功将字节数组转换为图片文件，路径: {}", outfilePath);
-
         } catch (IOException e) {
             log.error("转换图片文件失败，路径: {}", outfilePath, e);
         } catch (Exception e) {
@@ -398,7 +399,6 @@ public class ImageUtils {
             output.write(bytes, Constants.ZERO_I, bytes.length);
             output.flush();
             log.debug("成功将字节数组写入图片文件，文件大小: {} 字节，路径: {}", bytes.length, outfilePath);
-
         } catch (IOException e) {
             log.error("写入图片文件失败，路径: {}", outfilePath, e);
         } catch (Exception e) {
@@ -629,5 +629,4 @@ public class ImageUtils {
             }
         }
     }
-
 }

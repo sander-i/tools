@@ -4,11 +4,13 @@ import org.tools.bedrock.exception.ErrorEnum;
 import org.tools.encrypt.exception.EncryptException;
 
 /**
+ * 数字签名异常。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.1
  */
 public class DigitalSignatureException extends EncryptException {
-
     private static final long serialVersionUID = -5287092327897656647L;
 
     public DigitalSignatureException() {
@@ -29,5 +31,4 @@ public class DigitalSignatureException extends EncryptException {
     public DigitalSignatureException(ErrorEnum error, Exception exception) {
         super(error, exception);
     }
-
 }

@@ -1,10 +1,10 @@
 package org.tools.encrypt;
 
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -13,10 +13,12 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * Cipher 抽象基类：定义 actuator/subLevel 抽象方法与入参校验。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 public abstract class CipherAbst {
-
     /**
      * 检查加解密参数
      *
@@ -59,8 +61,10 @@ public abstract class CipherAbst {
      * @throws InvalidKeyException                无效密钥异常
      * @throws IOException                        IO流异常
      */
-    public abstract byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode, byte[] stuff, int maxBlock)
-            throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException;
+    public abstract byte[] actuator(String algorithm, String algorithmMode, Key secretKey, String ivParameter, int mode,
+            byte[] stuff, int maxBlock)
+            throws IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException,
+            NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException;
 
     /**
      * 对数据进行分段处理
@@ -74,5 +78,4 @@ public abstract class CipherAbst {
      */
     protected abstract ByteArrayOutputStream subLevel(byte[] stuff, Cipher cipher, int maxBlock)
             throws IllegalBlockSizeException, BadPaddingException;
-
 }

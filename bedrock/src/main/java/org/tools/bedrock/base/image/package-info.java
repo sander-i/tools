@@ -5,5 +5,6 @@
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 package org.tools.bedrock.base.image;

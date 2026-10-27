@@ -5,14 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * MySQL information_schema.COLUMNS 表字段名常量。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Columns {
-
     /**
      * 表目录
      */

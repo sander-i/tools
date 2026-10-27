@@ -1,6 +1,7 @@
 package org.tools.encrypt;
 
 import javax.crypto.KeyGenerator;
+
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
@@ -17,9 +18,9 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 public class EncryptKeyGenerator {
-
     private EncryptKeyGenerator() {
     }
 
@@ -44,5 +45,4 @@ public class EncryptKeyGenerator {
     public static KeyPairGenerator getKeyPairGenerator(String algorithm) throws NoSuchAlgorithmException {
         return KeyPairGenerator.getInstance(algorithm);
     }
-
 }

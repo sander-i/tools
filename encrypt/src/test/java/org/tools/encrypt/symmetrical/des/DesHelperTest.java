@@ -8,6 +8,7 @@ import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 import org.tools.encrypt.exception.symmetrical.des.DesException;
 
 import javax.crypto.SecretKey;
+
 import java.security.InvalidKeyException;
 
 /**
@@ -15,9 +16,9 @@ import java.security.InvalidKeyException;
  * 覆盖全部公开方法：load×3 / encode×3 / decode×3 / getProperties
  *
  * @author sander 2026/10/24
+ * @since 1.0.6.1
  */
 public class DesHelperTest {
-
     /** starter 样例 application.yml 中的 DES 密钥（8 字节） */
     private static final String KEY = "BeYour18";
     private static final String PLAINTEXT = "DES smoke 测试文本";
@@ -74,6 +75,8 @@ public class DesHelperTest {
     /**
      * 只提供字符串密钥（无 SecretKey 对象）的装载场景：
      * load(DesProperties) 会自动调用 DesProperties.setDesKeyFixedLength() 按 UTF-8 原文构造密钥。
+      *
+      * @throws DesException DES 加载密钥或编解码失败时抛出
      */
     @Test
     public void testLoadPropertiesWithStringKeyOnly() throws DesException {
@@ -128,5 +131,4 @@ public class DesHelperTest {
                     e.getCause() instanceof InvalidKeyException);
         }
     }
-
 }

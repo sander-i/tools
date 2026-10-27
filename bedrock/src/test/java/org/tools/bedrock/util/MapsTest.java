@@ -20,9 +20,10 @@ import static org.junit.Assert.assertTrue;
 /**
  * Maps 冒烟测试
  * 测试基本的Map操作功能
+ * @author sander
+ * @since 1.0.3
  */
 public class MapsTest {
-
     // 测试用的简单POJO类
     public static class Person {
         private String name;
@@ -65,8 +66,9 @@ public class MapsTest {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof Person)) return false;
             Person person = (Person) o;
+            if (getClass() != person.getClass()) return false;
             return age == person.age &&
                     active == person.active &&
                     Objects.equals(name, person.name);
@@ -313,5 +315,4 @@ public class MapsTest {
         assertEquals("存在的字段应正确设置", "测试用户", person.getName());
         // 不存在的字段不会影响其他字段的设置
     }
-
 }

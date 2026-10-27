@@ -8,9 +8,9 @@ import org.junit.Test;
  * 覆盖全部公开方法：equals / enumName / getAlgorithm / getAlgorithmMode / getSignAlgorithm
  *
  * @author sander 2026/10/24
+ * @since 2.0.0
  */
 public class AlgorithmEnumTest {
-
     @Test
     public void testAlgorithmEnum() {
         Assert.assertEquals("AES", AlgorithmEnum.AES.getAlgorithm());
@@ -32,5 +32,4 @@ public class AlgorithmEnumTest {
         Assert.assertTrue(SignAlgorithmEnum.SHA256_WITH_RSA.equals("SHA256withRSA"));
         Assert.assertEquals(SignAlgorithmEnum.SHA256_WITH_DSA, SignAlgorithmEnum.enumName("SHA256withDSA"));
     }
-
 }

@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
 /**
  * 开启加密自动配置
  * 当配置文件中存在 tools.encrypt.* 时，自动开启加密配置
+ * @author sander
+ * @since 1.0.6.6
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

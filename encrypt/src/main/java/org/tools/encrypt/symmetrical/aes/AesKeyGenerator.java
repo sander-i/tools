@@ -1,6 +1,7 @@
 package org.tools.encrypt.symmetrical.aes;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.tools.bedrock.util.BaseUtils;
@@ -12,7 +13,7 @@ import org.tools.encrypt.exception.symmetrical.aes.AesException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
+
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -20,13 +21,10 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.1
  */
 @Slf4j
 public class AesKeyGenerator {
-
-    private AesKeyGenerator() {
-    }
-
     /**
      * 密钥位数
      */
@@ -41,6 +39,9 @@ public class AesKeyGenerator {
      * Aes 配置文件
      */
     private static AesProperties properties;
+
+    private AesKeyGenerator() {
+    }
 
     /**
      * 获取密钥对象。
@@ -118,5 +119,4 @@ public class AesKeyGenerator {
         }
         return properties;
     }
-
 }

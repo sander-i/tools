@@ -1,16 +1,15 @@
 package org.tools.encrypt.asymmetric;
 
-
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.codec.binary.Base64;
-import org.tools.encrypt.enums.AlgorithmEnum;
-import org.tools.encrypt.enums.AlgorithmModeEnum;
 import org.tools.encrypt.exception.asymmetric.AsymmetricException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
@@ -20,11 +19,13 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
+ * 非对称加解密工具：RSA 分块加解密与 Base64 编解码衔接。
+ *
  * @author sander
- **/
+ * @since 1.0.6.6
+ */
 @Slf4j
 public class AsymmetricUtils {
-
     /**
      * 加密前处理
      *
@@ -72,8 +73,8 @@ public class AsymmetricUtils {
     /**
      * 加密
      *
-     * @param algorithm       {@link AlgorithmEnum}
-     * @param algorithmMode   {@link AlgorithmModeEnum}
+     * @param algorithm       {@link org.tools.encrypt.enums.AlgorithmEnum}
+     * @param algorithmMode   {@link org.tools.encrypt.enums.AlgorithmModeEnum}
      * @param publicKey       公钥
      * @param ivParameter     向量
      * @param raw             明文
@@ -81,9 +82,9 @@ public class AsymmetricUtils {
      * @return 密文
      * @throws AsymmetricException 异常
      */
-    public static String encode(String algorithm, String algorithmMode, PublicKey publicKey, String ivParameter, String raw, int maxEncryptBlock)
+    public static String encode(String algorithm, String algorithmMode, PublicKey publicKey, String ivParameter,
+            String raw, int maxEncryptBlock)
             throws AsymmetricException {
-
         if (maxEncryptBlock <= 0) {
             maxEncryptBlock = 117;
         }
@@ -93,7 +94,8 @@ public class AsymmetricUtils {
         byte[] execute;
         try {
             execute = CipherAsymmetric.getInstance()
-                    .actuator(algorithm, algorithmMode, publicKey, ivParameter, Cipher.ENCRYPT_MODE, before, maxEncryptBlock);
+                    .actuator(algorithm, algorithmMode, publicKey, ivParameter, Cipher.ENCRYPT_MODE, before,
+                            maxEncryptBlock);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | IOException | InvalidAlgorithmParameterException e) {
             log.error(e.getLocalizedMessage());
@@ -106,8 +108,8 @@ public class AsymmetricUtils {
     /**
      * 解密
      *
-     * @param algorithm       {@link AlgorithmEnum}
-     * @param algorithmMode   {@link AlgorithmModeEnum}
+     * @param algorithm       {@link org.tools.encrypt.enums.AlgorithmEnum}
+     * @param algorithmMode   {@link org.tools.encrypt.enums.AlgorithmModeEnum}
      * @param privateKey      私钥
      * @param ivParameter     向量
      * @param wrought         密文
@@ -115,9 +117,9 @@ public class AsymmetricUtils {
      * @return 明文
      * @throws AsymmetricException 异常
      */
-    public static String decode(String algorithm, String algorithmMode, PrivateKey privateKey, String ivParameter, String wrought, int maxDecryptBlock)
+    public static String decode(String algorithm, String algorithmMode, PrivateKey privateKey, String ivParameter,
+            String wrought, int maxDecryptBlock)
             throws AsymmetricException {
-
         if (maxDecryptBlock <= 0) {
             maxDecryptBlock = 128;
         }
@@ -127,7 +129,8 @@ public class AsymmetricUtils {
         byte[] execute;
         try {
             execute = CipherAsymmetric.getInstance()
-                    .actuator(algorithm, algorithmMode, privateKey, ivParameter, Cipher.DECRYPT_MODE, before, maxDecryptBlock);
+                    .actuator(algorithm, algorithmMode, privateKey, ivParameter, Cipher.DECRYPT_MODE, before,
+                            maxDecryptBlock);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | InvalidAlgorithmParameterException | IOException e) {
             log.error(e.getLocalizedMessage());
@@ -136,5 +139,4 @@ public class AsymmetricUtils {
 
         return decryptAfter(execute);
     }
-
 }

@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Point {
-
     /** x 坐标 */
     private int x;
 
@@ -25,8 +25,9 @@ public class Point {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof Point)) return false;
         Point point = (Point) obj;
+        if (getClass() != point.getClass()) return false;
         return x == point.x && y == point.y;
     }
 

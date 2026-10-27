@@ -1,6 +1,7 @@
 package org.tools.encrypt.symmetrical.aes;
 
 import lombok.Getter;
+
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.Aes;
@@ -9,6 +10,7 @@ import org.tools.encrypt.exception.symmetrical.aes.AesException;
 import org.tools.encrypt.symmetrical.SymmetricalUtils;
 
 import javax.crypto.SecretKey;
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -27,9 +29,9 @@ import java.util.List;
  * 多组密钥请使用 {@link #load(KeyPair, String)} 的分组机制，或使用显式传 SecretKey 的重载。</p>
  *
  * @author sander 2024/04/05
+ * @since 1.0.6.1
  */
 public class AesHelper {
-
     private AesHelper() {
     }
 
@@ -61,7 +63,8 @@ public class AesHelper {
      * @throws InvalidKeySpecException  密钥规格非法时抛出
      * @throws InvalidKeyException      密钥非法时抛出
      */
-    public static void load(KeyPair keyPair, String name) throws AesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+    public static void load(KeyPair keyPair, String name) throws AesException, NoSuchAlgorithmException,
+            InvalidKeySpecException, InvalidKeyException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new AesException("keyPair 不能为空！");
         }
@@ -130,7 +133,8 @@ public class AesHelper {
      * @throws AesException 密钥/IV/模式非法或 JCE 操作失败时抛出（异常链保留）
      */
     public static String encode(String raw) throws AesException {
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                .getSecretKey(), properties.getIvParameter(), raw);
     }
 
     /**
@@ -143,7 +147,8 @@ public class AesHelper {
      */
     public static String encode(String secretKey, String raw) throws AesException {
         SecretKey key = AesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
+                .getIvParameter(), raw);
     }
 
     /**
@@ -155,7 +160,8 @@ public class AesHelper {
      * @throws AesException 同 {@link #encode(String)}
      */
     public static String encode(SecretKey secretKey, String raw) throws AesException {
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), raw);
+        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
+                .getIvParameter(), raw);
     }
 
     /**
@@ -166,7 +172,8 @@ public class AesHelper {
      * @throws AesException 密文/密钥/IV 非法或 JCE 操作失败时抛出
      */
     public static String decode(String wrought) throws AesException {
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties.getSecretKey(), properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                .getSecretKey(), properties.getIvParameter(), wrought);
     }
 
     /**
@@ -179,7 +186,8 @@ public class AesHelper {
      */
     public static String decode(String secretKey, String wrought) throws AesException {
         SecretKey key = AesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
+                .getIvParameter(), wrought);
     }
 
     /**
@@ -191,7 +199,7 @@ public class AesHelper {
      * @throws AesException 同 {@link #decode(String)}
      */
     public static String decode(SecretKey secretKey, String wrought) throws AesException {
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties.getIvParameter(), wrought);
+        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
+                .getIvParameter(), wrought);
     }
-
 }

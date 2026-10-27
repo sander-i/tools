@@ -1,5 +1,4 @@
 package org.tools.bedrock.constant.v2;
-
 /**
  * 提供统一规范静态常量符号
  * 提高代码可维护性
@@ -7,9 +6,9 @@ package org.tools.bedrock.constant.v2;
  *
  * @author sander
  * @version 2.0
+ * @since 1.0.6.6
  */
 public class SpecialSymbolConst {
-
     private SpecialSymbolConst() {
     }
 
@@ -197,5 +196,4 @@ public class SpecialSymbolConst {
      * 冒号
      */
     public static final String COLON = ":";
-
 }

@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.tools.bedrock.util.file.FileUtil;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 public class ImageFeatureUtilTest {
-
     private static final String TEST_RESOURCE_IMAGE_PATH = "static";
 
     @Test

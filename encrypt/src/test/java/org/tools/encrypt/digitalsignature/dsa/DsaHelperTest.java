@@ -15,9 +15,9 @@ import java.security.PublicKey;
  * 覆盖全部公开方法：load×2 / sign×3 / verify×3
  *
  * @author sander 2026/10/24
+ * @since 1.0.6.1
  */
 public class DsaHelperTest {
-
     private static final String PLAINTEXT = "DSA smoke 测试文本";
 
     private static DsaProperties loadGlobal() throws EncryptException, NoSuchAlgorithmException {
@@ -76,5 +76,4 @@ public class DsaHelperTest {
         String sign = DsaHelper.sign(privateKey, PLAINTEXT);
         Assert.assertTrue(DsaHelper.verify(publicKey, PLAINTEXT, sign));
     }
-
 }

@@ -7,5 +7,6 @@
  * 天生可序列化，直接复用基础包定义，本包不重复提供。</p>
  *
  * @author sander
+ * @since 1.0.4
  */
 package org.tools.bedrock.base.serializable;

@@ -18,12 +18,12 @@ import java.io.Serializable;
  *
  * @author sander
  * @version 2.0
+ * @since 1.0.0
  */
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
 public class R<T extends Serializable> extends RR {
-
     private static final long serialVersionUID = -3650942902842307882L;
 
     /**
@@ -129,5 +129,4 @@ public class R<T extends Serializable> extends RR {
     public static <T extends Serializable> R<T> build(S s, String message, T data) {
         return new R<>(RS.OK.getCode().equals(s.getCode()), s, message, data);
     }
-
 }

@@ -2,7 +2,9 @@ package org.tools.fortify.util;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.bedrock.util.ClassUtils;
 import org.tools.bedrock.util.date.DateUtils;
@@ -24,10 +26,10 @@ import java.util.Map;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.2
  */
 @Slf4j
 public class JSONUtils {
-
     private JSONUtils() {
     }
 
@@ -307,5 +309,4 @@ public class JSONUtils {
             log.warn("Failed to instantiate complex object for field type: {}", fieldTypeClass.getName(), e);
         }
     }
-
 }

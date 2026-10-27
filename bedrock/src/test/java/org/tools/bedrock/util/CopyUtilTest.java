@@ -8,9 +8,13 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * CopyUtilTest 单元测试
+ *
+ * @author sander
+ * @since 1.0.3
+ */
 public class CopyUtilTest {
-
     // 测试用的源对象类
     static class SourceEntity {
         private final String id = "1";

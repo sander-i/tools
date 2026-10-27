@@ -6,6 +6,7 @@ import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
 import java.io.*;
 
 /**
@@ -13,10 +14,10 @@ import java.io.*;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.2
  */
 @Slf4j
 public class BodyReaderRequestWrapper extends HttpServletRequestWrapper {
-
     private final String body;
 
     /**
@@ -25,7 +26,8 @@ public class BodyReaderRequestWrapper extends HttpServletRequestWrapper {
     public BodyReaderRequestWrapper(HttpServletRequest request) {
         super(request);
         StringBuilder bodyBuf = new StringBuilder();
-        try (InputStream ins = request.getInputStream(); BufferedReader isr = new BufferedReader(new InputStreamReader(ins))) {
+        try (InputStream ins = request.getInputStream(); BufferedReader isr = new BufferedReader(new InputStreamReader(
+                ins))) {
             char[] charBuffer = new char[128];
             int readCount;
             while ((readCount = isr.read(charBuffer)) != -1) {

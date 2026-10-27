@@ -7,11 +7,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
+ * BigDecimal 精确计算工具：加减乘除与字符串转 BigDecimal。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 public class BigDecimalUtils {
-
     private BigDecimalUtils() {
     }
 
@@ -138,5 +140,4 @@ public class BigDecimalUtils {
     public static boolean isZero(BigDecimal value) {
         return value != null && value.compareTo(BigDecimal.ZERO) == 0;
     }
-
 }

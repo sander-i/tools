@@ -206,7 +206,7 @@ AesHelper.load(props);
 String encrypted = AesHelper.encode("plaintext");
 String decrypted = AesHelper.decode(encrypted);                 // "plaintext"
 
-// RSA（默认 OAEPWithSHA-256AndMGF1Padding；签名默认 SHA3_256withRSA）
+// RSA（默认 OAEPWithSHA-256AndMGF1Padding；签名默认 SHA256withRSA）
 Rsa rsa = new Rsa();                                            // 默认 2048 位
 rsa.setPublicKey("...Base64 公钥...");
 rsa.setPrivateKey("...Base64 私钥...");

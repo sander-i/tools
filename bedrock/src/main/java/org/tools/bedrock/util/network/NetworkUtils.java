@@ -6,16 +6,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
 
 /**
+ * 网络工具：域名与 IPv4 互查、本机 IPv6 与外网 IPv4 获取。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 @Slf4j
 public class NetworkUtils {
-
     private NetworkUtils() {
     }
 
@@ -80,8 +80,11 @@ public class NetworkUtils {
                 while (addresses.hasMoreElements()) {
                     InetAddress address = addresses.nextElement();
                     if ((address instanceof Inet4Address || address instanceof Inet6Address)) {
-                        if (address.getHostAddress().startsWith("2409") || address.getHostAddress().startsWith("2408") || address.getHostAddress().startsWith("240e") || address.getHostAddress().startsWith("240a")) {
-                            return address.getHostAddress().substring(0, address.getHostAddress().lastIndexOf("%"));
+                        String hostAddress = address.getHostAddress();
+                        if (hostAddress.startsWith("2409") || hostAddress.startsWith("2408")
+                                || hostAddress.startsWith("240e") || hostAddress.startsWith("240a")) {
+                            int scopeIndex = hostAddress.lastIndexOf('%');
+                            return scopeIndex >= 0 ? hostAddress.substring(0, scopeIndex) : hostAddress;
                         }
                     }
                 }
@@ -129,5 +132,4 @@ public class NetworkUtils {
         }
         return result.toString().trim();
     }
-
 }

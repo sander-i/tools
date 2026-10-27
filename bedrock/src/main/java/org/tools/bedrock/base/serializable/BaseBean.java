@@ -3,6 +3,7 @@ package org.tools.bedrock.base.serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import org.tools.bedrock.annotations.Inherit;
 
 import java.io.Serializable;
@@ -18,13 +19,13 @@ import java.sql.Timestamp;
  *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Inherit
 public class BaseBean implements Serializable {
-
     private static final long serialVersionUID = 5233315758488710799L;
 
     /**
@@ -86,5 +87,4 @@ public class BaseBean implements Serializable {
      * 更新时间（时间戳，与时区无关）
      */
     private Timestamp updatedAt;
-
 }

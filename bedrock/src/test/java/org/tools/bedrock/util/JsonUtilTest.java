@@ -1,6 +1,7 @@
 package org.tools.bedrock.util;
 
 import org.junit.Test;
+
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -8,9 +9,10 @@ import static org.junit.Assert.*;
 /**
  * JsonUtil 冒烟测试
  * 测试基本的JSON转换功能
+ * @author sander
+ * @since 1.0.6.6
  */
 public class JsonUtilTest {
-
     @Test
     public void testMapToJson() {
         // 测试基本的Map转JSON功能

@@ -4,11 +4,13 @@ import org.tools.bedrock.exception.ErrorEnum;
 import org.tools.encrypt.exception.EncryptException;
 
 /**
+ * 非对称加解密异常。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.0
  */
 public class AsymmetricException extends EncryptException {
-
     private static final long serialVersionUID = -7692721999904166343L;
 
     public AsymmetricException() {
@@ -29,5 +31,4 @@ public class AsymmetricException extends EncryptException {
     public AsymmetricException(ErrorEnum error, Exception exception) {
         super(error, exception);
     }
-
 }

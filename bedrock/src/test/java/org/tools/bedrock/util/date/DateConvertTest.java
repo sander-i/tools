@@ -8,14 +8,20 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
+/**
+ * DateConvertTest 单元测试
+ *
+ * @author sander
+ * @since 1.0.6.6
+ */
 public class DateConvertTest {
-
     @Test
     public void testToLocalTime() {
         // 测试转换为LocalTime（包含纳秒）
         // 注意：DateConvert.toLocalTime() 实际接受 Duration 参数，不是 Date
         // 这里需要构造一个 Duration 来测试
-        java.time.Duration duration = java.time.Duration.ofHours(2).plusMinutes(30).plusSeconds(45).plusNanos(123456789);
+        java.time.Duration duration = java.time.Duration.ofHours(2).plusMinutes(30).plusSeconds(45).plusNanos(
+                123456789);
         java.time.LocalTime localTime = DateConvert.toLocalTime(duration);
         assertNotNull("LocalTime转换结果不应为null", localTime);
     }
@@ -58,7 +64,8 @@ public class DateConvertTest {
     @Test
     public void testDateConvertSmoke() {
         Date date = new Date();
-        java.time.Duration duration = java.time.Duration.ofHours(2).plusMinutes(30).plusSeconds(45).plusNanos(123456789);
+        java.time.Duration duration = java.time.Duration.ofHours(2).plusMinutes(30).plusSeconds(45).plusNanos(
+                123456789);
 
         // 验证所有转换方法都能正常工作且不返回null
         assertNotNull("toLocalTime应返回有效值", DateConvert.toLocalTime(duration));

@@ -1,6 +1,5 @@
 package org.tools.bedrock.util;
 
-
 import org.tools.bedrock.constant.Constants;
 
 import java.util.ArrayList;
@@ -10,11 +9,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
+ * List 便捷工具：判空、反转、泛型提取与分页切分。
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.3
  */
 public class Lists {
-
     private Lists() {
     }
 
@@ -106,7 +107,6 @@ public class Lists {
                 .collect(Collectors.toList());
     }
 
-
     /**
      * 集合分页
      *
@@ -136,9 +136,7 @@ public class Lists {
             }
             end = (end = end + rows) > list.size() ? list.size() : end;
             gather.add(list.subList(start, end));
-
         }
         return gather;
     }
-
 }

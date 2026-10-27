@@ -1,18 +1,20 @@
 package org.tools.bedrock.util;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.constant.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
+ * 字符串 / 字符数组 / 字节数组之间的转换工具
+ *
  * @author sander
- * @version 1.0
+ * @since 1.0.0
  */
 @Slf4j
 public class TransformUtils {
-
     private TransformUtils() {
     }
 
@@ -83,5 +85,4 @@ public class TransformUtils {
     public static String byteToStr(byte[] bytes, String charset) {
         return new String(bytes, Charset.forName(charset));
     }
-
 }

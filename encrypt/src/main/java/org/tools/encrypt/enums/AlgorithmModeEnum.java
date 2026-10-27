@@ -6,13 +6,15 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
+ * 算法模式枚举：各算法的完整转换模式（如 AES/CBC/PKCS5Padding）
+ *
  * @author sander
  * @version 1.0
+ * @since 1.0.6.6
  */
 @Getter
 @AllArgsConstructor
 public enum AlgorithmModeEnum {
-
     MD5("MD5"),
 
     /**
@@ -90,5 +92,4 @@ public enum AlgorithmModeEnum {
                 .findFirst()
                 .get();
     }
-
 }

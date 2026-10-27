@@ -2,6 +2,7 @@ package org.tools.encrypt.digitalsignature.dsa;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.digitalsignature.SignatureUtils;
 import org.tools.encrypt.entity.KeyPair;
@@ -25,15 +26,15 @@ import java.security.spec.InvalidKeySpecException;
  * （此前共享静态 Signature，已修复）。</p>
  *
  * @author sander 2024/04/14
+ * @since 1.0.6.1
  */
 @Slf4j
 public class DsaHelper {
+    @Getter
+    private static DsaProperties properties;
 
     private DsaHelper() {
     }
-
-    @Getter
-    private static DsaProperties properties;
 
     /**
      * 装载 KeyPair 实体配置（按 Base64 字符串解析公私钥对象）
@@ -52,8 +53,10 @@ public class DsaHelper {
         properties.setSignAlgorithm(keyPair.getSignAlgorithm());
         try {
             // load(DsaProperties) 校验的是密钥对象字段，此处需从字符串解析
-            properties.setPublicKey(DsaKeyGenerator.getPublicKey(AlgorithmEnum.DSA.getAlgorithm(), keyPair.getPublicKey()));
-            properties.setPrivateKey(DsaKeyGenerator.getPrivateKey(AlgorithmEnum.DSA.getAlgorithm(), keyPair.getPrivateKey()));
+            properties.setPublicKey(DsaKeyGenerator.getPublicKey(AlgorithmEnum.DSA.getAlgorithm(), keyPair.getPublicKey(
+                    )));
+            properties.setPrivateKey(DsaKeyGenerator.getPrivateKey(AlgorithmEnum.DSA.getAlgorithm(), keyPair
+                    .getPrivateKey()));
         } catch (InvalidKeySpecException e) {
             log.error(e.getLocalizedMessage());
             throw new EncryptException(e);
@@ -166,5 +169,4 @@ public class DsaHelper {
     public static boolean verify(PublicKey publicKey, String wrought, String sign) throws EncryptException {
         return SignatureUtils.verify(properties.getSignAlgorithm(), publicKey, wrought, sign);
     }
-
 }
