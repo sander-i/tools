@@ -9,12 +9,12 @@ import org.tools.encrypt.entity.symmetrical.DesProperties;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.exception.symmetrical.des.DesException;
 
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * des密钥生成工具

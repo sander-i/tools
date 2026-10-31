@@ -1,9 +1,9 @@
 package org.tools.encrypt;
 
-import javax.crypto.KeyGenerator;
-
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.KeyGenerator;
 
 /**
  * 密钥生成器工厂。

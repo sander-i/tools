@@ -4,10 +4,10 @@ import lombok.Data;
 
 import org.tools.bedrock.annotations.Inherit;
 
-import javax.crypto.SecretKey;
-
 import java.security.PrivateKey;
 import java.security.PublicKey;
+
+import javax.crypto.SecretKey;
 
 /**
  * 加密配置属性基类：算法、模式、密钥、分块与签名参数。

@@ -16,4 +16,14 @@ public class Asymmetric {
      * RSA
      */
     private Rsa rsa;
+
+    /**
+     * DH 密钥协商
+     */
+    private Dh dh;
+
+    /**
+     * ECC（ECDH 密钥协商）
+     */
+    private Ecc ecc;
 }

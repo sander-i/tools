@@ -83,8 +83,8 @@ public class SignatureUtils {
         String signText;
         try {
             signature.update(wrought.getBytes(StandardCharsets.UTF_8));
-            // 签名
-            signText = new String(Base64.encodeBase64(signature.sign()));
+            // 签名（encodeBase64String 内部按 ASCII 处理，不依赖 JVM 默认字符集）
+            signText = Base64.encodeBase64String(signature.sign());
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
             throw new DigitalSignatureException(e);
@@ -105,7 +105,7 @@ public class SignatureUtils {
         try {
             signature.update(wrought.getBytes(StandardCharsets.UTF_8));
             // 验签
-            return signature.verify(Base64.decodeBase64(sign.getBytes()));
+            return signature.verify(Base64.decodeBase64(sign));
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
             throw new DigitalSignatureException(e);

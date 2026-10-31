@@ -6,10 +6,10 @@ import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.IdeaProperties;
 import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * IdeaHelper 冒烟测试

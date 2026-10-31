@@ -7,10 +7,10 @@ import org.tools.encrypt.entity.EncryptProperties;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.enums.AlgorithmModeEnum;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * des加密配置文件

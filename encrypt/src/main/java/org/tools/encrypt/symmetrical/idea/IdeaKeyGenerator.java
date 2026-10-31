@@ -10,11 +10,11 @@ import org.tools.encrypt.entity.symmetrical.IdeaProperties;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import java.security.NoSuchAlgorithmException;
 
 /**
  * IDEA 密钥生成工具：生成或解析密钥并读取配置。

@@ -161,7 +161,7 @@ public class RsaKeyGenerator {
         initProperties();
 
         KeyFactory keyFactory = KeyFactory.getInstance(properties.getAlgorithm());
-        byte[] decodedKey = Base64.decodeBase64(publicKey.getBytes());
+        byte[] decodedKey = Base64.decodeBase64(publicKey);
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
         return keyFactory.generatePublic(keySpec);
     }
@@ -178,7 +178,7 @@ public class RsaKeyGenerator {
         initProperties();
 
         KeyFactory keyFactory = KeyFactory.getInstance(properties.getAlgorithm());
-        byte[] decodedKey = Base64.decodeBase64(privateKey.getBytes());
+        byte[] decodedKey = Base64.decodeBase64(privateKey);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
         return keyFactory.generatePrivate(keySpec);
     }

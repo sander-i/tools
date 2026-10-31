@@ -63,6 +63,33 @@ public enum AlgorithmModeEnum {
     IDEA_ECB_ISO10126Padding("IDEA/ECB/ISO10126Padding"),
 
     /**
+     * Blowfish
+     */
+    BLOWFISH("Blowfish"),
+
+    BLOWFISH_CBC_PKCS5PADDING("Blowfish/CBC/PKCS5Padding"),
+
+    /**
+     * RC
+     */
+    RC2("RC2"),
+
+    RC2_CBC_PKCS5PADDING("RC2/CBC/PKCS5Padding"),
+
+    RC4("RC4"),
+
+    RC5("RC5"),
+
+    RC5_CBC_PKCS5PADDING("RC5/CBC/PKCS5Padding"),
+
+    /**
+     * SKIPJACK
+     */
+    SKIPJACK("SKIPJACK"),
+
+    SKIPJACK_CBC_PKCS5PADDING("SKIPJACK/CBC/PKCS5Padding"),
+
+    /**
      * DIGITAL_SIGNATURE
      */
     MD5withRSA("MD5withRSA"),

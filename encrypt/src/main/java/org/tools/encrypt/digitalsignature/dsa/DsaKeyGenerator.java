@@ -168,7 +168,7 @@ public class DsaKeyGenerator {
     public static PublicKey getPublicKey(String algorithm, String publicKey) throws NoSuchAlgorithmException,
             InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
-        byte[] decodedKey = Base64.decodeBase64(publicKey.getBytes());
+        byte[] decodedKey = Base64.decodeBase64(publicKey);
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
         return keyFactory.generatePublic(keySpec);
     }
@@ -185,7 +185,7 @@ public class DsaKeyGenerator {
     public static PrivateKey getPrivateKey(String algorithm, String privateKey) throws NoSuchAlgorithmException,
             InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
-        byte[] decodedKey = Base64.decodeBase64(privateKey.getBytes());
+        byte[] decodedKey = Base64.decodeBase64(privateKey);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
         return keyFactory.generatePrivate(keySpec);
     }

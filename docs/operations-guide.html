@@ -146,8 +146,16 @@ String ciphertext = AesHelper.encode("hello");</code></pre>
   <tr><td>JWT</td><td><code>JWTUtils</code></td><td>HS256（HMAC256，基于 java-jwt）</td><td class="ok">✅ 可用</td></tr>
   <tr><td>编码</td><td><code>Base64Utils</code></td><td>标准 Base64（非 URL-Safe），UTF-8</td><td class="ok">✅ 可用</td></tr>
   <tr><td>校验</td><td><code>Crc32Utils</code></td><td>CRC32（每次调用独立实例，线程安全）</td><td class="ok">✅ 可用</td></tr>
-  <tr><td>对称加密</td><td><code>des3</code> / <code>blowfish</code> / <code>rc</code> / <code>skipjack</code> / <code>tdea</code></td><td>仅有包占位，无实现</td><td class="danger">⛔ 请勿依赖</td></tr>
-  <tr><td>非对称 / 签名</td><td><code>ecc</code> / <code>dh</code> / <code>elgamal</code> / <code>ecdsa</code></td><td>仅有包占位，无实现</td><td class="danger">⛔ 请勿依赖</td></tr>
+  <tr><td>对称加密</td><td><code>BlowfishHelper</code> / <code>BlowfishKeyGenerator</code></td><td>Blowfish（默认 ECB/PKCS5Padding，密钥 Hex，默认 128 位，legacy）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>Des3Helper</code> / <code>Des3KeyGenerator</code>（<code>symmetrical.des.des3</code>）</td><td>3DES（默认 <code>DESede/CBC/PKCS5Padding</code>，密钥 Hex，默认 168 位，legacy；即 TDEA）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>Rc2Helper</code> / <code>Rc2KeyGenerator</code></td><td>RC2（默认 ECB/PKCS5Padding，密钥 Hex，默认 128 位，legacy）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>Rc4Helper</code> / <code>Rc4KeyGenerator</code></td><td>RC4 流密码（无 IV / 无填充，密钥 Hex，默认 128 位，legacy 不推荐）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>Rc5Helper</code> / <code>Rc5KeyGenerator</code></td><td>RC5（默认 ECB/PKCS5Padding，密钥 Hex，默认 128 位，BouncyCastle，legacy）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>对称加密</td><td><code>SkipjackHelper</code> / <code>SkipjackKeyGenerator</code></td><td>Skipjack（默认 ECB/PKCS5Padding，密钥 Hex，固定 80 位，BouncyCastle，legacy）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>密钥协商</td><td><code>DhHelper</code> / <code>DhKeyGenerator</code></td><td>DH（默认 2048 位，只做密钥协商，不做加解密）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>密钥协商</td><td><code>EccHelper</code> / <code>EccKeyGenerator</code></td><td>ECDH（默认曲线 <code>secp256r1</code>，只做密钥协商，不做加解密）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>数字签名</td><td><code>EcdsaHelper</code> / <code>EcdsaKeyGenerator</code></td><td>ECDSA（默认 <code>SHA256withECDSA</code>）</td><td class="ok">✅ 可用</td></tr>
+  <tr><td>非对称</td><td><code>elgamal</code> / <code>knapsack</code> / <code>rabin</code></td><td>仅有包占位，无实现</td><td class="danger">⛔ 请勿依赖</td></tr>
 </table>
 
 <h2 id="boundary"><span class="anchor">3</span>安全边界</h2>
@@ -159,9 +167,18 @@ String ciphertext = AesHelper.encode("hello");</code></pre>
   <tr><td>AES</td><td>默认 AES/CBC/PKCS5Padding</td><td><strong>Hex 字符串</strong>，解码后 16/24/32 字节</td><td>CBC 下 IV 为 16 字节；ECB 忽略</td><td>明文 / 解密输出均 UTF-8；密文 Base64</td><td>load 与 encode/decode 并发不安全；encode/decode 之间线程安全</td><td>统一包装为 AesException</td></tr>
   <tr><td>DES</td><td>默认 DES（=ECB/PKCS5Padding）</td><td>原始字符串，UTF-8 后恰好 8 字节</td><td>⚠️ 默认模式 IV 不生效</td><td>同上</td><td>同 AES</td><td>DesException</td></tr>
   <tr><td>IDEA</td><td>IDEA / IDEA/ECB/ISO10126Padding（BC）</td><td>Hex 字符串，32 个 Hex 字符 = 128 位</td><td>ECB 忽略</td><td>同上</td><td>同 AES</td><td>IdeaException</td></tr>
-  <tr><td>RSA 加解密</td><td>默认 RSA/ECB/OAEPWithSHA-256AndMGF1Padding（BC）</td><td>Base64(X.509) 公钥 / Base64(PKCS#8) 私钥；默认 2048 位，单块上限 (keyBits/8)-66 字节，超长自动分段</td><td>未使用</td><td>同上</td><td>加解密与签名/验签均线程安全（每次调用新建实例）</td><td>RsaException</td></tr>
+  <tr><td>RSA 加解密</td><td>默认 RSA/ECB/OAEPWithSHA-256AndMGF1Padding（JDK SunJCE；仅无前缀变体走 BC）</td><td>Base64(X.509) 公钥 / Base64(PKCS#8) 私钥；默认 2048 位，单块上限 (keyBits/8)-66 字节，超长自动分段</td><td>未使用</td><td>同上</td><td>加解密与签名/验签均线程安全（每次调用新建实例）</td><td>RsaException</td></tr>
   <tr><td>RSA 签名</td><td>默认 SHA256withRSA</td><td>同上</td><td>—</td><td>原文固定 UTF-8</td><td>✅ 每次调用独立 Signature 实例</td><td>DigitalSignatureException</td></tr>
   <tr><td>DSA</td><td>默认 SHA256withDSA</td><td>Base64 公私钥；默认 1024 位</td><td>—</td><td>同上</td><td>✅ 同上</td><td>EncryptException</td></tr>
+  <tr><td>Blowfish</td><td>默认 Blowfish（=ECB/PKCS5Padding），可选 Blowfish/CBC/PKCS5Padding</td><td>Hex 字符串，解码后 4~56 字节，默认 128 位</td><td>CBC 下 IV 为 8 字节；ECB 忽略</td><td>同上</td><td>同 AES</td><td>BlowfishException；<span class="danger">legacy，不推荐新设计</span></td></tr>
+  <tr><td>3DES（DESede / TDEA）</td><td>仅 DESede/CBC/PKCS5Padding（其它模式 load 直接拒绝）</td><td>Hex 字符串，16 或 24 字节（<strong>与 DES 的原始字符串语义不同</strong>；16 字节自动扩展为 K1‖K2‖K1）</td><td>CBC 下 IV 为 8 字节</td><td>同上</td><td>同 AES</td><td>Des3Exception；<span class="danger">legacy</span></td></tr>
+  <tr><td>RC2</td><td>默认 RC2（=ECB/PKCS5Padding），可选 RC2/CBC/PKCS5Padding</td><td>Hex 字符串，5~128 字节（40~1024 位），默认 128 位；ECB/CBC 均按密钥长度计算 effective bits</td><td>CBC 下 IV 为 8 字节；ECB 忽略</td><td>同上</td><td>同 AES</td><td>Rc2Exception；<span class="danger">legacy</span></td></tr>
+  <tr><td>RC4</td><td>仅 RC4（流密码）</td><td>Hex 字符串，默认 128 位</td><td><strong>无 IV / 无填充 / 无分组</strong>，密文长度等于明文长度</td><td>同上</td><td>同 AES</td><td>Rc4Exception；<span class="danger">legacy，已不安全的协议遗留</span></td></tr>
+  <tr><td>RC5</td><td>默认 RC5（=ECB/PKCS5Padding），可选 RC5/CBC/PKCS5Padding（BC）</td><td>Hex 字符串，默认 128 位；轮数/分组/字长固定 12/8 字节/32 位</td><td>CBC 下 IV 为 8 字节；ECB 忽略</td><td>同上</td><td>同 AES</td><td>Rc5Exception；<span class="danger">legacy</span></td></tr>
+  <tr><td>Skipjack</td><td>默认 SKIPJACK（=ECB/PKCS5Padding），可选 SKIPJACK/CBC/PKCS5Padding（BC）</td><td>Hex 字符串，固定 80 位（10 字节）</td><td>CBC 下 IV 为 8 字节；ECB 忽略</td><td>同上</td><td>同 AES</td><td>SkipjackException；<span class="danger">legacy</span></td></tr>
+  <tr><td>DH</td><td>密钥协商，算法 DH，默认 2048 位</td><td>Base64(X.509) / Base64(PKCS#8)</td><td>—</td><td>—</td><td>generateSharedSecret 每次新建 KeyAgreement，可并发</td><td>DhException；<span class="danger">只做协商，结果须经 KDF 派生</span></td></tr>
+  <tr><td>ECDH（ECC）</td><td>密钥协商，算法 EC，默认曲线 secp256r1</td><td>Base64(X.509) / Base64(PKCS#8)</td><td>—</td><td>—</td><td>同上</td><td>EccException；<span class="danger">只做协商，结果须经 KDF 派生</span></td></tr>
+  <tr><td>ECDSA</td><td>默认 SHA256withECDSA，曲线 secp256r1</td><td>Base64(X.509) / Base64(PKCS#8)</td><td>—</td><td>原文固定 UTF-8</td><td>✅ 每次调用独立 Signature 实例</td><td>EcdsaException / DigitalSignatureException</td></tr>
   <tr><td>JWT</td><td>HS256</td><td>任意字符串；<span class="danger">内置默认值仅供演示，生产必须显式传入</span></td><td>—</td><td>Claim 仅支持 String</td><td>✅</td><td>JWTVerificationException</td></tr>
   <tr><td>Base64</td><td>RFC 4648</td><td>—</td><td>—</td><td>UTF-8</td><td>✅</td><td>非法输入抛 IllegalArgumentException</td></tr>
   <tr><td>CRC32</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✅ 每次调用独立实例</td><td>—</td></tr>

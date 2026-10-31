@@ -19,14 +19,22 @@
 | 对称加密 | `AesHelper` / `AesKeyGenerator` | AES（默认 `AES/CBC/PKCS5Padding`） | ✅ 可用 |
 | 对称加密 | `DesHelper` / `DesKeyGenerator` | DES（默认 `DES`，即 ECB/PKCS5Padding） | ✅ 可用 |
 | 对称加密 | `IdeaHelper` / `IdeaKeyGenerator` / `IdeaUtils` | IDEA（ECB/ISO10126Padding，依赖 BouncyCastle） | ✅ 可用 |
+| 对称加密 | `BlowfishHelper` / `BlowfishKeyGenerator` | Blowfish（默认 `Blowfish`，即 ECB/PKCS5Padding；密钥 Hex，默认 128 位；JDK Provider） | ✅ 可用（legacy） |
+| 对称加密 | `Des3Helper` / `Des3KeyGenerator`（`symmetrical.des.des3`，即 TDEA） | 3DES（默认 `DESede/CBC/PKCS5Padding`；密钥 Hex，默认 168 位；JDK Provider） | ✅ 可用（legacy） |
+| 对称加密 | `Rc2Helper` / `Rc2KeyGenerator` | RC2（默认 `RC2`，即 ECB/PKCS5Padding；密钥 Hex，默认 128 位；JDK Provider） | ✅ 可用（legacy） |
+| 对称加密 | `Rc4Helper` / `Rc4KeyGenerator` | RC4 流密码（仅 `RC4` 一种模式，无 IV / 无填充；密钥 Hex，默认 128 位；JDK Provider） | ✅ 可用（legacy，不推荐） |
+| 对称加密 | `Rc5Helper` / `Rc5KeyGenerator` | RC5（默认 `RC5`，即 ECB/PKCS5Padding；密钥 Hex，默认 128 位；BouncyCastle Provider） | ✅ 可用（legacy） |
+| 对称加密 | `SkipjackHelper` / `SkipjackKeyGenerator` | Skipjack（默认 `SKIPJACK`，即 ECB/PKCS5Padding；密钥 Hex，固定 80 位；BouncyCastle Provider） | ✅ 可用（legacy） |
 | 非对称加密 | `RsaHelper` / `RsaKeyGenerator` | RSA（默认 `RSA/ECB/OAEPWithSHA-256AndMGF1Padding`） | ✅ 可用 |
+| 密钥协商 | `DhHelper` / `DhKeyGenerator` | DH（默认 `DH`，默认 2048 位；只做密钥协商，不做加解密） | ✅ 可用 |
+| 密钥协商 | `EccHelper` / `EccKeyGenerator` | ECDH（默认 `EC`，曲线 `secp256r1`；只做密钥协商，不做加解密） | ✅ 可用 |
 | 数字签名 | `RsaHelper.sign/verify`、`SignatureUtils` | 默认 `SHA256withRSA` | ✅ 可用 |
 | 数字签名 | `DsaHelper` / `DsaKeyGenerator` | DSA（默认 `SHA256withDSA`） | ✅ 可用 |
+| 数字签名 | `EcdsaHelper` / `EcdsaKeyGenerator` | ECDSA（默认 `SHA256withECDSA`，曲线 `secp256r1`） | ✅ 可用 |
 | JWT | `JWTUtils` | HS256（HMAC256，基于 java-jwt） | ✅ 可用 |
 | 编码 | `Base64Utils` | 标准 Base64（非 URL-Safe），UTF-8 | ✅ 可用 |
 | 校验 | `Crc32Utils` | CRC32 | ✅ 可用（线程安全） |
-| 对称加密 | `symmetrical.des3`、`blowfish`、`rc`、`skipjack`、`tdea` | — | ⛔ 仅有包占位，暂无实现，请勿依赖 |
-| 非对称 / 签名 | `asymmetric.ecc`、`dh`、`elgamal` 等、`digitalsignature.ecdsa` | — | ⛔ 仅有包占位，暂无实现，请勿依赖 |
+| 非对称 | `asymmetric.elgamal`、`asymmetric.knapsack`、`asymmetric.rabin` | — | ⛔ 仅有包占位，暂无实现，请勿依赖 |
 
 ## 安全边界
 
@@ -39,9 +47,18 @@
 | AES | 默认 `AES/CBC/PKCS5Padding`；模式可在配置中改 | 密钥必须是 **Hex 字符串**，解码后为 16/24/32 字节（AES-128/192/256）；256 位需 JCE 无限制策略（JDK8u161+ 默认支持） | CBC 模式下 `ivParameter` 按 **UTF-8 取字节后必须为 16 字节**，否则 JCE 抛异常；ECB 模式下 IV 被忽略 | 明文与解密输出均为 UTF-8；密文 Base64 | `load` 与 `encode/decode` 并发不安全；`encode/decode` 之间线程安全（每次新建 Cipher） | 入参校验失败 / JCE 异常统一包装为 `AesException`（异常链保留） |
 | DES | 默认 `DES`（= `DES/ECB/PKCS5Padding`）；可选 `DES/ECB/NoPadding`、`DESede/CBC/PKCS5Padding` | 密钥为**原始字符串**，按 UTF-8 取字节，DES 要求恰好 8 字节 | ⚠️ 默认模式即 ECB，`ivParameter` 被忽略且不生效 | 明文与解密输出均为 UTF-8；密文 Base64 | 同 AES | 统一包装为 `DesException` |
 | IDEA | `IDEA` 或 `IDEA/ECB/ISO10126Padding`（BC Provider） | 密钥为 **Hex 字符串**（32 个 Hex 字符 = 128 位，与 AES 约定一致；此前 String 重载为 UTF-8 原文，已对齐） | ECB 模式 IV 被忽略 | 明文与解密输出均为 UTF-8；密文 Base64 | 同 AES | 统一包装为 `IdeaException` |
-| RSA 加解密 | 默认 `RSA/ECB/OAEPWithSHA-256AndMGF1Padding`（BC Provider）；`RSA/ECB/NoPadding` 已 `@Deprecated` | 密钥为 **Base64(X.509) 公钥 / Base64(PKCS#8) 私钥**；默认 2048 位，OAEP 下单块明文上限 `(keyBits/8) - 66` 字节，超长自动分段 | 未使用 | 明文与解密输出均为 UTF-8；密文 Base64 | 加解密与签名/验签均线程安全（每次调用新建实例） | 统一包装为 `RsaException` |
+| Blowfish | 默认 `Blowfish`（= ECB/PKCS5Padding）；可选 `Blowfish/CBC/PKCS5Padding` | 密钥为 **Hex 字符串**，解码后 4~56 字节，默认 128 位（JDK Provider） | CBC 下 IV 按 UTF-8 后必须为 8 字节；ECB 忽略 | 同上 | 同 AES | 统一包装为 `BlowfishException`。**legacy，不推荐用于新设计** |
+| 3DES（DESede / TDEA） | 仅 `DESede/CBC/PKCS5Padding`（其它模式 `load` 直接拒绝） | 密钥为 **Hex 字符串**，解码后 16 字节（32 Hex）或 24 字节（48 Hex），默认 168 位（JDK Provider）；16 字节自动扩展为 K1‖K2‖K1。**与 DES 的「UTF-8 原始 8 字节字符串」语义不同** | CBC 下 IV 按 UTF-8 后必须为 8 字节 | 同上 | 同 AES | 统一包装为 `Des3Exception`。**legacy，不推荐用于新设计** |
+| RC2 | 默认 `RC2`（= ECB/PKCS5Padding）；可选 `RC2/CBC/PKCS5Padding` | 密钥为 **Hex 字符串**，解码后 5~128 字节（40~1024 位，SunJCE 下限 40 位），默认 128 位（JDK Provider） | CBC 下 IV 按 UTF-8 后必须为 8 字节；ECB 忽略 | 同上 | 同 AES | 统一包装为 `Rc2Exception`。ECB 与 CBC 均按密钥长度计算 effective bits。**legacy，不推荐用于新设计** |
+| RC4 | 仅 `RC4` 一种模式（流密码） | 密钥为 **Hex 字符串**，默认 128 位（JDK Provider） | **无 IV / 无填充 / 无分组**，密文长度恒等于明文长度 | 同上 | 同 AES | 统一包装为 `Rc4Exception`。**流密码，无 IV/无填充，已不安全的协议遗留** |
+| RC5 | 默认 `RC5`（= ECB/PKCS5Padding）；可选 `RC5/CBC/PKCS5Padding`（BC Provider） | 密钥为 **Hex 字符串**，默认 128 位；轮数 / 分组长度 / 字长固定为 12 / 8 字节 / 32 位，调用双方须一致 | CBC 下 IV 按 UTF-8 后必须为 8 字节；ECB 忽略 | 同上 | 同 AES | 统一包装为 `Rc5Exception`。**legacy，不推荐用于新设计** |
+| Skipjack | 默认 `SKIPJACK`（= ECB/PKCS5Padding）；可选 `SKIPJACK/CBC/PKCS5Padding`（BC Provider） | 密钥为 **Hex 字符串**，固定 80 位（10 字节） | CBC 下 IV 按 UTF-8 后必须为 8 字节；ECB 忽略 | 同上 | 同 AES | 统一包装为 `SkipjackException`。**legacy，不推荐用于新设计** |
+| RSA 加解密 | 默认 `RSA/ECB/OAEPWithSHA-256AndMGF1Padding`（JDK SunJCE）；仅无 `RSA/ECB/` 前缀的 `OAEPWithSHA__256AndMGF1Padding` 变体走 BC；`RSA/ECB/NoPadding` 已 `@Deprecated` | 密钥为 **Base64(X.509) 公钥 / Base64(PKCS#8) 私钥**；默认 2048 位，OAEP 下单块明文上限 `(keyBits/8) - 66` 字节，超长自动分段 | 未使用 | 明文与解密输出均为 UTF-8；密文 Base64 | 加解密与签名/验签均线程安全（每次调用新建实例） | 统一包装为 `RsaException` |
 | RSA 签名 | 默认 `SHA256withRSA`（可选 `MD5withRSA`、`SHA3-256withRSA`——后者需 BouncyCastle，JDK 8 默认 Provider 不支持） | 同上 | — | 原文固定按 UTF-8 取字节 | ✅ 每次调用使用独立 `Signature` 实例 | 统一包装为 `DigitalSignatureException` |
 | DSA | 默认 `SHA256withDSA` | Base64 公私钥；默认 1024 位 | — | 同上 | ✅ 同上 | 统一包装为 `EncryptException` |
+| DH | 密钥协商，算法 `DH`，默认 2048 位（JDK Provider） | Base64(X.509) 公钥 / Base64(PKCS#8) 私钥 | — | — | `generateSharedSecret` 每次新建 `KeyAgreement`，可并发；`load` 与读取并发不安全 | 统一包装为 `DhException`。**不是加密算法，只做密钥协商；协商结果必须经 HKDF/SHA-256 派生后才能作对称密钥** |
+| ECDH（ECC） | 密钥协商，算法 `EC`，默认曲线 `secp256r1`（P-256），256 位（JDK SunEC） | Base64(X.509) 公钥 / Base64(PKCS#8) 私钥 | — | — | 同上 | 统一包装为 `EccException`。**不是加密算法，只做密钥协商；协商结果必须经 HKDF/SHA-256 派生后才能作对称密钥** |
+| ECDSA | 默认 `SHA256withECDSA`；默认曲线 `secp256r1`（JDK Provider） | Base64(X.509) 公钥 / Base64(PKCS#8) 私钥 | — | 原文固定按 UTF-8 取字节 | ✅ 每次调用使用独立 `Signature` 实例 | 统一包装为 `DigitalSignatureException` / `EcdsaException` |
 | JWT | HS256 | 签名密钥为任意字符串；**类内置默认值 `TOOLS&DH$*001`，仅用于演示，生产必须显式传入** | — | Claim 值仅支持 String（`v.asString()`，非字符串 Claim 解析后为 null） | ✅（无共享状态） | 签名/过期校验失败抛 auth0 `JWTVerificationException` |
 | Base64 | 标准 RFC 4648 | — | — | UTF-8 | ✅ | 非法 Base64 输入抛 `IllegalArgumentException` |
 | CRC32 | — | — | — | — | ✅ 每次调用使用独立实例 | — |
@@ -52,6 +69,9 @@
 2. ⚠️ `JWTUtils.setSign` 存在硬编码默认签名串 `TOOLS&DH$*001`，未显式传参时将使用它签发/校验令牌。请始终使用带 `sign` 参数的重载（移除默认值属 breaking change，待定）。
 3. ⚠️ `AesHelper` 等基于静态 `properties` 的设计意味着一份 JVM 内只有一份激活配置；多组密钥请使用 `load(KeyPair, name)` 的分组机制，或直接使用 `XxxKeyGenerator` + `SymmetricalUtils` 显式传参。
 4. TODO：RSA 分段加密对超长明文的分段边界在部分 Provider 下与标准实现存在差异，尚未做互操作矩阵验证。
+5. legacy 算法：Blowfish、3DES、RC2、RC4、RC5、Skipjack 均为历史遗留算法，**不推荐用于新设计**。其中 RC4 是流密码，无 IV、无填充，密文长度等于明文长度，属于已被证明不安全的协议遗留；其余算法也存在密钥/分组偏小或模式默认 ECB 的问题，仅用于兼容既有系统。
+6. 密钥语义差异：`des3` 的密钥为 **Hex 字符串**（16/24 字节），而 `DES` 的密钥为 **UTF-8 编码后的原始 8 字节字符串**，两者不可混用；`tdea` 与 `3DES`、`Triple DES`、`DESede` 是同一算法的不同称呼，实现统一位于 `symmetrical.des.des3`，`symmetrical.tdea` 仅为包别名说明，不含实现类。
+7. DH / ECDH **不是加密算法**，只负责密钥协商：`generateSharedSecret` 返回的是原始共享秘密，未经 KDF 派生的结果在数学上不均匀，**必须先经 HKDF/SHA-256 等密钥派生函数处理**，才能作为 AES 等对称算法的密钥使用。
 
 > 已修复项（`2.0.0`）：解密输出字符集（此前用 JVM 默认 charset 导致 GBK 平台乱码）已统一为 UTF-8；MD5/SHA/签名原文取字节同样统一为 UTF-8；`RsaProperties` 默认签名算法由 JDK 8 不支持的 `SHA3-256withRSA` 改为 `SHA256withRSA`；`RSA` 实体配置（算法/模式/签名算法/密钥位数）此前在 `load(KeyPair)` 时被忽略，现已生效并联动重算分块大小；`OAEPWithSHA-256AndMGF1Padding` 分支缺失 `break` 导致该模式不可用已修复；DSA 字符串密钥重载向 `KeyFactory` 误传签名算法名已修复；`DsaProperties` 默认签名算法误设到 `algorithmMode` 字段已修正；CRC32 共享静态实例（非线程安全）已改为每次调用独立实例；`SignatureUtils` 签名/验签（含 RsaHelper/DsaHelper 路径）由共享静态 `Signature` 改为每次调用独立实例（并发安全）；`Base64Utils.encode(String)` 与 `AsymmetricUtils.decryptAfter` 的平台 charset 问题（GBM/GBK 平台乱码）统一为 UTF-8；`DsaHelper.load(KeyPair)` 此前不解析密钥对象、必然抛"publicKey|privateKey 不能为空"已修复；`RsaKeyGenerator.getKeyPair()` 等入口未初始化默认配置时 NPE 已修复；starter 样例 yml 的 DES 密钥修正为 8 字节（"BeYour18"）并验证 round-trip；`DsaKeyGenerator.getDsaProperties()` 误用 `RsaKeyGenerator` 向 DSA 配置填充 RSA 密钥已改为 DSA 密钥生成；`IdeaHelper` 密钥解析误调 `AesKeyGenerator` 已改用 `IdeaKeyGenerator`（其 String 重载密钥语义随之由 UTF-8 原文对齐为 Hex）；`RsaHelper` 的 "Aes enable: false" 等跨算法复制粘贴文案/日志已修正。详见 [CHANGELOG](../CHANGELOG.md)。
 

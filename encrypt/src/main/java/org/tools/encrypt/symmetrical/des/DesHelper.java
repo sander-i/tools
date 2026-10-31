@@ -1,20 +1,22 @@
 package org.tools.encrypt.symmetrical.des;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.Des;
 import org.tools.encrypt.entity.symmetrical.DesProperties;
+import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 import org.tools.encrypt.exception.symmetrical.des.DesException;
 import org.tools.encrypt.symmetrical.SymmetricalUtils;
-
-import javax.crypto.SecretKey;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+
+import javax.crypto.SecretKey;
 
 /**
  * DES 对称加解密工具。
@@ -28,6 +30,7 @@ import java.util.List;
  * @author sander 2024/04/05
  * @since 1.0.6.1
  */
+@Slf4j
 public class DesHelper {
     @Getter
     private static DesProperties properties;
@@ -140,8 +143,16 @@ public class DesHelper {
      * @throws DesException 密钥/模式非法或 JCE 操作失败时抛出
      */
     public static String encode(String raw) throws DesException {
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
-                .getSecretKey(), properties.getIvParameter(), raw);
+        try {
+            return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                    .getSecretKey(), properties.getIvParameter(), raw);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(e);
+        }
     }
 
     /**
@@ -155,8 +166,16 @@ public class DesHelper {
     public static String encode(String secretKey, String raw) throws DesException {
         SecretKey key;
         key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
-                .getIvParameter(), raw);
+        try {
+            return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
+                    .getIvParameter(), raw);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(e);
+        }
     }
 
     /**
@@ -168,8 +187,16 @@ public class DesHelper {
      * @throws DesException 密钥非法或加密失败时抛出
      */
     public static String encode(SecretKey secretKey, String raw) throws DesException {
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
-                .getIvParameter(), raw);
+        try {
+            return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
+                    .getIvParameter(), raw);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(e);
+        }
     }
 
     /**
@@ -180,8 +207,16 @@ public class DesHelper {
      * @throws DesException 密文/密钥非法或解密失败时抛出
      */
     public static String decode(String wrought) throws DesException {
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
-                .getSecretKey(), properties.getIvParameter(), wrought);
+        try {
+            return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                    .getSecretKey(), properties.getIvParameter(), wrought);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(e);
+        }
     }
 
     /**
@@ -195,8 +230,16 @@ public class DesHelper {
     public static String decode(String secretKey, String wrought) throws DesException {
         SecretKey key;
         key = DesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
-                .getIvParameter(), wrought);
+        try {
+            return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
+                    .getIvParameter(), wrought);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(e);
+        }
     }
 
     /**
@@ -208,7 +251,25 @@ public class DesHelper {
      * @throws DesException 密钥非法或解密失败时抛出
      */
     public static String decode(SecretKey secretKey, String wrought) throws DesException {
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
-                .getIvParameter(), wrought);
+        try {
+            return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
+                    .getIvParameter(), wrought);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new DesException(e);
+        }
+    }
+
+    /**
+     * 取出被包装的原始异常，避免异常链多套一层
+     *
+     * @param e 模块异常
+     * @return 原始异常；无 cause 时返回自身
+     */
+    private static Exception unwrap(SymmetricalException e) {
+        return e.getCause() instanceof Exception ? (Exception) e.getCause() : e;
     }
 }

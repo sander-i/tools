@@ -1,20 +1,22 @@
 package org.tools.encrypt.symmetrical.aes;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import org.tools.bedrock.util.BaseUtils;
 import org.tools.encrypt.entity.KeyPair;
 import org.tools.encrypt.entity.symmetrical.Aes;
 import org.tools.encrypt.entity.symmetrical.AesProperties;
+import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 import org.tools.encrypt.exception.symmetrical.aes.AesException;
 import org.tools.encrypt.symmetrical.SymmetricalUtils;
-
-import javax.crypto.SecretKey;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+
+import javax.crypto.SecretKey;
 
 /**
  * AES 对称加解密工具。
@@ -31,6 +33,7 @@ import java.util.List;
  * @author sander 2024/04/05
  * @since 1.0.6.1
  */
+@Slf4j
 public class AesHelper {
     private AesHelper() {
     }
@@ -133,8 +136,16 @@ public class AesHelper {
      * @throws AesException 密钥/IV/模式非法或 JCE 操作失败时抛出（异常链保留）
      */
     public static String encode(String raw) throws AesException {
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
-                .getSecretKey(), properties.getIvParameter(), raw);
+        try {
+            return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                    .getSecretKey(), properties.getIvParameter(), raw);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(e);
+        }
     }
 
     /**
@@ -147,8 +158,16 @@ public class AesHelper {
      */
     public static String encode(String secretKey, String raw) throws AesException {
         SecretKey key = AesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
-                .getIvParameter(), raw);
+        try {
+            return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
+                    .getIvParameter(), raw);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(e);
+        }
     }
 
     /**
@@ -160,8 +179,16 @@ public class AesHelper {
      * @throws AesException 同 {@link #encode(String)}
      */
     public static String encode(SecretKey secretKey, String raw) throws AesException {
-        return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
-                .getIvParameter(), raw);
+        try {
+            return SymmetricalUtils.encode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
+                    .getIvParameter(), raw);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(e);
+        }
     }
 
     /**
@@ -172,8 +199,16 @@ public class AesHelper {
      * @throws AesException 密文/密钥/IV 非法或 JCE 操作失败时抛出
      */
     public static String decode(String wrought) throws AesException {
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
-                .getSecretKey(), properties.getIvParameter(), wrought);
+        try {
+            return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), properties
+                    .getSecretKey(), properties.getIvParameter(), wrought);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(e);
+        }
     }
 
     /**
@@ -186,8 +221,16 @@ public class AesHelper {
      */
     public static String decode(String secretKey, String wrought) throws AesException {
         SecretKey key = AesKeyGenerator.getSecretKey(properties.getAlgorithm(), secretKey);
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
-                .getIvParameter(), wrought);
+        try {
+            return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), key, properties
+                    .getIvParameter(), wrought);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(e);
+        }
     }
 
     /**
@@ -199,7 +242,25 @@ public class AesHelper {
      * @throws AesException 同 {@link #decode(String)}
      */
     public static String decode(SecretKey secretKey, String wrought) throws AesException {
-        return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
-                .getIvParameter(), wrought);
+        try {
+            return SymmetricalUtils.decode(properties.getAlgorithm(), properties.getAlgorithmMode(), secretKey, properties
+                    .getIvParameter(), wrought);
+        } catch (SymmetricalException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(unwrap(e));
+        } catch (IllegalArgumentException e) {
+            log.error(e.getLocalizedMessage());
+            throw new AesException(e);
+        }
+    }
+
+    /**
+     * 取出被包装的原始异常，避免异常链多套一层
+     *
+     * @param e 模块异常
+     * @return 原始异常；无 cause 时返回自身
+     */
+    private static Exception unwrap(SymmetricalException e) {
+        return e.getCause() instanceof Exception ? (Exception) e.getCause() : e;
     }
 }

@@ -53,6 +53,35 @@ public enum AlgorithmEnum {
     IDEA("IDEA"),
 
     /**
+     * Blowfish
+     */
+    BLOWFISH("Blowfish"),
+
+    /**
+     * RC
+     */
+    RC2("RC2"),
+
+    RC4("RC4"),
+
+    RC5("RC5"),
+
+    /**
+     * SKIPJACK
+     */
+    SKIPJACK("SKIPJACK"),
+
+    /**
+     * DH
+     */
+    DH("DH"),
+
+    /**
+     * EC
+     */
+    EC("EC"),
+
+    /**
      * DSA
      */
     DSA("DSA"),

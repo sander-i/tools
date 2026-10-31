@@ -10,11 +10,11 @@ import org.tools.encrypt.entity.symmetrical.AesProperties;
 import org.tools.encrypt.enums.AlgorithmEnum;
 import org.tools.encrypt.exception.symmetrical.aes.AesException;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import java.security.NoSuchAlgorithmException;
 
 /**
  * AES密钥生成工具

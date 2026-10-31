@@ -8,12 +8,12 @@ import org.tools.encrypt.entity.symmetrical.Idea;
 import org.tools.encrypt.entity.symmetrical.IdeaProperties;
 import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 
-import javax.crypto.SecretKey;
-
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+
+import javax.crypto.SecretKey;
 
 /**
  * IDEA 对称加解密工具。

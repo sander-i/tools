@@ -22,6 +22,8 @@ public enum SignAlgorithmEnum {
 
     SHA256_WITH_DSA("SHA256withDSA"),
 
+    SHA256_WITH_ECDSA("SHA256withECDSA"),
+
     SHA3_256_WITH_RSA("SHA3-256withRSA"),
 
     ;

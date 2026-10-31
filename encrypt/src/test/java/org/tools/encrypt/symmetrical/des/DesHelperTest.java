@@ -7,9 +7,9 @@ import org.tools.encrypt.entity.symmetrical.DesProperties;
 import org.tools.encrypt.exception.symmetrical.SymmetricalException;
 import org.tools.encrypt.exception.symmetrical.des.DesException;
 
-import javax.crypto.SecretKey;
-
 import java.security.InvalidKeyException;
+
+import javax.crypto.SecretKey;
 
 /**
  * DesHelper 冒烟测试

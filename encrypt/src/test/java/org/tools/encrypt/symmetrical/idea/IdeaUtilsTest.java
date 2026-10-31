@@ -4,10 +4,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * IdeaUtils 冒烟测试

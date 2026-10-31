@@ -2,6 +2,21 @@
 
 本项目所有对外可见的变更记录于此。格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。
 
+## [Unreleased]
+
+### Added
+
+- **encrypt 新增 9 个算法实现**：对称加密 `BlowfishHelper` / `Des3Helper`（3DES，位于 `symmetrical.des.des3`）/ `Rc2Helper` / `Rc4Helper` / `Rc5Helper` / `SkipjackHelper`，非对称密钥协商 `DhHelper`（DH）与 `EccHelper`（ECDH），数字签名 `EcdsaHelper`（ECDSA），各含对应 `KeyGenerator`、`Properties`、算法专属异常类与 JUnit 4 冒烟测试（round-trip + 已知答案断言）。`des3` 与 `tdea` 合并为同一实现（`tdea` 仅保留包别名说明，无重复类）；DH/ECC 只做密钥协商、不提供 `encode`/`decode`，原始共享秘密须经 HKDF/SHA-256 派生后才能作对称密钥；ElGamal / Knapsack / Rabin 仍为包占位。能力矩阵、安全边界表、`encrypt/README.md`、`encrypt/AGENTS.md` 与 HTML 操作文档同步更新（Blowfish/3DES/RC2/RC4/RC5/Skipjack 标注 legacy，不推荐用于新设计）。关键参数约定：RC5 固定 version 1.0（16）/ 12 轮 / 32 位字（`RC5ParameterSpec(16, 12, 32)`，与标准实现互操作）；RC2 密钥 40~1024 位、ECB 与 CBC 均按密钥长度计算 effective key bits；3DES 仅支持 `DESede/CBC/PKCS5Padding`；Blowfish 密钥位数须为 8 的倍数；DH/ECDH 与 ECDSA 的公私钥解析统一使用 `Base64.decodeBase64(String)`。
+
+### Changed
+
+- **对称 Helper 的异常类型细化**：`AesHelper` / `DesHelper` / `BlowfishHelper` / `Des3Helper` / `Rc2Helper` / `Rc4Helper` / `Rc5Helper` / `SkipjackHelper` 的 `encode` / `decode` 在 JCE 失败或密文非法 Base64 时改抛算法专属异常（如 `Rc2Exception`），与既有 `throws` 声明一致；此前实际抛父类 `SymmetricalException`。新异常仍继承 `SymmetricalException`，`catch (SymmetricalException)` 不受影响，异常链保留原始 JCE cause。
+
+### Fixed
+
+- **encrypt 配置装载与密钥解析的边界修复**：对称 Helper 的 `load(KeyPair)` 不再用 null 覆盖默认算法/模式/IV/位数（裸 `KeyPair` 也能按默认配置工作）；`load(XxxProperties)` 增加 `algorithmMode` 合法性校验，非法模式在装载阶段即抛算法异常（此前延迟到 `encode` 抛 `NoSuchElementException`）；RC2/RC4/RC5 的字符串密钥在解析阶段校验长度范围；ECDSA 的 `load(KeyPair)` 补公私钥非空预检、`signAlgorithm` 为空时抛 `EcdsaException`。
+- **encrypt 消除 JVM 默认字符集依赖**：`RsaKeyGenerator` / `DsaKeyGenerator` 的公私钥 Base64 解码由 `Base64.decodeBase64(str.getBytes())` 改为 `Base64.decodeBase64(str)`；`SignatureUtils` 的验签 Base64 解码同样调整，签名输出由 `new String(Base64.encodeBase64(...))` 改为 `Base64.encodeBase64String(...)`。在默认字符集非 ASCII 兼容的平台（EBCDIC / UTF-16）上，此前会解析出损坏的密钥或签名，现统一按 UTF-8/ASCII 处理。无行为变更（ASCII 平台结果一致）。
+
 ## [2.0.0] - 2026-10-25
 
 > **本版本为破坏性变更版本（2.0）**：HTTP 响应体结构与错误码重构、基础对象字段更名与类型调整、民族编码对齐国标、encrypt 移除 Spring 依赖。升级前请先阅读文末"迁移指引"。

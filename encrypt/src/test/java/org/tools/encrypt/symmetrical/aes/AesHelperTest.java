@@ -7,10 +7,10 @@ import org.tools.encrypt.entity.symmetrical.Aes;
 import org.tools.encrypt.entity.symmetrical.AesProperties;
 import org.tools.encrypt.exception.symmetrical.aes.AesException;
 
-import javax.crypto.SecretKey;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.SecretKey;
 
 /**
  * AesHelper 冒烟测试

@@ -84,7 +84,7 @@ JAVA_HOME=/path/to/jdk17 PATH=/path/to/jdk17/bin:$PATH mvn -B -DskipTests=false 
 | 依赖 | 版本 | 用于 |
 |---|---|---|
 | Spring Boot | 2.7.18 | starter；同时导入 `spring-framework-bom` 5.3.39（须在 Boot BOM 之前） |
-| BouncyCastle `bcprov-jdk18on` | 1.78.1 | encrypt（IDEA、RSA-OAEP） |
+| BouncyCastle `bcprov-jdk18on` | 1.78.1 | encrypt（IDEA、`OAEPWithSHA__256AndMGF1Padding`、RC5、Skipjack） |
 | java-jwt | 4.4.0 | encrypt JWT |
 | fastjson2 | 2.0.53 | fortify（fastjson 1.x 已 EOL） |
 | Apache POI | 5.2.5 | fortify Excel |

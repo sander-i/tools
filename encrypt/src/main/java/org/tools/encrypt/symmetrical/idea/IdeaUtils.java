@@ -6,16 +6,16 @@ import org.tools.encrypt.exception.symmetrical.idea.IdeaException;
 import org.tools.encrypt.symmetrical.CipherSymmetrical;
 import org.tools.encrypt.symmetrical.SymmetricalUtils;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 
 /**
  * IDEA 加解密底层入口。

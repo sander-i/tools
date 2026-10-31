@@ -32,4 +32,23 @@ public class AlgorithmEnumTest {
         Assert.assertTrue(SignAlgorithmEnum.SHA256_WITH_RSA.equals("SHA256withRSA"));
         Assert.assertEquals(SignAlgorithmEnum.SHA256_WITH_DSA, SignAlgorithmEnum.enumName("SHA256withDSA"));
     }
+
+    @Test
+    public void testNewAlgorithmEnum() {
+        Assert.assertEquals(AlgorithmEnum.BLOWFISH, AlgorithmEnum.enumName("Blowfish"));
+        Assert.assertEquals(AlgorithmEnum.RC2, AlgorithmEnum.enumName("RC2"));
+        Assert.assertEquals(AlgorithmEnum.RC4, AlgorithmEnum.enumName("RC4"));
+        Assert.assertEquals(AlgorithmEnum.RC5, AlgorithmEnum.enumName("RC5"));
+        Assert.assertEquals(AlgorithmEnum.SKIPJACK, AlgorithmEnum.enumName("SKIPJACK"));
+        Assert.assertEquals(AlgorithmEnum.DH, AlgorithmEnum.enumName("DH"));
+        Assert.assertEquals(AlgorithmEnum.EC, AlgorithmEnum.enumName("EC"));
+        Assert.assertEquals(AlgorithmModeEnum.RC2_CBC_PKCS5PADDING,
+                AlgorithmModeEnum.enumName("RC2/CBC/PKCS5Padding"));
+        Assert.assertEquals(AlgorithmModeEnum.RC5_CBC_PKCS5PADDING,
+                AlgorithmModeEnum.enumName("RC5/CBC/PKCS5Padding"));
+        Assert.assertEquals(AlgorithmModeEnum.SKIPJACK_CBC_PKCS5PADDING,
+                AlgorithmModeEnum.enumName("SKIPJACK/CBC/PKCS5Padding"));
+        Assert.assertEquals(SignAlgorithmEnum.SHA256_WITH_ECDSA,
+                SignAlgorithmEnum.enumName("SHA256withECDSA"));
+    }
 }
