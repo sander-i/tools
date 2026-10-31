@@ -22,11 +22,11 @@ A self-contained operations guide (no external dependencies) covering the capabi
 <dependency>
     <groupId>io.gitee.sander-o</groupId>
     <artifactId>encrypt</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
-> The version is read from the root `pom.xml` (currently `2.0.0`, a development version that may change before release; use the version actually published on [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools)).
+> The version is read from the root `pom.xml` (currently `2.1.0`, a development version that may change before release; use the version actually published on [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools)).
 
 ### 2. Three lines of code
 
@@ -49,7 +49,7 @@ String ciphertext = AesHelper.encode("hello");
 <dependency>
     <groupId>io.gitee.sander-o.spring.boot</groupId>
     <artifactId>encrypt-spring-boot-starter</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -62,17 +62,17 @@ No annotation required — configure `tools.encrypt.*` in `application.yml` and 
 - **Backed by tests**: the core encryption paths are covered by a smoke-test suite covering every public method (see [testing](encrypt/README.md#测试)).
 - **Clear boundaries**: algorithm / mode / padding / key / IV / charset behavior is documented per capability — see the [security boundary table](encrypt/README.md#安全边界).
 - **Adopt on demand**: need only crypto? Add `encrypt` only. Need Spring Boot auto-configuration? Add the starter. `bedrock` and `fortify` are optional companions, not prerequisites (only `encrypt` itself depends on a few basic utilities from `bedrock`, which is pulled in transitively).
-- **Covers the common cases**: AES / DES / IDEA, RSA, DSA, MD5 / SHA family, digital signatures, JWT, Base64, CRC32.
+- **Covers the common cases**: AES / DES / IDEA / Blowfish / 3DES / RC2 / RC4 / RC5 / Skipjack, RSA, DH / ECDH key agreement, DSA / ECDSA signatures, MD5 / SHA family, JWT, Base64, CRC32. Key semantics for every algorithm are listed in the [encrypt security boundary table](encrypt/README.md#安全边界).
 
 ## Project Layout
 
 ```
 tools
 ├── encrypt           # ★ Flagship module: cryptography & security (the primary entry point)
-│   ├── asymmetric    # Asymmetric encryption (RSA)
+│   ├── asymmetric    # Asymmetric encryption & key agreement (RSA, DH, ECC/ECDH)
 │   ├── basic         # Digests & encoding (MD5, SHA, JWT, Base64, CRC32)
-│   ├── digitalsignature # Digital signatures (DSA)
-│   └── symmetrical   # Symmetric encryption (AES, DES, IDEA)
+│   ├── digitalsignature # Digital signatures (DSA, ECDSA)
+│   └── symmetrical   # Symmetric encryption (AES, DES, IDEA, Blowfish, 3DES, RC2, RC4, RC5, Skipjack)
 ├── tools-spring-boot-starter
 │   └── encrypt-spring-boot-starter  # Spring Boot auto-configuration
 ├── bedrock           # Companion module: basic utilities
@@ -119,7 +119,7 @@ To pull in every module, import the BOM and declare what you need:
 ```xml
 <properties>
     <!-- Use the version actually published on Maven Central -->
-    <tools.version>2.0.0</tools.version>
+    <tools.version>2.1.0</tools.version>
 </properties>
 
 <dependencyManagement>

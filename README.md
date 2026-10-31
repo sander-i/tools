@@ -22,11 +22,11 @@
 <dependency>
     <groupId>io.gitee.sander-o</groupId>
     <artifactId>encrypt</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
-> 版本号读取自项目根 `pom.xml`（当前为 `2.0.0`，属于开发中版本，发布时可能变化；以 [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools) 上实际可用的版本为准）。
+> 版本号读取自项目根 `pom.xml`（当前为 `2.1.0`，属于开发中版本，发布时可能变化；以 [Maven Central](https://central.sonatype.com/artifact/io.gitee.sander-o/tools) 上实际可用的版本为准）。
 
 ### 2. 三行代码开始使用
 
@@ -55,7 +55,7 @@ String plaintext  = AesHelper.decode(ciphertext); // "hello"
 <dependency>
     <groupId>io.gitee.sander-o.spring.boot</groupId>
     <artifactId>encrypt-spring-boot-starter</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -68,17 +68,17 @@ String plaintext  = AesHelper.decode(ciphertext); // "hello"
 - **有测试兜底**：核心加解密路径有单元测试覆盖（运行方式见 [encrypt 模块文档](encrypt/README.md#测试)）。
 - **边界明确**：每个能力的算法 / 模式 / 填充 / 密钥 / IV / 字符集行为都有文档约束，见 [安全边界表](encrypt/README.md#安全边界)。
 - **可按需引入**：只要加密，就只引 `encrypt`；要 Spring Boot 自动装配，加 `encrypt-spring-boot-starter`；`bedrock`、`fortify` 是可选的配套模块，不是前置依赖（仅 `encrypt` 内部依赖 `bedrock` 的少量基础工具，随其自动传递）。
-- **算法覆盖常见场景**：AES / DES / IDEA、RSA、DSA、MD5 / SHA 系列、数字签名、JWT、Base64、CRC32。
+- **算法覆盖常见场景**：AES / DES / IDEA / Blowfish / 3DES / RC2 / RC4 / RC5 / Skipjack、RSA、DH / ECDH 密钥协商、DSA / ECDSA 数字签名、MD5 / SHA 系列、JWT、Base64、CRC32。对称与协商类算法的详细密钥语义见 [encrypt 安全边界表](encrypt/README.md#安全边界)。
 
 ## 项目结构
 
 ```
 tools
 ├── encrypt           # ★ 旗舰模块：加密与安全（本项目的第一入口）
-│   ├── asymmetric    # 非对称加密（RSA 等）
+│   ├── asymmetric    # 非对称加密与密钥协商（RSA、DH、ECC/ECDH）
 │   ├── basic         # 摘要与编码（MD5、SHA、JWT、Base64、CRC32）
-│   ├── digitalsignature # 数字签名（DSA 等）
-│   └── symmetrical   # 对称加密（AES、DES、IDEA 等）
+│   ├── digitalsignature # 数字签名（DSA、ECDSA）
+│   └── symmetrical   # 对称加密（AES、DES、IDEA、Blowfish、3DES、RC2、RC4、RC5、Skipjack）
 ├── tools-spring-boot-starter
 │   └── encrypt-spring-boot-starter  # Spring Boot 自动装配
 ├── bedrock           # 配套模块：基础工具
@@ -145,7 +145,7 @@ JAVA_HOME=/path/to/jdk17 PATH=/path/to/jdk17/bin:$PATH mvn -B -DskipTests=false 
 ```xml
 <properties>
     <!-- 以 Maven Central 实际发布的版本为准 -->
-    <tools.version>2.0.0</tools.version>
+    <tools.version>2.1.0</tools.version>
 </properties>
 
 <dependencyManagement>
@@ -222,6 +222,27 @@ payload.put("userId", "123");
 String token = JWTUtils.generatorToken(payload, "your-strong-secret");
 Map<String, String> parsed = JWTUtils.parseToken(token, "your-strong-secret");
 ```
+
+新增算法（2.1.0）与 RSA 系列同构，均通过 `load(properties)` + `encode/decode` 使用：
+
+```java
+// 对称：Blowfish / 3DES / RC2 / RC4 / RC5 / Skipjack（密钥统一 Hex 字符串）
+BlowfishProperties blowfish = new BlowfishProperties();
+blowfish.setSecretKeyStr("0123456789abcdef");      // 8 字节 Hex
+BlowfishHelper.load(blowfish);
+String encrypted = BlowfishHelper.encode("plaintext");
+
+// 密钥协商：DH / ECDH（只协商，不加密；共享秘密须经 HKDF/SHA-256 派生）
+KeyPair dhPair = DhHelper.generateKeyPair();       // 默认 2048 位
+byte[] sharedSecret = DhHelper.generateSharedSecret(dhPair.getPrivate(), peerPublicKey);
+KeyPair ecPair = EccKeyGenerator.generateKeyPair(); // 默认 secp256r1
+
+// 签名：ECDSA（默认 SHA256withECDSA）
+String signature = EcdsaHelper.sign("plaintext");
+boolean verified = EcdsaHelper.verify("plaintext", signature);
+```
+
+> 新增算法的完整密钥语义、模式限制与安全等级见 [encrypt/README.md](encrypt/README.md)，分层设计与落地规范见 [encrypt/ALGORITHM-DESIGN.md](encrypt/ALGORITHM-DESIGN.md)。
 
 > 注意：`AesHelper` / `RsaHelper` 等基于静态配置（`load`）工作，进程内共享一份配置；密钥明文请勿硬编码在源码中，密钥来源建议见 [starter 文档](tools-spring-boot-starter/encrypt-spring-boot-starter/README.md)。
 

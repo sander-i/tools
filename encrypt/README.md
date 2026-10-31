@@ -6,7 +6,7 @@
 
 **不适用场景**：全盘磁盘加密、TLS/SSL、需要抗量子攻击的场景。
 
-- 坐标：`io.gitee.sander-o:encrypt`（版本见根 [pom.xml](../pom.xml)，当前 `2.0.0`）
+- 坐标：`io.gitee.sander-o:encrypt`（版本见根 [pom.xml](../pom.xml)，当前 `2.1.0`）
 - Spring Boot 用户请直接使用 [encrypt-spring-boot-starter](../tools-spring-boot-starter/encrypt-spring-boot-starter/README.md)
 - 安全问题请勿公开提交，见 [SECURITY.md](../SECURITY.md)
 

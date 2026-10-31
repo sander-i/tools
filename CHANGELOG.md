@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-10-31
+
 ### Added
 
 - **encrypt 新增 9 个算法实现**：对称加密 `BlowfishHelper` / `Des3Helper`（3DES，位于 `symmetrical.des.des3`）/ `Rc2Helper` / `Rc4Helper` / `Rc5Helper` / `SkipjackHelper`，非对称密钥协商 `DhHelper`（DH）与 `EccHelper`（ECDH），数字签名 `EcdsaHelper`（ECDSA），各含对应 `KeyGenerator`、`Properties`、算法专属异常类与 JUnit 4 冒烟测试（round-trip + 已知答案断言）。`des3` 与 `tdea` 合并为同一实现（`tdea` 仅保留包别名说明，无重复类）；DH/ECC 只做密钥协商、不提供 `encode`/`decode`，原始共享秘密须经 HKDF/SHA-256 派生后才能作对称密钥；ElGamal / Knapsack / Rabin 仍为包占位。能力矩阵、安全边界表、`encrypt/README.md`、`encrypt/AGENTS.md` 与 HTML 操作文档同步更新（Blowfish/3DES/RC2/RC4/RC5/Skipjack 标注 legacy，不推荐用于新设计）。关键参数约定：RC5 固定 version 1.0（16）/ 12 轮 / 32 位字（`RC5ParameterSpec(16, 12, 32)`，与标准实现互操作）；RC2 密钥 40~1024 位、ECB 与 CBC 均按密钥长度计算 effective key bits；3DES 仅支持 `DESede/CBC/PKCS5Padding`；Blowfish 密钥位数须为 8 的倍数；DH/ECDH 与 ECDSA 的公私钥解析统一使用 `Base64.decodeBase64(String)`。

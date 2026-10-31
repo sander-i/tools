@@ -2,7 +2,7 @@
 
 `encrypt-spring-boot-starter` 为 [encrypt 模块](../../../encrypt/README.md) 提供 Spring Boot 自动装配：在 `application.yml` 中配置 `tools.encrypt.*`，启动时自动完成 AES / DES / IDEA / RSA 的密钥装载（`XxxHelper.load(...)`），业务代码直接调用 `AesHelper`、`RsaHelper` 等静态工具类即可。
 
-- 坐标：`io.gitee.sander-o.spring.boot:encrypt-spring-boot-starter`（版本随根 `pom.xml`，当前 `2.0.0`）
+- 坐标：`io.gitee.sander-o.spring.boot:encrypt-spring-boot-starter`（版本随根 `pom.xml`，当前 `2.1.0`）
 - 适配：Spring Boot 2.7.x（同时通过 `spring.factories` 与 `AutoConfiguration.imports` 注册，2.7 均可加载）
 - Java：1.8+
 
@@ -14,7 +14,7 @@
 <dependency>
     <groupId>io.gitee.sander-o.spring.boot</groupId>
     <artifactId>encrypt-spring-boot-starter</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 

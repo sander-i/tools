@@ -4,7 +4,7 @@
 
 ## Purpose
 
-`io.gitee.sander-o:tools` 是一个可发布到 Maven Central 的 Java 工具库聚合工程（`packaging=pom`，版本 `2.0.0`）。定位为「以 encrypt 为旗舰的 Java 加密库（含配套工具）」：`encrypt` 是主入口，`bedrock`（基础工具）与 `fortify`（增强能力）为可选配套模块，`tools-spring-boot-starter` 提供 Spring Boot 自动装配。
+`io.gitee.sander-o:tools` 是一个可发布到 Maven Central 的 Java 工具库聚合工程（`packaging=pom`，版本 `2.1.0`）。定位为「以 encrypt 为旗舰的 Java 加密库（含配套工具）」：`encrypt` 是主入口，`bedrock`（基础工具）与 `fortify`（增强能力）为可选配套模块，`tools-spring-boot-starter` 提供 Spring Boot 自动装配。
 
 所有模块统一以 **Java 8 字节码**（class major 52）发布，最低运行环境 JDK 8，需在 JDK 8 / 17 / 21 上可运行。
 

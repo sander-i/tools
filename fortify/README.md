@@ -8,7 +8,7 @@
 <dependency>
     <groupId>io.gitee.sander-o</groupId>
     <artifactId>fortify</artifactId>
-    <version>2.0.0</version> <!-- 以根 pom.xml / Maven Central 为准 -->
+    <version>2.1.0</version> <!-- 以根 pom.xml / Maven Central 为准 -->
 </dependency>
 ```
 
