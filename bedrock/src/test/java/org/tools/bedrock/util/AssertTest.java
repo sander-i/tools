@@ -85,6 +85,19 @@ public class AssertTest {
         // 不抛出异常即为通过
     }
 
+    /**
+     * 两个 isNotNull 重载在对象为 null 时应保持同一异常契约。
+     */
+    @Test
+    public void testIsNotNullNullThrowsIllegalArgumentException() {
+        try {
+            Assert.isNotNull(null);
+            fail("null 对象应抛出 IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertNotNull(e.getMessage());
+        }
+    }
+
     @Test
     public void testIsEmptyList() {
         List<String> list = new ArrayList<>();

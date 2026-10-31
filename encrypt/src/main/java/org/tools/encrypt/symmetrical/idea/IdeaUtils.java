@@ -71,9 +71,8 @@ public class IdeaUtils extends SymmetricalUtils {
                     .actuator(algorithm, algorithmMode, secretKey, null, Cipher.ENCRYPT_MODE, before, 0);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                 BadPaddingException | InvalidAlgorithmParameterException e) {
-            log.error(
-                    "encode error! algorithm {}, algorithmMode {}, secretKey {}, mode Cipher.ENCRYPT_MODE , before {}",
-                    algorithm, algorithmMode, secretKey, before);
+            log.error("encode error! algorithm {}, algorithmMode {}, mode Cipher.ENCRYPT_MODE",
+                    algorithm, algorithmMode, e);
             throw new IdeaException(e);
         }
 
@@ -100,9 +99,8 @@ public class IdeaUtils extends SymmetricalUtils {
                     .actuator(algorithm, algorithmMode, secretKey, null, Cipher.DECRYPT_MODE, before, 0);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                 BadPaddingException | InvalidAlgorithmParameterException e) {
-            log.error(
-                    "decode error! algorithm {}, algorithmMode {}, secretKey {}, mode Cipher.DECRYPT_MODE , before {}",
-                    algorithm, algorithmMode, secretKey, before);
+            log.error("decode error! algorithm {}, algorithmMode {}, mode Cipher.DECRYPT_MODE",
+                    algorithm, algorithmMode, e);
             throw new IdeaException(e);
         }
 

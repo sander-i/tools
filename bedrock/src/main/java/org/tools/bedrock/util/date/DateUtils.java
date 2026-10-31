@@ -206,7 +206,7 @@ public class DateUtils {
      * @return Date
      */
     public static Date getUTCDate() {
-        return TimeZoneUtils.covertTimeZoneUTC(new Date(), YMD_HMS_PATTERN, TimeZone.getDefault().getID());
+        return TimeZoneUtils.convertTimeZoneUTC(new Date(), YMD_HMS_PATTERN, TimeZone.getDefault().getID());
     }
 
     /**
@@ -215,7 +215,7 @@ public class DateUtils {
      * @return Date
      */
     public static String getUTCDateStr() {
-        return TimeZoneUtils.covertTimeZoneUTCStr(new Date(), YMD_HMS_PATTERN, TimeZone.getDefault().getID());
+        return TimeZoneUtils.convertTimeZoneUTCStr(new Date(), YMD_HMS_PATTERN, TimeZone.getDefault().getID());
     }
 
     /**

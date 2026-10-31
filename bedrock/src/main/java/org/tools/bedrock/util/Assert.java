@@ -1,7 +1,5 @@
 package org.tools.bedrock.util;
 
-import org.tools.bedrock.exception.BusinessException;
-
 import java.util.List;
 import java.util.Map;
 
@@ -36,12 +34,11 @@ public class Assert {
      * 对象非 null
      *
      * @param obj 对象
-     * @throws BusinessException obj 为 null 时抛出（注意：与 {@link #isNotNull(Object, String, Object...)}
-     *                           抛出的 {@link IllegalArgumentException} 不同）
+     * @throws IllegalArgumentException obj 为 null 时抛出（与 {@link #isNotNull(Object, String, Object...)} 一致）
      */
     public static void isNotNull(Object obj) {
         if (BaseUtils.isNull(obj)) {
-            throw new BusinessException();
+            throw new IllegalArgumentException("对象不能为空");
         }
     }
 

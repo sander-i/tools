@@ -95,10 +95,8 @@ public class SymmetricalUtils {
                     .actuator(algorithm, algorithmMode, secretKey, ivParameter, Cipher.ENCRYPT_MODE, before, 0);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | InvalidAlgorithmParameterException e) {
-            log.error(
-                    "encode error! algorithm {}, algorithmMode {}, secretKey {}, ivParameter {}, mode Cipher"
-                            + ".ENCRYPT_MODE , before {}",
-                    algorithm, algorithmMode, secretKey, ivParameter, before);
+            log.error("encode error! algorithm {}, algorithmMode {}, mode Cipher.ENCRYPT_MODE",
+                    algorithm, algorithmMode, e);
             throw new SymmetricalException(e);
         }
 
@@ -127,10 +125,8 @@ public class SymmetricalUtils {
                     .actuator(algorithm, algorithmMode, secretKey, ivParameter, Cipher.DECRYPT_MODE, before, 0);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | InvalidAlgorithmParameterException e) {
-            log.error(
-                    "decode error! algorithm {}, algorithmMode {}, secretKey {}, ivParameter {}, mode Cipher"
-                            + ".DECRYPT_MODE , before {}",
-                    algorithm, algorithmMode, secretKey, ivParameter, before);
+            log.error("decode error! algorithm {}, algorithmMode {}, mode Cipher.DECRYPT_MODE",
+                    algorithm, algorithmMode, e);
             throw new SymmetricalException(e);
         }
 
