@@ -26,20 +26,22 @@ import static org.mockito.Mockito.*;
 /**
  * AliyunDdnsUtils 冒烟测试
  * 测试阿里云DDNS工具类的基本功能
+ *
  * @author sander
  * @since 1.0.6.6
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AliyunDdnsUtilsTest {
-    @Mock
-    private Client mockClient;
-
-    private AliyunDdnsConfig config;
     private static final String TEST_ACCESS_KEY_ID = "testAccessKeyId";
     private static final String TEST_ACCESS_KEY_SECRET = "testAccessKeySecret";
     private static final String TEST_ENDPOINT = "testEndpoint";
     private static final String TEST_DOMAIN_NAME = "example.com";
     private static final String TEST_RECORD_TYPE = "A";
+
+    @Mock
+    private Client mockClient;
+
+    private AliyunDdnsConfig config;
 
     @Before
     public void setUp() {

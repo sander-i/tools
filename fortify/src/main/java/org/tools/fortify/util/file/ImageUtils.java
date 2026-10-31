@@ -8,11 +8,6 @@ import org.tools.bedrock.constant.Constants;
 import org.tools.bedrock.constant.v2.SpecialSymbolConst;
 import org.tools.bedrock.util.BaseUtils;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.FileImageOutputStream;
-import javax.imageio.stream.ImageInputStream;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -22,6 +17,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageInputStream;
 
 /**
  * 图片工具
@@ -58,7 +58,7 @@ public class ImageUtils {
         URL url;
         InputStream input = null;
         HttpURLConnection httpConn = null;
-        String errorMsg = "图片URL转字符数组";
+        String errorMsg = "image URL to byte array";
         try {
             url = new URL(urlPath);
             httpConn = (HttpURLConnection) url.openConnection();
@@ -84,7 +84,7 @@ public class ImageUtils {
         URL url;
         InputStream input = null;
         HttpURLConnection httpConn = null;
-        String errorMsg = "图片URL转字符数组(无超时限制)";
+        String errorMsg = "image URL to byte array (no timeout limit)";
         try {
             url = new URL(httpUrl);
             httpConn = (HttpURLConnection) url.openConnection();
@@ -111,7 +111,7 @@ public class ImageUtils {
                 FileImageInputStream) stream : null;
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        String errorMsg = "读取输入流返回字节数组";
+        String errorMsg = "read input stream to byte array";
         try {
             byte[] buffer = Constants.MAXIMUM_BYTE_ARRAY;
             int len;
@@ -146,32 +146,32 @@ public class ImageUtils {
     public static byte[] imageToBinaryLoss(String filePath) {
         // 参数验证
         if (BaseUtils.isEmpty(filePath)) {
-            log.warn("文件路径为空或null，无法读取图片文件");
+            log.warn("file path is empty or null, cannot read image file");
             return Constants.EMPTY_BYTE_ARRAY;
         }
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        String errorMsg = "图片文件转字节数组";
+        String errorMsg = "image file to byte array (lossy)";
 
         try {
             File f = new File(filePath);
 
             // 检查文件是否存在
             if (!f.exists()) {
-                log.warn("图片文件不存在: {}", filePath);
+                log.warn("image file not found: {}", filePath);
                 return Constants.EMPTY_BYTE_ARRAY;
             }
 
             // 检查是否为文件（而不是目录）
             if (!f.isFile()) {
-                log.warn("指定路径不是文件: {}", filePath);
+                log.warn("specified path is not a file: {}", filePath);
                 return Constants.EMPTY_BYTE_ARRAY;
             }
 
             // 读取图片文件
             BufferedImage buf = ImageIO.read(f);
             if (buf == null) {
-                log.warn("无法读取图片文件，可能不是有效的图片格式: {}", filePath);
+                log.warn("cannot read image file, may not be a valid image format: {}", filePath);
                 return Constants.EMPTY_BYTE_ARRAY;
             }
 
@@ -180,22 +180,22 @@ public class ImageUtils {
             // 如果没有扩展名或扩展名无效，使用默认格式
             if (BaseUtils.isEmpty(format)) {
                 format = "jpg"; // 默认使用jpg格式
-                log.debug("文件无扩展名，使用默认格式: {}", format);
+                log.debug("file has no extension, using default format: {}", format);
             }
 
             // 写入图片数据
             boolean success = ImageIO.write(buf, format, buffer);
             if (!success) {
-                log.warn("写入图片数据失败，可能不支持的格式: {}", format);
+                log.warn("failed to write image data, possibly unsupported format: {}", format);
                 return Constants.EMPTY_BYTE_ARRAY;
             }
 
-            log.debug("成功将图片文件转换为字节数组，文件: {}, 大小: {} 字节", filePath, buffer.size());
+            log.debug("successfully converted image file to byte array, file: {}, size: {} bytes", filePath, buffer.size());
             return buffer.toByteArray();
         } catch (IOException e) {
-            log.error("读取或转换图片文件失败，路径: {}", filePath, e);
+            log.error("failed to read or convert image file, path: {}", filePath, e);
         } catch (Exception e) {
-            log.error("处理图片文件时发生未知错误，路径: {}", filePath, e);
+            log.error("unknown error while processing image file, path: {}", filePath, e);
         } finally {
             closeStream(errorMsg, buffer);
         }
@@ -215,22 +215,22 @@ public class ImageUtils {
     public static void binaryToImageLoss(byte[] bytes, String outfilePath) {
         // 参数验证
         if (bytes == null) {
-            log.warn("图片字节数组为null，无法写入文件");
+            log.warn("image byte array is null, cannot write file");
             return;
         }
 
         if (bytes.length == 0) {
-            log.warn("图片字节数组为空，无法写入文件");
+            log.warn("image byte array is empty, cannot write file");
             return;
         }
 
         if (BaseUtils.isEmpty(outfilePath)) {
-            log.warn("输出文件路径为空或null，无法写入文件");
+            log.warn("output file path is empty or null, cannot write file");
             return;
         }
 
         ByteArrayInputStream input = new ByteArrayInputStream(bytes);
-        String errorMsg = "将二进制转换为图片(损失部分画质)";
+        String errorMsg = "binary to image (lossy)";
 
         try {
             File f = new File(outfilePath);
@@ -239,35 +239,35 @@ public class ImageUtils {
             File parentDir = f.getParentFile();
             if (parentDir != null && !parentDir.exists()) {
                 if (parentDir.mkdirs()) {
-                    log.debug("创建目录成功: {}", parentDir.getAbsolutePath());
+                    log.debug("created directory: {}", parentDir.getAbsolutePath());
                 } else {
-                    log.warn("创建目录失败: {}", parentDir.getAbsolutePath());
+                    log.warn("failed to create directory: {}", parentDir.getAbsolutePath());
                 }
             }
 
             // 创建文件（如果不存在）
             if (!f.exists()) {
                 if (f.createNewFile()) {
-                    log.debug("创建文件成功: {}", f.getAbsolutePath());
+                    log.debug("created file: {}", f.getAbsolutePath());
                 } else {
-                    log.warn("创建文件失败: {}", f.getAbsolutePath());
+                    log.warn("failed to create file: {}", f.getAbsolutePath());
                 }
             } else {
-                log.debug("文件已存在，将覆盖: {}", f.getAbsolutePath());
+                log.debug("file already exists, will overwrite: {}", f.getAbsolutePath());
             }
 
             BufferedImage buffer = ImageIO.read(input);
             if (buffer == null) {
-                log.warn("无法读取图片数据，可能不是有效的图片格式");
+                log.warn("cannot read image data, may not be a valid image format");
                 return;
             }
 
             ImageIO.write(buffer, formatName(outfilePath), f);
-            log.debug("成功将字节数组转换为图片文件，路径: {}", outfilePath);
+            log.debug("successfully converted byte array to image file, path: {}", outfilePath);
         } catch (IOException e) {
-            log.error("转换图片文件失败，路径: {}", outfilePath, e);
+            log.error("failed to convert image file, path: {}", outfilePath, e);
         } catch (Exception e) {
-            log.error("处理图片文件时发生未知错误，路径: {}", outfilePath, e);
+            log.error("unknown error while processing image file, path: {}", outfilePath, e);
         } finally {
             closeStream(errorMsg, input);
         }
@@ -311,33 +311,33 @@ public class ImageUtils {
     public static byte[] imageToBinary(String filePath) {
         // 参数验证
         if (BaseUtils.isEmpty(filePath)) {
-            log.warn("文件路径为空或null，无法读取图片文件");
+            log.warn("file path is empty or null, cannot read image file");
             return Constants.EMPTY_BYTE_ARRAY;
         }
 
         File file = new File(filePath);
         FileImageInputStream input = null;
-        String errorMsg = "图片文件转字符数组";
+        String errorMsg = "image file to byte array (raw)";
 
         try {
             // 检查文件是否存在
             if (!file.exists()) {
-                log.warn("图片文件不存在: {}", filePath);
+                log.warn("image file not found: {}", filePath);
                 return Constants.EMPTY_BYTE_ARRAY;
             }
 
             // 检查是否为文件（而不是目录）
             if (!file.isFile()) {
-                log.warn("指定路径不是文件: {}", filePath);
+                log.warn("specified path is not a file: {}", filePath);
                 return Constants.EMPTY_BYTE_ARRAY;
             }
 
             input = new FileImageInputStream(file);
             return readInputStream(input);
         } catch (IOException e) {
-            log.error("读取图片文件失败，路径: {}", filePath, e);
+            log.error("failed to read image file, path: {}", filePath, e);
         } catch (Exception e) {
-            log.error("处理图片文件时发生未知错误，路径: {}", filePath, e);
+            log.error("unknown error while processing image file, path: {}", filePath, e);
         } finally {
             closeStream(errorMsg, input);
         }
@@ -354,55 +354,55 @@ public class ImageUtils {
     public static void binaryToImage(byte[] bytes, String outfilePath) {
         // 参数验证
         if (bytes == null) {
-            log.warn("图片字节数组为null，无法写入文件");
+            log.warn("image byte array is null, cannot write file");
             return;
         }
 
         if (bytes.length == 0) {
-            log.warn("图片字节数组为空，无法写入文件");
+            log.warn("image byte array is empty, cannot write file");
             return;
         }
 
         if (BaseUtils.isEmpty(outfilePath)) {
-            log.warn("输出文件路径为空或null，无法写入文件");
+            log.warn("output file path is empty or null, cannot write file");
             return;
         }
 
         File f = new File(outfilePath);
         FileImageOutputStream output = null;
-        String errorMsg = "二进制转图片文件";
+        String errorMsg = "binary to image file";
 
         try {
             // 确保父目录存在
             File parentDir = f.getParentFile();
             if (parentDir != null && !parentDir.exists()) {
                 if (parentDir.mkdirs()) {
-                    log.debug("创建目录成功: {}", parentDir.getAbsolutePath());
+                    log.debug("created directory: {}", parentDir.getAbsolutePath());
                 } else {
-                    log.warn("创建目录失败: {}", parentDir.getAbsolutePath());
+                    log.warn("failed to create directory: {}", parentDir.getAbsolutePath());
                 }
             }
 
             // 创建文件（如果不存在）
             if (!f.exists()) {
                 if (f.createNewFile()) {
-                    log.debug("创建文件成功: {}", f.getAbsolutePath());
+                    log.debug("created file: {}", f.getAbsolutePath());
                 } else {
-                    log.warn("创建文件失败: {}", f.getAbsolutePath());
+                    log.warn("failed to create file: {}", f.getAbsolutePath());
                 }
             } else {
-                log.debug("文件已存在，将覆盖: {}", f.getAbsolutePath());
+                log.debug("file already exists, will overwrite: {}", f.getAbsolutePath());
             }
 
             output = new FileImageOutputStream(f);
             // 将字节数组写入硬盘
             output.write(bytes, Constants.ZERO_I, bytes.length);
             output.flush();
-            log.debug("成功将字节数组写入图片文件，文件大小: {} 字节，路径: {}", bytes.length, outfilePath);
+            log.debug("successfully wrote byte array to image file, size: {} bytes, path: {}", bytes.length, outfilePath);
         } catch (IOException e) {
-            log.error("写入图片文件失败，路径: {}", outfilePath, e);
+            log.error("failed to write image file, path: {}", outfilePath, e);
         } catch (Exception e) {
-            log.error("处理图片文件时发生未知错误，路径: {}", outfilePath, e);
+            log.error("unknown error while processing image file, path: {}", outfilePath, e);
         } finally {
             closeStream(errorMsg, output);
         }
@@ -453,7 +453,7 @@ public class ImageUtils {
     public static byte[] compressPicByScale(byte[] imageBytes, double scale, float quality) {
         ByteArrayInputStream input = new ByteArrayInputStream(imageBytes);
         ByteArrayOutputStream output = new ByteArrayOutputStream(imageBytes.length);
-        String errorMsg = "按照比例质量压缩图片";
+        String errorMsg = "compress image by scale and quality";
         try {
             Thumbnails.of(input)
                     .scale(scale)
@@ -481,7 +481,7 @@ public class ImageUtils {
     public static byte[] compressPicByScale(byte[] imageBytes, int width, int height, float quality) {
         ByteArrayInputStream input = new ByteArrayInputStream(imageBytes);
         ByteArrayOutputStream output = new ByteArrayOutputStream(imageBytes.length);
-        String errorMsg = "按照比例质量压缩图片";
+        String errorMsg = "compress image by scale and quality";
         try {
             Thumbnails.of(input)
                     .size(width, height)
@@ -510,7 +510,7 @@ public class ImageUtils {
     public static byte[] compressPicByScale(byte[] imageBytes, int width, int height, float quality, String format) {
         ByteArrayInputStream input = new ByteArrayInputStream(imageBytes);
         ByteArrayOutputStream output = new ByteArrayOutputStream(imageBytes.length);
-        String errorMsg = "按照比例质量格式压缩图片";
+        String errorMsg = "compress image by scale, quality and format";
         try {
             Thumbnails.of(input)
                     .size(width, height)
@@ -538,7 +538,7 @@ public class ImageUtils {
     public static byte[] compressPicByScale(byte[] imageBytes, double scale, float quality, String format) {
         ByteArrayInputStream input = new ByteArrayInputStream(imageBytes);
         ByteArrayOutputStream output = new ByteArrayOutputStream(imageBytes.length);
-        String errorMsg = "按照比例质量格式压缩图片";
+        String errorMsg = "compress image by scale, quality and format";
         try {
             Thumbnails.of(input)
                     .scale(scale)

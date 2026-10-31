@@ -1,11 +1,11 @@
 package org.tools.bedrock.util.file.image;
 
-import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * 图像结构处理工具类，提供结构相似度(SSIM)计算功能

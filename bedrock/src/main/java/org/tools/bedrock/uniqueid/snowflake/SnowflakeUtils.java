@@ -246,6 +246,7 @@ public class SnowflakeUtils {
 
     /**
      * 默认实例持有者（workerId=0，dataCenterId=0）
+     *
      * @since 2.0.0
      */
     private static class DefaultHolder {

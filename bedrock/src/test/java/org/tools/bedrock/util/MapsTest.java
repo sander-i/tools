@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Maps 冒烟测试
  * 测试基本的Map操作功能
+ *
  * @author sander
  * @since 1.0.3
  */

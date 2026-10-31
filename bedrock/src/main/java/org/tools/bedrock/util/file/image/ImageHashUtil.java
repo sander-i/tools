@@ -1,11 +1,11 @@
 package org.tools.bedrock.util.file.image;
 
-import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * 图像哈希处理工具类，提供平均哈希、感知哈希、差异哈希等算法实现

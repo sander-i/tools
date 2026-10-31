@@ -241,10 +241,10 @@ public class Maps {
             try {
                 ClassUtils.setProperty(target, targetName, entityMapValue);
             } catch (IllegalArgumentException e) {
-                log.error("设置属性值失败 - 类型不匹配，字段: {}, 值: {}, 错误: {}", targetName, entityMapValue, e
-                        .getMessage(), e);
+                log.error("set property failed - type mismatch, field: {}, value: {}, error: {}", targetName,
+                        entityMapValue, e.getMessage(), e);
             } catch (Exception e) {
-                log.error("设置属性值失败 - 其他异常，字段: {}, 错误: {}", targetName, e.getMessage(), e);
+                log.error("set property failed - other exception, field: {}, error: {}", targetName, e.getMessage(), e);
             }
         }
 

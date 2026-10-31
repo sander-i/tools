@@ -2,8 +2,6 @@ package org.tools.bedrock.util.file.image;
 
 import org.tools.bedrock.base.image.Point;
 
-import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 /**
  * 图像特征处理工具类，提供图像特征提取、特征匹配等功能
  *
@@ -21,6 +21,9 @@ import java.util.Map;
  * @since 1.0.6.6
  */
 public class ImageFeatureUtil {
+    /** 特征匹配距离阈值 */
+    private static final int MATCH_THRESHOLD = 1000;
+
     /**
      * 提取图片的主要颜色特征
      *
@@ -549,11 +552,7 @@ public class ImageFeatureUtil {
      * @return 是否为角点
      */
     private static boolean isCorner(BufferedImage image, int x, int y) {
-        // 简化的角点检测算法
-        int center = getGrayValue(image, x, y);
-        int threshold = 30; // 角点检测阈值
-
-        // 检查周围像素
+        // 简化的角点检测算法：检查周围像素
         int[] neighbors = new int[8];
         neighbors[0] = getGrayValue(image, x - 1, y - 1);
         neighbors[1] = getGrayValue(image, x, y - 1);
@@ -565,6 +564,8 @@ public class ImageFeatureUtil {
         neighbors[7] = getGrayValue(image, x + 1, y + 1);
 
         // 检查是否有足够的差异
+        int center = getGrayValue(image, x, y);
+        int threshold = 30; // 角点检测阈值
         int count = 0;
         for (int neighbor : neighbors) {
             if (Math.abs(neighbor - center) > threshold) {
@@ -618,7 +619,6 @@ public class ImageFeatureUtil {
      */
     private static int matchFeatures(Map<Point, int[]> descriptors1, Map<Point, int[]> descriptors2) {
         int matches = 0;
-        int threshold = 1000; // 匹配阈值
 
         for (Map.Entry<Point, int[]> entry1 : descriptors1.entrySet()) {
             int[] descriptor1 = entry1.getValue();
@@ -637,7 +637,7 @@ public class ImageFeatureUtil {
             }
 
             // 如果找到匹配且距离小于阈值，则认为匹配成功
-            if (bestMatch != null && minDistance < threshold) {
+            if (bestMatch != null && minDistance < MATCH_THRESHOLD) {
                 matches++;
             }
         }

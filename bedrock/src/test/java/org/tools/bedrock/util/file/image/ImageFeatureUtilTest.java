@@ -3,12 +3,12 @@ package org.tools.bedrock.util.file.image;
 import org.junit.Test;
 import org.tools.bedrock.util.file.FileUtil;
 
-import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import static org.junit.Assert.*;
 

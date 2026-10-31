@@ -56,16 +56,16 @@ public class ImageSimilarityResult {
     @Override
     public String toString() {
         return String.format(
-                "ImageSimilarityResult{\n" +
-                        "  直方图相似度=%.4f,\n" +
-                        "  SSIM相似度=%.4f,\n" +
-                        "  平均哈希相似度=%.4f,\n" +
-                        "  感知哈希相似度=%.4f,\n" +
-                        "  差异哈希相似度=%.4f,\n" +
-                        "  特征匹配相似度=%.4f,\n" +
-                        "  特征向量相似度=%.4f,\n" +
-                        "  综合相似度=%.4f\n" +
-                        "}",
+                "ImageSimilarityResult{\n"
+                        + "  直方图相似度=%.4f,\n"
+                        + "  SSIM相似度=%.4f,\n"
+                        + "  平均哈希相似度=%.4f,\n"
+                        + "  感知哈希相似度=%.4f,\n"
+                        + "  差异哈希相似度=%.4f,\n"
+                        + "  特征匹配相似度=%.4f,\n"
+                        + "  特征向量相似度=%.4f,\n"
+                        + "  综合相似度=%.4f\n"
+                        + "}",
                 histogramSimilarity, ssimSimilarity, avgHashSimilarity,
                 pHashSimilarity, dHashSimilarity, featureMatchingSimilarity,
                 featureVectorSimilarity, getOverallSimilarity()

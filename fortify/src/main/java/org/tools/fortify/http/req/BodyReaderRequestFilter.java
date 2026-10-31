@@ -1,9 +1,9 @@
 package org.tools.fortify.http.req;
 
+import java.io.IOException;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-
-import java.io.IOException;
 
 /**
  * 拦截所有请求对request进行body复用封装

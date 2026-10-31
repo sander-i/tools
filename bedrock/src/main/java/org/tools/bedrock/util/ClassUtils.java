@@ -1,3 +1,6 @@
+/*
+ * ClassUtils 反射工具类：跨对象传值、属性读写与方法获取。
+ */
 package org.tools.bedrock.util;
 
 import lombok.extern.slf4j.Slf4j;
@@ -450,7 +453,7 @@ public class ClassUtils {
             Method writeMethod = getReadMethod(fieldName, aClass);
             return writeMethod.invoke(t);
         } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-            log.info("读取属性失败：", e);
+            log.info("read property failed: ", e);
         }
         return null;
     }
@@ -471,7 +474,7 @@ public class ClassUtils {
             writeMethod.invoke(t, fieldValue);
             return true;
         } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-            log.info("写入属性失败：", e);
+            log.info("write property failed: ", e);
         }
         return false;
     }

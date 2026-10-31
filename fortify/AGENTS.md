@@ -57,7 +57,7 @@ JUnit 4。fortify 无 `src/test/resources`——`ImageUtilsTest` 在测试内用
 
 - 工具类私有构造器 + 静态方法（`ExcelUtils`、`ImageUtils`、`AliyunDdnsUtils`、`JSONUtils`）。
 - 过滤器按 servlet 规范实现，包装器继承 `HttpServletRequestWrapper` 缓存 body 以支持重复读取。
-- 日志统一 `@Slf4j`，异常信息中文化。
+- 日志统一 `@Slf4j`；**日志/异常消息用英文**（遵循外部编码规范扫描规则），Javadoc 与普通注释保持中文。
 
 ## Dependencies
 

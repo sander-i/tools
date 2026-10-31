@@ -1,14 +1,16 @@
 package org.tools.bedrock.util.network;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.*;
+
 /**
  * HttpUtils 冒烟测试
  * 测试基本的 HTTP GET 和 POST 请求功能
+ *
  * @author sander
  * @since 1.0.6.6
  */

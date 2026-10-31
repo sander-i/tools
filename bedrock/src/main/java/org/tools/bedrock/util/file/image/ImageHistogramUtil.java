@@ -1,11 +1,11 @@
 package org.tools.bedrock.util.file.image;
 
-import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * 图像直方图处理工具类，提供直方图计算和基于直方图的图像相似度比对功能
@@ -80,7 +80,6 @@ public class ImageHistogramUtil {
      * @return 相似度值（0-1之间）
      */
     private static double calculateHistogramSimilarity(int[] histogram1, int[] histogram2) {
-        double similarity = 0.0;
         double sum1 = 0.0;
         double sum2 = 0.0;
 
@@ -91,6 +90,7 @@ public class ImageHistogramUtil {
         }
 
         // 计算巴氏系数
+        double similarity = 0.0;
         for (int i = 0; i < 768; i++) {
             double p = histogram1[i] / sum1;
             double q = histogram2[i] / sum2;

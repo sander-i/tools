@@ -36,12 +36,12 @@ public class ExcelUtils {
     public static void toFile(String path, ExcelSheet... excelSheets) {
         // 参数验证
         if (path == null || path.trim().isEmpty()) {
-            log.warn("文件路径为空或null，无法写入文件");
+            log.warn("file path is empty or null, cannot write file");
             return;
         }
 
         if (excelSheets == null) {
-            log.warn("Excel工作表数据为null，无法写入文件");
+            log.warn("excel sheet data is null, cannot write file");
             return;
         }
 
@@ -51,11 +51,11 @@ public class ExcelUtils {
             java.io.File parentDir = file.getParentFile();
             if (parentDir != null && !parentDir.exists()) {
                 if (!parentDir.mkdirs()) {
-                    log.warn("无法创建父目录: {}", parentDir.getAbsolutePath());
+                    log.warn("cannot create parent directory: {}", parentDir.getAbsolutePath());
                 }
             }
         } catch (Exception e) {
-            log.warn("检查或创建目录时发生异常: {}", path, e);
+            log.warn("exception while checking or creating directory: {}", path, e);
         }
 
         try (Workbook workbook = new XSSFWorkbook();
@@ -63,13 +63,13 @@ public class ExcelUtils {
             fullWorkbook(workbook, excelSheets);
             workbook.write(outputStream);
             outputStream.flush();
-            log.debug("成功将Excel数据写入文件: {}", path);
+            log.debug("successfully wrote excel data to file: {}", path);
         } catch (java.io.FileNotFoundException e) {
-            log.error("文件路径无效或无权限访问: {}", path, e);
+            log.error("file path invalid or no permission: {}", path, e);
         } catch (IOException e) {
-            log.error("写入Excel文件失败，路径: {}", path, e);
+            log.error("failed to write excel file, path: {}", path, e);
         } catch (Exception e) {
-            log.error("处理Excel数据时发生未知错误，路径: {}", path, e);
+            log.error("unknown error while processing excel data, path: {}", path, e);
         }
     }
 
@@ -82,7 +82,7 @@ public class ExcelUtils {
     public static byte[] toByteArray(ExcelSheet... excelSheets) {
         // 参数验证
         if (excelSheets == null) {
-            log.warn("Excel工作表数据为null，返回空字节数组");
+            log.warn("excel sheet data is null, returning empty byte array");
             return new byte[0];
         }
 
@@ -90,12 +90,12 @@ public class ExcelUtils {
              ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             fullWorkbook(workbook, excelSheets);
             workbook.write(outputStream);
-            log.debug("成功将Excel数据转换为字节数组，大小: {} 字节", outputStream.size());
+            log.debug("successfully converted excel data to byte array, size: {} bytes", outputStream.size());
             return outputStream.toByteArray();
         } catch (IOException e) {
-            log.error("转换Excel数据为字节数组失败", e);
+            log.error("failed to convert excel data to byte array", e);
         } catch (Exception e) {
-            log.error("处理Excel数据时发生未知错误", e);
+            log.error("unknown error while processing excel data", e);
         }
         return new byte[0];
     }

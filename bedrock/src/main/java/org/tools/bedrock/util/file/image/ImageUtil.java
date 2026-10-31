@@ -3,14 +3,14 @@ package org.tools.bedrock.util.file.image;
 import org.tools.bedrock.base.image.SimilarityConfig;
 import org.tools.bedrock.base.image.SimilarityResult;
 
-import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 /**
  * 图像处理工具类，提供基础图像操作功能和图像相似度融合计算

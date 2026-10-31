@@ -7,11 +7,11 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.imageio.ImageIO;
-
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
+
+import javax.imageio.ImageIO;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -20,6 +20,7 @@ import static org.mockito.Mockito.*;
 /**
  * ImageUtils 冒烟测试
  * 测试基本的图片处理功能
+ *
  * @author sander
  * @since 1.0.6.6
  */
@@ -240,6 +241,7 @@ public class ImageUtilsTest {
 
     /**
      * 测试辅助类，用于访问ImageUtils的私有方法
+     *
      * @since 1.0.6.6
      */
     static class ImageUtilsTestHelper {

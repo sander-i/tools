@@ -1,3 +1,6 @@
+/*
+ * ExcelUtils 冒烟测试：验证 Excel 文件与字节数组的生成。
+ */
 package org.tools.fortify.util.file;
 
 import org.apache.poi.ss.usermodel.Workbook;
@@ -19,6 +22,7 @@ import static org.junit.Assert.*;
 /**
  * ExcelUtils 冒烟测试
  * 测试基本的Excel处理功能
+ *
  * @author sander
  * @since 1.0.6.6
  */

@@ -31,8 +31,6 @@ import org.tools.encrypt.symmetrical.idea.IdeaHelper;
 import org.tools.spring.boot.encrypt.EncryptProperties;
 import org.tools.spring.boot.encrypt.OnEncryptPropertiesCondition;
 
-import javax.crypto.NoSuchPaddingException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
@@ -40,6 +38,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Objects;
 import java.util.Properties;
+
+import javax.crypto.NoSuchPaddingException;
 
 /**
  * 自动配置类
@@ -55,14 +55,14 @@ import java.util.Properties;
 @EnableConfigurationProperties(EncryptProperties.class)
 @RequiredArgsConstructor
 public class EncryptAutoConfiguration {
-    private final Encrypt encrypt;
-
     /** 工具版本号：构建期由 Maven resource filtering 注入（META-INF/tools-version.properties） */
     private static final String VERSION = loadVersion();
 
     static {
         printWelcome();
     }
+
+    private final Encrypt encrypt;
 
     @Bean
     @ConditionalOnMissingBean(type = "rsaTemplate")
@@ -221,14 +221,14 @@ public class EncryptAutoConfiguration {
 
     private static void printWelcome() {
         final String[] banner = {
-                "\n" +
-                        "  _____           _     \n" +
-                        " |_   _|__   ___ | |___ \n" +
-                        "   | |/ _ \\ / _ \\| / __|\n" +
-                        "   | | (_) | (_) | \\__ \\\n" +
-                        "   |_|\\___/ \\___/|_|___/\n" +
-                        String.format("%27s%n", VERSION) +
-                        "\n"
+                "\n"
+                        + "  _____           _     \n"
+                        + " |_   _|__   ___ | |___ \n"
+                        + "   | |/ _ \\ / _ \\| / __|\n"
+                        + "   | | (_) | (_) | \\__ \\\n"
+                        + "   |_|\\___/ \\___/|_|___/\n"
+                        + String.format("%27s%n", VERSION)
+                        + "\n"
         };
 
         String fullBanner = String.join("\n", banner);

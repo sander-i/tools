@@ -120,14 +120,14 @@ public class NetworkUtils {
                 result.append(line);
             }
         } catch (Exception e) {
-            log.error("获取ipv4公网地址异常", e);
+            log.error("get ipv4 public address failed", e);
         } finally {
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (Exception e2) {
-                log.error("获取ipv4公网地址异常", e2);
+                log.error("get ipv4 public address failed", e2);
             }
         }
         return result.toString().trim();

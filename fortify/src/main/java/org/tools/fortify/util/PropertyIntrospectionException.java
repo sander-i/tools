@@ -4,6 +4,7 @@ package org.tools.fortify.util;
  * <p>
  * 当在进行属性内省操作时发生错误，会抛出此异常。
  * </p>
+ *
  * @author sander
  * @since 1.0.6.6
  */

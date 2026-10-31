@@ -115,7 +115,7 @@ public class DateUtils {
                         try {
                             date = sdf.parse(dateStr);
                         } catch (Exception hms) {
-                            log.error("字符串转日期(自动匹配格式)", hms);
+                            log.error("string to date (auto match format)", hms);
                         }
                     }
                 }
@@ -136,7 +136,7 @@ public class DateUtils {
         try {
             return sdf.parse(dateStr);
         } catch (ParseException e) {
-            log.error("字符串转日期", e);
+            log.error("string to date", e);
         }
         return null;
     }
@@ -169,7 +169,7 @@ public class DateUtils {
                         try {
                             dateStr = sdf.format(date);
                         } catch (Exception hms) {
-                            log.error("日期转字符串格式化", hms);
+                            log.error("date to string format", hms);
                         }
                     }
                 }

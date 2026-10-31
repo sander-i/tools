@@ -58,6 +58,7 @@ public class Address implements Serializable {
 
     /**
      * 城市区级地址：区-街道-门牌
+     *
      * @since 1.0.0
      */
     @Builder
@@ -86,6 +87,7 @@ public class Address implements Serializable {
 
     /**
      * 县级地址：县-乡-村-组-门牌
+     *
      * @since 1.0.0
      */
     @Builder

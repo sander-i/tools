@@ -346,7 +346,7 @@ public class BaseUtils {
                 }
             }
         } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException e) {
-            log.info("对象判空异常", e);
+            log.info("object null check failed", e);
             return false;
         }
         return true;

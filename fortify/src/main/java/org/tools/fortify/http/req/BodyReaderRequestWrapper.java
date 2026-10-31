@@ -2,12 +2,12 @@ package org.tools.fortify.http.req;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.*;
+
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-
-import java.io.*;
 
 /**
  * requestBody复用实现

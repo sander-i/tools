@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * JSONUtils 冒烟测试
  * 测试基本的JSON转换功能
+ *
  * @author sander
  * @since 1.0.6.6
  */
@@ -280,20 +281,20 @@ public class JSONUtilsTest {
     @Test
     public void testJsonToObjWithComplexObject() throws Exception {
         // 测试复杂对象的JSON转换
-        String jsonStr = "{\n" +
-                "  \"name\": \"复杂对象\",\n" +
-                "  \"age\": 40,\n" +
-                "  \"active\": true,\n" +
-                "  \"birthDate\": 1609459200000,\n" +
-                "  \"hobbies\": [\"读书\", \"游泳\"],\n" +
-                "  \"attributes\": {\"height\": \"175cm\", \"weight\": \"70kg\"},\n" +
-                "  \"notes\": \"测试笔记\",\n" +
-                "  \"description\": \"测试描述\",\n" +
-                "  \"address\": {\n" +
-                "    \"street\": \"测试街道\",\n" +
-                "    \"city\": \"测试城市\"\n" +
-                "  }\n" +
-                "}";
+        String jsonStr = "{\n"
+                + "  \"name\": \"复杂对象\",\n"
+                + "  \"age\": 40,\n"
+                + "  \"active\": true,\n"
+                + "  \"birthDate\": 1609459200000,\n"
+                + "  \"hobbies\": [\"读书\", \"游泳\"],\n"
+                + "  \"attributes\": {\"height\": \"175cm\", \"weight\": \"70kg\"},\n"
+                + "  \"notes\": \"测试笔记\",\n"
+                + "  \"description\": \"测试描述\",\n"
+                + "  \"address\": {\n"
+                + "    \"street\": \"测试街道\",\n"
+                + "    \"city\": \"测试城市\"\n"
+                + "  }\n"
+                + "}";
 
         Person person = new Person();
         Person result = (Person) JSONUtils.jsonToObj(jsonStr, person);
@@ -319,12 +320,12 @@ public class JSONUtilsTest {
     @Test
     public void testJsonToObjWithStringDate() throws Exception {
         // 测试字符串日期转换
-        String jsonStr = "{\n" +
-                "  \"name\": \"日期测试\",\n" +
-                "  \"age\": 25,\n" +
-                "  \"active\": true,\n" +
-                "  \"birthDate\": \"2021-01-01 00:00:00\"\n" +
-                "}";
+        String jsonStr = "{\n"
+                + "  \"name\": \"日期测试\",\n"
+                + "  \"age\": 25,\n"
+                + "  \"active\": true,\n"
+                + "  \"birthDate\": \"2021-01-01 00:00:00\"\n"
+                + "}";
 
         Person person = new Person();
         Person result = (Person) JSONUtils.jsonToObj(jsonStr, person);
@@ -337,13 +338,13 @@ public class JSONUtilsTest {
     @Test
     public void testJsonToObjWithEmptyValues() throws Exception {
         // 测试空值处理
-        String jsonStr = "{\n" +
-                "  \"name\": \"空值测试\",\n" +
-                "  \"age\": 25,\n" +
-                "  \"active\": true,\n" +
-                "  \"hobbies\": [],\n" +
-                "  \"attributes\": {}\n" +
-                "}";
+        String jsonStr = "{\n"
+                + "  \"name\": \"空值测试\",\n"
+                + "  \"age\": 25,\n"
+                + "  \"active\": true,\n"
+                + "  \"hobbies\": [],\n"
+                + "  \"attributes\": {}\n"
+                + "}";
 
         Person person = new Person();
         Person result = (Person) JSONUtils.jsonToObj(jsonStr, person);
