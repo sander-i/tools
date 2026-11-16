@@ -1,0 +1,114 @@
+# NOTICE
+
+## 项目信息
+
+- **项目名称**: tools
+- **版本**: 2.0.0-SNAPSHOT
+- **许可证**: MIT License
+- **作者**: sander-o
+
+## 版权声明
+
+Copyright (c) 2023-2026 sander
+
+本项目采用 MIT License 开源协议，详见 [LICENSE](LICENSE) 文件。
+
+## 第三方依赖
+
+本项目使用以下第三方库，均遵循各自的开源许可证：
+
+### 核心依赖
+
+#### Lombok
+- **许可证**: MIT License
+- **用途**: Java 代码简化工具
+- **版本**: 1.18.24
+- **来源**: https://projectlombok.org/
+
+#### FastJSON
+- **许可证**: Apache License 2.0
+- **用途**: JSON 解析和生成
+- **版本**: 1.2.83
+- **来源**: https://github.com/alibaba/fastjson
+
+#### SLF4J
+- **许可证**: MIT License
+- **用途**: 日志门面
+- **版本**: 1.7.21
+- **来源**: https://www.slf4j.org/
+
+#### Logback
+- **许可证**: EPL 1.0 / LGPL 2.1
+- **用途**: 日志实现
+- **版本**: 1.1.7
+- **来源**: https://logback.qos.ch/
+
+#### Apache Commons Codec
+- **许可证**: Apache License 2.0
+- **用途**: 编码解码工具
+- **版本**: 1.15
+- **来源**: https://commons.apache.org/proper/commons-codec/
+
+#### java-jwt
+- **许可证**: Apache License 2.0
+- **用途**: JWT (JSON Web Token) 实现
+- **版本**: 4.3.0
+- **来源**: https://github.com/auth0/java-jwt
+
+#### Byte Buddy
+- **许可证**: Apache License 2.0
+- **用途**: 动态字节码操作
+- **版本**: 1.11.22
+- **来源**: https://bytebuddy.net/
+
+#### AspectJ
+- **许可证**: Eclipse Public License
+- **用途**: AOP 面向切面编程
+- **版本**: 1.9.4
+- **来源**: https://www.eclipse.org/aspectj/
+
+### Spring Boot 相关依赖
+
+#### Spring Boot Starter
+- **许可证**: Apache License 2.0
+- **用途**: Spring Boot 基础组件
+- **版本**: 2.7.1
+- **来源**: https://spring.io/projects/spring-boot
+
+#### Spring Cloud
+- **许可证**: Apache License 2.0
+- **用途**: 微服务治理
+- **版本**: 2021.0.6
+- **来源**: https://spring.io/projects/spring-cloud
+
+#### Spring Cloud Alibaba
+- **许可证**: Apache License 2.0
+- **用途**: Spring Cloud 阿里云扩展
+- **版本**: 2021.1
+- **来源**: https://github.com/alibaba/spring-cloud-alibaba
+
+### 开发和构建工具
+
+#### JUnit
+- **许可证**: Eclipse Public License
+- **用途**: 单元测试框架
+- **版本**: 4.x / 5.x
+- **来源**: https://junit.org/
+
+#### Maven
+- **许可证**: Apache License 2.0
+- **用途**: 项目构建工具
+- **版本**: 3.6+
+- **来源**: https://maven.apache.org/
+
+## 完整依赖清单
+
+完整依赖清单见项目各模块的 `pom.xml` 文件。
+
+## 许可证兼容性
+
+本项目的所有第三方依赖均与 MIT License 兼容。
+
+## 致谢
+
+感谢所有开源项目的贡献者！
