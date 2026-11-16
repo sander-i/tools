@@ -34,7 +34,7 @@ public class SymmetricalController {
         DesHelper.load(encrypt.getSymmetrical().getDes());
 //        final Encrypt encrypt = tools.getEncrypt();
 //        final Symmetrical symmetrical = encrypt.getSymmetrical();
-        return DesHelper.getProperties().getSecretKey();
+        return DesHelper.getProperties().getSecretKeyStr();
     }
 
     @RequestMapping("/des/encode")
