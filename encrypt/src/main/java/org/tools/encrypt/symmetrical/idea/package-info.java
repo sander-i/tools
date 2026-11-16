@@ -1,1 +1,0 @@
-package org.tools.encrypt.symmetrical.idea;

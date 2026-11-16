@@ -1,0 +1,1 @@
+package io.github.sander_i.encrypt.entity;

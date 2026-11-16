@@ -1,0 +1,31 @@
+package io.github.sander_i.bedrock.base.serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * @author sander
+ * @version 1.0
+ */
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class ExpiryDate implements Serializable {
+
+    private static final long serialVersionUID = 7502769832110568563L;
+    /**
+     * 开始日期
+     */
+    private Date beginDate;
+    /**
+     * 结束日期
+     */
+    private Date endDate;
+
+}
