@@ -1,12 +1,16 @@
 package io.github.sander_i.encrypt.asymmetric.rsa;
 
 import junit.framework.TestCase;
-import io.github.sander_i.encrypt.entity.KeyPair;
 import io.github.sander_i.encrypt.exception.EncryptException;
 
+import java.security.KeyPair;
+
 /**
+ * RSA 冒烟测试
+ *
  * <p>
- * description
+ * 密钥对在运行时生成，不硬编码任何密钥，
+ * 避免把真实密钥写进代码库。
  * </p>
  *
  * @author sander 2024/03/30
@@ -14,35 +18,44 @@ import io.github.sander_i.encrypt.exception.EncryptException;
 public class RsaHelperTest extends TestCase {
 
     public void testEncode() throws EncryptException {
-//        RsaProperties rsaProperties = new RsaProperties();
-//        rsaProperties.setPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDg+EI8egIBnZI3VqF3rG3bIbGpuA4JQtdXJ3/nYHAtjf07GF3WTyVZwOegqeIG5+ISslGuLe/i9B398x8WymzXCWg0HanqVdL52/tw+hKgOXoEKp8xb1NpmAeLO5l9TO4nYvZDNtKSm5HmSQzrtMjKiRmo/xPK+/2lulzL0LPIvwIDAQAB");
-//        rsaProperties.setPrivateKey("MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOD4Qjx6AgGdkjdWoXesbdshsam4DglC11cnf+dgcC2N/TsYXdZPJVnA56Cp4gbn4hKyUa4t7+L0Hf3zHxbKbNcJaDQdqepV0vnb+3D6EqA5egQqnzFvU2mYB4s7mX1M7idi9kM20pKbkeZJDOu0yMqJGaj/E8r7/aW6XMvQs8i/AgMBAAECgYAJfc/ll0wwX0KE/S2wy+CSpzhErdRBxcUqEyuNSn9RHLV7YcrLuOkdgUsEd0Zm/i+GlGlnzN5bF+uQBErifkXbNG8pv9ChdUIfZcfxwnhTY1s7N7I3D6fU/+IHoHTLcuG5PEC07KcXrDHvrCJKm4jHvBBAjzcanFNXoikMKV0zcQJBAPwFM+1zw8QX2fbFPVHxkcfS8+ekLVDRURAjMGf1ZJNNR3JJlQETA0B9BXIwXSdH0B9nXc+nPcDZ3inVZlVVOgcCQQDkhbQVsmAq/9rtg0aZNwMti2t3KK7zvk7/au1wEne/ibeq3sDJVCFWTaVM0b+L/I4xxprbwe6Xc8cOGtse162JAkEAv1a/5w8WWaH2NTno5XbvxHOwBHWMhih1UDg3PyZ7Nq7ciLO+8jLaLDL/WIPJpdIK/FzBR6/k3a9L0h0X9b+gLwJAHgze84NzVfQzK8x5eihbyJ9u0EqPRwodhUTgWD51dMB9YIDORStE/v5S4FksoRHi+PSu5HsKDuxwnpA1hEbEUQJAbstFSSJmeFoVL1cB2WozrPuXorb/o47AYdj3ERVhhEPZ6iCWQgMZRuYTL0HYzN2ES9H8nv5oF36qM0XExdJ53w==");
-//        RsaKeyGenerator.setProperties(rsaProperties);
-//        System.out.println(rsaProperties);
-
-        KeyPair keyPair = new KeyPair();
-        keyPair.setPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDg+EI8egIBnZI3VqF3rG3bIbGpuA4JQtdXJ3/nYHAtjf07GF3WTyVZwOegqeIG5+ISslGuLe/i9B398x8WymzXCWg0HanqVdL52/tw+hKgOXoEKp8xb1NpmAeLO5l9TO4nYvZDNtKSm5HmSQzrtMjKiRmo/xPK+/2lulzL0LPIvwIDAQAB");
-        keyPair.setPrivateKey("MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOD4Qjx6AgGdkjdWoXesbdshsam4DglC11cnf+dgcC2N/TsYXdZPJVnA56Cp4gbn4hKyUa4t7+L0Hf3zHxbKbNcJaDQdqepV0vnb+3D6EqA5egQqnzFvU2mYB4s7mX1M7idi9kM20pKbkeZJDOu0yMqJGaj/E8r7/aW6XMvQs8i/AgMBAAECgYAJfc/ll0wwX0KE/S2wy+CSpzhErdRBxcUqEyuNSn9RHLV7YcrLuOkdgUsEd0Zm/i+GlGlnzN5bF+uQBErifkXbNG8pv9ChdUIfZcfxwnhTY1s7N7I3D6fU/+IHoHTLcuG5PEC07KcXrDHvrCJKm4jHvBBAjzcanFNXoikMKV0zcQJBAPwFM+1zw8QX2fbFPVHxkcfS8+ekLVDRURAjMGf1ZJNNR3JJlQETA0B9BXIwXSdH0B9nXc+nPcDZ3inVZlVVOgcCQQDkhbQVsmAq/9rtg0aZNwMti2t3KK7zvk7/au1wEne/ibeq3sDJVCFWTaVM0b+L/I4xxprbwe6Xc8cOGtse162JAkEAv1a/5w8WWaH2NTno5XbvxHOwBHWMhih1UDg3PyZ7Nq7ciLO+8jLaLDL/WIPJpdIK/FzBR6/k3a9L0h0X9b+gLwJAHgze84NzVfQzK8x5eihbyJ9u0EqPRwodhUTgWD51dMB9YIDORStE/v5S4FksoRHi+PSu5HsKDuxwnpA1hEbEUQJAbstFSSJmeFoVL1cB2WozrPuXorb/o47AYdj3ERVhhEPZ6iCWQgMZRuYTL0HYzN2ES9H8nv5oF36qM0XExdJ53w==");
-
-//        RsaHelper.load(keyPair);
+        KeyPair keyPair = RsaKeyGenerator.getKeyPair();
+        String publicKey = RsaKeyGenerator.getPublicKeyStr(keyPair.getPublic());
+        String privateKey = RsaKeyGenerator.getPrivateKeyStr(keyPair.getPrivate());
 
         String raw = "1234567890";
-        final String encode = RsaHelper.encode(keyPair.getPublicKey(), raw);
-        System.out.println("encode: " + encode);
-        final String decode = RsaHelper.decode(keyPair.getPrivateKey(), encode);
-        System.out.println("decode: " + decode);
-        String sign = RsaHelper.sign(keyPair.getPrivateKey(), raw + encode);
-        System.out.println("sign: " + sign);
-        final boolean verify = RsaHelper.verify(keyPair.getPublicKey(), decode + encode, sign);
-        System.out.println("verify: " + verify);
+        String encode = RsaHelper.encode(publicKey, raw);
+        assertNotNull(encode);
+        assertEquals(raw, RsaHelper.decode(privateKey, encode));
     }
 
-    public void testDecode() {
+    public void testDecode() throws EncryptException {
+        KeyPair keyPair = RsaKeyGenerator.getKeyPair();
+        String publicKey = RsaKeyGenerator.getPublicKeyStr(keyPair.getPublic());
+        String privateKey = RsaKeyGenerator.getPrivateKeyStr(keyPair.getPrivate());
+
+        String raw = "RSA 解密测试 中文";
+        String encode = RsaHelper.encode(publicKey, raw);
+        assertEquals(raw, RsaHelper.decode(privateKey, encode));
     }
 
-    public void testSign() {
+    public void testSign() throws EncryptException {
+        KeyPair keyPair = RsaKeyGenerator.getKeyPair();
+        String privateKey = RsaKeyGenerator.getPrivateKeyStr(keyPair.getPrivate());
+
+        String raw = "1234567890";
+        String sign = RsaHelper.sign(privateKey, raw);
+        assertNotNull(sign);
     }
 
-    public void testVerify() {
+    public void testVerify() throws EncryptException {
+        KeyPair keyPair = RsaKeyGenerator.getKeyPair();
+        String publicKey = RsaKeyGenerator.getPublicKeyStr(keyPair.getPublic());
+        String privateKey = RsaKeyGenerator.getPrivateKeyStr(keyPair.getPrivate());
+
+        String raw = "1234567890";
+        String sign = RsaHelper.sign(privateKey, raw);
+
+        assertTrue(RsaHelper.verify(publicKey, raw, sign));
+        assertFalse("篡改明文后应验签失败", RsaHelper.verify(publicKey, raw + "x", sign));
     }
 }

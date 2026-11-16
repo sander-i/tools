@@ -1,0 +1,51 @@
+#----------------------------------- encrypt 配置样例 -----------------------------------#
+#
+# 本文件是配置样例，不会被 Spring Boot 自动加载。
+# 使用时复制为 application.yml，并按实际环境填写密钥。
+#
+# 密钥说明：
+#   - 对称密钥（aes/des/idea 的 secret-key）可写明文，也可写 hex: 前缀的十六进制编码。
+#     推荐用对应 *KeyGenerator.getSecretKeyStr() 生成，格式为 hex:xxxx。
+#   - 非对称密钥（rsa 的 public-key/private-key）为 Base64 编码的 PKCS#8/X.509 内容，
+#     可用 RsaKeyGenerator 生成。
+#   - 切勿把生产密钥提交到代码仓库。
+
+tools:
+  encrypt:
+    asymmetric:
+      rsa:
+        enabled: false
+        # 替换为你自己生成的公钥
+        public-key: "REPLACE_WITH_YOUR_RSA_PUBLIC_KEY"
+        # 替换为你自己生成的私钥，且不要提交到仓库
+        private-key: "REPLACE_WITH_YOUR_RSA_PRIVATE_KEY"
+        group-enabled: false
+        group:
+          - name: sample
+            public-key: "REPLACE_WITH_YOUR_RSA_PUBLIC_KEY"
+            private-key: "REPLACE_WITH_YOUR_RSA_PRIVATE_KEY"
+    symmetrical:
+      aes:
+        enabled: false
+        # 16 字节（128 位）、24 字节（192 位）或 32 字节（256 位）
+        secret-key: "REPLACE_WITH_16_OR_32_BYTES"
+        group-enabled: false
+        group:
+          - name: sample
+            secret-key: "REPLACE_WITH_16_OR_32_BYTES"
+      des:
+        enabled: false
+        # 8 字节（64 位）
+        secret-key: "REPLACE_8"
+        group-enabled: false
+        group:
+          - name: sample
+            secret-key: "REPLACE_8"
+      idea:
+        enabled: false
+        # 16 字节（128 位）
+        secret-key: "REPLACE_16_BYTES"
+        group-enabled: false
+        group:
+          - name: sample
+            secret-key: "REPLACE_16_BYTES"
