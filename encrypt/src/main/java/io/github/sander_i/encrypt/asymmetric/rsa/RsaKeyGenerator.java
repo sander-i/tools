@@ -59,6 +59,8 @@ public class RsaKeyGenerator {
             synchronized (LOCK) {
                 try {
                     if (BaseUtils.isNull(keyPairGenerator, keyPair)) {
+                        // properties 为惰性初始化，取算法与位数前必须先确保已创建
+                        initProperties();
                         keyPairGenerator = EncryptKeyGenerator.getKeyPairGenerator(properties.getAlgorithm());
                         keyPairGenerator.initialize(properties.getKeyBits());
                     }

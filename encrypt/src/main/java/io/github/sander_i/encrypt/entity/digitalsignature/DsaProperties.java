@@ -17,6 +17,7 @@ public class DsaProperties extends EncryptProperties {
     {
         setAlgorithm(AlgorithmEnum.DSA.getAlgorithm());
         setAlgorithmMode(SignAlgorithmEnum.SHA256_WITH_DSA.getSignAlgorithm());
+        setSignAlgorithm(SignAlgorithmEnum.SHA256_WITH_DSA.getSignAlgorithm());
         /*
          * 密钥位数
          * 512

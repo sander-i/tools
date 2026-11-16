@@ -17,7 +17,11 @@ import java.util.Arrays;
 public enum SignAlgorithmEnum {
 
     MD5_WITH_RSA("MD5withRSA"),
+    SHA256_WITH_RSA("SHA256withRSA"),
     SHA256_WITH_DSA("SHA256withDSA"),
+    /**
+     * SHA3-256withRSA 需 BouncyCastle provider，JDK 8 原生不提供
+     */
     SHA3_256_WITH_RSA("SHA3-256withRSA"),
     SHA256_WITH_ECDSA("SHA256withECDSA"),
     SHA384_WITH_ECDSA("SHA384withECDSA"),

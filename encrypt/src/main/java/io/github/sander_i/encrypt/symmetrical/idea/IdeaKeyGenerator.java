@@ -11,9 +11,13 @@ import io.github.sander_i.encrypt.exception.EncryptException;
 import io.github.sander_i.encrypt.exception.symmetrical.aes.AesException;
 import io.github.sander_i.encrypt.exception.symmetrical.idea.IdeaException;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.Security;
 
 /**
  * @author sander
@@ -52,10 +56,12 @@ public class IdeaKeyGenerator {
             synchronized (LOCK) {
                 try {
                     if (BaseUtils.isNull(keyGenerator)) {
-                        keyGenerator = EncryptKeyGenerator.getKeyGenerator(AlgorithmEnum.IDEA.getAlgorithm());
+                        // JDK 8 不提供 IDEA 的 KeyGenerator，必须走 BouncyCastle
+                        Security.addProvider(new BouncyCastleProvider());
+                        keyGenerator = KeyGenerator.getInstance(AlgorithmEnum.IDEA.getAlgorithm(), "BC");
                         keyGenerator.init(KEY_BITS);
                     }
-                } catch (NoSuchAlgorithmException e) {
+                } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
                     log.error(e.getLocalizedMessage());
                     throw new IdeaException(e);
                 }

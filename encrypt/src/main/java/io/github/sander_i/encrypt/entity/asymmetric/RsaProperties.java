@@ -26,7 +26,7 @@ public class RsaProperties extends EncryptProperties {
          * OAEPWithSHA-256AndMGF1Padding
          */
         setAlgorithmMode(AlgorithmModeEnum.RSA_ECB_OAEPWITHSHA__256ANDMGF1PADDING.getAlgorithmMode());
-        setSignAlgorithm(SignAlgorithmEnum.SHA3_256_WITH_RSA.getSignAlgorithm());
+        setSignAlgorithm(SignAlgorithmEnum.SHA256_WITH_RSA.getSignAlgorithm());
         /*
          * 密钥位数
          * 512

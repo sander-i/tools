@@ -29,7 +29,7 @@ public class DsaHelper {
     }
 
     @Getter
-    private static DsaProperties properties;
+    private static DsaProperties properties = new DsaProperties();
 
     protected static Signature signature;
 
@@ -70,7 +70,8 @@ public class DsaHelper {
     public static String sign(String privateKey, String wrought) throws EncryptException {
         String signText;
         try {
-            signText = sign(DsaKeyGenerator.getPrivateKey(properties.getSignAlgorithm(), privateKey), wrought);
+            // KeyFactory 需要算法名（DSA），不是签名算法名（SHA256withDSA）
+            signText = sign(DsaKeyGenerator.getPrivateKey(properties.getAlgorithm(), privateKey), wrought);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | EncryptException e) {
             log.error(e.getLocalizedMessage());
             throw new EncryptException(e);
@@ -80,7 +81,7 @@ public class DsaHelper {
 
     public static boolean verify(String publicKey, String wrought, String sign) throws EncryptException {
         try {
-            return verify(DsaKeyGenerator.getPublicKey(properties.getSignAlgorithm(), publicKey), wrought, sign);
+            return verify(DsaKeyGenerator.getPublicKey(properties.getAlgorithm(), publicKey), wrought, sign);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             log.error(e.getLocalizedMessage());
             throw new EncryptException(e);
