@@ -20,7 +20,7 @@ public class Base64Utils {
     }
 
     public static String encode(String raw) {
-        return encode(raw.getBytes());
+        return encode(raw.getBytes(StandardCharsets.UTF_8));
     }
 
     public static String decode(String wrought) {

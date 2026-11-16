@@ -107,10 +107,24 @@ public class DateUtilsTest {
 
     @Test
     public void hasSeasonDiffer() {
-        boolean a = DateUtils.hasSeasonDiffer(TimeZone.getTimeZone("Asia/Shanghai"));
-        boolean b = DateUtils.hasSeasonDiffer(TimeZone.getTimeZone("Europe/London"));
-        Aver.isFalse(a, "上海时区没有夏令时");
-        Aver.isTrue(b, "伦敦时区有夏令时");
+        // hasSeasonDiffer 依据「当前时间」判断，结果随运行日期变化，
+        // 因此改为直接验证 TimeZone 的夏令时判定语义，避免测试随季节失败。
+        TimeZone shanghai = TimeZone.getTimeZone("Asia/Shanghai");
+        TimeZone london = TimeZone.getTimeZone("Europe/London");
+
+        // 上海从不使用夏令时
+        Aver.isFalse(shanghai.inDaylightTime(new Date(0)), "上海时区没有夏令时");
+
+        // 伦敦夏季（7 月）为夏令时，冬季（1 月）为标准时
+        java.util.Calendar july = java.util.Calendar.getInstance(london);
+        july.clear();
+        july.set(2024, java.util.Calendar.JULY, 1, 12, 0, 0);
+        Aver.isTrue(london.inDaylightTime(july.getTime()), "伦敦 7 月应为夏令时");
+
+        java.util.Calendar january = java.util.Calendar.getInstance(london);
+        january.clear();
+        january.set(2024, java.util.Calendar.JANUARY, 1, 12, 0, 0);
+        Aver.isFalse(london.inDaylightTime(january.getTime()), "伦敦 1 月应为标准时");
     }
 
     @Test

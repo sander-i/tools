@@ -63,7 +63,7 @@ public class AsymmetricUtils {
      * @return String
      */
     protected static String decryptAfter(byte[] process) {
-        return new String(process);
+        return new String(process, StandardCharsets.UTF_8);
     }
 
     /**
