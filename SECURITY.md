@@ -7,8 +7,9 @@
 | 2.0.x   | :white_check_mark: |
 | 1.0.x   | :x: (no longer maintained) |
 
-Only the latest `2.0.x` release line receives security fixes. The `1.0.x` line has reached
-end of life and will not receive patches.
+The latest release line receives security fixes. The `1.0.x` line has reached end of life and
+will not receive patches. This project is maintained by a single developer on a best-effort
+basis.
 
 ## Reporting a Vulnerability
 
@@ -31,7 +32,7 @@ Please include as much of the following as you can:
 
 ## Response Commitment
 
-- We aim to **acknowledge every report within 48 hours**.
+- We aim to acknowledge every report within 48 hours, on a **best-effort** basis.
 - We will keep you informed about the assessment and the planned fix.
 - Once a fix is released, we will credit you in the release notes unless you prefer to stay
   anonymous.
