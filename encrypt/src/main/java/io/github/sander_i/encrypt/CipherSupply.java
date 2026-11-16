@@ -11,6 +11,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;
+import javax.crypto.spec.RC2ParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
@@ -77,7 +78,14 @@ public class CipherSupply extends CipherSupplyAbst {
             }
             case IDEA:
             case IDEA_ECB_ISO10126Padding:
-            case DES_ECB_NO_PADDING: {
+            case DES_ECB_NO_PADDING:
+            case DES_EDE_ECB_PKCS5PADDING:
+            case BLOWFISH:
+            case BLOWFISH_ECB_PKCS5PADDING:
+            case RC2:
+            case RC2_ECB_PKCS5PADDING:
+            case RC4:
+            case ARCFOUR: {
                 cipher.init(mode, new SecretKeySpec(secretKey.getEncoded(), algorithm.getAlgorithm()));
                 break;
             }
@@ -90,9 +98,17 @@ public class CipherSupply extends CipherSupplyAbst {
                 break;
             }
             case AES_CBC_PKCS5PADDING:
-            case DES_EDE_CBC_PKCS5Padding: {
+            case DES_EDE_CBC_PKCS5PADDING:
+            case BLOWFISH_CBC_PKCS5PADDING: {
                 cipher.init(mode, new SecretKeySpec(secretKey.getEncoded(), algorithm.getAlgorithm()),
                         new IvParameterSpec(ivParameter.getBytes(StandardCharsets.UTF_8)));
+                break;
+            }
+            case RC2_CBC_PKCS5PADDING: {
+                // RC2 的 CBC 模式必须用 RC2ParameterSpec，纯 IvParameterSpec 会报 Illegal parameters
+                cipher.init(mode, new SecretKeySpec(secretKey.getEncoded(), algorithm.getAlgorithm()),
+                        new RC2ParameterSpec(secretKey.getEncoded().length * 8,
+                                ivParameter.getBytes(StandardCharsets.UTF_8)));
                 break;
             }
             case OAEPWithSHA__256AndMGF1Padding: {

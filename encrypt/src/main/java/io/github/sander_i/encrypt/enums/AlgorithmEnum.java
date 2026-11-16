@@ -31,9 +31,30 @@ public enum AlgorithmEnum {
     DES_EDE("DESede"),
 
     /**
+     * Blowfish
+     */
+    BLOWFISH("Blowfish"),
+
+    /**
+     * RC2
+     */
+    RC2("RC2"),
+
+    /**
+     * RC4（流加密）
+     */
+    RC4("RC4"),
+    ARCFOUR("ARCFOUR"),
+
+    /**
      * RSA
      */
     RSA("RSA"),
+
+    /**
+     * ECC 椭圆曲线
+     */
+    EC("EC"),
 
     /**
      * AES

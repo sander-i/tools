@@ -34,6 +34,22 @@ public class ShaUtils {
         return encode(AlgorithmEnum.SHA256.getAlgorithm(), raw);
     }
 
+    public static String encodeSha1(String raw) throws NoSuchAlgorithmException {
+        return encode(AlgorithmEnum.SHA1.getAlgorithm(), raw);
+    }
+
+    public static String encodeSha256(String raw) throws NoSuchAlgorithmException {
+        return encode(AlgorithmEnum.SHA256.getAlgorithm(), raw);
+    }
+
+    public static String encodeSha384(String raw) throws NoSuchAlgorithmException {
+        return encode(AlgorithmEnum.SHA384.getAlgorithm(), raw);
+    }
+
+    public static String encodeSha512(String raw) throws NoSuchAlgorithmException {
+        return encode(AlgorithmEnum.SHA512.getAlgorithm(), raw);
+    }
+
     public static String encode(String algorithm, String raw) throws NoSuchAlgorithmException {
         // 计算哈希值
         byte[] digest = BasicUtils.digest(algorithm, raw.getBytes());

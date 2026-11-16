@@ -10,6 +10,15 @@
 - 新增图像常量类 `ImageConstants` 和 `FileUtilConstants`
 - 新增开源合规文档（CONTRIBUTING、AUTHORS、NOTICE、CHANGELOG、SECURITY、CODE_OF_CONDUCT）
 - 新增 GitHub Issue 与 Pull Request 模板
+- 加密模块新增 8 个算法实现：
+  - 3DES（`Des3Helper`、`Des3KeyGenerator`）
+  - Blowfish（`BlowfishHelper`、`BlowfishKeyGenerator`）
+  - RC2（`Rc2Helper`、`Rc2KeyGenerator`）
+  - RC4 流加密（`Rc4Helper`、`Rc4KeyGenerator`）
+  - ECC 椭圆曲线与 ECDH 密钥协商（`EccKeyGenerator`、`EcdhHelper`）
+  - DH 密钥交换（`DhHelper`）
+  - ECDSA 数字签名（`EcdsaHelper`、`EcdsaKeyGenerator`，支持 SHA256/384/512withECDSA）
+  - SHA-384 / SHA-512 便捷方法（`ShaUtils.encodeSha384`、`encodeSha512`）
 
 ### 变更
 - **破坏性变更**：Java 包根从 `org.tools` 迁移到 `io.github.sander_i`
@@ -23,6 +32,8 @@
 
 ### 修复
 - `example` 模块 `SymmetricalController.desLoad()` 返回类型不匹配
+- `SymmetricalUtils` 解密未指定字符集，非 ASCII 明文（如中文）解密后乱码
+- `SymmetricalUtils` 非法 Base64 密文未包装为 `SymmetricalException`，直接抛 `IllegalArgumentException`
 
 ### 构建
 - 使用 build-helper-maven-plugin 自动生成构建年份

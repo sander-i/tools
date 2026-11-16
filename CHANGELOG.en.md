@@ -10,6 +10,15 @@ This document records the important changes to the project.
 - New constant classes `ImageConstants` and `FileUtilConstants`
 - Open source compliance documents (CONTRIBUTING, AUTHORS, NOTICE, CHANGELOG, SECURITY, CODE_OF_CONDUCT)
 - GitHub issue and pull request templates
+- Eight new algorithms in the encrypt module:
+  - 3DES (`Des3Helper`, `Des3KeyGenerator`)
+  - Blowfish (`BlowfishHelper`, `BlowfishKeyGenerator`)
+  - RC2 (`Rc2Helper`, `Rc2KeyGenerator`)
+  - RC4 stream cipher (`Rc4Helper`, `Rc4KeyGenerator`)
+  - ECC elliptic curve and ECDH key agreement (`EccKeyGenerator`, `EcdhHelper`)
+  - DH key exchange (`DhHelper`)
+  - ECDSA digital signature (`EcdsaHelper`, `EcdsaKeyGenerator`, supporting SHA256/384/512withECDSA)
+  - SHA-384 / SHA-512 convenience methods (`ShaUtils.encodeSha384`, `encodeSha512`)
 
 ### Changed
 - **BREAKING**: Java package root migrated from `org.tools` to `io.github.sander_i`
@@ -23,6 +32,8 @@ This document records the important changes to the project.
 
 ### Fixed
 - `SymmetricalController.desLoad()` return type mismatch in example module
+- `SymmetricalUtils` decrypted without an explicit charset, corrupting non-ASCII plaintext (e.g. Chinese)
+- `SymmetricalUtils` let `IllegalArgumentException` escape for invalid Base64 ciphertext instead of wrapping it in `SymmetricalException`
 
 ### Build
 - Auto-generated build year via build-helper-maven-plugin

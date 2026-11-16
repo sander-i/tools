@@ -49,9 +49,14 @@ public class SymmetricalUtils {
      *
      * @param process 待处理
      * @return byte[]
+     * @throws SymmetricalException 密文不是合法 Base64 时抛出
      */
-    protected static byte[] decryptBefore(String process) {
-        return Base64.getDecoder().decode(process);
+    protected static byte[] decryptBefore(String process) throws SymmetricalException {
+        try {
+            return Base64.getDecoder().decode(process);
+        } catch (IllegalArgumentException e) {
+            throw new SymmetricalException("密文不是合法的 Base64 字符串", e);
+        }
     }
 
     /**
@@ -61,7 +66,7 @@ public class SymmetricalUtils {
      * @return String
      */
     protected static String decryptAfter(byte[] process) {
-        return new String(process);
+        return new String(process, StandardCharsets.UTF_8);
     }
 
     /**

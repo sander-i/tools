@@ -29,7 +29,8 @@ public enum AlgorithmModeEnum {
      */
     DES("DES"),
     DES_ECB_NO_PADDING("DES/ECB/NoPadding"),
-    DES_EDE_CBC_PKCS5Padding("DESede/CBC/PKCS5Padding"),
+    DES_EDE_CBC_PKCS5PADDING("DESede/CBC/PKCS5Padding"),
+    DES_EDE_ECB_PKCS5PADDING("DESede/ECB/PKCS5Padding"),
 
     /**
      * RSA
@@ -45,6 +46,35 @@ public enum AlgorithmModeEnum {
      */
     AES("AES"),
     AES_CBC_PKCS5PADDING("AES/CBC/PKCS5Padding"),
+
+    /**
+     * Blowfish
+     */
+    BLOWFISH("Blowfish"),
+    BLOWFISH_ECB_PKCS5PADDING("Blowfish/ECB/PKCS5Padding"),
+    BLOWFISH_CBC_PKCS5PADDING("Blowfish/CBC/PKCS5Padding"),
+
+    /**
+     * RC2
+     */
+    RC2("RC2"),
+    RC2_ECB_PKCS5PADDING("RC2/ECB/PKCS5Padding"),
+    RC2_CBC_PKCS5PADDING("RC2/CBC/PKCS5Padding"),
+
+    /**
+     * RC4（流加密，无分组模式）
+     */
+    RC4("RC4"),
+    ARCFOUR("ARCFOUR"),
+
+    /**
+     * ECC / ECDH / ECDSA
+     */
+    EC("EC"),
+    ECDH("ECDH"),
+    SHA256withECDSA("SHA256withECDSA"),
+    SHA384withECDSA("SHA384withECDSA"),
+    SHA512withECDSA("SHA512withECDSA"),
 
     /**
      * IDEA

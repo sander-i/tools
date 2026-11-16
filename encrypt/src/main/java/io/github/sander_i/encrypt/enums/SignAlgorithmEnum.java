@@ -19,6 +19,9 @@ public enum SignAlgorithmEnum {
     MD5_WITH_RSA("MD5withRSA"),
     SHA256_WITH_DSA("SHA256withDSA"),
     SHA3_256_WITH_RSA("SHA3-256withRSA"),
+    SHA256_WITH_ECDSA("SHA256withECDSA"),
+    SHA384_WITH_ECDSA("SHA384withECDSA"),
+    SHA512_WITH_ECDSA("SHA512withECDSA"),
     ;
 
     private final String signAlgorithm;
