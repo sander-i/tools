@@ -1,0 +1,128 @@
+name: Bug Report
+description: Report a problem with the tools library
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem.
+
+        Before you continue, please:
+        - Search [existing issues](https://github.com/sander-i/tools/issues) to avoid duplicates.
+        - Read the [README](https://github.com/sander-i/tools/blob/master/README.en.md) and the
+          [contributing guide](https://github.com/sander-i/tools/blob/master/CONTRIBUTING.en.md).
+
+        If this is a **security vulnerability**, do not open a public issue. Follow the
+        [security policy](https://github.com/sander-i/tools/blob/master/SECURITY.md) instead.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem description
+      description: A clear and concise description of what the problem is.
+      placeholder: Describe the problem you encountered.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can the problem be reproduced? A minimal code snippet helps a lot.
+      placeholder: |
+        1. Add dependency '...'
+        2. Call '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened instead?
+    validations:
+      required: true
+
+  - type: input
+    id: tools-version
+    attributes:
+      label: tools version
+      description: The version of tools you are using, e.g. 1.0.6.6 or 2.0.0-SNAPSHOT.
+      placeholder: 2.0.0-SNAPSHOT
+    validations:
+      required: true
+
+  - type: dropdown
+    id: jdk-version
+    attributes:
+      label: JDK version
+      description: Which JDK are you running?
+      options:
+        - JDK 8
+        - JDK 11
+        - JDK 17
+        - JDK 21
+        - Other (specify in the description above)
+    validations:
+      required: true
+
+  - type: input
+    id: maven-version
+    attributes:
+      label: Maven version
+      description: Output of `mvn -v` (the Maven version line is enough).
+      placeholder: Apache Maven 3.8.4
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: Windows 10 Pro / Ubuntu 22.04 / macOS 14
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Affected module
+      description: Which module does the problem occur in?
+      options:
+        - bedrock
+        - encrypt
+        - fortify
+        - tools-spring-boot-starter
+        - encrypt-spring-boot-starter
+        - example
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or stack trace
+      description: Paste any relevant log output or stack trace. It will be rendered as code, so no backticks are needed.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: pr-willingness
+    attributes:
+      label: Contribution
+      description: Would you be willing to submit a Pull Request to fix this?
+      options:
+        - label: I am willing to submit a Pull Request to fix this issue.
+          required: false

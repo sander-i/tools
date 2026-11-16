@@ -8,22 +8,30 @@
 - 图像工具模块全面优化
 - 新增 `ThumbnailUtil` 缩略图生成工具
 - 新增图像常量类 `ImageConstants` 和 `FileUtilConstants`
-- 新增开源合规文档（CONTRIBUTING、AUTHORS、NOTICE、CHANGELOG）
+- 新增开源合规文档（CONTRIBUTING、AUTHORS、NOTICE、CHANGELOG、SECURITY、CODE_OF_CONDUCT）
+- 新增 GitHub Issue 与 Pull Request 模板
 
 ### 变更
+- **破坏性变更**：Java 包根从 `org.tools` 迁移到 `io.github.sander_i`
+- **破坏性变更**：Maven groupId 从 `io.gitee.sander-o` 迁移到 `io.github.sander-i`
 - 统一图像工具到 `bedrock` 模块
 - 精简 `fortify` 模块的 `ImageUtils`（-472行）
 - 增强 `bedrock` 模块的 `ImageUtil`（+441行）
 - 优化图像特征、哈希、直方图、像素、结构工具类
 - 提升测试覆盖率（ThumbnailUtilTest +244行，ImageUtilTest +165行）
+- 主仓库迁移到 GitHub，Gitee 保留为镜像
+
+### 修复
+- `example` 模块 `SymmetricalController.desLoad()` 返回类型不匹配
 
 ### 构建
 - 使用 build-helper-maven-plugin 自动生成构建年份
 - 版权信息动态化：`Copyright © 2023-${build.year} sander`
+- 移除已废弃的 OSSRH staging 配置
 
-### 其他
-- 所有提交邮箱更换为 GitHub Noreply 地址
-- 补充开源项目标准文档
+### 安全
+- 所有提交与标签邮箱更换为 GitHub Noreply 地址
+- 清理 git 历史中的明文凭据
 
 ---
 

@@ -1,0 +1,67 @@
+name: Feature Request
+description: Suggest an idea or enhancement for the tools library
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the project.
+
+        Before you continue, please search
+        [existing issues](https://github.com/sander-i/tools/issues) to avoid duplicates, and check
+        whether the feature already exists in the [README](https://github.com/sander-i/tools/blob/master/README.en.md).
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature description
+      description: A clear and concise description of what you would like to see.
+      placeholder: Describe the feature or enhancement you are proposing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case
+      description: |
+        Why do you need this? Describe the problem it solves and how you would use it in practice.
+        Concrete examples are more convincing than general wishes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-implementation
+    attributes:
+      label: Proposed implementation
+      description: |
+        If you have an idea about how it should be implemented, describe it here — API shape,
+        which module it belongs to, alternatives you considered. Optional.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Target module
+      description: Which module should the feature live in?
+      options:
+        - bedrock
+        - encrypt
+        - fortify
+        - tools-spring-boot-starter
+        - encrypt-spring-boot-starter
+        - New module
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: pr-willingness
+    attributes:
+      label: Contribution
+      description: Would you be willing to submit a Pull Request to implement this?
+      options:
+        - label: I am willing to submit a Pull Request to implement this feature.
+          required: false

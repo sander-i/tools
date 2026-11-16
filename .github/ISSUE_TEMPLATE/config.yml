@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/sander-i/tools/blob/master/README.en.md
+    about: Read the README first — installation, modules, and usage instructions.
+  - name: Contributing Guide
+    url: https://github.com/sander-i/tools/blob/master/CONTRIBUTING.en.md
+    about: Branch naming, commit conventions, code style, and the pull request process.
+  - name: Security Policy
+    url: https://github.com/sander-i/tools/blob/master/SECURITY.md
+    about: Please report security vulnerabilities privately, not as a public issue.
+  - name: Questions and Discussions
+    url: https://github.com/sander-i/tools/issues
+    about: Search existing issues before asking a question.

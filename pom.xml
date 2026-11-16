@@ -35,8 +35,10 @@
     <developers>
         <developer>
             <id>sander</id>
-            <name>sander-o</name>
-            <email>ailuoli.tao@gmail.com</email>
+            <name>sander-i</name>
+            <email>324466109+sander-i@users.noreply.github.com</email>
+            <organization>sander-i</organization>
+            <organizationUrl>https://github.com/sander-i</organizationUrl>
             <roles>
                 <role>Committer</role>
             </roles>
@@ -85,10 +87,10 @@
         <!-- framework.dependencies -->
         <!-- spring.dependencies -->
         <spring-boot-starter.version>2.7.1</spring-boot-starter.version>
-        <spring-cloud.varsion>2021.0.6</spring-cloud.varsion>
+        <spring-cloud.version>2021.0.6</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <!-- log4j.dependencies -->
-        <lombk.version>1.18.24</lombk.version>
+        <lombok.version>1.18.24</lombok.version>
         <slf4j.version>1.7.21</slf4j.version>
         <logback.version>1.1.7</logback.version>
 
@@ -137,7 +139,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.varsion}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -154,7 +156,7 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>${lombk.version}</version>
+                <version>${lombok.version}</version>
                 <optional>true</optional>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -517,31 +519,11 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>ailuoli</id>
-            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>aliyun-plugin</id>
             <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>ailuoli-plugin</id>
-            <url>http://ailuoli.com.cn:17993/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>

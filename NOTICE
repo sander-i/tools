@@ -5,7 +5,7 @@
 - **项目名称**: tools
 - **版本**: 2.0.0-SNAPSHOT
 - **许可证**: MIT License
-- **作者**: sander-o
+- **作者**: sander-i
 
 ## 版权声明
 
@@ -95,11 +95,37 @@ Copyright (c) 2023-2026 sander
 - **版本**: 4.x / 5.x
 - **来源**: https://junit.org/
 
+#### Mockito
+- **许可证**: MIT License
+- **用途**: 单元测试模拟框架
+- **版本**: 3.12.4
+- **来源**: https://site.mockito.org/
+
 #### Maven
 - **许可证**: Apache License 2.0
 - **用途**: 项目构建工具
 - **版本**: 3.6+
 - **来源**: https://maven.apache.org/
+
+#### AspectJ Weaver
+- **许可证**: Eclipse Public License
+- **用途**: 编译期和加载期织入
+- **版本**: 1.9.7
+- **来源**: https://www.eclipse.org/aspectj/
+
+### 文件与图像处理
+
+#### Thumbnailator
+- **许可证**: MIT License
+- **用途**: 图像缩略图生成与缩放
+- **版本**: 0.4.8
+- **来源**: https://github.com/coobird/thumbnailator
+
+#### Apache POI
+- **许可证**: Apache License 2.0
+- **用途**: Office 文档（Excel）读写
+- **版本**: 5.2.2
+- **来源**: https://poi.apache.org/
 
 ## 完整依赖清单
 

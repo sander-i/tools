@@ -81,6 +81,26 @@
 4. 作者不对使用者行为造成的后果承担法律责任。
 5. 本项目目前由个人维护更新，欢迎提出建议或优化点，可通过Issue提交。
 
+## 从 1.x 升级到 2.0
+
+2.0.0 包含两项破坏性变更，升级时需同步修改：
+
+| 项 | 1.x | 2.0 |
+|---|---|---|
+| Maven groupId | `io.gitee.sander-o` | `io.github.sander-i` |
+| Java 包根 | `org.tools` | `io.github.sander_i` |
+| Starter groupId | `io.gitee.sander-o.spring.boot` | `io.github.sander-i.spring.boot` |
+
+包名中的 `sander_i` 用下划线，因为 Java 包名不允许连字符，而 groupId 中的 `sander-i` 含连字符。
+
+升级步骤：
+
+1. 替换 `pom.xml` 中的 groupId
+2. 全局替换源码中的 `import org.tools.` 为 `import io.github.sander_i.`
+3. 重新构建
+
+1.x 版本仍可从 Maven Central 获取，但不再维护。
+
 ## 参与贡献
 
 1. Fork 本仓库。
@@ -100,7 +120,9 @@
 
 ## 相关文档
 
-- [贡献指南](CONTRIBUTING.md)
-- [更新日志](CHANGELOG.md)
-- [贡献者名单](AUTHORS)
-- [第三方依赖声明](NOTICE)
+- [贡献指南](CONTRIBUTING.md) / [Contributing Guide](CONTRIBUTING.en.md)
+- [更新日志](CHANGELOG.md) / [Changelog](CHANGELOG.en.md)
+- [贡献者名单](AUTHORS) / [Authors](AUTHORS.en.md)
+- [第三方依赖声明](NOTICE) / [Notice](NOTICE.en)
+- [安全策略](SECURITY.md)
+- [行为准则](CODE_OF_CONDUCT.md)

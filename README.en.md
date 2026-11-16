@@ -81,13 +81,33 @@ Add the following dependencies to your：`pom.xml`
 4. The author is not legally responsible for the consequences of the user's actions。
 5. This project is currently maintained and updated by individuals, and suggestions or optimization points are welcome, which can be submitted through Issues。
 
+## Upgrading from 1.x to 2.0
+
+2.0.0 contains two breaking changes that must be applied together:
+
+| Item | 1.x | 2.0 |
+|---|---|---|
+| Maven groupId | `io.gitee.sander-o` | `io.github.sander-i` |
+| Java package root | `org.tools` | `io.github.sander_i` |
+| Starter groupId | `io.gitee.sander-o.spring.boot` | `io.github.sander-i.spring.boot` |
+
+The package name uses `sander_i` with an underscore because Java package names cannot contain hyphens, while the groupId `sander-i` does.
+
+Upgrade steps:
+
+1. Replace the groupId in `pom.xml`
+2. Replace all `import org.tools.` with `import io.github.sander_i.` in your sources
+3. Rebuild
+
+1.x releases remain available on Maven Central but are no longer maintained.
+
 ## Contribution
 
-1. Fork This warehouse。
-2. Newly Built `feat/${user_name}/${demand}` Branch。
-3. Submit the code。
-4. Create Pull Request Incorporated to `develop${year}${month}${day}` Branch。
-5. `develop${year}${month}${day}` Created after the test passes Pull Request Incorporated to `release`。
+1. Fork this repository。
+2. Create a branch named `feat/${user_name}/${demand}`。
+3. Commit your code。
+4. Open a Pull Request against the `develop${year}${month}${day}` branch。
+5. Once tests pass on `develop${year}${month}${day}`, a Pull Request is opened against `release`。
 
 ## Repository
 
@@ -100,7 +120,9 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Documents
 
-- [Contributing Guide](CONTRIBUTING.md)
-- [Changelog](CHANGELOG.md)
-- [Authors](AUTHORS)
-- [Notice](NOTICE)
+- [Contributing Guide](CONTRIBUTING.en.md) / [中文](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.en.md) / [中文](CHANGELOG.md)
+- [Authors](AUTHORS.en.md) / [中文](AUTHORS)
+- [Notice](NOTICE.en) / [中文](NOTICE)
+- [Security Policy](SECURITY.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)

@@ -1,0 +1,140 @@
+# NOTICE
+
+## Project Information
+
+- **Project**: tools
+- **Version**: 2.0.0-SNAPSHOT
+- **License**: MIT License
+- **Author**: sander-i
+
+## Copyright
+
+Copyright (c) 2023-2026 sander
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Third-Party Dependencies
+
+This project uses the following third-party libraries, each under its own open source license.
+
+### Core Dependencies
+
+#### Lombok
+- **License**: MIT License
+- **Purpose**: Java boilerplate reduction
+- **Version**: 1.18.24
+- **Source**: https://projectlombok.org/
+
+#### FastJSON
+- **License**: Apache License 2.0
+- **Purpose**: JSON parsing and generation
+- **Version**: 1.2.83
+- **Source**: https://github.com/alibaba/fastjson
+
+#### SLF4J
+- **License**: MIT License
+- **Purpose**: Logging facade
+- **Version**: 1.7.21
+- **Source**: https://www.slf4j.org/
+
+#### Logback
+- **License**: EPL 1.0 / LGPL 2.1
+- **Purpose**: Logging implementation
+- **Version**: 1.1.7
+- **Source**: https://logback.qos.ch/
+
+#### Apache Commons Codec
+- **License**: Apache License 2.0
+- **Purpose**: Encoding and decoding utilities
+- **Version**: 1.15
+- **Source**: https://commons.apache.org/proper/commons-codec/
+
+#### java-jwt
+- **License**: Apache License 2.0
+- **Purpose**: JWT (JSON Web Token) implementation
+- **Version**: 4.3.0
+- **Source**: https://github.com/auth0/java-jwt
+
+#### Byte Buddy
+- **License**: Apache License 2.0
+- **Purpose**: Runtime bytecode generation
+- **Version**: 1.11.22
+- **Source**: https://bytebuddy.net/
+
+#### AspectJ
+- **License**: Eclipse Public License
+- **Purpose**: Aspect-oriented programming
+- **Version**: 1.9.4
+- **Source**: https://www.eclipse.org/aspectj/
+
+### Spring Boot Dependencies
+
+#### Spring Boot Starter
+- **License**: Apache License 2.0
+- **Purpose**: Spring Boot core components
+- **Version**: 2.7.1
+- **Source**: https://spring.io/projects/spring-boot
+
+#### Spring Cloud
+- **License**: Apache License 2.0
+- **Purpose**: Microservice governance
+- **Version**: 2021.0.6
+- **Source**: https://spring.io/projects/spring-cloud
+
+#### Spring Cloud Alibaba
+- **License**: Apache License 2.0
+- **Purpose**: Alibaba extensions for Spring Cloud
+- **Version**: 2021.1
+- **Source**: https://github.com/alibaba/spring-cloud-alibaba
+
+### Development and Build Tools
+
+#### JUnit
+- **License**: Eclipse Public License
+- **Purpose**: Unit testing framework
+- **Version**: 4.x / 5.x
+- **Source**: https://junit.org/
+
+#### Mockito
+- **License**: MIT License
+- **Purpose**: Unit testing mock framework
+- **Version**: 3.12.4
+- **Source**: https://site.mockito.org/
+
+#### Maven
+- **License**: Apache License 2.0
+- **Purpose**: Project build tool
+- **Version**: 3.6+
+- **Source**: https://maven.apache.org/
+
+#### AspectJ Weaver
+- **License**: Eclipse Public License
+- **Purpose**: Compile-time and load-time weaving
+- **Version**: 1.9.7
+- **Source**: https://www.eclipse.org/aspectj/
+
+### File and Image Processing
+
+#### Thumbnailator
+- **License**: MIT License
+- **Purpose**: Thumbnail generation and image scaling
+- **Version**: 0.4.8
+- **Source**: https://github.com/coobird/thumbnailator
+
+#### Apache POI
+- **License**: Apache License 2.0
+- **Purpose**: Office document (Excel) reading and writing
+- **Version**: 5.2.2
+- **Source**: https://poi.apache.org/
+
+## Full Dependency List
+
+See the `pom.xml` of each module for the complete dependency list.
+
+## License Compatibility
+
+All third-party dependencies of this project are compatible with the MIT License.
+
+## Acknowledgements
+
+Thanks to all contributors of these open source projects.
