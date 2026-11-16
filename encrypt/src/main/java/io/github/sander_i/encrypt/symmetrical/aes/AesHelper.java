@@ -42,6 +42,10 @@ public class AesHelper {
         if (BaseUtils.isEmpty(keyPair.getSignAlgorithm())) {
             keyPair.setSignAlgorithm(aes.getSignAlgorithm());
         }
+        // CBC 模式需要向量，分组未配置时继承父级
+        if (BaseUtils.isEmpty(keyPair.getIvParameter())) {
+            keyPair.setIvParameter(aes.getIvParameter());
+        }
     }
 
     public static void load(KeyPair keyPair, String name) throws AesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {

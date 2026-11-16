@@ -1,51 +1,51 @@
 #----------------------------------- encrypt 配置样例 -----------------------------------#
 #
 # 本文件是配置样例，不会被 Spring Boot 自动加载。
-# 使用时复制为 application.yml，并按实际环境填写密钥。
+# 使用时复制为 application.yml，再按需替换密钥。
 #
 # 密钥说明：
-#   - 对称密钥（aes/des/idea 的 secret-key）可写明文，也可写 hex: 前缀的十六进制编码。
-#     推荐用对应 *KeyGenerator.getSecretKeyStr() 生成，格式为 hex:xxxx。
-#   - 非对称密钥（rsa 的 public-key/private-key）为 Base64 编码的 PKCS#8/X.509 内容，
-#     可用 RsaKeyGenerator 生成。
-#   - 切勿把生产密钥提交到代码仓库。
+#   - 对称密钥可写明文，也可写 hex: 前缀的十六进制编码。
+#     下面给出的是 hex: 形式，由对应 *KeyGenerator.getSecretKeyStr() 生成。
+#   - 非对称密钥为 Base64 编码的 PKCS#8 / X.509 内容，由 RsaKeyGenerator 生成。
+#   - 下面的密钥仅用于演示与本地测试，生产环境请自行生成并妥善保管，
+#     切勿把生产密钥提交到代码仓库。
 
 tools:
   encrypt:
+    enabled: true
     asymmetric:
       rsa:
-        enabled: false
-        # 替换为你自己生成的公钥
-        public-key: "REPLACE_WITH_YOUR_RSA_PUBLIC_KEY"
-        # 替换为你自己生成的私钥，且不要提交到仓库
-        private-key: "REPLACE_WITH_YOUR_RSA_PRIVATE_KEY"
-        group-enabled: false
+        enabled: true
+        # 2048 位演示密钥
+        public-key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlBinhuxqocnLnFuJYekqWxYGLdzdP2uIhdUD0gX84Wi+kSXP2MZEJzTzFhxP8ry4a6SiWSGyhdcHIWSVJrnsSeEbcmcIfT1c+/XT8foMBQ8VIGL88+qxBHwTzDTTW12Dwn1UmuqLMNmH4kt66pIMx7+6oJ87JsR2KfvMhzZPzMa9MZZZqujnAex969OHbXHg+AQWdyzbuhXdyxZrFsSnNVxNgabFlwRxjqCxqduVJ4YSbhFbhnKPC5PHcaLuNCp2l+w+O+YyKoVQd1rjDR4IcLF7dkYzFYjKUBB5ATYk+s7U2at6nzSJ3S/FonLYcVA5bVi274tqhxFBgT60Zl4cBwIDAQAB"
+        private-key: "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCUGKeG7GqhycucW4lh6SpbFgYt3N0/a4iF1QPSBfzhaL6RJc/YxkQnNPMWHE/yvLhrpKJZIbKF1wchZJUmuexJ4RtyZwh9PVz79dPx+gwFDxUgYvzz6rEEfBPMNNNbXYPCfVSa6osw2YfiS3rqkgzHv7qgnzsmxHYp+8yHNk/Mxr0xllmq6OcB7H3r04dtceD4BBZ3LNu6Fd3LFmsWxKc1XE2BpsWXBHGOoLGp25UnhhJuEVuGco8Lk8dxou40KnaX7D475jIqhVB3WuMNHghwsXt2RjMViMpQEHkBNiT6ztTZq3qfNIndL8WicthxUDltWLbvi2qHEUGBPrRmXhwHAgMBAAECggEAXIZevCQepr/9rs1dssdLCCdlaufvbr0PSZYBUgkdqfKYBPUbuzJ7yAcDzI+Zv2z6x33PVGKCN65VLR67NLu6DZpPXJVUr3JUErLOXQK82bhHmblekkHRoJyofc+PMSjmte85maPpnHZ7t/0yaTUgOPfncIyrFxhtPuOrL9rV1nhsTWnXo0c8GNGuUneCg+lShM5IGPbDYr5oVnSNYD/bsbD+c/PwUWE+jTrh1JR+Fz5UKiuKGKzTYUPTPAO5v3JsHOlNnpLSQU0DygPaMlpmSBikos0RANLsDKpVN9lKvH0Af9WqLOxeM0+N+5gBQGkxZPbT6HrTEdDHOgzTTDRHgQKBgQDP96xBamzs/loAwDHF4af3nBPB+RwX7Dsg/QrRaUmMvGaOC6F0t23XaRJgIgtGcozySP9KM65fi/WLqzKjQ3FPzLCIcf5dCXbGvvmoqQyxNC0WAJ2HbsnG2R0UKPex3LaeyU4mLYBZI3x8iKIMqntnol7A+txkxnponIlSuuT/RwKBgQC2TQba3byF3WWqV6FZiV0k37aab24D/KkOardDpCHaMg3/51jp4J9mR+8/UirC6ePQsZ+3xtP9sTQnbmNNTXf5Yz4YXPG2VF+3ljtmgXmLMJgy8c/8c0vo4FF12Ywn3cqaAf7rk7tPmE7ybKb7TdJdEvuOT0ZX3BAQ/XE3hd/dQQKBgQCkouPBHamBrJI/yecdSlkYknypsLXm0mK06N2pjnplabieduKobZYNU+byJ8FZUdH29Ib1jRhcF4aZvTvnN7r6e4a9XdEKgjV/fSxTsxCTMEUJCA+taa1fN/3nOc9tBNeluKOfYaIb7xXb2KbA9C2hi08L4wya0u2Q52tnDQHAfQKBgGgkYrkfmPYkP1Lrkqoytbo97vQUmhW+/djVj/IdTpV2qNa7E+kvv//PMlbLGtCUiueKwUJcXHh+BdxMzH+5tMMMNcn3NsJBOxkGwtJRPt0MGrZnu7htKT1VAFRBvjZ8FqSaZUWw9H2I9fi5pz7C+1zeXkSy9u10Mt1x236rhPLBAoGAW32ClhhuXrX39rXi2AQBrEakDoixw9e5xI4HVJthm+c7kStlLuHKl+kTVx24aFxrI9Bjo44HlHiYb5d7EUpCCnFGNjpvQUAR4ZiH8UOfcnlFQDXQBRGDOhx+PboQxwgfIrKfOjCpNE2ec6lDd2s+x146pZJeSn+TL20a8lVtRNk="
+        group-enabled: true
         group:
-          - name: sample
-            public-key: "REPLACE_WITH_YOUR_RSA_PUBLIC_KEY"
-            private-key: "REPLACE_WITH_YOUR_RSA_PRIVATE_KEY"
+          - name: sample1
+            public-key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAha6MEolYuBZ9OI6gIqYCPbxT29ferHdnaPD97KJ4A0E3ut+SFTep4Ssof365ZvN/3bbKyTfN67sCiCgbOvnBqXqd8HfyjQCugeqHKphNdob/x2oEgME42uBnBXsM+0S8wua/ZqxrfLIlAXaRsONNowlsnDrunqZOobI+lNFuHmamnq/bt9JABDzU2ZfSfaeBR04fNt4/Zc7qzAgrCNO+6YS7xDet+QlPG31K7KRkR/ZSHPJj9CzJz+jmoRQAU9UJ0F3mm9WU2D5Aopi75n6lQQUorZsacRY0r3gqfV0FV3cIJCyKLfWNLrth9FNDk8XJqNwoxdvKuKRAr1yCXmVUfQIDAQAB"
+            private-key: "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCFrowSiVi4Fn04jqAipgI9vFPb196sd2do8P3songDQTe635IVN6nhKyh/frlm83/dtsrJN83ruwKIKBs6+cGpep3wd/KNAK6B6ocqmE12hv/HagSAwTja4GcFewz7RLzC5r9mrGt8siUBdpGw402jCWycOu6epk6hsj6U0W4eZqaer9u30kAEPNTZl9J9p4FHTh823j9lzurMCCsI077phLvEN635CU8bfUrspGRH9lIc8mP0LMnP6OahFABT1QnQXeab1ZTYPkCimLvmfqVBBSitmxpxFjSveCp9XQVXdwgkLIot9Y0uu2H0U0OTxcmo3CjF28q4pECvXIJeZVR9AgMBAAECggEABrgVNkFNAkOvG46fod4yMqQqmtwoxwZhXjburFwmKBO5F11xXDumADlJGc9mxjPq81viqWZypSyLHgjWBYrUHw6YraN5v3iPTNxa2ts42YJDjORZQZd0ohuxUeczadW0nx8185Uq+eOCVKZ/ACMMnes1WEzl/XdicGIjHxu/qytu3ev0Xl5szcWksFEsjwDmkklc1X8eEEy/j0yA/17UmH8F/gai7qRJ5rfB8tkqBOdC25HUviL8e1sCujRhPU1/HJpkzHqd3lIVMq5sZDk061uzXLZYGp31skrmo68Ym1TxnA0n31hRDzcLgLmsl+91u4A/V8KvqdW+qn4m279qCQKBgQDVyGD5Db4B9Ptold1+HuaDtrK4L2/PpKgZjOZddkqfe2vqyPgIYbyqjLHNmbbE4fPkZXDitK4itgAHrwYjRlyTZRnsjWAzhRfnpPWwIH17xDJZgCdY57NbmhlxBnUmlqvI0xLYFl54Ye9Z2m0ZhaNlQ3gxNF3QQeejyy0rBg6REwKBgQCgFLqUJR8IG8+b/GTtnUfI75UZFvqEUS0Lr6lRi7W8KPVW4lSOVP1URotmHf5/X7FPf37+YABkZLaA+Aewd7r0x3n1eycDrjzsSG4dcVL8rbyugRk62yO3pUFuMFv08mmPwRvgrvfioZQFAqXeFAlkodselOjOb3o0HDurwOzGLwKBgQDUHaeqNeprgqnZEandM8fAtIwLmHW2b0ejYlxIK9DLAOkI4jLIDkHmbwcUWwovu4oE+mnRZzjIlBDfjtfmNDAyx0O7pGLpe4tGejSUdwhKv1a92xwvaGZb40CPFrsyeJkl/9hYs4k0pOeaHdHWWvTOyuz81VqoAlxV9ohwgef+JQKBgAboXhS+dVRYPuEwRvqp6ssU644lm7HR/uueLORD7xerfMq/AX8S08urL6C8cpr0eiZADi7T3bB3WBjAmzRWNk8RvIWHRuu1vRNFHNtQZJBavuWY1InhouztyKEEnTM4sq1tW9KaOkAhUM3Wi2nF25HoGhh7vIAL924AOeLzdEQpAoGBAMMcTYqZQqeqdTeaYuNul572LrVAyCNCHM7M3rrSTF+Ur63g8fBpDBIK2nXVBzaveczVc7BYQB7WsSTHLqY8rneCeei5gHpnGbJdQ2clq/WTgwcWPmYN8u/7Pr0lUa9OERku5PbBii7IYlgIUz+WcV3js3EsuqVPc31b7HbCgyDo"
+          - name: sample2
+            public-key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoHRDMOtNHjr+H0e+MKf8KVRFQCpM34WwhJwU+r9+oXCNcAgHgDZE8s08L76Z3Sj+cyMzIsbEyL9PcI5K40gOUmrwJnObKt7DMlpw9B+Fwi/DjCbmBVIDicV8Gn2pBWI4gEE1yo3Ucli6xJRbmM3KIqhDouFCuCSseP0BPSe8pc03bJE+AaMKJltV8mTxUpzYPQORTURq8Ll+bZ2LzjO53mopFTNjnnQ+HwF28W/Tr9uYwx5uPJb6n8N54hMMfY47jfYp08/3shkmX6vSkRboxCbSt04CRpfs/QLXulQRVF8L4EfgOq6a9pZXsOfgs55a4vHUG4sxJvWIEtwUXOYoVwIDAQAB"
+            private-key: "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCgdEMw600eOv4fR74wp/wpVEVAKkzfhbCEnBT6v36hcI1wCAeANkTyzTwvvpndKP5zIzMixsTIv09wjkrjSA5SavAmc5sq3sMyWnD0H4XCL8OMJuYFUgOJxXwafakFYjiAQTXKjdRyWLrElFuYzcoiqEOi4UK4JKx4/QE9J7ylzTdskT4BowomW1XyZPFSnNg9A5FNRGrwuX5tnYvOM7neaikVM2OedD4fAXbxb9Ov25jDHm48lvqfw3niEwx9jjuN9inTz/eyGSZfq9KRFujEJtK3TgJGl+z9Ate6VBFUXwvgR+A6rpr2llew5+Cznlri8dQbizEm9YgS3BRc5ihXAgMBAAECggEAXaPcPqVj6TuWaNzusuimcdw7WfoVyPD1lj6cw8WT+lV8RaB5+CozzNtXv6lllDtDXCBzzFziJSH5E4AHVmML8K92HYqkSL2efzlm6CGpZy2G2rkszngRlorJJZCmXnz26mqkIOTq0hzUSrsmRaP7zoQSjPEXhe3pNea5nV4ea0fOLAHHxkKP2QvSoxftWsLF74/hUfgC8pIw2hh5jPrS8mFXFw5GUDAP9P6z3K/PoXeVJ0kJnOEH48RByEANxg8QpIc3ICE3GbCEAXpFwpLnRU3mtbZrBQqQahlqgfqzH+ebEJiamCthzfbQgEmp77ytFZ7ex6Ec5ZGTTfAqiKCoEQKBgQDcL2rwd9I1orz+bBPo8qy7paSfpwF4kUC4GuGoA5yDd1F1387VgZdR/ACc8fZi6eGKiW49GOXcKdrC+GMmQnJsJ/GOIQH5Ddfxz+gsLl0cYIW2HfbULjD02MhY1Gl684H/VMsiTgAKqLaJ6cvHZzdQ+265w82x7NYKSqHQfU1JHwKBgQC6jZ+4sRHlNAfAKzkguHMiwOyhFuh67uOSG0cIggoCqXBcCCuQyy6DYQM99daRyHOuxcdKlNMz97Y/8S2Udt/fkoQooYpPZbiwqapk90zMaGn3GUvSwUch+9r9ujv4kn8Rbf3xK5ROT/HtHzn2hh1yWFyv6lTo+98wdseqVh1hyQKBgAJ4KavevCXL2HDGB4ciSZulJO6BcfvHLUGjU4qN19CFow0+YFR2qprJx7v63reHRfdGyUy4HcPVWFW9cWc5cY0S+ZuNdTc014onucPdFUA/OOCs/1qr1fK5B64vW6t8VaXmbozI8SktcTakv5tR5gXre/drYcAwFspwwdXTwe0jAoGBAKyy+w/BbG2g8yPlX6d42a1sqCKg0Gstx6K0edfYemfob8njDmGmltKs9pFfilm/FcjP8ySKDdNoGGGtZaKxQaL5QjtTAHVsF8QD7Wg2v/PjHWXRFy5uGunM+/gzdd0x0UxTZOjkjRDKVY5MgB5GHfCC+Jsp9Z0RvpZg/4oi2mRxAoGAad5u2T499tmizWz7+UtUDUAUSUy+u1zMqCKZIjJlnnWdYR3vYPo0RF7eOf+6+WX7ZnM5/erQ8Oxg1vQqO+By2cjSsV2rSdNPGfpdgNRRpLIIN8RXhiqpdutD7yxAZ+1tFU3M1Zr4KNmOOpib0IwBsXPZfqe0VE0AA7eUqGoutR0="
     symmetrical:
       aes:
-        enabled: false
-        # 16 字节（128 位）、24 字节（192 位）或 32 字节（256 位）
-        secret-key: "REPLACE_WITH_16_OR_32_BYTES"
-        group-enabled: false
+        enabled: true
+        secret-key: "hex:05a8ea6198f2bcf7a3049e7e6eb1bc30"
+        group-enabled: true
         group:
-          - name: sample
-            secret-key: "REPLACE_WITH_16_OR_32_BYTES"
+          - name: sample1
+            secret-key: "hex:c308b25570d049c81854201ab8b80489"
       des:
-        enabled: false
-        # 8 字节（64 位）
-        secret-key: "REPLACE_8"
-        group-enabled: false
+        enabled: true
+        secret-key: "hex:2989d5684540c7fb"
+        group-enabled: true
         group:
-          - name: sample
-            secret-key: "REPLACE_8"
+          - name: sample1
+            secret-key: "hex:b93179f7ef4085b5"
       idea:
-        enabled: false
-        # 16 字节（128 位）
-        secret-key: "REPLACE_16_BYTES"
-        group-enabled: false
+        enabled: true
+        secret-key: "hex:8487cec3f4ad2f3e66d613039be67a38"
+        group-enabled: true
         group:
-          - name: sample
-            secret-key: "REPLACE_16_BYTES"
+          - name: sample1
+            secret-key: "hex:93439324e0855682a0443c97070ad1cc"

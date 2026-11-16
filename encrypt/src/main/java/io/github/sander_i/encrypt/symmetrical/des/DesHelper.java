@@ -42,6 +42,10 @@ public class DesHelper {
         if (BaseUtils.isEmpty(keyPair.getSignAlgorithm())) {
             keyPair.setSignAlgorithm(des.getSignAlgorithm());
         }
+        // CBC 模式需要向量，分组未配置时继承父级
+        if (BaseUtils.isEmpty(keyPair.getIvParameter())) {
+            keyPair.setIvParameter(des.getIvParameter());
+        }
     }
 
     public static void load(KeyPair keyPair, String name) throws DesException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {

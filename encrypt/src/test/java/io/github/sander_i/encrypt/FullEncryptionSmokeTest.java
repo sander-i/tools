@@ -235,8 +235,52 @@ public class FullEncryptionSmokeTest extends TestCase {
         }
     }
 
-    // ==================== 非对称：RSA ====================
+    /**
+     * 分组配置未写 ivParameter 时，应继承父级配置
+     * <p>
+     * CBC 模式缺少向量会在初始化时抛 NPE，因此这条路径必须覆盖。
+     * </p>
+     */
+    public void testGroupInheritsIvParameter() throws Exception {
+        // AES
+        Aes aes = new Aes();
+        aes.setEnabled(true);
+        aes.setGroupEnabled(true);
+        aes.setSecretKey(AesKeyGenerator.getSecretKeyStr(AesKeyGenerator.getSecretKey()));
+        aes.setIvParameter(IV16);
 
+        io.github.sander_i.encrypt.entity.KeyPair aesGroup = new io.github.sander_i.encrypt.entity.KeyPair();
+        aesGroup.setName("no-iv");
+        aesGroup.setSecretKey(AesKeyGenerator.getSecretKeyStr(AesKeyGenerator.getSecretKey()));
+        // 刻意不设置 ivParameter
+        java.util.List<io.github.sander_i.encrypt.entity.KeyPair> aesList = new java.util.ArrayList<>();
+        aesList.add(aesGroup);
+        aes.setGroup(aesList);
+
+        AesHelper.load(aes, "no-iv");
+        assertEquals("AES 分组应继承父级 IV", IV16, AesHelper.getProperties().getIvParameter());
+        assertEquals(PLAIN, AesHelper.decode(AesHelper.encode(PLAIN)));
+
+        // DES
+        Des des = new Des();
+        des.setEnabled(true);
+        des.setGroupEnabled(true);
+        des.setSecretKey(DesKeyGenerator.getSecretKeyStr(DesKeyGenerator.getSecretKey()));
+        des.setIvParameter(IV8);
+
+        io.github.sander_i.encrypt.entity.KeyPair desGroup = new io.github.sander_i.encrypt.entity.KeyPair();
+        desGroup.setName("no-iv");
+        desGroup.setSecretKey(DesKeyGenerator.getSecretKeyStr(DesKeyGenerator.getSecretKey()));
+        java.util.List<io.github.sander_i.encrypt.entity.KeyPair> desList = new java.util.ArrayList<>();
+        desList.add(desGroup);
+        des.setGroup(desList);
+
+        DesHelper.load(des, "no-iv");
+        assertEquals("DES 分组应继承父级 IV", IV8, DesHelper.getProperties().getIvParameter());
+        assertEquals(PLAIN, DesHelper.decode(DesHelper.encode(PLAIN)));
+    }
+
+    // ==================== 非对称：RSA ====================
     public void testRsaEncryptDecrypt() throws Exception {
         KeyPair kp = RsaKeyGenerator.getKeyPair();
         String pub = RsaKeyGenerator.getPublicKeyStr(kp.getPublic());
