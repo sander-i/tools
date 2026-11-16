@@ -19,7 +19,7 @@
 
 ### Maven 依赖配置
 
-最新版本链接：https://central.sonatype.com/artifact/io.gitee.sander-o/tools
+最新版本链接：https://central.sonatype.com/artifact/io.github.sander-i/tools
 
 在 `pom.xml` 中添加以下依赖：
 ```
@@ -30,7 +30,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.gitee.sander-o</groupId>
+                <groupId>io.github.sander-i</groupId>
                 <artifactId>tools</artifactId>
                 <version>${tools.version}</version>
                 <type>pom</type>
@@ -41,19 +41,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.gitee.sander-o</groupId>
+            <groupId>io.github.sander-i</groupId>
             <artifactId>bedrock</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.gitee.sander-o</groupId>
+            <groupId>io.github.sander-i</groupId>
             <artifactId>encrypt</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.gitee.sander-o</groupId>
+            <groupId>io.github.sander-i</groupId>
             <artifactId>fortify</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.gitee.sander-o.spring.boot</groupId>
+            <groupId>io.github.sander-i.spring.boot</groupId>
             <artifactId>encrypt-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
@@ -89,11 +89,18 @@
 4. 创建 Pull Request 合并到 `develop${年}${月}${日}` 分支。
 5. `develop${年}${月}${日}` 测试通过后创建 Pull Request 合并到 `release`。
 
-## 特技
+## 仓库地址
 
-1. 使用 `Readme_XXX.md` 支持多语言文档，如 `Readme_en.md`, `Readme_zh.md`。
-2. Gitee 官方博客：[blog.gitee.com](https://blog.gitee.com)
-3. 探索 Gitee 上的优秀开源项目：[https://gitee.com/explore](https://gitee.com/explore)
-4. GVP（Gitee 最有价值开源项目）：[https://gitee.com/gvp](https://gitee.com/gvp)
-5. Gitee 官方使用手册：[https://gitee.com/help](https://gitee.com/help)
-6. Gitee 封面人物栏目：[https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+- GitHub（主仓库）：[https://github.com/sander-i/tools](https://github.com/sander-i/tools)
+- Gitee（镜像）：[https://gitee.com/sander-o/tools](https://gitee.com/sander-o/tools)
+
+## 开源协议
+
+本项目采用 [MIT License](LICENSE) 开源协议。
+
+## 相关文档
+
+- [贡献指南](CONTRIBUTING.md)
+- [更新日志](CHANGELOG.md)
+- [贡献者名单](AUTHORS)
+- [第三方依赖声明](NOTICE)

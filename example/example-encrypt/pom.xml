@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.gitee.sander-o</groupId>
+        <groupId>io.github.sander-i</groupId>
         <artifactId>example</artifactId>
         <version>1.0.0</version>
     </parent>
@@ -19,11 +19,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.gitee.sander-o</groupId>
+            <groupId>io.github.sander-i</groupId>
             <artifactId>encrypt</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.gitee.sander-o.spring.boot</groupId>
+            <groupId>io.github.sander-i.spring.boot</groupId>
             <artifactId>encrypt-spring-boot-starter</artifactId>
         </dependency>
 

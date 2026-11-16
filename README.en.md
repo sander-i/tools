@@ -19,7 +19,7 @@ Most of the tooling methods for this project are available on the web, Its core 
 
 ### Maven Dependency configuration
 
-Latest version link：https://central.sonatype.com/artifact/io.gitee.sander-o/tools
+Latest version link：https://central.sonatype.com/artifact/io.github.sander-i/tools
 
 Add the following dependencies to your：`pom.xml`
 ```
@@ -30,7 +30,7 @@ Add the following dependencies to your：`pom.xml`
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.gitee.sander-o</groupId>
+                <groupId>io.github.sander-i</groupId>
                 <artifactId>tools</artifactId>
                 <version>${tools.version}</version>
                 <type>pom</type>
@@ -41,19 +41,19 @@ Add the following dependencies to your：`pom.xml`
 
     <dependencies>
         <dependency>
-            <groupId>io.gitee.sander-o</groupId>
+            <groupId>io.github.sander-i</groupId>
             <artifactId>bedrock</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.gitee.sander-o</groupId>
+            <groupId>io.github.sander-i</groupId>
             <artifactId>encrypt</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.gitee.sander-o</groupId>
+            <groupId>io.github.sander-i</groupId>
             <artifactId>fortify</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.gitee.sander-o.spring.boot</groupId>
+            <groupId>io.github.sander-i.spring.boot</groupId>
             <artifactId>encrypt-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
@@ -89,11 +89,18 @@ Add the following dependencies to your：`pom.xml`
 4. Create Pull Request Incorporated to `develop${year}${month}${day}` Branch。
 5. `develop${year}${month}${day}` Created after the test passes Pull Request Incorporated to `release`。
 
-## Stunt
+## Repository
 
-1. Use `Readme_XXX.md` Multilingual documentation is supported, such as: `Readme_en.md`, `Readme_zh.md`。
-2. Gitee Official Blog：[blog.gitee.com](https://blog.gitee.com)
-3. Explore Gitee Excellent open source projects on the：[https://gitee.com/explore](https://gitee.com/explore)
-4. GVP（Gitee Most valuable open source project）：[https://gitee.com/gvp](https://gitee.com/gvp)
-5. Gitee Official user manual：[https://gitee.com/help](https://gitee.com/help)
-6. Gitee Cover character column：[https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+- GitHub (primary): [https://github.com/sander-i/tools](https://github.com/sander-i/tools)
+- Gitee (mirror): [https://gitee.com/sander-o/tools](https://gitee.com/sander-o/tools)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Documents
+
+- [Contributing Guide](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+- [Authors](AUTHORS)
+- [Notice](NOTICE)

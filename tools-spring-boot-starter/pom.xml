@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.gitee.sander-o</groupId>
+        <groupId>io.github.sander-i</groupId>
         <artifactId>tools</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>io.gitee.sander-o.spring.boot</groupId>
+    <groupId>io.github.sander-i.spring.boot</groupId>
     <artifactId>tools-spring-boot-starter</artifactId>
 
     <packaging>pom</packaging>
@@ -21,7 +21,7 @@
         use
     </description>
 
-    <url>https://gitee.com/sander-o/tools/tree/release/tools-spring-boot-starter</url>
+    <url>https://github.com/sander-i/tools/tree/release/tools-spring-boot-starter</url>
 
     <properties>
         <spring.application.name>tools-spring-boot-starter</spring.application.name>
@@ -34,17 +34,17 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.gitee.sander-o</groupId>
+                <groupId>io.github.sander-i</groupId>
                 <artifactId>bedrock</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.gitee.sander-o</groupId>
+                <groupId>io.github.sander-i</groupId>
                 <artifactId>encrypt</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.gitee.sander-o.spring.boot</groupId>
+                <groupId>io.github.sander-i.spring.boot</groupId>
                 <artifactId>encrypt-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
