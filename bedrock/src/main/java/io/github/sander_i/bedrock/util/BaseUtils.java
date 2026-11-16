@@ -338,14 +338,29 @@ public class BaseUtils {
             Method[] declaredMethods = aClass.getDeclaredMethods();
             // 遍历方法
             for (Method declaredMethod : declaredMethods) {
+                // 只处理无参 getter；String#getBytes 等带参方法无法以空参数调用
+                if (!declaredMethod.getName().startsWith("get") || declaredMethod.getParameterCount() > 0) {
+                    continue;
+                }
                 // 获取方法名，如果以get开头，并且返回值不为空，则返回false
-                if (declaredMethod.getName().startsWith("get") && !isEmpty(declaredMethod.invoke(o))) {
+                Object value = declaredMethod.invoke(o);
+                // 数组类型的返回值需单独判空：数组的 toString() 是类型哈希，不能反映元素个数
+                if (value != null && value.getClass().isArray()) {
+                    if (java.lang.reflect.Array.getLength(value) > 0) {
+                        return false;
+                    }
+                    continue;
+                }
+                if (!isEmpty(value)) {
                     return false;
                 }
             }
         } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException e) {
             log.info("对象判空异常", e);
             return false;
+        } catch (IllegalArgumentException e) {
+            // 方法参数不匹配，跳过该方法的判定
+            log.info("对象判空时方法参数不匹配: {}", e.getLocalizedMessage());
         }
         return true;
     }

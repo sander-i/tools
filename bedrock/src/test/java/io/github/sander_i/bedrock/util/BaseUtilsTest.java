@@ -213,4 +213,44 @@ public class BaseUtilsTest {
         address.setCity("10010");
         assertFalse("设置了属性的对象应该不为空", BaseUtils.isEmptyObj(address));
     }
+
+    /**
+     * 回归：isEmptyObj 曾对 String 抛 IllegalArgumentException
+     * <p>
+     * 遍历方法时把 String#getBytes(int,int,byte[],int) 这类带参方法当 getter 调用，
+     * invoke 空参数会抛异常，且未被 catch 覆盖。
+     * </p>
+     */
+    @Test
+    public void testIsEmptyObjWithString() {
+        assertTrue("空字符串应判为空", BaseUtils.isEmptyObj(""));
+        assertFalse("非空字符串应判为非空", BaseUtils.isEmptyObj("abc"));
+        assertFalse("中文串应判为非空", BaseUtils.isEmptyObj("中文"));
+    }
+
+    /**
+     * 回归：isEmptyObj 对返回数组的 getter 需按元素个数判空
+     * <p>
+     * 数组的 toString() 是类型哈希，不能反映元素个数。
+     * </p>
+     */
+    @Test
+    public void testIsEmptyObjWithArrayGetter() {
+        assertTrue("空数组 getter 应判为空", BaseUtils.isEmptyObj(new EmptyArrayBean()));
+        assertFalse("非空数组 getter 应判为非空", BaseUtils.isEmptyObj(new NonEmptyArrayBean()));
+    }
+
+    /** 所有 getter 都返回空数组的测试用 Bean */
+    public static class EmptyArrayBean {
+        public byte[] getData() {
+            return new byte[0];
+        }
+    }
+
+    /** getter 返回非空数组的测试用 Bean */
+    public static class NonEmptyArrayBean {
+        public byte[] getData() {
+            return new byte[]{1, 2, 3};
+        }
+    }
 }

@@ -33,7 +33,7 @@ public class DsaHelper {
 
     protected static Signature signature;
 
-    public static void load(KeyPair keyPair) throws EncryptException, NoSuchAlgorithmException {
+    public static void load(KeyPair keyPair) throws EncryptException, NoSuchAlgorithmException, InvalidKeySpecException {
         if (BaseUtils.isEmpty(keyPair)) {
             throw new EncryptException("keyPair 不能为空！");
         }
@@ -41,6 +41,9 @@ public class DsaHelper {
         properties.setPublicKeyStr(keyPair.getPublicKey());
         properties.setPrivateKeyStr(keyPair.getPrivateKey());
         properties.setSignAlgorithm(keyPair.getSignAlgorithm());
+        // 校验的是密钥对象字段，需先把字符串解析成对象
+        properties.setPublicKey(DsaKeyGenerator.getPublicKey(properties.getAlgorithm(), keyPair.getPublicKey()));
+        properties.setPrivateKey(DsaKeyGenerator.getPrivateKey(properties.getAlgorithm(), keyPair.getPrivateKey()));
         load(properties);
     }
 
