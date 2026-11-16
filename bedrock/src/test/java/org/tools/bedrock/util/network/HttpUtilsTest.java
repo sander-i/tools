@@ -1,10 +1,12 @@
 package org.tools.bedrock.util.network;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * HttpUtils 冒烟测试

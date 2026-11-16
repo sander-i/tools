@@ -1,8 +1,13 @@
 package org.tools.bedrock.util.network;
 
 import org.junit.Test;
+
 import java.net.UnknownHostException;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * NetworkUtils 冒烟测试

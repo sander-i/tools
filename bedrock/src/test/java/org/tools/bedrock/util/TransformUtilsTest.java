@@ -1,8 +1,14 @@
 package org.tools.bedrock.util;
 
 import org.junit.Test;
+
 import java.nio.charset.StandardCharsets;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * TransformUtils 冒烟测试
