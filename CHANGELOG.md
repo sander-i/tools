@@ -34,6 +34,11 @@
 - `example` 模块 `SymmetricalController.desLoad()` 返回类型不匹配
 - `SymmetricalUtils` 解密未指定字符集，非 ASCII 明文（如中文）解密后乱码
 - `SymmetricalUtils` 非法 Base64 密文未包装为 `SymmetricalException`，直接抛 `IllegalArgumentException`
+- **密钥字符串往返不对称**：`getSecretKeyStr()` 用 Hex 编码（16 字节 → 32 字符），
+  但 `getSecretKey(algorithm, String)` 用 `getBytes(UTF_8)` 取字节，还原出的密钥长度翻倍，
+  加密必然失败。影响 AES、DES、IDEA、3DES、Blowfish、RC2、RC4 全部对称算法。
+  现统一由 `SecretKeyCodec` 处理，编码结果带 `hex:` 前缀；无前缀的明文密钥按 UTF-8 取字节，
+  保持对现有配置文件（如 `application.yml` 中的 `"BeYourself"`）的向后兼容
 
 ### 构建
 - 使用 build-helper-maven-plugin 自动生成构建年份

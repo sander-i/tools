@@ -1,6 +1,7 @@
 package io.github.sander_i.encrypt.symmetrical.des.des3;
 
 import junit.framework.TestCase;
+import io.github.sander_i.encrypt.SecretKeyCodec;
 import io.github.sander_i.encrypt.entity.KeyPair;
 import io.github.sander_i.encrypt.entity.symmetrical.Des3;
 import io.github.sander_i.encrypt.exception.symmetrical.des3.Des3Exception;
@@ -89,7 +90,7 @@ public class Des3HelperSmokeTest extends TestCase {
         assertEquals(24, key.getEncoded().length);
 
         String keyStr = Des3KeyGenerator.getSecretKeyStr(key);
-        assertEquals(48, keyStr.length());
+        assertEquals(SecretKeyCodec.HEX_PREFIX.length() + 48, keyStr.length());
     }
 
     /**

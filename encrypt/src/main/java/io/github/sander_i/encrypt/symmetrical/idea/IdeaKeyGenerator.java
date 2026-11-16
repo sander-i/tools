@@ -2,18 +2,17 @@ package io.github.sander_i.encrypt.symmetrical.idea;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Hex;
 import io.github.sander_i.bedrock.util.BaseUtils;
 import io.github.sander_i.encrypt.EncryptKeyGenerator;
 import io.github.sander_i.encrypt.entity.symmetrical.IdeaProperties;
+import io.github.sander_i.encrypt.SecretKeyCodec;
 import io.github.sander_i.encrypt.enums.AlgorithmEnum;
+import io.github.sander_i.encrypt.exception.EncryptException;
 import io.github.sander_i.encrypt.exception.symmetrical.aes.AesException;
 import io.github.sander_i.encrypt.exception.symmetrical.idea.IdeaException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -82,7 +81,7 @@ public class IdeaKeyGenerator {
      * @return 密钥字符串
      */
     public static String getSecretKeyStr(SecretKey secretKey) {
-        return Hex.encodeHexString(secretKey.getEncoded());
+        return SecretKeyCodec.encode(secretKey);
     }
 
     /**
@@ -92,9 +91,8 @@ public class IdeaKeyGenerator {
      * @param secretKey 密钥字符串
      * @return 密钥对象
      */
-    public static SecretKey getSecretKey(String algorithm, String secretKey) {
-        byte[] secretKeyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        return new SecretKeySpec(secretKeyBytes, algorithm);
+    public static SecretKey getSecretKey(String algorithm, String secretKey) throws EncryptException {
+        return SecretKeyCodec.decode(algorithm, secretKey);
     }
 
     /**

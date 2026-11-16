@@ -34,6 +34,12 @@ This document records the important changes to the project.
 - `SymmetricalController.desLoad()` return type mismatch in example module
 - `SymmetricalUtils` decrypted without an explicit charset, corrupting non-ASCII plaintext (e.g. Chinese)
 - `SymmetricalUtils` let `IllegalArgumentException` escape for invalid Base64 ciphertext instead of wrapping it in `SymmetricalException`
+- **Asymmetric key string round-trip**: `getSecretKeyStr()` encoded with Hex (16 bytes to 32 chars)
+  while `getSecretKey(algorithm, String)` decoded with `getBytes(UTF_8)`, doubling the key length
+  and making encryption fail. Affected AES, DES, IDEA, 3DES, Blowfish, RC2 and RC4.
+  Encoding and decoding are now unified in `SecretKeyCodec`; encoded values carry a `hex:` prefix,
+  and unprefixed values are still read as UTF-8 bytes so existing config files
+  (e.g. `"BeYourself"` in `application.yml`) keep working
 
 ### Build
 - Auto-generated build year via build-helper-maven-plugin

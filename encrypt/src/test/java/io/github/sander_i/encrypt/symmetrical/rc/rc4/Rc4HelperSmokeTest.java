@@ -1,6 +1,7 @@
 package io.github.sander_i.encrypt.symmetrical.rc.rc4;
 
 import junit.framework.TestCase;
+import io.github.sander_i.encrypt.SecretKeyCodec;
 import io.github.sander_i.encrypt.entity.KeyPair;
 import io.github.sander_i.encrypt.entity.symmetrical.Rc4;
 import io.github.sander_i.encrypt.exception.symmetrical.rc4.Rc4Exception;
@@ -70,7 +71,7 @@ public class Rc4HelperSmokeTest extends TestCase {
         SecretKey key = Rc4KeyGenerator.getSecretKey();
         assertNotNull(key);
         assertEquals(16, key.getEncoded().length);
-        assertEquals(32, Rc4KeyGenerator.getSecretKeyStr(key).length());
+        assertEquals(SecretKeyCodec.HEX_PREFIX.length() + 32, Rc4KeyGenerator.getSecretKeyStr(key).length());
     }
 
     public void testGroup() throws Rc4Exception {

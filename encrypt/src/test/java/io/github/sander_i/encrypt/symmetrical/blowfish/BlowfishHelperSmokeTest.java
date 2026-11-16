@@ -1,6 +1,7 @@
 package io.github.sander_i.encrypt.symmetrical.blowfish;
 
 import junit.framework.TestCase;
+import io.github.sander_i.encrypt.SecretKeyCodec;
 import io.github.sander_i.encrypt.entity.KeyPair;
 import io.github.sander_i.encrypt.entity.symmetrical.Blowfish;
 import io.github.sander_i.encrypt.exception.symmetrical.blowfish.BlowfishException;
@@ -58,7 +59,7 @@ public class BlowfishHelperSmokeTest extends TestCase {
         SecretKey key = BlowfishKeyGenerator.getSecretKey();
         assertNotNull(key);
         assertEquals(16, key.getEncoded().length);
-        assertEquals(32, BlowfishKeyGenerator.getSecretKeyStr(key).length());
+        assertEquals(SecretKeyCodec.HEX_PREFIX.length() + 32, BlowfishKeyGenerator.getSecretKeyStr(key).length());
     }
 
     public void testGroup() throws BlowfishException {
